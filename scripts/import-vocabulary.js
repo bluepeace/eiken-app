@@ -24,7 +24,9 @@ if (fs.existsSync(envPath)) {
 
 const { createClient } = require("@supabase/supabase-js");
 
-const csvPath = path.join(__dirname, "..", "data", "eiken_5kyu.csv");
+// 例: npm run seed:vocabulary:sql -- 3kyu  または  node import-vocabulary.js --sql 3kyu
+const levelArg = process.argv.find((a) => ["3kyu", "4kyu", "5kyu"].includes(a)) || "5kyu";
+const csvPath = path.join(__dirname, "..", "data", `eiken_${levelArg}.csv`);
 
 function parseCSVLine(line) {
   const result = [];
@@ -52,6 +54,9 @@ function escapeSql(str) {
 }
 
 function loadRows() {
+  if (!fs.existsSync(csvPath)) {
+    throw new Error(`CSV not found: ${csvPath} (use 4kyu or 5kyu as argument)`);
+  }
   const content = fs.readFileSync(csvPath, "utf-8");
   const lines = content.split(/\r?\n/).filter((l) => l.trim());
   const header = parseCSVLine(lines[0]);
@@ -64,13 +69,13 @@ function loadRows() {
 }
 
 function generateSqlFile(rows) {
-  const outPath = path.join(__dirname, "..", "supabase", "seed_vocabulary_5kyu.sql");
+  const outPath = path.join(__dirname, "..", "supabase", `seed_vocabulary_${levelArg}.sql`);
   const inserts = rows.map(
     (row) =>
       `INSERT INTO public.vocabulary (level, word, meaning_ja, part_of_speech, category, pronunciation, example_en, example_ja) VALUES (${escapeSql(row.level)}, ${escapeSql(row.word)}, ${escapeSql(row.meaning_ja)}, ${escapeSql(row.Part_of_Speech || row.part_of_speech)}, ${escapeSql(row.category)}, ${escapeSql(row.pronunciation)}, ${escapeSql(row.example_en)}, ${escapeSql(row.example_ja)});`
   );
   const sql = [
-    "-- 5級単語を vocabulary に投入（006, 007 マイグレーション実行後に実行）",
+    `-- ${levelArg} 単語を vocabulary に投入（006, 007 マイグレーション実行後に実行）`,
     "-- 既存データを消す場合は以下の行のコメントを外す:",
     "-- TRUNCATE public.vocabulary RESTART IDENTITY CASCADE;",
     "",
@@ -83,6 +88,7 @@ function generateSqlFile(rows) {
 async function main() {
   const useSql = process.argv.includes("--sql");
   const rows = loadRows();
+  console.log(`Loading ${levelArg} from ${path.basename(csvPath)} (${rows.length} rows)`);
 
   if (useSql) {
     generateSqlFile(rows);

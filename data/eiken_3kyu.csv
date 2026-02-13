@@ -1,0 +1,416 @@
+level,word,meaning_ja,Part_of_Speech,category,pronunciation,example_en,example_ja
+3級,believe,信じる・〜と思う,動詞,思考・感情,/bɪˈliːv/,I believe you.,私はあなたを信じています。
+3級,experience,経験・経験する,名詞・動詞,抽象概念,/ɪkˈspɪriəns/,It was a great experience.,それは素晴らしい経験でした。
+3級,improve,向上させる・良くなる,動詞,行動,/ɪmˈpruːv/,I want to improve my English.,私は英語を向上させたいです。
+3級,environment,環境,名詞,自然・社会,/ɪnˈvaɪrənmənt/,We should protect the environment.,私たちは環境を守るべきです。
+3級,agree,賛成する・同意する,動詞,思考・感情,/əˈɡriː/,I agree with your idea.,あなたの意見に賛成です。
+3級,foreign,外国の,形容詞,様子・程度,/ˈfɔːrən/,I like foreign movies.,私は外国の映画が好きです。
+3級,communicate,伝える・意思疎通する,動詞,言語・交流,/kəˈmjuːnɪkeɪt/,We communicate by email.,私たちはメールでやり取りします。
+3級,various,さまざまな,形容詞,様子・程度,/ˈveriəs/,There are various kinds of flowers.,さまざまな種類の花があります。
+3級,necessary,必要な,形容詞,様子・程度,/ˈnesəseri/,Sleep is necessary for health.,睡眠は健康に必要です。
+3級,purpose,目的,名詞,抽象概念,/ˈpɜːrpəs/,What is the purpose of your trip?,あなたの旅行の目的は何ですか？
+3級,reason,理由,名詞,抽象概念,/ˈriːzən/,Give me the reason why you were late.,遅れた理由を教えてください。
+3級,decide,決める,動詞,思考・感情,/dɪˈsaɪd/,I decided to go abroad.,私は海外へ行くことに決めました。
+3級,traditional,伝統的な,形容詞,文化,/trəˈdɪʃənl/,I like traditional Japanese food.,私は伝統的な日本食が好きです。
+3級,future,未来,名詞,時間,/ˈfjuːtʃər/,I want to be a doctor in the future.,将来は医者になりたいです。
+3級,popular,人気のある,形容詞,様子・程度,/ˈpɑːpjələr/,This game is popular with kids.,このゲームは子供たちに人気です。
+3級,convenient,便利な,形容詞,様子・程度,/kənˈviːniənt/,Computers are very convenient.,コンピュータはとても便利です。
+3級,volunteer,ボランティア,名詞・動詞,社会,/ˌvɑːlənˈtɪr/,She is a library volunteer.,彼女は図書館のボランティアです。
+3級,government,政府,名詞,政治・社会,/ˈɡʌvərnmənt/,The government made a new rule.,政府は新しい規則を作りました。
+3級,culture,文化,名詞,文化,/ˈkʌltʃər/,I want to learn about French culture.,フランスの文化について学びたいです。
+3級,increase,増える・増やす,動詞,変化,/ɪnˈkriːs/,The number of tourists is increasing.,観光客の数が増えています。
+3級,arrive,到着する,動詞,日常・基本,/əˈraɪv/,The train will arrive soon.,電車はすぐ到着します。
+3級,borrow,借りる,動詞,日常・基本,/ˈbɑːroʊ/,Can I borrow your pen?,ペンを借りてもいいですか？
+3級,carry,運ぶ,動詞,日常・基本,/ˈkæri/,He helped me carry my bags.,彼は鞄を運ぶのを手伝ってくれました。
+3級,catch,捕まえる・間に合う,動詞,日常・基本,/kætʃ/,I have to catch the bus.,バスに間に合わなければなりません。
+3級,choose,選ぶ,動詞,日常・基本,/tʃuːz/,Choose your favorite one.,好きなものを選んでください。
+3級,climb,登る,動詞,日常・基本,/klaɪm/,We climbed the mountain.,私たちはその山に登りました。
+3級,collect,集める,動詞,日常・基本,/kəˈlekt/,My brother collects stamps.,兄は切手を集めています。
+3級,complain,不平を言う,動詞,日常・基本,/kəmˈpleɪn/,Stop complaining about the food.,食べ物について文句を言うのはやめなさい。
+3級,continue,続ける,動詞,日常・基本,/kənˈtɪnjuː/,Please continue reading.,読書を続けてください。
+3級,cook,料理する,動詞,日常・基本,/kʊk/,My father cooks every Sunday.,父は毎週日曜日に料理をします。
+3級,deliver,配達する,動詞,日常・基本,/dɪˈlɪvər/,They deliver pizza to your house.,彼らはピザを家に届けてくれます。
+3級,describe,説明する・描写する,動詞,日常・基本,/dɪˈskraɪb/,Describe your hometown.,あなたの故郷について説明してください。
+3級,discover,発見する,動詞,日常・基本,/dɪˈskʌvər/,Columbus discovered America.,コロンブスはアメリカを発見しました。
+3級,drop,落とす,動詞,日常・基本,/drɑːp/,I dropped my phone.,携帯を落としてしまいました。
+3級,enter,入る,動詞,日常・基本,/ˈentər/,Don't enter this room.,この部屋に入らないでください。
+3級,explain,説明する,動詞,日常・基本,/ɪkˈspleɪn/,She explained the rules.,彼女は規則を説明しました。
+3級,finish,終える,動詞,日常・基本,/ˈfɪnɪʃ/,I finished my homework.,宿題を終えました。
+3級,forget,忘れる,動詞,日常・基本,/fərˈɡet/,Don't forget your umbrella.,傘を忘れないで。
+3級,invite,招待する,動詞,日常・基本,/ɪnˈvaɪt/,I invited him to my party.,彼をパーティーに招待しました。
+3級,join,参加する,動詞,日常・基本,/dʒɔɪn/,Will you join our club?,私たちのクラブに入りませんか？
+3級,keep,保つ・持ち続ける,動詞,日常・基本,/kiːp/,Keep your room clean.,部屋をきれいにしておきなさい。
+3級,laugh,笑う,動詞,日常・基本,/læf/,They laughed at the joke.,彼らはその冗談で笑いました。
+3級,leave,去る・出発する・残す,動詞,日常・基本,/liːv/,The train leaves at ten.,列車は10時に出発します。
+3級,lend,貸す,動詞,日常・基本,/lend/,Will you lend me your bike?,自転車を貸してくれませんか？
+3級,lose,失う・負ける,動詞,日常・基本,/luːz/,I lost my wallet.,財布をなくしました。
+3級,marry,結婚する,動詞,日常・基本,/ˈmæri/,They married last year.,彼らは昨年結婚しました。
+3級,mean,意味する,動詞,日常・基本,/miːn/,What does this word mean?,この単語はどういう意味ですか？
+3級,move,動く・引っ越す,動詞,日常・基本,/muːv/,We moved to Tokyo.,私たちは東京へ引っ越しました。
+3級,offer,提供する・申し出る,動詞,日常・基本,/ˈɔːfər/,He offered me a drink.,彼は私に飲み物を勧めてくれました。
+3級,order,注文する,動詞,日常・基本,/ˈɔːrdər/,Are you ready to order?,ご注文はお決まりですか？
+3級,pass,通り過ぎる・合格する,動詞,日常・基本,/pæs/,I passed the exam.,試験に合格しました。
+3級,perform,上演する・行う,動詞,日常・基本,/pərˈfɔːrm/,She performed on stage.,彼女は舞台で演奏しました。
+3級,pick,摘む・選ぶ,動詞,日常・基本,/pɪk/,I picked some flowers.,花をいくつか摘みました。
+3級,prepare,準備する,動詞,日常・基本,/prɪˈper/,My mother is preparing dinner.,母は夕食の準備をしています。
+3級,promise,約束する,動詞,日常・基本,/ˈprɑːmɪs/,I promise to help you.,手伝うと約束します。
+3級,receive,受け取る,動詞,日常・基本,/rɪˈsiːv/,I received a letter.,手紙を受け取りました。
+3級,repair,修理する,動詞,日常・基本,/rɪˈper/,He is repairing the car.,彼は車を修理しています。
+3級,return,戻る・返す,動詞,日常・基本,/rɪˈtɜːrn/,I returned home at six.,6時に家に帰りました。
+3級,save,救う・蓄える,動詞,日常・基本,/seɪv/,I'm saving money for a bike.,自転車のために貯金しています。
+3級,shout,叫ぶ,動詞,日常・基本,/ʃaʊt/,Don't shout in the library.,図書館で叫ばないでください。
+3級,skate,スケートをする,動詞,日常・基本,/skeɪt/,I like to skate in winter.,私は冬にスケートをするのが好きです。
+3級,smile,ほほえむ,動詞,日常・基本,/smaɪl/,She smiled at me.,彼女は私にほほえみました。
+3級,smoke,煙を出す・タバコを吸う,動詞,日常・基本,/smoʊk/,No smoking here.,ここは禁煙です。
+3級,sound,〜に聞こえる・音が出る,動詞,日常・基本,/saʊnd/,That sounds like a good idea.,それは良い考えのように聞こえますね。
+3級,spend,費やす・過ごす,動詞,日常・基本,/spend/,I spent my vacation in Okinawa.,私は休暇を沖縄で過ごしました。
+3級,stay,滞在する・とどまる,動詞,日常・基本,/steɪ/,I stayed at a hotel.,私はホテルに滞在しました。
+3級,stop,止まる・やめる,動詞,日常・基本,/stɑːp/,The rain stopped.,雨が止みました。
+3級,surround,囲む,動詞,日常・基本,/səˈraʊnd/,The house is surrounded by trees.,その家は木々に囲まれています。
+3級,swim,泳ぐ,動詞,日常・基本,/swɪm/,Can you swim?,あなたは泳げますか？
+3級,travel,旅行する,動詞,日常・基本,/ˈtrævl/,I want to travel around the world.,私は世界中を旅行したいです。
+3級,understand,理解する,動詞,日常・基本,/ˌʌndərˈstænd/,I don't understand French.,私はフランス語がわかりません。
+3級,visit,訪問する,動詞,日常・基本,/ˈvɪzɪt/,I visited Kyoto last month.,私は先月京都を訪れました。
+3級,wait,待つ,動詞,日常・基本,/weɪt/,Wait for me.,私を待ってください。
+3級,wake,目が覚める・起こす,動詞,日常・基本,/weɪk/,I wake up at six.,私は6時に起きます。
+3級,walk,歩く,動詞,日常・基本,/wɔːk/,I walk to school.,私は歩いて学校に行きます。
+3級,wash,洗う,動詞,日常・基本,/wɑːʃ/,Wash your hands before dinner.,夕食の前に手を洗いなさい。
+3級,wear,身に着けている,動詞,日常・基本,/wer/,She is wearing a red hat.,彼女は赤い帽子をかぶっています。
+3級,win,勝つ,動詞,日常・基本,/wɪn/,Our team won the game.,私たちのチームが試合に勝ちました。
+3級,work,働く・勉強する,動詞,日常・基本,/wɜːrk/,My father works in a bank.,父は銀行で働いています。
+3級,worry,心配する,動詞,日常・基本,/ˈwɜːri/,Don't worry about it.,それについて心配しないで。
+3級,act,行動する・演じる,動詞,日常・基本,/ækt/,We should act now.,私たちは今行動すべきだ。
+3級,answer,答える,動詞,日常・基本,/ˈænsər/,Please answer my question.,私の質問に答えてください。
+3級,appear,現れる,動詞,日常・基本,/əˈpɪr/,A rainbow appeared in the sky.,空に虹が現れました。
+3級,attend,出席する,動詞,日常・基本,/əˈtend/,I will attend the meeting.,私は会議に出席します。
+3級,break,壊す・折る,動詞,日常・基本,/breɪk/,He broke the window.,彼は窓を割りました。
+3級,build,建てる,動詞,日常・基本,/bɪld/,They built a new house.,彼らは新しい家を建てました。
+3級,burn,燃える・焼く,動詞,日常・基本,/bɜːrn/,The fire is burning.,火が燃えています。
+3級,buy,買う,動詞,日常・基本,/baɪ/,I bought a new bag.,新しいバッグを買いました。
+3級,call,呼ぶ・電話する,動詞,日常・基本,/kɔːl/,Call me later.,あとで電話して。
+3級,check,確かめる・確認する,動詞,日常・基本,/tʃek/,Check the schedule.,予定を確認してください。
+3級,clean,掃除する,動詞,日常・基本,/kliːn/,I clean my room every day.,私は毎日部屋を掃除します。
+3級,close,閉める,動詞,日常・基本,/kloʊz/,Please close the door.,ドアを閉めてください。
+3級,dance,踊る,動詞,日常・基本,/dæns/,She likes to dance.,彼女は踊るのが好きです。
+3級,die,死ぬ,動詞,日常・基本,/daɪ/,Many plants died.,たくさんの植物が枯れました（死にました）。
+3級,draw,描く・引く,動詞,日常・基本,/drɔː/,She drew a picture.,彼女は絵を描きました。
+3級,drink,飲む,動詞,日常・基本,/drɪŋk/,I drink milk every morning.,私は毎朝牛乳を飲みます。
+3級,drive,運転する,動詞,日常・基本,/draɪv/,My father drives to work.,父は職場まで車を運転します。
+3級,eat,食べる,動詞,日常・基本,/iːt/,Let's eat lunch.,昼食を食べましょう。
+3級,fall,落ちる,動詞,日常・基本,/fɔːl/,Leaves fall in autumn.,秋には葉が落ちます。
+3級,feel,感じる,動詞,日常・基本,/fiːl/,I feel happy today.,今日は幸せに感じます。
+3級,compare,比較する,動詞,思考・抽象,/kəmˈper/,Compare these two pictures.,これら2枚の絵を比較しなさい。
+3級,expect,期待する・予期する,動詞,思考・抽象,/ɪkˈspekt/,I expect to see you soon.,すぐにお会いできるのを期待しています。
+3級,guess,推測する,動詞,思考・抽象,/ɡes/,Can you guess who she is?,彼女が誰だか推測できますか？
+3級,hope,望む・〜であればいいと思う,動詞,思考・抽象,/hoʊp/,I hope it will be sunny.,晴れるといいなと思います。
+3級,imagine,想像する,動詞,思考・抽象,/ɪˈmædʒɪn/,Imagine your future.,あなたの未来を想像してください。
+3級,notice,気づく,動詞,思考・抽象,/ˈnoʊtɪs/,I noticed a mistake in the text.,文章のミスに気づきました。
+3級,realize,悟る・実現する,動詞,思考・抽象,/ˈriːəlaɪz/,I realized my mistake later.,あとで自分の間違いに気づきました。
+3級,remember,覚えている・思い出す,動詞,思考・抽象,/rɪˈmembər/,Do you remember me?,私のことを覚えていますか？
+3級,solve,解決する・解く,動詞,思考・抽象,/sɔːlv/,I can solve this math problem.,私はこの数学の問題を解けます。
+3級,suggest,提案する,動詞,思考・抽象,/səˈdʒest/,He suggested going for a walk.,彼は散歩に行くことを提案しました。
+3級,suppose,思う・仮定する,動詞,思考・抽象,/səˈpoʊz/,I suppose you are right.,あなたが正しいと思います。
+3級,wonder,〜かなと思う,動詞,思考・抽象,/ˈwʌndər/,I wonder why she is late.,なぜ彼女は遅れているのかな。
+3級,accept,受け入れる,動詞,思考・抽象,/əkˈsept/,I accepted his invitation.,私は彼の招待を受け入れました。
+3級,advise,助言する・アドバイスする,動詞,思考・抽象,/ədˈvaɪz/,He advised me to study harder.,彼は私にもっと一生懸命勉強するように助言しました。
+3級,allow,許す・〜させておく,動詞,思考・抽象,/əˈlaʊ/,Smoking is not allowed here.,ここでは喫煙は許可されていません。
+3級,care,気にかける・世話をする,動詞,思考・抽象,/ker/,I don't care about the result.,私は結果を気にしません。
+3級,consider,よく考える・検討する,動詞,思考・抽象,/kənˈsɪdər/,Please consider my proposal.,私の提案を検討してください。
+3級,doubt,疑う,動詞,思考・抽象,/daʊt/,I doubt if it is true.,それが本当かどうか疑わしいと思います。
+3級,encourage,勇気づける・励ます,動詞,思考・抽象,/ɪnˈkɜːrɪdʒ/,My teacher encouraged me.,先生は私を励ましてくれました。
+3級,hate,ひどく嫌う,動詞,思考・抽象,/heɪt/,I hate being late.,私は遅れるのが大嫌いです。
+3級,know,知っている,動詞,思考・抽象,/noʊ/,Do you know the way to the station?,駅へ行く道を知っていますか？
+3級,learn,学ぶ,動詞,思考・抽象,/lɜːrn/,I want to learn more about Japan.,私は日本についてもっと学びたいです。
+3級,mind,気にする・嫌がる,動詞,思考・抽象,/maɪnd/,Do you mind if I open the window?,窓を開けても構いませんか？
+3級,plan,計画する,動詞,思考・抽象,/plæn/,We are planning a trip.,私たちは旅行を計画しています。
+3級,prefer,〜をより好む,動詞,思考・抽象,/prɪˈfɜːr/,I prefer tea to coffee.,私はコーヒーより紅茶が好きです。
+3級,refuse,断る,動詞,思考・抽象,/rɪˈfjuːz/,She refused my request.,彼女は私の依頼を断りました。
+3級,respect,尊敬する・重んじる,動詞,思考・抽象,/rɪˈspekt/,I respect my parents.,私は両親を尊敬しています。
+3級,seem,〜のように見える・思える,動詞,思考・抽象,/siːm/,You seem tired today.,今日は疲れているようですね。
+3級,trust,信頼する,動詞,思考・抽象,/trʌst/,You can trust him.,彼を信頼していいですよ。
+3級,admire,賞賛する,動詞,思考・抽象,/ədˈmaɪər/,I admire your courage.,あなたの勇気に感心します。
+3級,admit,認める,動詞,思考・抽象,/ədˈmɪt/,He admitted his mistake.,彼は自分の間違いを認めました。
+3級,affect,影響を与える,動詞,思考・抽象,/əˈfekt/,The weather affects our health.,天候は私たちの健康に影響を与えます。
+3級,appreciate,感謝する・正しく評価する,動詞,思考・抽象,/əˈpriːʃieɪt/,I appreciate your help.,助けてくれて感謝します。
+3級,avoid,避ける,動詞,思考・抽象,/əˈvɔɪd/,You should avoid eating too much sugar.,砂糖の摂りすぎは避けるべきです。
+3級,belong,属する,動詞,思考・抽象,/bɪˈlɔːŋ/,I belong to the tennis club.,私はテニスクラブに所属しています。
+3級,confuse,混乱させる,動詞,思考・抽象,/kənˈfjuːz/,The map confused me.,その地図のせいで混乱しました。
+3級,create,創造する,動詞,思考・抽象,/kriˈeɪt/,He created a new game.,彼は新しいゲームを作りました。
+3級,depend,依存する・〜次第である,動詞,思考・抽象,/dɪˈpend/,It depends on the weather.,それは天気次第です。
+3級,design,設計する・デザインする,動詞,思考・抽象,/dɪˈzaɪn/,She designs clothes.,彼女は服をデザインしています。
+3級,express,表現する,動詞,思考・抽象,/ɪkˈspres/,It's hard to express my feelings.,自分の気持ちを表現するのは難しいです。
+3級,focus,集中する,動詞,思考・抽象,/ˈfoʊkəs/,Focus on your study.,勉強に集中しなさい。
+3級,invent,発明する,動詞,思考・抽象,/ɪnˈvent/,Edison invented the light bulb.,エジソンは電球を発明しました。
+3級,manage,何とかやり遂げる・管理する,動詞,思考・抽象,/ˈmænɪdʒ/,I managed to finish it on time.,何とか時間通りに終えることができました。
+3級,mention,言及する・口にする,動詞,思考・抽象,/ˈmenʃn/,Don't mention it.,どういたしまして（お礼を言われるほどのことではありません）。
+3級,produce,生産する,動詞,思考・抽象,/prəˈduːs/,Japan produces many cars.,日本は多くの車を生産しています。
+3級,provide,提供する,動詞,思考・抽象,/prəˈvaɪd/,The school provides lunch.,学校は昼食を提供しています。
+3級,reduce,減らす,動詞,思考・抽象,/rɪˈduːs/,We should reduce plastic waste.,私たちはプラスチックごみを減らすべきです。
+3級,require,必要とする,動詞,思考・抽象,/rɪˈkwaɪər/,This job requires patience.,この仕事には忍耐が必要です。
+3級,angry,怒った,形容詞,様子・性質,/ˈæŋɡri/,He was angry with me.,彼は私に怒っていました。
+3級,beautiful,美しい,形容詞,様子・性質,/ˈbjuːtɪfl/,The sunset was beautiful.,夕焼けが美しかったです。
+3級,brave,勇敢な,形容詞,様子・性質,/breɪv/,He is a brave soldier.,彼は勇敢な兵士です。
+3級,careful,注意深い,形容詞,様子・性質,/ˈkerfl/,Be careful with the glass.,ガラスに気をつけて。
+3級,different,違った・さまざまな,形容詞,様子・性質,/ˈdɪfrənt/,They have different opinions.,彼らは違った意見を持っています。
+3級,difficult,難しい,形容詞,様子・性質,/ˈdɪfɪkəlt/,English is difficult for me.,私にとって英語は難しいです。
+3級,exciting,わくわくさせる,形容詞,様子・性質,/ɪkˈsaɪtɪŋ/,The game was exciting.,その試合はわくわくするものでした。
+3級,famous,有名な,形容詞,様子・性質,/ˈfeɪməs/,He is a famous writer.,彼は有名な作家です。
+3級,favorite,お気に入りの,形容詞,様子・性質,/ˈfeɪvərɪt/,What is your favorite color?,あなたの一番好きな色は何ですか？
+3級,friendly,友好的な・親切な,形容詞,様子・性質,/ˈfrendli/,She is very friendly.,彼女はとても親切です。
+3級,glad,うれしい,形容詞,様子・性質,/ɡlæd/,I'm glad to hear that.,それを聞いてうれしいです。
+3級,happy,幸せな・うれしい,形容詞,様子・性質,/ˈhæpi/,I am happy now.,私は今幸せです。
+3級,important,重要な,形容詞,様子・性質,/ɪmˈpɔːrtnt/,This is an important meeting.,これは重要な会議です。
+3級,interested,興味がある,形容詞,様子・性質,/ˈɪntrəstɪd/,I'm interested in history.,私は歴史に興味があります。
+3級,kind,親切な,形容詞,様子・性質,/kaɪnd/,He is kind to everyone.,彼は誰にでも親切です。
+3級,lucky,幸運な,形容詞,様子・性質,/ˈlʌki/,You are very lucky.,あなたはとても幸運です。
+3級,proud,誇りに思う,形容詞,様子・性質,/praʊd/,I'm proud of you.,私はあなたを誇りに思います。
+3級,strange,奇妙な・見知らぬ,形容詞,様子・性質,/streɪndʒ/,I heard a strange noise.,変な音が聞こえました。
+3級,surprised,驚いた,形容詞,様子・性質,/sərˈpraɪzd/,I was surprised at the news.,私はそのニュースに驚きました。
+3級,afraid,恐れて,形容詞,様子・性質,/əˈfreɪd/,Don't be afraid of mistakes.,間違いを恐れないで。
+3級,alive,生きている,形容詞,様子・性質,/əˈlaɪv/,The fish is still alive.,その魚はまだ生きています。
+3級,alone,一人の・独力で,形容詞,様子・性質,/əˈloʊn/,He likes to travel alone.,彼は一人で旅行するのが好きです。
+3級,amazing,驚くべき・素晴らしい,形容詞,様子・性質,/əˈmeɪzɪŋ/,You have an amazing talent.,あなたには素晴らしい才能があります。
+3級,bored,退屈した,形容詞,様子・性質,/bɔːrd/,I was bored with the movie.,私はその映画に退屈しました。
+3級,boring,退屈な,形容詞,様子・性質,/ˈbɔːrɪŋ/,The lecture was boring.,その講義は退屈でした。
+3級,bright,明るい・輝いている,形容詞,様子・性質,/braɪt/,The stars are bright tonight.,今夜は星が明るいです。
+3級,busy,忙しい,形容詞,様子・性質,/ˈbɪzi/,I'm busy with my homework.,私は宿題で忙しいです。
+3級,clever,賢い,形容詞,様子・性質,/ˈklevər/,What a clever boy he is!,彼はなんて賢い子なんでしょう！
+3級,comfortable,快適な,形容詞,様子・性質,/ˈkʌmftərb(ə)l/,This sofa is comfortable.,このソファは快適です。
+3級,dangerous,危険な,形容詞,様子・性質,/ˈdeɪndʒərəs/,It's dangerous to swim here.,ここで泳ぐのは危険です。
+3級,dark,暗い,形容詞,様子・性質,/dɑːrk/,It's getting dark outside.,外が暗くなってきました。
+3級,dead,死んでいる,形容詞,様子・性質,/ded/,The plant is dead.,その植物は枯れています（死んでいます）。
+3級,deep,深い,形容詞,様子・性質,/diːp/,The snow is very deep.,雪がとても深いです。
+3級,easy,簡単な,形容詞,様子・性質,/ˈiːzi/,This task is easy.,この作業は簡単です。
+3級,empty,空の,形容詞,様子・性質,/ˈempti/,The bottle is empty.,その瓶は空です。
+3級,excited,わくわくした・興奮した,形容詞,様子・性質,/ɪkˈsaɪtɪd/,The children were excited.,子供たちはわくわくしていました。
+3級,fair,公平な,形容詞,様子・性質,/fer/,That's not fair!,それは公平じゃない！
+3級,free,自由な・暇な・無料の,形容詞,様子・性質,/friː/,Are you free tomorrow?,明日は暇ですか？
+3級,full,満杯の・お腹がいっぱいの,形容詞,様子・性質,/fʊl/,I'm full now.,もうお腹がいっぱいです。
+3級,all,すべての,形容詞,量・時間・数,/ɔːl/,All students must wear a uniform.,すべての生徒が制服を着用しなければなりません。
+3級,another,別の・もう一つの,形容詞,量・時間・数,/əˈnʌðər/,Can I have another cup of tea?,もう一杯お茶をいただけますか？
+3級,double,二倍の,形容詞,量・時間・数,/ˈdʌbl/,A double room is available.,二人用の部屋が利用可能です。
+3級,early,早い,形容詞,量・時間・数,/ˈɜːrli/,I woke up early this morning.,今朝は早く起きました。
+3級,enough,十分な・十分に,形容詞・副詞,量・時間・数,/ɪˈnʌf/,We have enough time to talk.,私たちには話すのに十分な時間があります。
+3級,every,毎〜・すべての,形容詞,量・時間・数,/ˈevri/,I go to the library every week.,私は毎週図書館に行きます。
+3級,few,（数が）ほとんどない・（a fewで）少しの・数人の,形容詞,量・時間・数,/fjuː/,Few people know the secret.,その秘密を知る人はほとんどいません。
+3級,half,半分の,形容詞,量・時間・数,/hæf/,I'll be back in half an hour.,30分（1時間の半分）で戻ります。
+3級,last,最後の・この前の,形容詞,量・時間・数,/læst/,I saw him last night.,私は昨夜彼に会いました。
+3級,late,遅い,形容詞,量・時間・数,/leɪt/,Don't be late for school.,学校に遅れてはいけません。
+3級,little,（量が）ほとんどない・（a littleで）少量の・少しの,形容詞,量・時間・数,/ˈlɪtl/,There is little water in the bottle.,ボトルには水がほとんどありません。
+3級,local,地元の,形容詞,量・時間・数,/ˈloʊkl/,I visited a local market.,私は地元の市場を訪れました。
+3級,main,主な,形容詞,量・時間・数,/meɪn/,What is the main reason?,主な理由は何ですか？
+3級,modern,現代の,形容詞,量・時間・数,/ˈmɑːdərn/,I like modern art.,私は現代美術が好きです。
+3級,past,過去の・〜を過ぎて,形容詞・前置詞,量・時間・数,/pæst/,In the past,things were different.
+3級,recent,最近の,形容詞,量・時間・数,/ˈriːsnt/,Have you read any recent news?,最近のニュースを何か読みましたか？
+3級,several,いくつかの,形容詞,量・時間・数,/ˈsevrəl/,I have several books to read.,読むべき本が数冊あります。
+3級,single,ただ一つの・独身の,形容詞,量・時間・数,/ˈsɪŋɡl/,Not a single person was there.,そこには一人もいませんでした。
+3級,whole,全体の,形容詞,量・時間・数,/hoʊl/,I spent the whole day sleeping.,丸一日寝て過ごしました。
+3級,zero,ゼロの,形容詞,量・時間・数,/ˈzɪroʊ/,The chance of success is zero.,成功の可能性はゼロです。
+3級,daily,日々の・毎日の,形容詞,量・時間・数,/ˈdeɪli/,Exercise is part of my daily life.,運動は私の日課の一部です。
+3級,final,最終の・最後の,形容詞,量・時間・数,/ˈfaɪnl/,This is the final game of the season.,これが今シーズン最後の試合です。
+3級,first,最初の・第1の,形容詞,量・時間・数,/fɜːrst/,He won the first prize.,彼は1等賞を取りました。
+3級,former,前の・かつての,形容詞,量・時間・数,/ˈfɔːrmər/,He is a former teacher.,彼は元教師です。
+3級,full-time,常勤の・全日制の,形容詞,量・時間・数,/ˌfʊl ˈtaɪm/,She is looking for a full-time job.,彼女は正社員の仕事を探しています。
+3級,further,さらなる・もっと遠い,形容詞,量・時間・数,/ˈfɜːrðər/,Do you have any further questions?,ほかに質問はありますか？
+3級,low,低い,形容詞,量・時間・数,/loʊ/,The price is very low.,価格はとても低いです。
+3級,many,たくさんの（数）,形容詞,量・時間・数,/ˈmeni/,How many books do you have?,本を何冊持っていますか？
+3級,middle,真ん中の・中間の,形容詞,量・時間・数,/ˈmɪdl/,He is in his middle school years.,彼は中学校に通っています。
+3級,monthly,毎月の,形容詞,量・時間・数,/ˈmʌnθli/,I get a monthly magazine.,私は月刊誌を購読しています。
+3級,much,たくさんの（量）,形容詞,量・時間・数,/mʌtʃ/,We don't have much snow here.,ここでは雪はあまり降りません。
+3級,next,次の・隣の,形容詞,量・時間・数,/nekst/,The next bus will come soon.,次のバスはすぐ来ます。
+3級,only,唯一の・ただ一つの・たった・〜だけ,形容詞・副詞,量・時間・数,/ˈoʊnli/,He is an only child.,彼は一人っ子です。
+3級,part-time,パートタイムの,形容詞,量・時間・数,/ˌpɑːrt ˈtaɪm/,I have a part-time job at a cafe.,私はカフェでアルバイトをしています。
+3級,present,現在の・出席している,形容詞,量・時間・数,/ˈpreznt/,Focus on the present moment.,今の瞬間に集中しなさい。
+3級,second,第2の・2番目の,形容詞,量・時間・数,/ˈsekənd/,Turn left at the second corner.,2番目の角を左に曲がってください。
+3級,short,短い・（背が）低い,形容詞,量・時間・数,/ʃɔːrt/,The days are short in winter.,冬は日が短いです。
+3級,weekly,毎週の,形容詞,量・時間・数,/ˈwiːkli/,We have a weekly meeting.,私たちは毎週会議を行います。
+3級,actually,実際に・実は,副詞,頻度・程度・場所,/ˈæktʃuəli/,Actually,I've never been there.
+3級,almost,ほとんど・もう少しで,副詞,頻度・程度・場所,/ˈɔːlmoʊst/,I'm almost finished with my work.,仕事がほとんど終わりました。
+3級,already,すでに・もう,副詞,頻度・程度・場所,/ɔːlˈredi/,I have already eaten lunch.,私はすでに昼食を食べました。
+3級,also,〜もまた,副詞,頻度・程度・場所,/ˈɔːlsoʊ/,He is also a good singer.,彼は歌も上手です。
+3級,always,いつも・常に,副詞,頻度・程度・場所,/ˈɔːlweɪz/,She is always kind to others.,彼女はいつも他人に親切です。
+3級,anywhere,どこでも・（否定文で）どこにも,副詞,頻度・程度・場所,/ˈeniwer/,I can't find my keys anywhere.,鍵がどこにも見当たりません。
+3級,away,離れて・遠くに,副詞,頻度・程度・場所,/əˈweɪ/,Go away!,あっちへ行け（立ち去れ）！
+3級,certainly,確かに・（返事で）かしこまりました,副詞,頻度・程度・場所,/ˈsɜːrtnli/,Certainly,I will help you.
+3級,especially,特に,副詞,頻度・程度・場所,/ɪˈspeʃəli/,I like fruit,especially apples.
+3級,even,〜でさえ,副詞,頻度・程度・場所,/ˈiːvn/,Even a child can do it.,子供でさえそれができます。
+3級,ever,かつて・（疑問文で）今までに,副詞,頻度・程度・場所,/ˈevər/,Have you ever been to Kyoto?,今までに京都へ行ったことがありますか？
+3級,everywhere,どこにでも,副詞,頻度・程度・場所,/ˈevriwer/,There are flowers everywhere.,いたる所に花が咲いています。
+3級,finally,ついに・ようやく,副詞,頻度・程度・場所,/ˈfaɪnəli/,Finally,the bus arrived.
+3級,hardly,ほとんど〜ない,副詞,頻度・程度・場所,/ˈhɑːrdli/,I could hardly sleep last night.,昨夜はほとんど眠れませんでした。
+3級,maybe,たぶん・もしかすると,副詞,頻度・程度・場所,/ˈmeɪbi/,Maybe it will rain tomorrow.,明日もおそらく雨でしょう。
+3級,often,しばしば・よく,副詞,頻度・程度・場所,/ˈɔːfn/,How often do you play soccer?,どのくらいの頻度でサッカーをしますか？
+3級,perhaps,ひょっとすると・たぶん,副詞,頻度・程度・場所,/pərˈhæps/,Perhaps he is right.,おそらく彼は正しいでしょう。
+3級,quite,かなり・まったく,副詞,頻度・程度・場所,/kwaɪt/,The movie was quite interesting.,その映画はかなり面白かったです。
+3級,sometimes,時々,副詞,頻度・程度・場所,/ˈsʌmtaɪmz/,Sometimes I go to the library.,時々図書館に行きます。
+3級,just,ちょうど・たった今,副詞,頻度・程度・場所,/dʒʌst/,I have just finished my homework.,ちょうど宿題を終えたところです。
+3級,nearly,ほとんど・もう少しで,副詞,頻度・程度・場所,/ˈnɪrli/,It is nearly ten o'clock.,もうすぐ10時です。
+3級,never,一度も〜ない・決して〜ない,副詞,頻度・程度・場所,/ˈnevər/,I have never seen that movie.,その映画は一度も見たことがありません。
+3級,probably,おそらく・たぶん,副詞,頻度・程度・場所,/ˈprɑːbəbli/,He will probably come.,彼はおそらく来るでしょう。
+3級,rather,かなり・むしろ,副詞,頻度・程度・場所,/ˈræðər/,It's rather cold today.,今日はかなり寒いです。
+3級,recently,最近,副詞,頻度・程度・場所,/ˈriːsntli/,I haven't seen her recently.,最近彼女に会っていません。
+3級,seldom,めったに〜ない,副詞,頻度・程度・場所,/ˈseldəm/,He seldom goes to the cinema.,彼はめったに映画館に行きません。
+3級,still,まだ・今でも,副詞,頻度・程度・場所,/stɪl/,Is it still raining?,まだ雨が降っていますか？
+3級,together,一緒に,副詞,頻度・程度・場所,/təˈɡeðər/,Let's study together.,一緒に勉強しましょう。
+3級,too,〜もまた・あまりに〜すぎる,副詞,頻度・程度・場所,/tuː/,This coffee is too hot.,このコーヒーは熱すぎます。
+3級,usually,たいてい・ふだんは,副詞,頻度・程度・場所,/ˈjuːʒuəli/,I usually get up at seven.,私はたいてい7時に起きます。
+3級,yet,（否定文で）まだ・（疑問文で）もう,副詞,頻度・程度・場所,/jet/,Has the mail arrived yet?,郵便はもう届きましたか？
+3級,ahead,前方へ・先に,副詞,頻度・程度・場所,/əˈhed/,The road ahead is closed.,この先の道は閉鎖されています。
+3級,downstairs,下の階へ（で）,副詞,頻度・程度・場所,/ˌdaʊnˈsterz/,He ran downstairs.,彼は下の階へ走っていきました。
+3級,upstairs,上の階へ（で）,副詞,頻度・程度・場所,/ˌʌpˈsterz/,My room is upstairs.,私の部屋は上の階にあります。
+3級,outside,外で（に）,副詞,頻度・程度・場所,/ˌaʊtˈsaɪd/,Wait outside the room.,部屋の外で待ちなさい。
+3級,inside,中に（で）,副詞,頻度・程度・場所,/ˌɪnˈsaɪd/,Let's go inside.,中に入りましょう。
+3級,abroad,外国へ（に）,副詞,頻度・程度・場所,/əˈbrɔːd/,I want to study abroad.,私は留学（海外で勉強）したいです。
+3級,instead,代わりに,副詞,頻度・程度・場所,/ɪnˈsted/,If you can't go,I'll go instead.
+3級,activity,活動,名詞,社会・環境・公共,/ækˈtɪvəti/,I enjoy outdoor activities.,私は屋外活動を楽しみます。
+3級,area,地域・面積,名詞,社会・環境・公共,/ˈeriə/,This area is famous for green tea.,この地域は緑茶で有名です。
+3級,event,行事・イベント,名詞,社会・環境・公共,/ɪˈvent/,The school event was successful.,学校の行事は成功しました。
+3級,facility,施設・設備,名詞,社会・環境・公共,/fəˈsɪləti/,The sports facility is very new.,そのスポーツ施設はとても新しいです。
+3級,history,歴史,名詞,社会・環境・公共,/ˈhɪstri/,I am interested in Japanese history.,私は日本の歴史に興味があります。
+3級,information,情報,名詞,社会・環境・公共,/ˌɪnfərˈmeɪʃn/,I need more information about the tour.,ツアーについての情報がもっと必要です。
+3級,law,法律,名詞,社会・環境・公共,/lɔː/,We must follow the law.,私たちは法律に従わなければなりません。
+3級,nature,自然,名詞,社会・環境・公共,/ˈneɪtʃər/,I love spending time in nature.,私は自然の中で過ごすのが大好きです。
+3級,opinion,意見,名詞,社会・環境・公共,/əˈpɪnjən/,What is your opinion on this plan?,この計画についてのあなたの意見は何ですか？
+3級,peace,平和,名詞,社会・環境・公共,/piːs/,We all hope for world peace.,私たちは皆、世界平和を望んでいます。
+3級,population,人口,名詞,社会・環境・公共,/ˌpɑːpjuˈleɪʃn/,The population of Tokyo is very large.,東京の人口はとても多いです。
+3級,public,公衆・公共の,名詞・形容詞,社会・環境・公共,/ˈpʌblɪk/,Don't shout in public places.,公共の場所で叫んではいけません。
+3級,rule,規則・ルール,名詞,社会・環境・公共,/ruːl/,Please follow the school rules.,学校の規則を守ってください。
+3級,society,社会,名詞,社会・環境・公共,/səˈsaɪəti/,We live in a modern society.,私たちは現代社会に生きています。
+3級,speech,演説・スピーチ,名詞,社会・環境・公共,/spiːtʃ/,He made a speech at the party.,彼はパーティーでスピーチをしました。
+3級,tour,見学・旅行,名詞,社会・環境・公共,/tʊr/,We took a bus tour of the city.,私たちは市内のバスツアーに参加しました。
+3級,airport,空港,名詞,社会・環境・公共,/ˈerpɔːrt/,I'll meet you at the airport.,空港で会いましょう。
+3級,attention,注意・注目,名詞,社会・環境・公共,/əˈtenʃn/,Please pay attention to the signs.,標識に注意を払ってください。
+3級,bridge,橋,名詞,社会・環境・公共,/brɪdʒ/,There is a stone bridge over the river.,川には石の橋がかかっています。
+3級,capital,首都,名詞,社会・環境・公共,/ˈkæpɪtl/,Paris is the capital of France.,パリはフランスの首都です。
+3級,celebration,お祝い・祝典,名詞,社会・環境・公共,/ˌselɪˈbreɪʃn/,We had a celebration for his victory.,彼の勝利のお祝いをしました。
+3級,city,市・都市,名詞,社会・環境・公共,/ˈsɪti/,Kyoto is a beautiful city.,京都は美しい都市です。
+3級,community,地域社会・コミュニティ,名詞,社会・環境・公共,/kəˈmjuːnəti/,He is active in the local community.,彼は地域社会で活動的です。
+3級,crowd,群衆・人混み,名詞,社会・環境・公共,/kraʊd/,There was a large crowd at the station.,駅には大きな人混みができていました。
+3級,garbage,ゴミ,名詞,社会・環境・公共,/ˈɡɑːrbɪdʒ/,Don't throw garbage on the street.,通りにゴミを捨てないでください。
+3級,health,健康,名詞,社会・環境・公共,/helθ/,Exercise is good for your health.,運動は健康に良いです。
+3級,museum,博物館・美術館,名詞,社会・環境・公共,/mjuˈziːəm/,I visited the national museum.,私は国立博物館を訪れました。
+3級,neighbor,隣人・近所の人,名詞,社会・環境・公共,/ˈneɪbər/,Our neighbors are very kind.,私たちの隣人はとても親切です。
+3級,ocean,海・大洋,名詞,社会・環境・公共,/ˈoʊʃn/,The ocean is very deep here.,ここの海はとても深いです。
+3級,park,公園,名詞,社会・環境・公共,/pɑːrk/,Children are playing in the park.,子供たちが公園で遊んでいます。
+3級,planet,惑星（地球など）,名詞,社会・環境・公共,/ˈplænɪt/,Earth is a beautiful planet.,地球は美しい惑星です。
+3級,pollution,汚染,名詞,社会・環境・公共,/pəˈluːʃn/,Air pollution is a serious problem.,大気汚染は深刻な問題です。
+3級,recycling,リサイクル,名詞,社会・環境・公共,/ˌriːˈsaɪklɪŋ/,Recycling helps the environment.,リサイクルは環境を助けます。
+3級,safety,安全,名詞,社会・環境・公共,/ˈseɪfti/,Road safety is important.,道路の安全は重要です。
+3級,symbol,象徴・記号,名詞,社会・環境・公共,/ˈsɪmbl/,The cherry blossom is a symbol of Japan.,桜は日本の象徴です。
+3級,traffic,交通（量）,名詞,社会・環境・公共,/ˈtræfɪk/,There is heavy traffic on this road.,この道路は交通量が激しいです。
+3級,actor,俳優,名詞,職業・人,/ˈæktər/,He wants to be a famous actor.,彼は有名な俳優になりたいと思っています。
+3級,artist,芸術家・画家,名詞,職業・人,/ˈɑːrtɪst/,The artist painted a beautiful picture.,その芸術家は美しい絵を描きました。
+3級,astronaut,宇宙飛行士,名詞,職業・人,/ˈæstrənɔːt/,Being an astronaut is a difficult job.,宇宙飛行士になるのは難しい仕事です。
+3級,author,著者・作家,名詞,職業・人,/ˈɔːθər/,Who is the author of this book?,この本の著者は誰ですか？
+3級,boss,上司・ボス,名詞,職業・人,/bɔːs/,My boss is very strict.,私のボスはとても厳しいです。
+3級,captain,キャプテン・船長,名詞,職業・人,/ˈkæptɪn/,He is the captain of the soccer team.,彼はサッカーチームのキャプテンです。
+3級,customer,客・顧客,名詞,職業・人,/ˈkʌstəmər/,The shop was full of customers.,店は客でいっぱいでした。
+3級,dentist,歯医者,名詞,職業・人,/ˈdentɪst/,I have to go to the dentist today.,今日は歯医者に行かなければなりません。
+3級,director,監督・責任者,名詞,職業・人,/dəˈrektər/,He is a famous movie director.,彼は有名な映画監督です。
+3級,engineer,技師・エンジニア,名詞,職業・人,/ˌendʒɪˈnɪr/,My brother works as an engineer.,兄はエンジニアとして働いています。
+3級,farmer,農家,名詞,職業・人,/ˈfɑːrmər/,The farmer grows organic vegetables.,その農家は有機野菜を育てています。
+3級,guest,客・ゲスト,名詞,職業・人,/ɡest/,We have a special guest today.,今日は特別なゲストが来ています。
+3級,guide,ガイド・案内人,名詞,職業・人,/ɡaɪd/,The tour guide explained the history.,ツアーガイドが歴史を説明しました。
+3級,hero,英雄・ヒーロー,名詞,職業・人,/ˈhɪroʊ/,He is a hero to many children.,彼は多くの子供たちにとってのヒーローです。
+3級,host,主催者・ホスト,名詞,職業・人,/hoʊst/,The host of the party was very kind.,パーティーの主催者はとても親切でした。
+3級,lawyer,弁護士,名詞,職業・人,/ˈlɔɪər/,She wants to become a lawyer.,彼女は弁護士になりたいと思っています。
+3級,member,会員・メンバー,名詞,職業・人,/ˈmembər/,I am a member of the tennis club.,私はテニスクラブの部員です。
+3級,officer,役人・警官,名詞,職業・人,/ˈɔːfɪsər/,A police officer helped me.,警察官が私を助けてくれました。
+3級,passenger,乗客,名詞,職業・人,/ˈpæsɪndʒər/,Passengers are waiting for the train.,乗客が電車を待っています。
+3級,scientist,科学者,名詞,職業・人,/ˈsaɪəntɪst/,The scientist discovered a new star.,その科学者は新しい星を発見しました。
+3級,article,記事,名詞,科学・IT・メディア,/ˈɑːrtɪkl/,I read an interesting article about AI.,私はAIに関する興味深い記事を読みました。
+3級,battery,電池・バッテリー,名詞,科学・IT・メディア,/ˈbætəri/,My phone battery is low.,スマホのバッテリーが少なくなっています。
+3級,channel,チャンネル,名詞,科学・IT・メディア,/ˈtʃænl/,Change the channel,please.
+3級,computer,コンピューター,名詞,科学・IT・メディア,/kəmˈpjuːtər/,I use a computer for my work.,私は仕事にコンピューターを使います。
+3級,data,データ・資料,名詞,科学・IT・メディア,/ˈdeɪtə/,We need to collect more data.,私たちはもっとデータを集める必要があります。
+3級,device,装置・デバイス,名詞,科学・IT・メディア,/dɪˈvaɪs/,This is a very useful device.,これはとても便利な装置です。
+3級,discovery,発見,名詞,科学・IT・メディア,/dɪˈskʌvəri/,The discovery of electricity changed the world.,電気の発見は世界を変えました。
+3級,email,メール,名詞,科学・IT・メディア,/ˈiːmeɪl/,Send me an email later.,あとでメールを送ってください。
+3級,experiment,実験,名詞,科学・IT・メディア,/ɪkˈsperɪmənt/,We did a science experiment today.,今日、科学の実験をしました。
+3級,internet,インターネット,名詞,科学・IT・メディア,/ˈɪntərnet/,I found the information on the internet.,私はインターネットでその情報を見つけました。
+3級,machine,機械,名詞,科学・IT・メディア,/məˈʃiːn/,This machine is easy to use.,この機械は使いやすいです。
+3級,magazine,雑誌,名詞,科学・IT・メディア,/ˈmæɡəziːn/,I like reading fashion magazines.,私はファッション誌を読むのが好きです。
+3級,media,メディア・媒体,名詞,科学・IT・メディア,/ˈmiːdiə/,Social media is popular among teens.,ソーシャルメディアは10代に人気です。
+3級,message,伝言・メッセージ,名詞,科学・IT・メディア,/ˈmesɪdʒ/,I left a message for him.,彼に伝言を残しました。
+3級,news,ニュース,名詞,科学・IT・メディア,/nuːz/,Did you hear the good news?,良いニュースを聞きましたか？
+3級,program,番組・プログラム,名詞,科学・IT・メディア,/ˈproʊɡræm/,What is your favorite TV program?,あなたの一番好きなテレビ番組は何ですか？
+3級,robot,ロボット,名詞,科学・IT・メディア,/ˈroʊbɑːt/,Robots can help people.,ロボットは人を助けることができます。
+3級,science,科学,名詞,科学・IT・メディア,/ˈsaɪəns/,Science is my favorite subject.,科学は私の一番好きな教科です。
+3級,technology,科学技術・テクノロジー,名詞,科学・IT・メディア,/tekˈnɑːlədʒi/,Modern technology is amazing.,現代のテクノロジーは素晴らしいです。
+3級,website,ウェブサイト,名詞,科学・IT・メディア,/ˈwebsaɪt/,Visit our website for more details.,詳細は私たちのサイトを見てください。
+3級,advantage,利点・長所,名詞,抽象概念,/ədˈvæntɪdʒ/,The main advantage of this plan is its cost.,この計画の主な利点は費用です。
+3級,advice,助言・アドバイス,名詞,抽象概念,/ədˈvaɪs/,She gave me some good advice.,彼女は私にいくつか良い助言をくれました。
+3級,chance,機会・チャンス,名詞,抽象概念,/tʃæns/,I had a chance to visit London.,私にはロンドンを訪れる機会がありました。
+3級,choice,選択,名詞,抽象概念,/tʃɔɪs/,You have no choice but to wait.,待つほかに選択肢はありません。
+3級,custom,習慣・風習,名詞,抽象概念,/ˈkʌstəm/,It is a Japanese custom to take off shoes.,靴を脱ぐのは日本の習慣です。
+3級,dream,夢,名詞,抽象概念,/driːm/,My dream is to travel around the world.,私の夢は世界中を旅行することです。
+3級,effort,努力,名詞,抽象概念,/ˈefərt/,He made a great effort to win.,彼は勝つために多大な努力をしました。
+3級,feeling,感情・気持ち,名詞,抽象概念,/ˈfiːlɪŋ/,I have a feeling that it will rain.,雨が降るような気がします。
+3級,goal,目標・ゴール,名詞,抽象概念,/ɡoʊl/,My goal is to pass the exam.,私の目標は試験に合格することです。
+3級,habit,習慣（個人の）,名詞,抽象概念,/ˈhæbɪt/,Early rising is a good habit.,早起きは良い習慣です。
+3級,idea,考え・アイデア,名詞,抽象概念,/aɪˈdiə/,That's a good idea.,それは良い考えですね。
+3級,memory,記憶・思い出,名詞,抽象概念,/ˈmeməri/,I have many happy memories of Kyoto.,私には京都での楽しい思い出がたくさんあります。
+3級,mistake,間違い,名詞,抽象概念,/mɪˈsteɪk/,Don't be afraid of making mistakes.,間違いを犯すことを恐れないでください。
+3級,skill,技能・技術,名詞,抽象概念,/skɪl/,Cooking is a useful skill.,料理は便利な技能です。
+3級,success,成功,名詞,抽象概念,/səkˈses/,I wish you success in your business.,仕事の成功を祈っています。
+3級,thought,考え・思考,名詞,抽象概念,/θɔːt/,The thought of the trip made her happy.,旅行のことを考えると彼女は幸せな気分になりました。
+3級,trouble,悩み・苦労・故障,名詞,抽象概念,/ˈtrʌbl/,I'm having trouble with my computer.,コンピューターの調子が悪くて困っています。
+3級,although,〜だけれども,接続詞,接続詞・前置詞,/ɔːlˈðoʊ/,Although it was raining,we went out.
+3級,during,〜の間に,前置詞,接続詞・前置詞,/ˈdʊrɪŋ/,I fell asleep during the movie.,映画の最中に眠ってしまいました。
+3級,until,〜まで（ずっと）,接続詞・前置詞,接続詞・前置詞,/ʌnˈtɪl/,Wait here until I come back.,私が戻るまでここで待っていてください。
+3級,since,〜以来・〜なので,接続詞・前置詞,接続詞・前置詞,/sɪns/,I have lived here since 2010.,私は2010年からここに住んでいます。
+3級,while,〜する間に,接続詞,接続詞・前置詞,/waɪl/,Listen to me while I'm talking.,私が話している間は聞きなさい。
+3級,whether,〜かどうか,接続詞,接続詞・前置詞,/ˈweðər/,I don't know whether he will come.,彼が来るかどうか分かりません。
+3級,though,〜だけれども,接続詞,接続詞・前置詞,/ðoʊ/,Though he is young,he is very wise.
+3級,unless,〜でない限り,接続詞,接続詞・前置詞,/ənˈles/,I won't go unless you go.,あなたが行かない限り、私は行きません。
+3級,against,〜に反対して・〜に対して,前置詞,接続詞・前置詞,/əˈɡenst/,Are you for or against the plan?,その計画に賛成ですか、反対ですか？
+3級,beyond,〜を越えて,前置詞,接続詞・前置詞,/bɪˈjɑːnd/,The house is beyond the river.,その家は川の向こう側にあります。
+3級,except,〜を除いて,前置詞,接続詞・前置詞,/ɪkˈsept/,Everyone was there except Tom.,トム以外は全員そこにいました。
+3級,without,〜なしで,前置詞,接続詞・前置詞,/wɪˈðaʊt/,I can't finish it without your help.,あなたの助けなしでは終わらせられません。
+3級,within,〜以内に,前置詞,接続詞・前置詞,/wɪˈðɪn/,Please finish it within an hour.,1時間以内に終わらせてください。
+3級,toward,〜の方へ,前置詞,接続詞・前置詞,/təˈwɔːrd/,He is walking toward the station.,彼は駅の方へ歩いています。
+3級,among,〜の間に（3つ以上）,前置詞,接続詞・前置詞,/əˈmʌŋ/,The house is among the trees.,その家は木々の間にあります。
+3級,behind,〜の後ろに,前置詞,接続詞・前置詞,/bɪˈhaɪnd/,The sun went behind the clouds.,太陽が雲の後ろに隠れました。
+3級,beside,〜のそばに,前置詞,接続詞・前置詞,/bɪˈsaɪd/,Come and sit beside me.,私のそばに来て座りなさい。
+3級,through,〜を通して・〜を通り抜けて,前置詞,接続詞・前置詞,/θruː/,We drove through the tunnel.,私たちはトンネルを通り抜けました。
+3級,above,〜の上に,前置詞,接続詞・前置詞,/əˈbʌv/,The moon is above the mountain.,月が山の上に出ています。
+3級,look forward to,〜を楽しみに待つ,熟語,最重要熟語,,I'm looking forward to seeing you.,あなたに会えるのを楽しみにしています。
+3級,take care of,〜の世話をする,熟語,最重要熟語,,She takes care of her younger brother.,彼女は弟の世話をします。
+3級,be good at,〜が得意である,熟語,最重要熟語,,He is good at playing tennis.,彼はテニスが得意です。
+3級,for a long time,長い間,熟語,最重要熟語,,I haven't seen her for a long time.,長い間彼女に会っていません。
+3級,on the way to,〜へ行く途中で,熟語,最重要熟語,,I met him on the way to school.,学校へ行く途中で彼に会いました。
+3級,get to,〜に到着する,熟語,最重要熟語,,How can I get to the station?,駅へはどうやって行けばいいですか？
+3級,all over the world,世界中で,熟語,最重要熟語,,English is spoken all over the world.,英語は世界中で話されています。
+3級,be different from,〜と違っている,熟語,最重要熟語,,My idea is different from yours.,私の考えはあなたのとは違います。
+3級,be full of,〜でいっぱいである,熟語,最重要熟語,,The bus was full of students.,バスは学生でいっぱいでした。
+3級,for example,例えば,熟語,最重要熟語,,I like fruit,for example
+3級,give up,諦める,熟語,最重要熟語,,Don't give up your dream.,夢を諦めないで。
+3級,a lot of,たくさんの,熟語,最重要熟語,,There are a lot of flowers here.,ここにはたくさんの花があります。
+3級,be able to,〜することができる,熟語,最重要熟語,,He will be able to swim soon.,彼はすぐ泳げるようになるでしょう。
+3級,at first,最初は,熟語,最重要熟語,,At first,I didn't like the food.
+3級,after school,放課後,熟語,最重要熟語,,I play soccer after school.,私は放課後にサッカーをします。
+3級,each other,お互いに,熟語,最重要熟語,,We know each other very well.,私たちはお互いをよく知っています。
+3級,had better,〜したほうがよい,熟語,最重要熟語,,You had better go to bed now.,もう寝たほうがいいですよ。
+3級,look for,〜を探す,熟語,最重要熟語,,What are you looking for?,何を探しているのですか？
+3級,of course,もちろん,熟語,最重要熟語,,Of course,you can use my pen.
+3級,stay at,〜に滞在する,熟語,最重要熟語,,We stayed at a hotel last night.,私たちは昨夜ホテルに泊まりました。
+3級,pick up,〜を拾う・（車で）迎えに行く,熟語,最重要熟語,,I picked up a piece of paper.,私は紙くずを拾いました。
+3級,find out,〜を見つけ出す・知る,熟語,最重要熟語,,I want to find out the truth.,私は真実を知りたいです。
+3級,ask for,〜を求める・お願いする,熟語,最重要熟語,,You should ask for help.,助けを求めるべきです。
+3級,come from,〜の出身である,熟語,最重要熟語,,He comes from Canada.,彼はカナダ出身です。
+3級,be afraid of,〜を恐れる,熟語,最重要熟語,,Don't be afraid of making mistakes.,間違いを犯すのを恐れないで。
+3級,be interested in,〜に興味がある,熟語,最重要熟語,,I am interested in Japanese history.,私は日本の歴史に興味があります。
+3級,be surprised at,〜に驚く,熟語,最重要熟語,,I was surprised at the news.,私はそのニュースに驚きました。
+3級,get on,〜（乗り物）に乗る,熟語,最重要熟語,,I got on the bus at the station.,私は駅でバスに乗りました。
+3級,get off,〜（乗り物）を降りる,熟語,最重要熟語,,Get off at the next stop.,次の停留所で降りてください。
+3級,take part in,〜に参加する,熟語,最重要熟語,,Many people took part in the event.,多くの人がそのイベントに参加しました。
+3級,used to,かつては〜だった,熟語,最重要熟語,,I used to live in Tokyo.,私はかつて東京に住んでいました。
+3級,by the way,ところで,熟語,最重要熟語,,By the way,do you have the time?
+3級,more than,〜以上の,熟語,最重要熟語,,He has more than ten pens.,彼は10本以上のペンを持っています。
+3級,next to,〜の隣に,熟語,最重要熟語,,The post office is next to the bank.,郵便局は銀行の隣にあります。
+3級,out of,〜の外へ・〜から,熟語,最重要熟語,,He ran out of the room.,彼は部屋から走り出しました。
+3級,run after,〜を追いかける,熟語,最重要熟語,,The cat ran after the mouse.,猫がネズミを追いかけました。
+3級,shake hands with,〜と握手する,熟語,最重要熟語,,I shook hands with the famous actor.,私はその有名な俳優と握手しました。
+3級,take off,〜を脱ぐ・（飛行機が）離陸する,熟語,最重要熟語,,Please take off your shoes.,靴を脱いでください。
+3級,try on,〜を試着する,熟語,最重要熟語,,Can I try on this jacket?,このジャケットを試着してもいいですか？
+3級,turn off,〜（電気など）を消す,熟語,最重要熟語,,Turn off the TV and go to bed.,テレビを消して寝なさい。

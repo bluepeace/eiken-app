@@ -24,7 +24,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed:vocabulary": "node scripts/import-vocabulary.js",
-    "seed:vocabulary:sql": "node scripts/import-vocabulary.js --sql"
+    "seed:vocabulary:sql": "node scripts/import-vocabulary.js --sql",
+    "seed:vocabulary:4kyu": "node scripts/import-vocabulary.js 4kyu",
+    "seed:vocabulary:4kyu:sql": "node scripts/import-vocabulary.js --sql 4kyu"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

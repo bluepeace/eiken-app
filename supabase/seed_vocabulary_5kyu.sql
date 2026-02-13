@@ -1,4 +1,4 @@
--- 5級単語を vocabulary に投入（006, 007 マイグレーション実行後に実行）
+-- 5kyu 単語を vocabulary に投入（006, 007 マイグレーション実行後に実行）
 -- 既存データを消す場合は以下の行のコメントを外す:
 -- TRUNCATE public.vocabulary RESTART IDENTITY CASCADE;
 

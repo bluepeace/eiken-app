@@ -77,6 +77,20 @@ export async function getProfileId(): Promise<string | null> {
   return data?.id ?? null;
 }
 
+/** ログインユーザーの目標級（英検5級 など）を取得。未ログインなら null */
+export async function getProfileTargetLevel(): Promise<string | null> {
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data } = await supabase
+    .from("user_profiles")
+    .select("target_level")
+    .eq("auth_user_id", user.id)
+    .maybeSingle();
+  return data?.target_level ?? null;
+}
+
 /** 過去のクイズ履歴（単語ごとの正誤・回答日時） */
 export type QuizHistoryEntry = {
   id: number;

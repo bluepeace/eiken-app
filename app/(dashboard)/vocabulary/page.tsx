@@ -11,13 +11,16 @@ import {
 import {
   fetchVocabularyFromSupabase,
   getProfileId,
+  getProfileTargetLevel,
+  profileLevelToVocabularyLevel,
   saveQuizResult
 } from "@/lib/data/vocabulary-db";
 import { logStudyActivity } from "@/lib/data/study-activity";
 
 export default function VocabularyPage() {
   const [stage, setStage] = useState<"select" | "session" | "result">("select");
-  const [selectedLevel, setSelectedLevel] = useState<string>("5級");
+  const [selectedLevel, setSelectedLevel] = useState<string>("");
+  const [levelLoaded, setLevelLoaded] = useState(false);
   const [items, setItems] = useState<VocabularyItem[]>([]);
   const [optionPool, setOptionPool] = useState<VocabularyItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,6 +29,18 @@ export default function VocabularyPage() {
   const [error, setError] = useState<string | null>(null);
   const profileIdRef = useRef<string | null>(null);
   const sessionStartRef = useRef<number | null>(null);
+
+  // 目標級が設定されていればデフォルトで選択、未設定なら空のまま自分で選ぶ
+  useEffect(() => {
+    getProfileTargetLevel().then((targetLevel) => {
+      setLevelLoaded(true);
+      if (!targetLevel) return;
+      const vocabLevel = profileLevelToVocabularyLevel(targetLevel);
+      if (VOCABULARY_LEVELS.includes(vocabLevel as (typeof VOCABULARY_LEVELS)[number])) {
+        setSelectedLevel(vocabLevel);
+      }
+    });
+  }, []);
 
   const startSession = async () => {
     setLoading(true);
@@ -119,6 +134,9 @@ export default function VocabularyPage() {
                 onChange={(e) => setSelectedLevel(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
               >
+                <option value="">
+                  {levelLoaded ? "選択してください" : "読み込み中..."}
+                </option>
                 {VOCABULARY_LEVELS.map((l) => (
                   <option key={l} value={l}>
                     英検{l}
@@ -133,7 +151,7 @@ export default function VocabularyPage() {
             <button
               type="button"
               onClick={startSession}
-              disabled={loading}
+              disabled={loading || !selectedLevel}
               className="w-full rounded-full bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "読み込み中..." : "学習を開始"}
