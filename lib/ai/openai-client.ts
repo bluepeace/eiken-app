@@ -1,15 +1,10 @@
 import OpenAI from "openai";
 
-const apiKey = process.env.OPENAI_API_KEY;
-
-if (!apiKey) {
-  // eslint-disable-next-line no-console
-  console.warn("[openai] OPENAI_API_KEY is not set. OpenAI client will not work.");
-}
+/** ビルド時は OPENAI_API_KEY 未設定でもエラーにしない（Vercel で runtime に設定） */
+const apiKey = process.env.OPENAI_API_KEY ?? "sk-placeholder-for-build";
 
 export const openai = new OpenAI({
   apiKey,
-  // Edge runtime を考慮して明示的に設定
   dangerouslyAllowBrowser: false
 });
 
