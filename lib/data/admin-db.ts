@@ -262,7 +262,7 @@ export async function adminGetWritingPromptById(id: number) {
 
 export interface WritingPromptInput {
   level: string;
-  prompt_type: "essay" | "email";
+  prompt_type: "essay" | "email" | "summary";
   title: string;
   prompt: string;
   word_count_min?: number | null;
