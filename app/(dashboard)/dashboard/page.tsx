@@ -47,6 +47,7 @@ interface ProfileState {
 export default function DashboardPage() {
   const [profile, setProfile] = useState<ProfileState | null>(null);
   const [todayStudyMinutes, setTodayStudyMinutes] = useState(0);
+  const [totalStudyMinutes, setTotalStudyMinutes] = useState(0);
   const [streakDays, setStreakDays] = useState(0);
   const [vocabProficiency, setVocabProficiency] = useState<{
     percentage: number;
@@ -126,6 +127,7 @@ export default function DashboardPage() {
       getTotalStudySeconds(profileId)
     ]);
     setTodayStudyMinutes(Math.round(seconds / 60));
+    setTotalStudyMinutes(Math.round(totalStudySecs / 60));
     setStreakDays(streak.current);
     setVocabProficiency(proficiency);
     setWritingCount(wCount);
@@ -230,6 +232,7 @@ export default function DashboardPage() {
           avatarUrl={avatarUrl}
           avatarStyle={avatarStyle}
           todayStudyMinutes={todayStudyMinutes}
+          totalStudyMinutes={totalStudyMinutes}
           streakDays={streakDays}
           rightSlot={
             <Link

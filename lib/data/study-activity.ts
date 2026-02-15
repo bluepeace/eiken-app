@@ -43,19 +43,25 @@ export async function getTotalStudySeconds(
   return total;
 }
 
-/** 今日の学習時間（秒）を取得 */
+/** 今日の学習時間（秒）を取得（ユーザーのローカル日付で判定） */
 export async function getTodayStudySeconds(
   profileId: string
 ): Promise<number> {
-  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth();
+  const d = now.getDate();
+  const todayStart = new Date(y, m, d, 0, 0, 0, 0);
+  const todayEnd = new Date(y, m, d + 1, 0, 0, 0, 0);
+  const todayStartISO = todayStart.toISOString();
+  const todayEndISO = todayEnd.toISOString();
 
   const { data, error } = await supabase
     .from("user_activity_log")
     .select("payload")
     .eq("user_id", profileId)
-    .gte("created_at", today)
-    .lt("created_at", tomorrow);
+    .gte("created_at", todayStartISO)
+    .lt("created_at", todayEndISO);
 
   if (error) return 0;
 

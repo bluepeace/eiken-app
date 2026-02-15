@@ -7,6 +7,7 @@ interface DashboardHeaderProps {
   avatarUrl?: string | null;
   avatarStyle?: string | null;
   todayStudyMinutes?: number;
+  totalStudyMinutes?: number;
   streakDays?: number;
   rightSlot?: ReactNode;
 }
@@ -17,6 +18,7 @@ export function DashboardHeader({
   avatarUrl = null,
   avatarStyle = null,
   todayStudyMinutes = 0,
+  totalStudyMinutes = 0,
   streakDays = 0,
   rightSlot
 }: DashboardHeaderProps) {
@@ -80,6 +82,14 @@ export function DashboardHeader({
           </p>
           <p className="text-xl font-semibold text-[#50c2cb]">
             {todayStudyMinutes} 分
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left">
+          <p className="text-[11px] font-semibold text-slate-500 mb-1">
+            累計学習時間
+          </p>
+          <p className="text-xl font-semibold text-slate-600">
+            {totalStudyMinutes} 分
           </p>
         </div>
         {rightSlot}

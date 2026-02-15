@@ -16,11 +16,12 @@ SET display_id = n.rn
 FROM numbered n
 WHERE p.id = n.id;
 
--- 3. シーケンス作成（既存の最大値+1から開始）
+-- 3. シーケンス作成（既存の最大値+1から開始、空テーブル時は1から）
 CREATE SEQUENCE IF NOT EXISTS public.user_profiles_display_id_seq;
 SELECT setval(
   'public.user_profiles_display_id_seq',
-  COALESCE((SELECT max(display_id) FROM public.user_profiles), 0)
+  GREATEST(COALESCE((SELECT max(display_id) FROM public.user_profiles), 0), 1),
+  (SELECT count(*) FROM public.user_profiles) > 0  -- 既存行があれば is_called=true（次は max+1）、空なら false（次は 1）
 );
 
 -- 4. デフォルト設定（新規INSERT時は自動採番）
