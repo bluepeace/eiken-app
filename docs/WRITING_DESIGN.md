@@ -7,28 +7,45 @@
 
 ---
 
-## 2. 3級の仕様（第一弾）
+## 2. 問題形式一覧
 
-### 2.1 問題形式（2パターン）
+### 2.1 形式と対応級
+
+| 形式 | 対応級 | 語数目安 | 説明 |
+|------|--------|----------|------|
+| **英作文** | 3級〜1級 | 25〜240語（級による） | Yes/No または TOPIC について意見と理由を述べる |
+| **Eメール** | 3級・準2級 | 15〜50語 | 友達からのメールへの返信、質問への回答 |
+| **要約** | 2級・準1級・1級 | 45〜110語（級による） | 英文を読んで要約する（2024年度から新設） |
+
+### 2.2 3級の仕様（第一弾）
 
 | 形式 | 語数目安 | 説明 |
 |------|----------|------|
 | **英作文** | 25〜35語 | Yes/Noで答え、理由を2つ述べる |
 | **Eメール** | 15〜25語 | 外国人の友達からのメールへの返信 |
 
-### 2.2 ページ構成
+### 2.3 要約問題の仕様（2024年度追加）
+
+| 級 | 語数 | 英文の長さ | 構成 |
+|----|------|------------|------|
+| **2級** | 45〜55語 | 約150語 | 3段落（導入・メリット・デメリット） |
+| **準1級** | 60〜70語 | 約200語 | 3段落（導入・賛成派・反対派） |
+| **1級** | 90〜110語 | 約300語 | 背景→問題→対策→課題 |
+
+### 2.4 ページ構成
 
 ```
 /writing                    ← ライティングTOP
   ├── 形式選択
-  │   ├── [英作文] → /writing/essay
-  │   └── [Eメール] → /writing/email
+  │   ├── [英作文] → /writing/essay?level={級}
+  │   ├── [Eメール] → /writing/email（3級・準2級のとき表示）
+  │   ├── [要約] → /writing/summary?level={級}（2級・準1級・1級のとき表示）
+  │   └── [履歴] → /writing/history
   │
-  /writing/essay            ← 英作文用
-  │   └── ランダムで1問出題（3級英作文20問から）
-  │
-  /writing/email            ← Eメール用
-      └── ランダムで1問出題（3級Eメール20問から）
+  /writing/essay            ← 英作文（3級〜1級）
+  /writing/email            ← Eメール（3級・準2級）
+  /writing/summary          ← 要約（2級・準1級・1級）
+  /writing/history          ← 履歴一覧
 ```
 
 ### 2.3 フロー
@@ -74,7 +91,7 @@
 ```sql
 ALTER TABLE public.writing_prompts
   ADD COLUMN IF NOT EXISTS prompt_type text NOT NULL DEFAULT 'essay';
-  -- 'essay' | 'email'
+  -- 'essay' | 'email' | 'summary'
 
 ALTER TABLE public.writing_prompts
   ADD COLUMN IF NOT EXISTS word_count_min integer,
@@ -99,7 +116,7 @@ ALTER TABLE public.writing_submissions
 |--------|-----|------|
 | id | bigserial | PK |
 | level | text | 3級, 準2級, 2級, 準1級, 1級 |
-| prompt_type | text | essay / email |
+| prompt_type | text | essay / email / summary |
 | title | text | 問題タイトル |
 | prompt | text | 問題文・指示 |
 | word_count_min | int | 最低語数 |
@@ -161,27 +178,44 @@ await logStudyActivity(profileId, "writing", {
 
 ---
 
-## 7. ファイル構成（実装例）
+## 7. ファイル構成
 
 ```
 app/(dashboard)/writing/
-  page.tsx              # TOP: 形式選択（英作文 / Eメール）
+  page.tsx              # TOP: 形式選択（英作文 / Eメール / 要約）
   essay/page.tsx        # 英作文: 問題表示・入力・結果
   email/page.tsx        # Eメール: 問題表示・入力・結果
-  history/page.tsx      # 履歴・スコア推移
+  summary/page.tsx      # 要約: 問題表示・入力・結果（2級・準1級・1級）
+  history/page.tsx      # 履歴一覧
 
 lib/
   data/
-    writing-db.ts       # 問題取得、提出保存、履歴取得
+    writing-db.ts       # fetchRandomEssayPrompt, fetchRandomEmailPrompt, fetchRandomSummaryPrompt
   ai/
-    writing-feedback.ts # OpenAI 添削API呼び出し
+    writing-feedback.ts # OpenAI 添削API（essay / email / summary 対応）
+  writing-hints.ts      # 級別・形式別ヒント（ESSAY_HINTS, EMAIL_HINTS, SUMMARY_HINTS）
 
 components/features/writing/
-  WritingTimer.tsx      # タイマー表示
-  WritingEditor.tsx     # テキスト入力
   WritingResult.tsx     # 採点結果表示
-  ScoreChart.tsx        # スコア推移グラフ
+  WritingHintPanel.tsx  # ヒントパネル
+  CorrectedTextWithHighlights.tsx
+  ReadAloudButton.tsx
 ```
+
+### 7.1 シードファイル一覧
+
+| ファイル | 内容 |
+|----------|------|
+| seed_writing_prompts_3kyu_essay.sql | 3級英作文 |
+| seed_writing_prompts_3kyu_email.sql | 3級Eメール |
+| seed_writing_prompts_jun2kyu_essay.sql | 準2級英作文 |
+| seed_writing_prompts_jun2kyu_email.sql | 準2級Eメール |
+| seed_writing_prompts_2kyu_essay.sql | 2級英作文 |
+| seed_writing_prompts_2kyu_summary.sql | 2級要約（8問） |
+| seed_writing_prompts_jun1kyu_essay.sql | 準1級英作文 |
+| seed_writing_prompts_jun1kyu_summary.sql | 準1級要約（3問） |
+| seed_writing_prompts_1kyu_essay.sql | 1級英作文 |
+| seed_writing_prompts_1kyu_summary.sql | 1級要約（3問） |
 
 ---
 
@@ -196,24 +230,32 @@ components/features/writing/
 
 ## 9. 実装フェーズ
 
-### Phase 1: 3級 英作文
-- [ ] DBマイグレーション（prompt_type等追加）
-- [ ] 英作文問題20問をシード
-- [ ] `/writing` TOP（形式選択）
-- [ ] `/writing/essay` 問題表示・入力・タイマー
-- [ ] AI添削API
-- [ ] 結果表示・保存
-- [ ] 学習時間記録
+### Phase 1: 3級 英作文 ✅
+- [x] DBマイグレーション（prompt_type等追加）
+- [x] 英作文問題シード
+- [x] `/writing` TOP（形式選択）
+- [x] `/writing/essay` 問題表示・入力・タイマー
+- [x] AI添削API
+- [x] 結果表示・保存
+- [x] 学習時間記録
 
-### Phase 2: 3級 Eメール
-- [ ] Eメール問題20問をシード
-- [ ] `/writing/email` ページ
+### Phase 2: 3級 Eメール ✅
+- [x] Eメール問題シード
+- [x] `/writing/email` ページ
 
-### Phase 3: 履歴・推移
-- [ ] `/writing/history` 履歴一覧
-- [ ] スコア推移グラフ
+### Phase 3: 履歴 ✅
+- [x] `/writing/history` 履歴一覧
+- [ ] スコア推移グラフ（未実装）
 
-### Phase 4: 準2級・2級・準1級・1級
-- [ ] 各級の問題シード
-- [ ] 級選択UI
-- [ ] 級別の語数・時間基準
+### Phase 4: 準2級・2級・準1級・1級 英作文 ✅
+- [x] 各級の問題シード
+- [x] 級選択UI
+- [x] 級別の語数・時間基準
+
+### Phase 5: 要約問題（2級・準1級・1級）✅
+- [x] prompt_type に 'summary' 追加
+- [x] 2級要約（45〜55語）シード・UI・ヒント
+- [x] 準1級要約（60〜70語）シード・UI・ヒント
+- [x] 1級要約（90〜110語）シード・UI・ヒント
+- [x] `/writing/summary` ページ
+- [x] AI添削での要約採点基準（パラフレーズ、指示遵守等）

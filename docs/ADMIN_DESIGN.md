@@ -37,7 +37,7 @@ ALTER TABLE public.user_profiles
 | **ユーザー新規登録** | メール・パスワードでアカウント作成 | Supabase Auth Admin API |
 | **学習ログ** | 各ユーザーの学習履歴 | `user_activity_log`, `vocabulary_quiz_results`, `writing_submissions` |
 | **単語登録** | 単語の追加・編集・削除 | `vocabulary` |
-| **ライティング問題登録** | 問題の追加・編集・削除 | `writing_prompts` |
+| **ライティング問題登録** | 問題の追加・編集・削除（英作文・Eメール・要約） | `writing_prompts` |
 
 ---
 
@@ -117,7 +117,7 @@ Supabase Auth の `admin.createUser()` を使用する。**Service Role Key** �
 
 - `user_profiles`: id, auth_user_id, display_name, target_level, avatar_url, avatar_style, created_at
 - `vocabulary`: id, level, word, meaning_ja, part_of_speech, category, pronunciation, example_en, example_ja
-- `writing_prompts`: id, level, prompt_type, title, prompt, word_count_min, word_count_max, time_limit_min_seconds, time_limit_max_seconds
+- `writing_prompts`: id, level, prompt_type, title, prompt, word_count_min, word_count_max, time_limit_min_seconds, time_limit_max_seconds（prompt_type: essay / email / summary）
 - `user_activity_log`: user_id, activity_type, payload, created_at
 - `vocabulary_quiz_results`: user_id, vocabulary_id, is_correct, created_at
 - `writing_submissions`: user_id, prompt_id, content, scores..., ai_feedback, created_at

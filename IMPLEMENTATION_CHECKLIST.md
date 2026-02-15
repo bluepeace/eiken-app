@@ -1,10 +1,37 @@
-# IMPLEMENTATION CHECKLIST - eiken-app
+# IMPLEMENTATION CHECKLIST - AiKen (eiken-app)
 
-- [ ] 認証フロー（Supabase Auth, Google OAuth）
-- [ ] ダッシュボード UI
-- [ ] 単語学習（SRS ロジック連携）
-- [ ] ライティング添削 API 連携（OpenAI GPT-4o）
+## 認証・基盤
+
+- [x] 認証フロー（Supabase Auth, Google OAuth）
+- [x] プロフィール（表示名、目標級、アバター、試験日）
+- [x] ダッシュボード UI
+
+## 学習モジュール
+
+- [x] 単語学習（SRS ロジック連携、フラッシュカード）
+- [x] ライティング添削 API 連携（OpenAI GPT-4o）
+  - [x] 英作文（3級〜1級）
+  - [x] Eメール（3級・準2級）
+  - [x] 要約（2級・準1級・1級）
 - [ ] スピーキング評価 API 連携
-- [ ] リスニング/リーディングビューワー
-- [ ] shadcn/ui セットアップ
+- [x] リスニング/リーディングビューワー
 
+## 管理画面
+
+- [x] 管理者ロール・認可
+- [x] ユーザー一覧・詳細・編集
+- [x] ライティング問題 CRUD（essay / email / summary）
+- [x] 単語 CRUD
+- [x] アバター・背景画像の管理
+
+## ブランディング
+
+- [x] サービス名「AiKen」に統一
+- [x] ロゴ画像のセット
+- [x] キーカラー #50c2cb の適用
+
+## 未実装・今後の検討
+
+- [ ] スピーキング評価 API 連携
+- [ ] スコア推移グラフ（ライティング履歴）
+- [ ] shadcn/ui セットアップ（オプション）
