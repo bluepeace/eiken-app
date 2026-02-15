@@ -63,8 +63,9 @@ export function TodayPlanCard({
   const level = targetLevel ?? "";
   const is4or5 = ["英検4級", "英検5級"].includes(level);
 
+  type TaskItem = typeof VOCABULARY_TASK | (typeof OPTIONAL_TASKS)[number];
   const recommendedTasks = (() => {
-    const tasks = [VOCABULARY_TASK];
+    const tasks: (TaskItem | undefined)[] = [VOCABULARY_TASK];
 
     if (is4or5) {
       tasks.push(
@@ -73,7 +74,12 @@ export function TodayPlanCard({
       );
     } else {
       const available = OPTIONAL_TASKS.filter(
-        (t) => !("hideForLevels" in t && t.hideForLevels?.includes(level))
+        (t) =>
+          !(
+            "hideForLevels" in t &&
+            level &&
+            (t.hideForLevels as readonly string[]).includes(level)
+          )
       );
       const withCounts = available.map((t) => ({
         task: t,
@@ -86,7 +92,7 @@ export function TodayPlanCard({
       tasks.push(withCounts[0]?.task, withCounts[1]?.task);
     }
 
-    return tasks.filter(Boolean);
+    return tasks.filter((t): t is TaskItem => t != null);
   })();
 
   return (
