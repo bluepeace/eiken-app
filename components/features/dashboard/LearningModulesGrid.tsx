@@ -48,7 +48,11 @@ interface LearningModulesGridProps {
 export function LearningModulesGrid({ targetLevel }: LearningModulesGridProps) {
   const modules = MODULES.filter(
     (m) =>
-      !("hideForLevels" in m && m.hideForLevels?.includes(targetLevel ?? ""))
+      !(
+        "hideForLevels" in m &&
+        targetLevel &&
+        (m.hideForLevels as readonly string[]).includes(targetLevel)
+      )
   );
   return (
     <section className="space-y-3">
