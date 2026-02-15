@@ -1,6 +1,12 @@
 import { supabase } from "@/lib/supabase/client";
 import type { VocabularyItem } from "./sample-vocabulary";
 
+/** Supabase の foreign key select は vocabulary を配列で返すことがあるため、正規化 */
+function normVocab<T>(v: T | T[] | null | undefined): T | null {
+  if (v == null) return null;
+  return Array.isArray(v) ? v[0] ?? null : v;
+}
+
 /** プロフィールの目標級（英検2級）を vocabulary レベル（2級）に変換 */
 export function profileLevelToVocabularyLevel(
   profileLevel: string | null
@@ -46,9 +52,10 @@ export async function getVocabularyProficiency(
     const r = row as {
       vocabulary_id: number;
       is_correct: boolean;
-      vocabulary: { level: string } | null;
+      vocabulary: { level?: string } | { level?: string }[] | null;
     };
-    if (r.vocabulary?.level !== level) continue;
+    const levelVal = normVocab(r.vocabulary)?.level;
+    if (levelVal !== level) continue;
     const cur = scoreMap.get(r.vocabulary_id) ?? { correct: 0, wrong: 0 };
     if (r.is_correct) cur.correct += 1;
     else cur.wrong += 1;
@@ -145,15 +152,16 @@ export async function getQuizHistory(
       vocabulary_id: number;
       is_correct: boolean;
       created_at: string;
-      vocabulary: { word: string; meaning_ja: string; level: string; example_en: string | null } | null;
+      vocabulary: { word?: string; meaning_ja?: string; level?: string; example_en?: string | null } | { word?: string; meaning_ja?: string; level?: string; example_en?: string | null }[] | null;
     };
+    const v = normVocab(r.vocabulary);
     return {
       id: r.id,
       vocabularyId: r.vocabulary_id,
-      word: r.vocabulary?.word ?? "",
-      meaningJa: r.vocabulary?.meaning_ja ?? "",
-      level: r.vocabulary?.level ?? "",
-      exampleEn: r.vocabulary?.example_en ?? null,
+      word: v?.word ?? "",
+      meaningJa: v?.meaning_ja ?? "",
+      level: v?.level ?? "",
+      exampleEn: v?.example_en ?? null,
       isCorrect: r.is_correct,
       createdAt: r.created_at
     };
@@ -188,18 +196,18 @@ export async function getWrongWordStats(
   for (const row of data) {
     const r = row as {
       vocabulary_id: number;
-      vocabulary: { word: string; meaning_ja: string; level: string; example_en: string | null } | null;
+      vocabulary: { word?: string; meaning_ja?: string; level?: string; example_en?: string | null } | { word?: string; meaning_ja?: string; level?: string; example_en?: string | null }[] | null;
     };
-    const v = r.vocabulary;
+    const v = normVocab(r.vocabulary);
     if (!v) continue;
     const cur = countMap.get(r.vocabulary_id);
     if (cur) {
       cur.count += 1;
     } else {
       countMap.set(r.vocabulary_id, {
-        word: v.word,
-        meaningJa: v.meaning_ja,
-        level: v.level,
+        word: v.word ?? "",
+        meaningJa: v.meaning_ja ?? "",
+        level: v.level ?? "",
         exampleEn: v.example_en ?? null,
         count: 1
       });
@@ -252,9 +260,10 @@ async function getVocabularyPriorityScores(
     const r = row as {
       vocabulary_id: number;
       is_correct: boolean;
-      vocabulary: { level: string } | null;
+      vocabulary: { level?: string } | { level?: string }[] | null;
     };
-    if (levelFilter && r.vocabulary?.level !== level) continue;
+    const levelVal = normVocab(r.vocabulary)?.level;
+    if (levelFilter && levelVal !== level) continue;
     if (r.is_correct) {
       correctMap.set(r.vocabulary_id, (correctMap.get(r.vocabulary_id) ?? 0) + 1);
     } else {
