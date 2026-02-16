@@ -31,7 +31,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push("/onboarding");
   };
 
   const handleGoogleSignIn = async () => {
@@ -43,7 +43,7 @@ export default function LoginPage() {
       options: {
         redirectTo:
           typeof window !== "undefined"
-            ? `${window.location.origin}/dashboard`
+            ? `${window.location.origin}/onboarding`
             : undefined
       }
     });

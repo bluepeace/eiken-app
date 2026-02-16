@@ -20,6 +20,9 @@ export function LandingFooter() {
           />
         </Link>
         <div className="flex gap-6 text-sm text-slate-600">
+          <Link href="/contact" className="hover:text-slate-900">
+            お問い合わせ
+          </Link>
           <Link href="/login" className="hover:text-slate-900">
             ログイン
           </Link>

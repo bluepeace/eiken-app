@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { supabase } from "@/lib/supabase/client";
 
@@ -26,7 +27,7 @@ export default function SignupPage() {
       options: {
         emailRedirectTo:
           typeof window !== "undefined"
-            ? `${window.location.origin}/dashboard`
+            ? `${window.location.origin}/onboarding`
             : undefined
       }
     });
@@ -45,7 +46,29 @@ export default function SignupPage() {
     }
 
     // その場でセッションが作成される設定の場合
-    router.push("/dashboard");
+    router.push("/onboarding");
+  };
+
+  const handleGoogleSignUp = async () => {
+    setError(null);
+    setMessage(null);
+    setIsLoading(true);
+
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo:
+          typeof window !== "undefined"
+            ? `${window.location.origin}/onboarding`
+            : undefined
+      }
+    });
+
+    setIsLoading(false);
+
+    if (oauthError) {
+      setError(oauthError.message);
+    }
   };
 
   return (
@@ -56,7 +79,7 @@ export default function SignupPage() {
             新規登録
           </h1>
           <p className="text-sm text-slate-600">
-            メールアドレスとパスワードを登録して、英検対策ダッシュボードを利用開始しましょう。
+            メールアドレスとパスワード、または Google アカウントで登録して、英検対策ダッシュボードを利用開始しましょう。
           </p>
         </div>
 
@@ -125,6 +148,22 @@ export default function SignupPage() {
             {isLoading ? "登録中..." : "アカウントを作成"}
           </button>
         </form>
+
+        <div className="flex items-center gap-3 text-xs text-slate-500">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span>または</span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGoogleSignUp}
+          disabled={isLoading}
+          className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60"
+        >
+          <FcGoogle className="h-5 w-5" />
+          <span>Google アカウントで登録</span>
+        </button>
 
         <p className="text-xs text-slate-600">
           すでにアカウントをお持ちの方は{" "}

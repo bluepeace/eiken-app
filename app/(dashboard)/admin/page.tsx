@@ -38,7 +38,25 @@ export default function AdminPage() {
         >
           <h2 className="mb-2 font-medium text-slate-200">ライティング問題</h2>
           <p className="text-sm text-slate-400">
-            英作文・Eメール問題の登録・編集・削除
+            英作文・Eメール・要約問題の登録・編集・削除
+          </p>
+        </Link>
+        <Link
+          href="/admin/avatars"
+          className="rounded-xl border border-slate-700 bg-slate-900/50 p-6 transition hover:border-brand-500/50 hover:bg-slate-800/50"
+        >
+          <h2 className="mb-2 font-medium text-slate-200">アバター設定</h2>
+          <p className="text-sm text-slate-400">
+            アバターのプレセット管理
+          </p>
+        </Link>
+        <Link
+          href="/admin/backgrounds"
+          className="rounded-xl border border-slate-700 bg-slate-900/50 p-6 transition hover:border-brand-500/50 hover:bg-slate-800/50"
+        >
+          <h2 className="mb-2 font-medium text-slate-200">背景設定</h2>
+          <p className="text-sm text-slate-400">
+            月別背景画像の管理
           </p>
         </Link>
       </div>

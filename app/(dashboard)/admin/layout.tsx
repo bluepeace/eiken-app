@@ -8,11 +8,11 @@ import { checkIsAdmin } from "@/lib/data/admin-db";
 const ADMIN_NAV = [
   { href: "/admin", label: "管理トップ" },
   { href: "/admin/settings", label: "基本設定" },
-  { href: "/admin/backgrounds", label: "背景設定" },
-  { href: "/admin/avatars", label: "アバター設定" },
   { href: "/admin/users", label: "ユーザー管理" },
   { href: "/admin/vocabulary", label: "単語管理" },
-  { href: "/admin/writing", label: "ライティング問題" }
+  { href: "/admin/writing", label: "ライティング問題" },
+  { href: "/admin/avatars", label: "アバター設定" },
+  { href: "/admin/backgrounds", label: "背景設定" }
 ];
 
 export default function AdminLayout({
