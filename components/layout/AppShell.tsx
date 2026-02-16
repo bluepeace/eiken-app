@@ -166,6 +166,13 @@ export function AppShell({ children }: AppShellProps) {
       >
         バッヂ
       </Link>
+      <Link
+        href="/subscribe"
+        onClick={() => setDrawerOpen(false)}
+        className="text-slate-800 hover:text-brand-600"
+      >
+        プレミアム
+      </Link>
       {isAdmin && (
         <Link
           href="/admin"
@@ -328,6 +335,13 @@ export function AppShell({ children }: AppShellProps) {
                 className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
               >
                 バッヂ
+              </Link>
+              <Link
+                href="/subscribe"
+                onClick={() => setDrawerOpen(false)}
+                className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
+              >
+                プレミアム
               </Link>
               {isAdmin && (
                 <Link

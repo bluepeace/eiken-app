@@ -19,9 +19,18 @@ export function LandingFooter() {
             className="h-9 w-auto"
           />
         </Link>
-        <div className="flex gap-6 text-sm text-slate-600">
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-slate-600">
           <Link href="/contact" className="hover:text-slate-900">
             お問い合わせ
+          </Link>
+          <Link href="/terms" className="hover:text-slate-900">
+            利用規約
+          </Link>
+          <Link href="/privacy" className="hover:text-slate-900">
+            プライバシーポリシー
+          </Link>
+          <Link href="/tokushoho" className="hover:text-slate-900">
+            特定商取引法に基づく表記
           </Link>
           <Link href="/login" className="hover:text-slate-900">
             ログイン

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeSlash } from "react-icons/hi2";
 import { supabase } from "@/lib/supabase/client";
@@ -165,6 +166,17 @@ export default function SignupPage() {
           <span>Google アカウントで登録</span>
         </button>
 
+        <p className="text-xs text-slate-600">
+          登録することで、
+          <Link href="/terms" className="text-[#50c2cb] hover:underline">
+            利用規約
+          </Link>
+          と
+          <Link href="/privacy" className="text-[#50c2cb] hover:underline">
+            プライバシーポリシー
+          </Link>
+          に同意したものとみなします。
+        </p>
         <p className="text-xs text-slate-600">
           すでにアカウントをお持ちの方は{" "}
           <button

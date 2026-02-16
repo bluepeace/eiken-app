@@ -27,6 +27,7 @@ import {
 } from "@/lib/data/eiken-exam-db";
 import {
   checkAndEarnBadges,
+  checkAndEarnProfileBadges,
   getUnshownBadge,
   markBadgePopupShown,
   getBadgeDef,
@@ -132,13 +133,22 @@ export default function DashboardPage() {
     setVocabProficiency(proficiency);
     setWritingCount(wCount);
 
-    const newlyEarned = await checkAndEarnBadges(profileId, {
-      vocabQuizCount: vocabSessions,
-      writingCount: totalWriting,
-      totalStudySeconds: totalStudySecs,
-      currentStreak: streak.current,
-      hasStudied: totalStudySecs > 0
-    });
+    const [activityEarned, profileEarned] = await Promise.all([
+      checkAndEarnBadges(profileId, {
+        vocabQuizCount: vocabSessions,
+        writingCount: totalWriting,
+        totalStudySeconds: totalStudySecs,
+        currentStreak: streak.current,
+        hasStudied: totalStudySecs > 0
+      }),
+      checkAndEarnProfileBadges(profileId, {
+        targetLevel: profile?.target_level ?? null,
+        targetExamYear: profile?.target_exam_year ?? null,
+        targetExamRound: profile?.target_exam_round ?? null,
+        targetExamPrimaryDate: profile?.target_exam_primary_date ?? null
+      })
+    ]);
+    const newlyEarned = [...profileEarned, ...activityEarned];
     if (newlyEarned.length > 0) {
       const first = getBadgeDef(newlyEarned[0]);
       if (first) {
