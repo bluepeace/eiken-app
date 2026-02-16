@@ -141,6 +141,27 @@ export default function SignupPage() {
             </p>
           )}
 
+          <p className="rounded-lg border border-slate-200 bg-slate-50/50 p-4 text-xs text-slate-600">
+            <Link
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[#50c2cb] hover:underline"
+            >
+              利用規約
+            </Link>
+            および
+            <Link
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[#50c2cb] hover:underline"
+            >
+              プライバシーポリシー
+            </Link>
+            に同意する方のみお進みください。
+          </p>
+
           <button
             type="submit"
             disabled={isLoading}
@@ -166,17 +187,6 @@ export default function SignupPage() {
           <span>Google アカウントで登録</span>
         </button>
 
-        <p className="text-xs text-slate-600">
-          登録することで、
-          <Link href="/terms" className="text-[#50c2cb] hover:underline">
-            利用規約
-          </Link>
-          と
-          <Link href="/privacy" className="text-[#50c2cb] hover:underline">
-            プライバシーポリシー
-          </Link>
-          に同意したものとみなします。
-        </p>
         <p className="text-xs text-slate-600">
           すでにアカウントをお持ちの方は{" "}
           <button

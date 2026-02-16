@@ -20,9 +20,6 @@ export function LandingFooter() {
           />
         </Link>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-slate-600">
-          <Link href="/contact" className="hover:text-slate-900">
-            お問い合わせ
-          </Link>
           <Link href="/terms" className="hover:text-slate-900">
             利用規約
           </Link>

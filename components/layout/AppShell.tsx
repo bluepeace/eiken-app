@@ -182,6 +182,15 @@ export function AppShell({ children }: AppShellProps) {
           管理画面
         </Link>
       )}
+      {isLoggedIn && (
+        <Link
+          href="/contact"
+          onClick={() => setDrawerOpen(false)}
+          className="text-slate-800 hover:text-brand-600"
+        >
+          お問い合わせ
+        </Link>
+      )}
       <Link
         href="/profile"
         onClick={() => setDrawerOpen(false)}
@@ -343,6 +352,15 @@ export function AppShell({ children }: AppShellProps) {
               >
                 プレミアム
               </Link>
+              {isLoggedIn && (
+                <Link
+                  href="/contact"
+                  onClick={() => setDrawerOpen(false)}
+                  className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
+                >
+                  お問い合わせ
+                </Link>
+              )}
               {isAdmin && (
                 <Link
                   href="/admin"
