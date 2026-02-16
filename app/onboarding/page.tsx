@@ -18,29 +18,27 @@ function MascotSpeech({ children }: { children: React.ReactNode }) {
   const [mascotSrc, setMascotSrc] = useState("/images/mascot-aiken.png");
 
   return (
-    <div className="relative flex flex-col items-center gap-0">
-      {/* マスコット */}
-      <div className="flex justify-center">
-        <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-[#50c2cb]/20 to-[#50c2cb]/5 shadow-lg ring-2 ring-[#50c2cb]/20">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={mascotSrc}
-            alt="AiKen マスコット"
-            className="h-full w-full object-cover"
-            onError={() => setMascotSrc("/logo-aiken.png")}
-          />
-        </div>
-      </div>
-      {/* 吹き出しの尻尾（マスコットの下向き） */}
-      <div
-        className="mb-0 h-0 w-0 border-l-[10px] border-r-[10px] border-t-[12px] border-l-transparent border-r-transparent border-t-[#50c2cb]/20"
-        aria-hidden
-      />
-      {/* 吹き出し */}
-      <div className="relative w-full max-w-sm rounded-2xl rounded-tl-sm bg-[#50c2cb]/15 px-5 py-4 shadow-sm ring-1 ring-[#50c2cb]/10">
+    <div className="flex flex-row items-center justify-center gap-3">
+      {/* 吹き出しカード（尻尾は右向き＝犬に向かう） */}
+      <div className="relative flex-1 max-w-sm rounded-2xl bg-[#50c2cb]/15 px-5 py-4 shadow-sm ring-1 ring-[#50c2cb]/10">
         <div className="text-center text-base leading-relaxed text-slate-800">
           {children}
         </div>
+        {/* 吹き出しの尻尾（右向き・犬側） */}
+        <div
+          className="absolute -right-3 top-1/2 h-0 w-0 -translate-y-1/2 border-t-[10px] border-b-[10px] border-l-[12px] border-t-transparent border-b-transparent border-l-[#50c2cb]/15"
+          aria-hidden
+        />
+      </div>
+      {/* マスコット（右側） */}
+      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-[#50c2cb]/20 to-[#50c2cb]/5 shadow-lg ring-2 ring-[#50c2cb]/20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={mascotSrc}
+          alt="AiKen マスコット"
+          className="h-full w-full object-cover"
+          onError={() => setMascotSrc("/logo-aiken.png")}
+        />
       </div>
     </div>
   );
