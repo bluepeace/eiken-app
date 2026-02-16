@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 
@@ -16,17 +15,19 @@ const LEVEL_OPTIONS = [
 ] as const;
 
 function MascotSpeech({ children }: { children: React.ReactNode }) {
+  const [mascotSrc, setMascotSrc] = useState("/images/mascot-aiken.png");
+
   return (
     <div className="relative flex flex-col items-center gap-0">
       {/* マスコット */}
       <div className="flex justify-center">
-        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-[#50c2cb]/20 to-[#50c2cb]/5 shadow-lg ring-2 ring-[#50c2cb]/20">
-          <Image
-            src="/logo-aiken.png"
-            alt="AiKen"
-            width={96}
-            height={96}
-            className="h-full w-full object-contain p-3"
+        <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-[#50c2cb]/20 to-[#50c2cb]/5 shadow-lg ring-2 ring-[#50c2cb]/20">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mascotSrc}
+            alt="AiKen マスコット"
+            className="h-full w-full object-cover"
+            onError={() => setMascotSrc("/logo-aiken.png")}
           />
         </div>
       </div>
