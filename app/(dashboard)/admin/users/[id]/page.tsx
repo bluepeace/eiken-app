@@ -26,6 +26,8 @@ export default function AdminUserEditPage() {
   const [displayName, setDisplayName] = useState("");
   const [targetLevel, setTargetLevel] = useState("英検2級");
   const [role, setRole] = useState<"user" | "admin">("user");
+  const [subscriptionStatus, setSubscriptionStatus] = useState<string>("free");
+  const [subscriptionSource, setSubscriptionSource] = useState<string>("stripe");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +49,8 @@ export default function AdminUserEditPage() {
             : "英検2級"
         );
         setRole((data.role as "user" | "admin") || "user");
+        setSubscriptionStatus((data.subscription_status as string) ?? "free");
+        setSubscriptionSource((data.subscription_source as string) ?? "stripe");
         setCreatedAt(data.created_at ?? null);
       } catch (e) {
         setError(e instanceof Error ? e.message : "読み込みに失敗しました");
@@ -66,7 +70,9 @@ export default function AdminUserEditPage() {
       await adminUpdateUserProfile(id, {
         display_name: displayName || null,
         target_level: targetLevel,
-        role
+        role,
+        subscription_status: subscriptionStatus,
+        subscription_source: subscriptionSource === "manual" ? "manual" : "stripe"
       });
       setMessage("保存しました");
       setTimeout(() => setMessage(null), 3000);
@@ -148,6 +154,35 @@ export default function AdminUserEditPage() {
             <option value="user">user</option>
             <option value="admin">admin</option>
           </select>
+        </div>
+        <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+          <p className="mb-3 text-xs font-medium text-slate-400">プレミアム（課金）</p>
+          <div className="space-y-3">
+            <div>
+              <label className="mb-1 block text-xs text-slate-500">ステータス</label>
+              <select
+                value={subscriptionStatus}
+                onChange={(e) => setSubscriptionStatus(e.target.value)}
+                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+              >
+                <option value="free">未契約</option>
+                <option value="active">継続</option>
+                <option value="canceled">解約</option>
+                <option value="past_due">支払い遅延</option>
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs text-slate-500">課金ソース</label>
+              <select
+                value={subscriptionSource}
+                onChange={(e) => setSubscriptionSource(e.target.value)}
+                className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+              >
+                <option value="stripe">Stripe（カード決済）</option>
+                <option value="manual">手動（ビジネス会員・銀行振込等）</option>
+              </select>
+            </div>
+          </div>
         </div>
         {createdAt && (
           <p className="text-xs text-slate-500">

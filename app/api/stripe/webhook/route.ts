@@ -63,7 +63,8 @@ export async function POST(request: NextRequest) {
             .update({
               stripe_customer_id: customerId ?? undefined,
               subscription_status: status,
-              subscription_current_period_end: periodEnd ?? undefined
+              subscription_current_period_end: periodEnd ?? undefined,
+              subscription_source: "stripe"
             })
             .eq("auth_user_id", authUserId);
         }
@@ -89,7 +90,8 @@ export async function POST(request: NextRequest) {
               subscription_current_period_end:
                 periodEndTs != null
                   ? new Date(periodEndTs * 1000).toISOString()
-                  : null
+                  : null,
+              subscription_source: "stripe"
             })
             .eq("auth_user_id", authUserId);
         }
@@ -113,7 +115,8 @@ export async function POST(request: NextRequest) {
                 subscription_current_period_end:
                   periodEndTs != null
                     ? new Date(periodEndTs * 1000).toISOString()
-                    : undefined
+                    : undefined,
+                subscription_source: "stripe"
               })
               .eq("auth_user_id", authUserId);
           }
@@ -132,7 +135,10 @@ export async function POST(request: NextRequest) {
           if (authUserId) {
             await supabase
               .from("user_profiles")
-              .update({ subscription_status: "past_due" })
+              .update({
+                subscription_status: "past_due",
+                subscription_source: "stripe"
+              })
               .eq("auth_user_id", authUserId);
           }
         }

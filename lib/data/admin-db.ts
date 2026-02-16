@@ -16,7 +16,7 @@ export async function checkIsAdmin(): Promise<boolean> {
   return data?.role === "admin";
 }
 
-/** 管理者用: ユーザー一覧（メール含む） */
+/** 管理者用: ユーザー一覧（メール・課金含む） */
 export interface AdminUser {
   id: string;
   display_id: number;
@@ -30,6 +30,10 @@ export interface AdminUser {
   created_at: string;
   total_study_seconds: number;
   current_streak: number;
+  subscription_status: string;
+  subscription_source: string | null;
+  subscription_current_period_end: string | null;
+  stripe_customer_id: string | null;
 }
 
 export async function adminGetUsers(): Promise<AdminUser[]> {
@@ -51,7 +55,11 @@ export async function adminGetUsers(): Promise<AdminUser[]> {
     avatar_style: (r.avatar_style as string) ?? null,
     created_at: r.created_at as string,
     total_study_seconds: (r.total_study_seconds as number) ?? 0,
-    current_streak: (r.current_streak as number) ?? 0
+    current_streak: (r.current_streak as number) ?? 0,
+    subscription_status: (r.subscription_status as string) ?? "free",
+    subscription_source: (r.subscription_source as string) ?? null,
+    subscription_current_period_end: (r.subscription_current_period_end as string) ?? null,
+    stripe_customer_id: (r.stripe_customer_id as string) ?? null
   }));
 }
 
@@ -59,7 +67,7 @@ export async function adminGetUsers(): Promise<AdminUser[]> {
 export async function adminGetUserProfile(profileId: string) {
   const { data, error } = await supabase
     .from("user_profiles")
-    .select("id, auth_user_id, display_name, target_level, role, created_at")
+    .select("id, auth_user_id, display_name, target_level, role, created_at, subscription_status, subscription_source")
     .eq("id", profileId)
     .maybeSingle();
 
@@ -70,7 +78,13 @@ export async function adminGetUserProfile(profileId: string) {
 /** 管理者用: ユーザープロフィール更新 */
 export async function adminUpdateUserProfile(
   profileId: string,
-  updates: { display_name?: string | null; target_level?: string | null; role?: string }
+  updates: {
+    display_name?: string | null;
+    target_level?: string | null;
+    role?: string;
+    subscription_status?: string;
+    subscription_source?: string | null;
+  }
 ) {
   const { error } = await supabase
     .from("user_profiles")

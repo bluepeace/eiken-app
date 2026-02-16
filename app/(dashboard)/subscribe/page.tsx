@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+import { PREMIUM_MONTHLY_PRICE } from "@/lib/constants/billing";
 
 export default function SubscribePage() {
   const [loading, setLoading] = useState(true);
@@ -130,7 +131,8 @@ export default function SubscribePage() {
 
         <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50/50 p-6">
           <p className="text-2xl font-bold text-slate-900">
-            ¥980 <span className="text-sm font-normal text-slate-500">/ 月</span>
+            ¥{PREMIUM_MONTHLY_PRICE.toLocaleString()}{" "}
+            <span className="text-sm font-normal text-slate-500">/ 月</span>
           </p>
           <ul className="mt-4 space-y-2 text-sm text-slate-600">
             <li>✓ ライティング AI 添削を無制限に利用</li>

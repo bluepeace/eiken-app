@@ -173,6 +173,7 @@ export default function AdminUsersPage() {
               <th className="px-4 py-3 font-medium text-slate-300">目標級</th>
               <th className="px-4 py-3 font-medium text-slate-300">学習時間</th>
               <th className="px-4 py-3 font-medium text-slate-300">連続</th>
+              <th className="px-4 py-3 font-medium text-slate-300">課金</th>
               <th className="px-4 py-3 font-medium text-slate-300">ロール</th>
               <th className="px-4 py-3 font-medium text-slate-300">登録日</th>
               <th className="px-4 py-3 font-medium text-slate-300">V履歴</th>
@@ -212,6 +213,23 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3 text-slate-300">
                   {u.current_streak > 0 ? `${u.current_streak} 日` : "-"}
+                </td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`rounded px-2 py-0.5 text-xs ${
+                      u.subscription_status === "active" || u.subscription_status === "trialing"
+                        ? "bg-emerald-900/50 text-emerald-300"
+                        : "bg-slate-700 text-slate-400"
+                    }`}
+                  >
+                    {u.subscription_status === "active" || u.subscription_status === "trialing"
+                      ? "継続"
+                      : u.subscription_status === "canceled" ||
+                          u.subscription_status === "unpaid" ||
+                          u.subscription_status === "past_due"
+                        ? "解約"
+                        : "未契約"}
+                  </span>
                 </td>
                 <td className="px-4 py-3">
                   <span
