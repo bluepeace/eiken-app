@@ -5,6 +5,12 @@ import Stripe from "stripe";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+/** Get period end from subscription (Stripe API 2024+ moved current_period_end to SubscriptionItem) */
+function getSubscriptionPeriodEnd(sub: Stripe.Subscription): number | null {
+  const firstItem = sub.items?.data?.[0];
+  return firstItem?.current_period_end ?? null;
+}
+
 export async function POST(request: NextRequest) {
   if (!webhookSecret) {
     console.error("[stripe/webhook] STRIPE_WEBHOOK_SECRET is not set");
@@ -49,7 +55,8 @@ export async function POST(request: NextRequest) {
           if (subscriptionId) {
             const sub = await stripe.subscriptions.retrieve(subscriptionId);
             status = sub.status === "active" ? "active" : sub.status;
-            periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+            const periodEndTs = getSubscriptionPeriodEnd(sub);
+            periodEnd = periodEndTs != null ? new Date(periodEndTs * 1000).toISOString() : null;
           }
           await supabase
             .from("user_profiles")
@@ -74,13 +81,14 @@ export async function POST(request: NextRequest) {
               : sub.status === "canceled" || sub.status === "unpaid"
                 ? "canceled"
                 : sub.status;
+          const periodEndTs = getSubscriptionPeriodEnd(sub);
           await supabase
             .from("user_profiles")
             .update({
               subscription_status: status,
               subscription_current_period_end:
-                sub.current_period_end != null
-                  ? new Date(sub.current_period_end * 1000).toISOString()
+                periodEndTs != null
+                  ? new Date(periodEndTs * 1000).toISOString()
                   : null
             })
             .eq("auth_user_id", authUserId);
@@ -90,18 +98,22 @@ export async function POST(request: NextRequest) {
 
       case "invoice.payment_succeeded": {
         const invoice = event.data.object as Stripe.Invoice;
-        const subscriptionId = invoice.subscription as string | null;
+        const subRef = invoice.parent?.subscription_details?.subscription;
+        const subscriptionId =
+          typeof subRef === "string" ? subRef : subRef?.id ?? null;
         if (subscriptionId) {
           const sub = await stripe.subscriptions.retrieve(subscriptionId);
           const authUserId = sub.metadata?.auth_user_id;
           if (authUserId) {
+            const periodEndTs = getSubscriptionPeriodEnd(sub);
             await supabase
               .from("user_profiles")
               .update({
                 subscription_status: "active",
-                subscription_current_period_end: new Date(
-                  sub.current_period_end * 1000
-                ).toISOString()
+                subscription_current_period_end:
+                  periodEndTs != null
+                    ? new Date(periodEndTs * 1000).toISOString()
+                    : undefined
               })
               .eq("auth_user_id", authUserId);
           }
@@ -111,7 +123,9 @@ export async function POST(request: NextRequest) {
 
       case "invoice.payment_failed": {
         const invoice = event.data.object as Stripe.Invoice;
-        const subscriptionId = invoice.subscription as string | null;
+        const subRef = invoice.parent?.subscription_details?.subscription;
+        const subscriptionId =
+          typeof subRef === "string" ? subRef : subRef?.id ?? null;
         if (subscriptionId) {
           const sub = await stripe.subscriptions.retrieve(subscriptionId);
           const authUserId = sub.metadata?.auth_user_id;
