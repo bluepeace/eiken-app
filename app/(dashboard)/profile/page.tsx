@@ -30,6 +30,7 @@ import {
   type ExamRoundOption
 } from "@/lib/data/eiken-exam-db";
 import { getAvatarPresets, type AvatarPreset } from "@/lib/data/avatar-presets";
+import { getBuddies, type Buddy } from "@/lib/data/buddies";
 import {
   checkAndEarnProfileBadges,
   getBadgeDef,
@@ -64,6 +65,8 @@ export default function ProfilePage() {
   const [badgePopupProfileId, setBadgePopupProfileId] = useState<string | null>(
     null
   );
+  const [buddyId, setBuddyId] = useState<string | null>(null);
+  const [buddies, setBuddies] = useState<Buddy[]>([]);
 
   useEffect(() => {
     const load = async () => {
@@ -92,7 +95,7 @@ export default function ProfilePage() {
         supabase
           .from("user_profiles")
           .select(
-            "id, display_name, target_level, avatar_url, avatar_style, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date"
+            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date"
           )
           .eq("auth_user_id", user.id)
           .maybeSingle(),
@@ -114,6 +117,7 @@ export default function ProfilePage() {
         }
         if (data.avatar_url) setAvatarUrl(data.avatar_url);
         if (data.avatar_style) setAvatarStyle(data.avatar_style);
+        if (data.buddy_id) setBuddyId(data.buddy_id);
         if (data.target_exam_year != null && data.target_exam_round != null) {
           setTargetExam(`${data.target_exam_year}-${data.target_exam_round}`);
         }
@@ -127,8 +131,12 @@ export default function ProfilePage() {
       const opts = examOptionsRes;
       setExamOptions(opts);
 
-      const presets = await getAvatarPresets();
+      const [presets, buddiesList] = await Promise.all([
+        getAvatarPresets(),
+        getBuddies()
+      ]);
       setAvatarPresets(presets);
+      setBuddies(buddiesList);
       // 年度・回はあるが日程が未設定の場合、DBから取得してセット
       if (data) {
         const y = data.target_exam_year;
@@ -204,6 +212,7 @@ export default function ProfilePage() {
             target_level: targetLevel,
             avatar_url: avatarUrl,
             avatar_style: avatarStyle,
+            buddy_id: buddyId || null,
             target_exam_year: targetExamYear,
             target_exam_round: targetExamRound,
             target_exam_primary_date: targetPrimary,
@@ -221,6 +230,7 @@ export default function ProfilePage() {
             target_level: targetLevel,
             avatar_url: avatarUrl,
             avatar_style: avatarStyle,
+            buddy_id: buddyId || null,
             target_exam_year: targetExamYear,
             target_exam_round: targetExamRound,
             target_exam_primary_date: targetPrimary,
@@ -346,7 +356,7 @@ export default function ProfilePage() {
             プロフィール設定
           </h1>
           <p className="text-sm text-slate-600">
-            ダッシュボードの表示名・メールアドレス・目標レベル・目標の受験日・アバターを設定できます。
+            ダッシュボードの表示名・メールアドレス・目標レベル・バディ・目標の受験日・アバターを設定できます。
           </p>
         </div>
 
@@ -381,6 +391,46 @@ export default function ProfilePage() {
               className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-200"
               placeholder="例）もりやま、Taro など"
             />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-xs font-medium text-slate-800">
+              一緒に学習するバディ
+            </label>
+            <p className="text-[11px] text-slate-600">
+              オンボーディングで選んだバディを変更できます。
+            </p>
+            {buddies.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {buddies.map((b) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setBuddyId(buddyId === b.id ? null : b.id)}
+                    className={`flex items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition ${
+                      buddyId === b.id
+                        ? "border-brand-500 bg-brand-50 text-brand-800"
+                        : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                    }`}
+                  >
+                    <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-slate-100">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={b.image_url}
+                        alt={b.name}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/logo-aiken.png";
+                        }}
+                      />
+                    </span>
+                    {b.name}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-[11px] text-slate-500">バディの読み込み中…</p>
+            )}
           </div>
 
           <div className="space-y-2">

@@ -13,6 +13,8 @@ const ADMIN_NAV = [
   { href: "/admin/vocabulary", label: "単語管理" },
   { href: "/admin/writing", label: "ライティング問題" },
   { href: "/admin/reading", label: "リーディング問題" },
+  { href: "/admin/buddies", label: "バディ管理" },
+  { href: "/admin/buddy-comments", label: "バディコメント" },
   { href: "/admin/avatars", label: "アバター設定" },
   { href: "/admin/backgrounds", label: "背景設定" }
 ];

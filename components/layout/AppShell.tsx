@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase/client";
 import { checkIsAdmin } from "@/lib/data/admin-db";
 import { getMonthlyBackgroundUrl } from "@/lib/data/monthly-backgrounds";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
+import { BuddyWidget } from "@/components/features/buddy/BuddyWidget";
 
 interface AppShellProps {
   children: ReactNode;
@@ -471,6 +472,9 @@ export function AppShell({ children }: AppShellProps) {
       />
 
       <main className="relative z-10 min-h-[calc(100vh-56px)]">{children}</main>
+
+      {/* 右下のバディ（ログイン中・バディ選択済み・PCのみ・管理画面除く） */}
+      {isLoggedIn && <BuddyWidget />}
     </div>
   );
 }

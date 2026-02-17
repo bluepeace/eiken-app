@@ -497,6 +497,150 @@ export async function adminDeleteAvatarPreset(id: string) {
   if (error) throw new Error(error.message);
 }
 
+// ========== バディ（一緒に学習するキャラクター） ==========
+
+export interface BuddyRow {
+  id: string;
+  name: string;
+  kind: string;
+  image_url: string;
+  sort_order: number;
+}
+
+export async function adminGetBuddies(): Promise<BuddyRow[]> {
+  const { data, error } = await supabase
+    .from("buddies")
+    .select("id, name, kind, image_url, sort_order")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((r) => ({
+    id: r.id as string,
+    name: r.name as string,
+    kind: (r.kind as string) ?? "dog",
+    image_url: r.image_url as string,
+    sort_order: (r.sort_order as number) ?? 0
+  }));
+}
+
+export async function adminCreateBuddy(input: {
+  name: string;
+  kind: string;
+  image_url: string;
+  sort_order?: number;
+}): Promise<string> {
+  const { data, error } = await supabase
+    .from("buddies")
+    .insert({
+      name: input.name.trim(),
+      kind: input.kind.trim() || "dog",
+      image_url: input.image_url,
+      sort_order: input.sort_order ?? 0
+    })
+    .select("id")
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  if (!data?.id) throw new Error("Failed to create buddy");
+  return data.id as string;
+}
+
+export async function adminUpdateBuddy(
+  id: string,
+  input: { name?: string; kind?: string; image_url?: string; sort_order?: number }
+) {
+  const updates: Record<string, unknown> = {};
+  if (input.name !== undefined) updates.name = input.name.trim();
+  if (input.kind !== undefined) updates.kind = input.kind.trim() || "dog";
+  if (input.image_url !== undefined) updates.image_url = input.image_url;
+  if (input.sort_order !== undefined) updates.sort_order = input.sort_order;
+  if (Object.keys(updates).length === 0) return;
+
+  const { error } = await supabase.from("buddies").update(updates).eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function adminDeleteBuddy(id: string) {
+  const { error } = await supabase.from("buddies").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+// ========== バディコメント（表示用コメントの管理） ==========
+
+export type BuddyCommentCategory =
+  | "regular"
+  | "streak_0"
+  | "streak_3_5"
+  | "streak_5_10"
+  | "streak_11";
+
+export interface BuddyCommentRow {
+  id: string;
+  body: string;
+  category: BuddyCommentCategory;
+  sort_order: number;
+}
+
+export async function adminGetBuddyComments(
+  category?: BuddyCommentCategory
+): Promise<BuddyCommentRow[]> {
+  let q = supabase
+    .from("buddy_comments")
+    .select("id, body, category, sort_order")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+  if (category) q = q.eq("category", category);
+  const { data, error } = await q;
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((r) => ({
+    id: r.id as string,
+    body: r.body as string,
+    category: (r.category as BuddyCommentCategory) ?? "regular",
+    sort_order: (r.sort_order as number) ?? 0
+  }));
+}
+
+export async function adminCreateBuddyComment(input: {
+  body: string;
+  category: BuddyCommentCategory;
+  sort_order?: number;
+}): Promise<string> {
+  const { data, error } = await supabase
+    .from("buddy_comments")
+    .insert({
+      body: input.body.trim(),
+      category: input.category,
+      sort_order: input.sort_order ?? 0
+    })
+    .select("id")
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (!data?.id) throw new Error("Failed to create buddy comment");
+  return data.id as string;
+}
+
+export async function adminUpdateBuddyComment(
+  id: string,
+  input: { body?: string; category?: BuddyCommentCategory; sort_order?: number }
+) {
+  const updates: Record<string, unknown> = {};
+  if (input.body !== undefined) updates.body = input.body.trim();
+  if (input.category !== undefined) updates.category = input.category;
+  if (input.sort_order !== undefined) updates.sort_order = input.sort_order;
+  if (Object.keys(updates).length === 0) return;
+  const { error } = await supabase
+    .from("buddy_comments")
+    .update(updates)
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function adminDeleteBuddyComment(id: string) {
+  const { error } = await supabase.from("buddy_comments").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
 // ========== リーディング（短文・会話問題） ==========
 
 export interface AdminReadingShortQuestion {

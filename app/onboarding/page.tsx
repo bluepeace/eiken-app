@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import { getBuddies, type Buddy } from "@/lib/data/buddies";
 
 const LEVEL_OPTIONS = [
   "英検5級",
@@ -14,30 +15,37 @@ const LEVEL_OPTIONS = [
   "英検1級"
 ] as const;
 
-function MascotSpeech({ children }: { children: React.ReactNode }) {
-  const [mascotSrc, setMascotSrc] = useState("/images/mascot-aiken.png");
+/** 吹き出し＋右側にバディまたはマスコットを表示 */
+function BuddySpeech({
+  children,
+  buddy
+}: {
+  children: React.ReactNode;
+  buddy?: Buddy | null;
+}) {
+  const imgSrc = buddy?.image_url ?? "/images/mascot-aiken.png";
+  const alt = buddy ? `${buddy.name}（バディ）` : "AiKen マスコット";
 
   return (
     <div className="flex flex-row items-center justify-center gap-3">
-      {/* 吹き出しカード（尻尾は右向き＝犬に向かう） */}
       <div className="relative flex-1 max-w-sm rounded-2xl bg-[#50c2cb]/15 px-5 py-4 shadow-sm ring-1 ring-[#50c2cb]/10">
         <div className="text-center text-base leading-relaxed text-slate-800">
           {children}
         </div>
-        {/* 吹き出しの尻尾（右向き・犬側） */}
         <div
           className="absolute -right-3 top-1/2 h-0 w-0 -translate-y-1/2 border-t-[10px] border-b-[10px] border-l-[12px] border-t-transparent border-b-transparent border-l-[#50c2cb]/15"
           aria-hidden
         />
       </div>
-      {/* マスコット（右側） */}
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-[#50c2cb]/20 to-[#50c2cb]/5 shadow-lg ring-2 ring-[#50c2cb]/20">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={mascotSrc}
-          alt="AiKen マスコット"
+          src={imgSrc}
+          alt={alt}
           className="h-full w-full object-cover"
-          onError={() => setMascotSrc("/logo-aiken.png")}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/logo-aiken.png";
+          }}
         />
       </div>
     </div>
@@ -49,6 +57,8 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [displayName, setDisplayName] = useState("");
   const [targetLevel, setTargetLevel] = useState("英検2級");
+  const [buddies, setBuddies] = useState<Buddy[]>([]);
+  const [selectedBuddyId, setSelectedBuddyId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -63,24 +73,36 @@ export default function OnboardingPage() {
         return;
       }
 
-      const { data: profile } = await supabase
-        .from("user_profiles")
-        .select("display_name, target_level")
-        .eq("auth_user_id", user.id)
-        .maybeSingle();
+      const [profileRes, buddiesList] = await Promise.all([
+        supabase
+          .from("user_profiles")
+          .select("display_name, target_level, buddy_id")
+          .eq("auth_user_id", user.id)
+          .maybeSingle(),
+        getBuddies()
+      ]);
+      const { data: profile } = profileRes;
 
       if (profile?.display_name && profile?.target_level) {
         router.replace("/dashboard");
         return;
       }
 
+      setBuddies(buddiesList);
+      if (profile?.buddy_id) setSelectedBuddyId(profile.buddy_id);
+
       if (profile?.display_name) {
         setDisplayName(profile.display_name);
-        setStep(2);
+        if (profile.target_level) {
+          setTargetLevel(profile.target_level);
+          setStep(3);
+        } else if (profile.buddy_id != null) {
+          setStep(3);
+        } else {
+          setStep(2);
+        }
       }
-      if (profile?.target_level) {
-        setTargetLevel(profile.target_level);
-      }
+      if (profile?.target_level) setTargetLevel(profile.target_level);
 
       setLoading(false);
     };
@@ -127,6 +149,43 @@ export default function OnboardingPage() {
     }
   };
 
+  const handleSaveBuddy = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSaving(true);
+    try {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("ログインが必要です");
+
+      const { data: existing } = await supabase
+        .from("user_profiles")
+        .select("id")
+        .eq("auth_user_id", user.id)
+        .maybeSingle();
+
+      if (existing) {
+        await supabase
+          .from("user_profiles")
+          .update({ buddy_id: selectedBuddyId || null })
+          .eq("id", existing.id);
+      } else {
+        await supabase.from("user_profiles").insert({
+          auth_user_id: user.id,
+          display_name: displayName.trim() || null,
+          target_level: null,
+          buddy_id: selectedBuddyId || null
+        });
+      }
+      setStep(3);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "保存に失敗しました");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleSaveLevel = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -155,7 +214,7 @@ export default function OnboardingPage() {
           target_level: targetLevel
         });
       }
-      setStep(3);
+      setStep(4);
     } catch (err) {
       setError(err instanceof Error ? err.message : "保存に失敗しました");
     } finally {
@@ -176,9 +235,9 @@ export default function OnboardingPage() {
       <div className="w-full max-w-md space-y-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         {step === 1 && (
           <>
-            <MascotSpeech>
+            <BuddySpeech>
               あなたのお名前（ニックネーム）を教えてください
-            </MascotSpeech>
+            </BuddySpeech>
             <form onSubmit={handleSaveName} className="space-y-4">
               <input
                 type="text"
@@ -204,9 +263,83 @@ export default function OnboardingPage() {
 
         {step === 2 && (
           <>
-            <MascotSpeech>
+            <BuddySpeech buddy={buddies.find((b) => b.id === selectedBuddyId) ?? null}>
+              一緒に学習するバディを選んでね
+            </BuddySpeech>
+            <form onSubmit={handleSaveBuddy} className="space-y-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {buddies.map((b) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setSelectedBuddyId(selectedBuddyId === b.id ? null : b.id)}
+                    className={`flex flex-col items-center gap-1 rounded-xl border-2 p-3 transition ${
+                      selectedBuddyId === b.id
+                        ? "border-[#50c2cb] bg-[#50c2cb]/10"
+                        : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="h-14 w-14 overflow-hidden rounded-full border border-slate-200 bg-white">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={b.image_url}
+                        alt={b.name}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/logo-aiken.png";
+                        }}
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-slate-800">{b.name}</span>
+                  </button>
+                ))}
+              </div>
+              {buddies.length === 0 && (
+                <p className="text-sm text-slate-500">バディの読み込み中…</p>
+              )}
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="flex-1 rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+                >
+                  {saving ? "保存中..." : "選んで次へ"}
+                </button>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setSaving(true);
+                    try {
+                      const { data: { user } } = await supabase.auth.getUser();
+                      if (!user) return;
+                      const { data: existing } = await supabase
+                        .from("user_profiles")
+                        .select("id")
+                        .eq("auth_user_id", user.id)
+                        .maybeSingle();
+                      if (existing) {
+                        await supabase.from("user_profiles").update({ buddy_id: null }).eq("id", existing.id);
+                      }
+                      setStep(3);
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                  className="text-sm text-slate-500 hover:text-slate-700"
+                >
+                  スキップ
+                </button>
+              </div>
+              {error && <p className="text-sm text-red-600">{error}</p>}
+            </form>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <BuddySpeech buddy={buddies.find((b) => b.id === selectedBuddyId) ?? null}>
               あなたの英検目標級を教えてください
-            </MascotSpeech>
+            </BuddySpeech>
             <form onSubmit={handleSaveLevel} className="space-y-4">
               <select
                 value={targetLevel}
@@ -233,14 +366,14 @@ export default function OnboardingPage() {
           </>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <>
-            <MascotSpeech>
+            <BuddySpeech buddy={buddies.find((b) => b.id === selectedBuddyId) ?? null}>
               登録ありがとうございます！
               <span className="mt-2 block text-sm font-medium text-[#50c2cb]">
                 さっそく学習を始めましょう。
               </span>
-            </MascotSpeech>
+            </BuddySpeech>
             <button
               type="button"
               onClick={() => router.push("/dashboard")}
