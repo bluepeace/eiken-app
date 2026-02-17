@@ -187,52 +187,70 @@ export function AppShell({ children }: AppShellProps) {
       </div>
 
       <Link
-        href="/badges"
-        onClick={() => setDrawerOpen(false)}
-        className="text-slate-800 hover:text-brand-600"
-      >
-        バッヂ
-      </Link>
-      <Link
         href="/subscribe"
         onClick={() => setDrawerOpen(false)}
         className="text-slate-800 hover:text-brand-600"
       >
         プレミアム
       </Link>
+
+      {/* 設定 ドロップダウン */}
+      <div className="group relative">
+        <button
+          type="button"
+          className="flex items-center gap-0.5 text-slate-800 hover:text-brand-600"
+        >
+          設定
+          <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div className="invisible absolute right-0 top-full pt-0.5 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
+          <div className="min-w-[140px] rounded-lg border border-slate-200 bg-white/95 py-1 shadow-lg backdrop-blur-sm">
+            <Link
+              href="/profile"
+              onClick={() => setDrawerOpen(false)}
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-brand-600"
+            >
+              プロフィール
+            </Link>
+            <Link
+              href="/badges"
+              onClick={() => setDrawerOpen(false)}
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-brand-600"
+            >
+              バッヂ
+            </Link>
+            {isLoggedIn && (
+              <Link
+                href="/contact"
+                onClick={() => setDrawerOpen(false)}
+                className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-brand-600"
+              >
+                お問い合わせ
+              </Link>
+            )}
+            {isLoggedIn && (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="block w-full px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-slate-900"
+              >
+                ログアウト
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
       {isAdmin && (
         <Link
           href="/admin"
           onClick={() => setDrawerOpen(false)}
-          className="text-slate-800 hover:text-amber-600"
+          className="ml-auto text-slate-800 hover:text-amber-600 font-semibold"
         >
           管理画面
         </Link>
-      )}
-      {isLoggedIn && (
-        <Link
-          href="/contact"
-          onClick={() => setDrawerOpen(false)}
-          className="text-slate-800 hover:text-brand-600"
-        >
-          お問い合わせ
-        </Link>
-      )}
-      <Link
-        href="/profile"
-        onClick={() => setDrawerOpen(false)}
-        className="text-slate-800 hover:text-brand-600"
-      >
-        プロフィール
-      </Link>
-      {isLoggedIn && (
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="text-slate-600 hover:text-slate-900"
-        >
-          ログアウト
-        </button>
       )}
     </>
   );
@@ -258,9 +276,11 @@ export function AppShell({ children }: AppShellProps) {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-3 text-xs font-semibold text-slate-800">
-            {navLinks}
-          </nav>
+          <div className="hidden md:flex flex-1 justify-end">
+            <nav className="flex items-center gap-3 text-xs font-semibold text-slate-800">
+              {navLinks}
+            </nav>
+          </div>
 
           {/* Mobile hamburger */}
           <button
@@ -379,52 +399,55 @@ export function AppShell({ children }: AppShellProps) {
                 リーディング
               </Link>
               <Link
-                href="/badges"
-                onClick={() => setDrawerOpen(false)}
-                className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
-              >
-                バッヂ
-              </Link>
-              <Link
                 href="/subscribe"
                 onClick={() => setDrawerOpen(false)}
                 className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
               >
                 プレミアム
               </Link>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600">
+                設定
+              </div>
+              <Link
+                href="/profile"
+                onClick={() => setDrawerOpen(false)}
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-brand-600"
+              >
+                プロフィール
+              </Link>
+              <Link
+                href="/badges"
+                onClick={() => setDrawerOpen(false)}
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-brand-600"
+              >
+                バッヂ
+              </Link>
               {isLoggedIn && (
                 <Link
                   href="/contact"
                   onClick={() => setDrawerOpen(false)}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
+                  className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-brand-600"
                 >
                   お問い合わせ
                 </Link>
+              )}
+              {isLoggedIn && (
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-lg pl-6 pr-3 py-2 text-left hover:bg-slate-100 hover:text-slate-900"
+                >
+                  ログアウト
+                </button>
               )}
               {isAdmin && (
                 <Link
                   href="/admin"
                   onClick={() => setDrawerOpen(false)}
-                  className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-amber-600"
+                  className="mt-2 rounded-lg px-3 py-2 hover:bg-slate-100 text-amber-600 font-semibold border-t border-slate-200 pt-3"
                 >
                   管理画面
                 </Link>
-              )}
-              <Link
-                href="/profile"
-                onClick={() => setDrawerOpen(false)}
-                className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
-              >
-                プロフィール
-              </Link>
-              {isLoggedIn && (
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="rounded-lg px-3 py-2 text-left hover:bg-slate-100 hover:text-slate-900"
-                >
-                  ログアウト
-                </button>
               )}
             </nav>
           </aside>
