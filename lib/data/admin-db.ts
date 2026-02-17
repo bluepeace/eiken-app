@@ -496,3 +496,131 @@ export async function adminDeleteAvatarPreset(id: string) {
 
   if (error) throw new Error(error.message);
 }
+
+// ========== リーディング（短文・会話問題） ==========
+
+export interface AdminReadingShortQuestion {
+  id: number;
+  level: string;
+  question_type: string;
+  body: string;
+  choices: string[];
+  correct_index: number;
+  explanation: string | null;
+  created_at?: string;
+}
+
+export async function adminGetReadingShortQuestions(): Promise<AdminReadingShortQuestion[]> {
+  const all: AdminReadingShortQuestion[] = [];
+  const pageSize = 500;
+  let offset = 0;
+  let hasMore = true;
+
+  while (hasMore) {
+    const { data, error } = await supabase
+      .from("reading_short_questions")
+      .select("id, level, question_type, body, choices, correct_index, explanation, created_at")
+      .order("id", { ascending: true })
+      .range(offset, offset + pageSize - 1);
+
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) break;
+
+    for (const r of data) {
+      all.push({
+        id: r.id as number,
+        level: (r.level as string) ?? "",
+        question_type: (r.question_type as string) ?? "",
+        body: (r.body as string) ?? "",
+        choices: Array.isArray(r.choices) ? (r.choices as string[]) : [],
+        correct_index: Number(r.correct_index) ?? 0,
+        explanation: (r.explanation as string) ?? null,
+        created_at: r.created_at as string | undefined
+      });
+    }
+    hasMore = data.length >= pageSize;
+    offset += pageSize;
+  }
+
+  return all;
+}
+
+export async function adminGetReadingShortQuestionById(id: number) {
+  const { data, error } = await supabase
+    .from("reading_short_questions")
+    .select("id, level, question_type, body, choices, correct_index, explanation, created_at")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+
+  return {
+    id: data.id as number,
+    level: (data.level as string) ?? "",
+    question_type: (data.question_type as string) ?? "",
+    body: (data.body as string) ?? "",
+    choices: Array.isArray(data.choices) ? (data.choices as string[]) : [],
+    correct_index: Number(data.correct_index) ?? 0,
+    explanation: (data.explanation as string) ?? null,
+    created_at: data.created_at as string | undefined
+  };
+}
+
+export interface AdminReadingShortQuestionInput {
+  level: string;
+  question_type: "short_fill" | "conversation_fill";
+  body: string;
+  choices: string[];
+  correct_index: number;
+  explanation?: string | null;
+}
+
+export async function adminCreateReadingShortQuestion(
+  input: AdminReadingShortQuestionInput
+): Promise<number> {
+  const { data, error } = await supabase
+    .from("reading_short_questions")
+    .insert({
+      level: input.level,
+      question_type: input.question_type,
+      body: input.body.trim(),
+      choices: input.choices,
+      correct_index: input.correct_index,
+      explanation: input.explanation?.trim() || null
+    })
+    .select("id")
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  if (!data?.id) throw new Error("Failed to create question");
+  return data.id as number;
+}
+
+export async function adminUpdateReadingShortQuestion(
+  id: number,
+  input: AdminReadingShortQuestionInput
+) {
+  const { error } = await supabase
+    .from("reading_short_questions")
+    .update({
+      level: input.level,
+      question_type: input.question_type,
+      body: input.body.trim(),
+      choices: input.choices,
+      correct_index: input.correct_index,
+      explanation: input.explanation?.trim() || null
+    })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function adminDeleteReadingShortQuestion(id: number) {
+  const { error } = await supabase
+    .from("reading_short_questions")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+}

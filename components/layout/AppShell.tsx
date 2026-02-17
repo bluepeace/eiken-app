@@ -159,6 +159,33 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </div>
 
+      {/* リーディング ドロップダウン */}
+      <div className="group relative">
+        <button
+          type="button"
+          className="flex items-center gap-0.5 text-slate-800 hover:text-[#50c2cb]"
+        >
+          <span
+            className={`mr-1 h-1.5 w-1.5 shrink-0 rounded-full ${MODULE_COLORS.reading.dot}`}
+          />
+          リーディング
+          <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div className="invisible absolute left-0 top-full pt-0.5 opacity-0 transition-opacity group-hover:visible group-hover:opacity-100">
+          <div className="min-w-[140px] rounded-lg border border-slate-200 bg-white/95 py-1 shadow-lg backdrop-blur-sm">
+            <Link
+              href="/reading"
+              onClick={() => setDrawerOpen(false)}
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#50c2cb]"
+            >
+              リーディング
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <Link
         href="/badges"
         onClick={() => setDrawerOpen(false)}
@@ -337,6 +364,19 @@ export function AppShell({ children }: AppShellProps) {
                 className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#A6D472]"
               >
                 学習履歴
+              </Link>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600">
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${MODULE_COLORS.reading.dot}`}
+                />
+                リーディング
+              </div>
+              <Link
+                href="/reading"
+                onClick={() => setDrawerOpen(false)}
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#50c2cb]"
+              >
+                リーディング
               </Link>
               <Link
                 href="/badges"
