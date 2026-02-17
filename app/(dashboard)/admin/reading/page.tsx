@@ -7,6 +7,7 @@ import {
   adminDeleteReadingShortQuestion,
   type AdminReadingShortQuestion
 } from "@/lib/data/admin-db";
+import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
 const PER_PAGE = 20;
 const LEVELS = ["5級", "4級", "3級", "準2級", "2級", "準1級", "1級"];
@@ -22,6 +23,7 @@ export default function AdminReadingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [currentPage, setCurrentPage] = useState(1);
 
   const load = async () => {
@@ -52,8 +54,10 @@ export default function AdminReadingPage() {
           (item.explanation ?? "").toLowerCase().includes(q)
       );
     }
-    return [...list].sort((a, b) => b.id - a.id);
-  }, [items, searchQuery, levelFilter, typeFilter]);
+    return [...list].sort((a, b) =>
+      sortOrder === "asc" ? a.id - b.id : b.id - a.id
+    );
+  }, [items, searchQuery, levelFilter, typeFilter, sortOrder]);
 
   const totalPages = Math.max(1, Math.ceil(filteredItems.length / PER_PAGE));
   const paginatedItems = useMemo(() => {
@@ -63,7 +67,7 @@ export default function AdminReadingPage() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, levelFilter, typeFilter]);
+  }, [searchQuery, levelFilter, typeFilter, sortOrder]);
 
   const handleDelete = async (id: number) => {
     if (!confirm(`問題 ID ${id} を削除しますか？`)) return;
@@ -73,6 +77,25 @@ export default function AdminReadingPage() {
     } catch (e) {
       alert(e instanceof Error ? e.message : "削除に失敗しました");
     }
+  };
+
+  const readingCsvColumns: CsvColumn<AdminReadingShortQuestion>[] = [
+    { key: "id", label: "ID" },
+    { key: "level", label: "級" },
+    { key: "question_type", label: "形式" },
+    { key: "body", label: "本文" },
+    {
+      key: "choices",
+      label: "選択肢",
+      format: (v) => (Array.isArray(v) ? (v as string[]).join(" | ") : String(v ?? ""))
+    },
+    { key: "correct_index", label: "正解インデックス" },
+    { key: "explanation", label: "解説" },
+    { key: "created_at", label: "作成日" }
+  ];
+
+  const handleDownloadCsv = () => {
+    exportToCsv(`reading_${new Date().toISOString().slice(0, 10)}.csv`, filteredItems, readingCsvColumns);
   };
 
   const bodyPreview = (body: string, maxLen: number) => {
@@ -128,6 +151,13 @@ export default function AdminReadingPage() {
           <p className="text-xs text-slate-500">
             {filteredItems.length} 件 / {items.length} 件
           </p>
+          <button
+            type="button"
+            onClick={handleDownloadCsv}
+            className="rounded-lg border border-slate-600 bg-slate-800 px-4 py-2 text-sm text-slate-200 hover:bg-slate-700"
+          >
+            CSVダウンロード（絞り込み結果）
+          </button>
           <Link
             href="/admin/reading/new"
             className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
@@ -141,7 +171,24 @@ export default function AdminReadingPage() {
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-700 bg-slate-800/50">
             <tr>
-              <th className="px-4 py-3 font-medium text-slate-300">ID</th>
+              <th className="px-4 py-3 font-medium text-slate-300">
+                <button
+                  type="button"
+                  onClick={() => setSortOrder((o) => (o === "asc" ? "desc" : "asc"))}
+                  className="flex items-center gap-1 hover:text-brand-300"
+                >
+                  ID
+                  {sortOrder === "asc" ? (
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    </svg>
+                  ) : (
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  )}
+                </button>
+              </th>
               <th className="px-4 py-3 font-medium text-slate-300">級</th>
               <th className="px-4 py-3 font-medium text-slate-300">形式</th>
               <th className="px-4 py-3 font-medium text-slate-300">本文（抜粋）</th>

@@ -4,6 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { adminGetUsers, type AdminUser } from "@/lib/data/admin-db";
 import { PRESET_AVATARS } from "@/lib/constants/avatars";
+import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
 const PER_PAGE = 50;
 
@@ -96,6 +97,24 @@ export default function AdminUsersPage() {
     setCurrentPage(1);
   }, [searchQuery, sortOrder]);
 
+  const userCsvColumns: CsvColumn<AdminUser>[] = [
+    { key: "display_id", label: "ID" },
+    { key: "email", label: "メール" },
+    { key: "display_name", label: "表示名" },
+    { key: "target_level", label: "目標級" },
+    { key: "role", label: "ロール" },
+    { key: "total_study_seconds", label: "学習秒数" },
+    { key: "current_streak", label: "連続日数" },
+    { key: "subscription_status", label: "課金状態" },
+    { key: "subscription_source", label: "課金ソース" },
+    { key: "subscription_current_period_end", label: "課金期限" },
+    { key: "created_at", label: "登録日" }
+  ];
+
+  const handleDownloadCsv = () => {
+    exportToCsv(`users_${new Date().toISOString().slice(0, 10)}.csv`, filteredUsers, userCsvColumns);
+  };
+
   if (loading) {
     return <p className="text-slate-400">読み込み中...</p>;
   }
@@ -142,6 +161,13 @@ export default function AdminUsersPage() {
           <span className="text-xs text-slate-500">
             {PER_PAGE} 件ずつ表示
           </span>
+          <button
+            type="button"
+            onClick={handleDownloadCsv}
+            className="rounded-lg border border-slate-600 bg-slate-800 px-4 py-2 text-sm text-slate-200 hover:bg-slate-700"
+          >
+            CSVダウンロード（絞り込み結果）
+          </button>
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import {
   adminDeleteVocabulary,
   type VocabularyItem
 } from "@/lib/data/admin-db";
+import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
 const PER_PAGE = 50;
 const LEVELS = ["5級", "4級", "3級", "準2級", "2級", "準1級", "1級"];
@@ -80,6 +81,22 @@ export default function AdminVocabularyPage() {
     }
   };
 
+  const vocabularyCsvColumns: CsvColumn<VocabularyItem>[] = [
+    { key: "id", label: "ID" },
+    { key: "level", label: "級" },
+    { key: "word", label: "単語" },
+    { key: "meaning_ja", label: "意味" },
+    { key: "part_of_speech", label: "品詞" },
+    { key: "category", label: "カテゴリ" },
+    { key: "pronunciation", label: "発音" },
+    { key: "example_en", label: "例文（英）" },
+    { key: "example_ja", label: "例文（日）" }
+  ];
+
+  const handleDownloadCsv = () => {
+    exportToCsv(`vocabulary_${new Date().toISOString().slice(0, 10)}.csv`, filteredItems, vocabularyCsvColumns);
+  };
+
   if (loading) {
     return <p className="text-slate-400">読み込み中...</p>;
   }
@@ -134,6 +151,13 @@ export default function AdminVocabularyPage() {
           <p className="text-xs text-slate-500">
             {filteredItems.length} 件 / {items.length} 件
           </p>
+          <button
+            type="button"
+            onClick={handleDownloadCsv}
+            className="rounded-lg border border-slate-600 bg-slate-800 px-4 py-2 text-sm text-slate-200 hover:bg-slate-700"
+          >
+            CSVダウンロード（絞り込み結果）
+          </button>
           <Link
             href="/admin/vocabulary/new"
             className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"

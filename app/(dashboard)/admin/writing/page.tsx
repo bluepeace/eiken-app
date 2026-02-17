@@ -7,6 +7,7 @@ import {
   adminDeleteWritingPrompt,
   type WritingPromptItem
 } from "@/lib/data/admin-db";
+import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
 const PER_PAGE = 50;
 const LEVELS = ["3級", "準2級", "2級", "準1級", "1級"];
@@ -90,6 +91,22 @@ export default function AdminWritingPage() {
     }
   };
 
+  const writingCsvColumns: CsvColumn<WritingPromptItem>[] = [
+    { key: "id", label: "ID" },
+    { key: "level", label: "級" },
+    { key: "prompt_type", label: "形式" },
+    { key: "title", label: "タイトル" },
+    { key: "prompt", label: "問題文" },
+    { key: "word_count_min", label: "最小語数" },
+    { key: "word_count_max", label: "最大語数" },
+    { key: "time_limit_min_seconds", label: "制限時間最小(秒)" },
+    { key: "time_limit_max_seconds", label: "制限時間最大(秒)" }
+  ];
+
+  const handleDownloadCsv = () => {
+    exportToCsv(`writing_${new Date().toISOString().slice(0, 10)}.csv`, filteredItems, writingCsvColumns);
+  };
+
   if (loading) {
     return <p className="text-slate-400">読み込み中...</p>;
   }
@@ -154,6 +171,13 @@ export default function AdminWritingPage() {
           <p className="text-xs text-slate-500">
             {filteredItems.length} 件 / {items.length} 件
           </p>
+          <button
+            type="button"
+            onClick={handleDownloadCsv}
+            className="rounded-lg border border-slate-600 bg-slate-800 px-4 py-2 text-sm text-slate-200 hover:bg-slate-700"
+          >
+            CSVダウンロード（絞り込み結果）
+          </button>
           <Link
             href="/admin/writing/new"
             className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
