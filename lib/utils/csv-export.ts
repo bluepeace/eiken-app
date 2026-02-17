@@ -24,7 +24,7 @@ export type CsvColumn<T> = {
  * @param rows 行データの配列（絞り込み済みの一覧を渡す）
  * @param columns 列定義（key, label, 任意で format）
  */
-export function buildCsv<T extends Record<string, unknown>>(
+export function buildCsv<T extends object>(
   rows: T[],
   columns: CsvColumn<T>[]
 ): string {
@@ -34,7 +34,7 @@ export function buildCsv<T extends Record<string, unknown>>(
       columns
         .map((col) => {
           const key = col.key as string;
-          const value = row[key];
+          const value = (row as Record<string, unknown>)[key];
           if (col.format) return escapeCsvCell(col.format(value, row));
           return escapeCsvCell(value);
         })
@@ -61,7 +61,7 @@ export function downloadCsv(filename: string, csvString: string): void {
 /**
  * 絞り込み済みデータをCSVにし、その場でダウンロードする。
  */
-export function exportToCsv<T extends Record<string, unknown>>(
+export function exportToCsv<T extends object>(
   filename: string,
   rows: T[],
   columns: CsvColumn<T>[]
