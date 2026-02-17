@@ -15,7 +15,8 @@ const config: Config = {
           "Hiragino Kaku Gothic ProN",
           "Meiryo",
           "sans-serif"
-        ]
+        ],
+        "zen-maru": ['"Zen Maru Gothic"', "sans-serif"]
       },
       colors: {
         /** カラーチャート準拠のモジュール色 */

@@ -18,11 +18,11 @@ VALUES
     0
   );
 
--- ========== 会話文の空所補充（2級・conversation_fill）==========
+-- ========== 短文の語句空所（A/B形式の例・2級・short_fill）==========
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index)
 VALUES
   (
-    '2級', 'conversation_fill',
+    '2級', 'short_fill',
     'A: I think we should leave early to avoid the traffic.\nB: __BLANK__\nA: Yes, the highway is always busy on Fridays.',
     '["Do you think it will be crowded?", "What time do you want to leave?", "Is that a good idea?", "Would you like to take the train instead?"]',
     0

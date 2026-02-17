@@ -46,22 +46,22 @@ export function BuddyWidget() {
       className="fixed bottom-6 right-6 z-30 hidden md:flex flex-col items-end gap-0"
       aria-label={`${buddy.name}からのメッセージ`}
     >
-      {/* 吹き出し（バディの上） */}
-      <div className="relative max-w-[200px] rounded-2xl bg-white/95 px-4 py-2.5 shadow-lg ring-1 ring-slate-200/80 backdrop-blur-sm">
-        <p className="text-sm leading-relaxed text-slate-800">{comment}</p>
-        {/* 吹き出しの尻尾（下・右寄り） */}
+      {/* 吹き出し（丸く可愛く） */}
+      <div className="relative max-w-[240px] rounded-3xl bg-white/98 px-5 py-3.5 shadow-[0_4px_20px_rgba(80,194,203,0.18)] backdrop-blur-sm">
+        <p className="font-zen-maru text-sm leading-relaxed text-slate-700">{comment}</p>
+        {/* 吹き出しの尻尾（丸くて可愛い・バディ側へ） */}
         <div
-          className="absolute -bottom-2 right-6 h-0 w-0 border-l-[10px] border-r-[10px] border-t-[12px] border-l-transparent border-r-transparent border-t-white/95"
+          className="absolute -bottom-1 right-10 h-2.5 w-2.5 rotate-45 rounded-sm bg-white/98 shadow-[0_2px_6px_rgba(80,194,203,0.12)]"
           aria-hidden
         />
       </div>
-      {/* バディ画像 */}
-      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border-2 border-white bg-slate-100 shadow-lg ring-2 ring-[#50c2cb]/30">
+      {/* バディ画像（少し大きめでその場にいる雰囲気） */}
+      <div className="relative h-28 w-28 shrink-0 md:h-32 md:w-32">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={buddy.image_url}
           alt=""
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain object-bottom"
           onError={(e) => {
             (e.target as HTMLImageElement).src = "/logo-aiken.png";
           }}

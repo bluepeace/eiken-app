@@ -413,12 +413,12 @@ export default function ProfilePage() {
                         : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
                     }`}
                   >
-                    <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full bg-slate-100">
+                    <span className="relative flex h-8 w-8 shrink-0 items-end justify-center">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={b.image_url}
                         alt={b.name}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-contain"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = "/logo-aiken.png";
                         }}

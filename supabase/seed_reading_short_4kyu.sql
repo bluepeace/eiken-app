@@ -5,7 +5,7 @@
 -- (1) child / 子供
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Max is a little __BLANK__, so he loves to play with toy cars.
 B: Yes. He likes to play video games, too.',
   '["child", "dream", "doll", "color"]',
@@ -16,7 +16,7 @@ B: Yes. He likes to play video games, too.',
 -- (2) think / I think so
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Will you go to the concert tomorrow?
 B: I __BLANK__ so.',
   '["think", "carry", "study", "work"]',
@@ -27,7 +27,7 @@ B: I __BLANK__ so.',
 -- (3) soap / 石鹸
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Where''s the __BLANK__? I want to wash my hands.
 B: It''s over there.',
   '["candy", "tea", "soap", "fish"]',
@@ -38,7 +38,7 @@ B: It''s over there.',
 -- (4) bridge / 橋
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: The water is so deep here.
 B: It''s OK. Just walk across that __BLANK__.',
   '["class", "station", "bridge", "food"]',
@@ -59,7 +59,7 @@ VALUES (
 -- (6) clean / 掃除する
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Can I watch TV now, Dad?
 B: Yes, but you must __BLANK__ the kitchen after dinner.',
   '["clean", "meet", "stay", "answer"]',
@@ -70,7 +70,7 @@ B: Yes, but you must __BLANK__ the kitchen after dinner.',
 -- (7) try / 試す
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: I got a new game for my computer. Let''s __BLANK__ it.
 B: OK.',
   '["cook", "buy", "try", "wash"]',
@@ -81,7 +81,7 @@ B: OK.',
 -- (8) moment / Just a moment
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Hello, Mrs. Smith. This is Anna. Is Tracy there?
 B: Just a __BLANK__. I''ll go and get her.',
   '["moment", "shower", "number", "program"]',
@@ -132,7 +132,7 @@ VALUES (
 -- (13) ticket / 切符
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Is your train __BLANK__ to Osaka in your pocket?
 B: No, it''s on the table.',
   '["car", "pencil", "shirt", "ticket"]',
@@ -143,7 +143,7 @@ B: No, it''s on the table.',
 -- (14) news / ニュース
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: Did you see the __BLANK__ on TV, Mom? A giraffe at the zoo had a baby.
 B: Yes, I saw it. It was so cute.',
   '["news", "weather", "sport", "bag"]',
@@ -154,7 +154,7 @@ B: Yes, I saw it. It was so cute.',
 -- (15) college / 大学
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: What does your brother do, Ms. Brown?
 B: He''s a __BLANK__ student. He studies computer science.',
   '["towel", "mistake", "college", "station"]',
@@ -165,7 +165,7 @@ B: He''s a __BLANK__ student. He studies computer science.',
 -- (16) finish / 終える
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: When will you __BLANK__ cleaning your room?
 B: By six o''clock.',
   '["visit", "finish", "remember", "leave"]',
@@ -196,7 +196,7 @@ VALUES (
 -- (19) other / each other
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
-  '4級', 'conversation_fill',
+  '4級', 'short_fill',
   'A: In our cooking class, we help each __BLANK__ when we cook.
 B: Yes, we do. That''s important.',
   '["any", "some", "other", "another"]',

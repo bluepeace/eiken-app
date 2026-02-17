@@ -8,7 +8,7 @@ VALUES ('4級', 'short_fill', 'Kate can __BLANK__ very well. She goes to the poo
 
 -- (22) must / must + 原形
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Can I eat this cake now? B: No. You __BLANK__ wash your hands first.', '["must", "are", "have", "were"]', 0, '「まず手を洗わなければならない」は "You must wash your hands." です。must の後は動詞の原形です。');
+VALUES ('4級', 'short_fill', 'A: Can I eat this cake now? B: No. You __BLANK__ wash your hands first.', '["must", "are", "have", "were"]', 0, '「まず手を洗わなければならない」は "You must wash your hands." です。must の後は動詞の原形です。');
 
 -- (23) watching / was 〜ing
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -16,7 +16,7 @@ VALUES ('4級', 'short_fill', 'Taro was __BLANK__ a movie when his friend called
 
 -- (24) ask / ask for help
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: I can''t understand this math problem. B: Let''s __BLANK__ the teacher for help.', '["tell", "listen", "ask", "shut"]', 2, '「先生に助けを求める」は "ask 人 for help" という表現です。ask が正解。');
+VALUES ('4級', 'short_fill', 'A: I can''t understand this math problem. B: Let''s __BLANK__ the teacher for help.', '["tell", "listen", "ask", "shut"]', 2, '「先生に助けを求める」は "ask 人 for help" という表現です。ask が正解。');
 
 -- (25) had / have a hard time
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -24,27 +24,27 @@ VALUES ('4級', 'short_fill', 'Bill''s math teacher gave him a lot of homework y
 
 -- (26) of / a cup of
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: It''s so cold today. Can you make me a cup __BLANK__ hot chocolate, please? B: Sure. Just a minute.', '["at", "to", "as", "of"]', 3, '「コップ1杯の〜」は "a cup of 〜" です。of が正解。');
+VALUES ('4級', 'short_fill', 'A: It''s so cold today. Can you make me a cup __BLANK__ hot chocolate, please? B: Sure. Just a minute.', '["at", "to", "as", "of"]', 3, '「コップ1杯の〜」は "a cup of 〜" です。of が正解。');
 
 -- (27) kind / what kind of
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: What __BLANK__ of dog do you want? B: I want a big dog because I love to go on long walks.', '["room", "wind", "kind", "side"]', 2, '「どんな種類の」は "What kind of 〜?" という表現です。kind が正解。');
+VALUES ('4級', 'short_fill', 'A: What __BLANK__ of dog do you want? B: I want a big dog because I love to go on long walks.', '["room", "wind", "kind", "side"]', 2, '「どんな種類の」は "What kind of 〜?" という表現です。kind が正解。');
 
 -- (28) Why / 理由を聞く
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ are you going to go to the park today? B: I want to paint a picture.', '["When", "What", "Where", "Why"]', 3, '「絵を描きたい」は理由なので、理由を聞く "Why 〜?" が正解です。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ are you going to go to the park today? B: I want to paint a picture.', '["When", "What", "Where", "Why"]', 3, '「絵を描きたい」は理由なので、理由を聞く "Why 〜?" が正解です。');
 
 -- (29) to watch / like to do
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: What do you do on weekends? B: I don''t like __BLANK__ TV, so I usually read a book.', '["to watch", "watch", "watches", "watched"]', 0, '「〜するのが好きではない」は "don''t like to do" の形。like の後は "to + 動詞の原形" です。');
+VALUES ('4級', 'short_fill', 'A: What do you do on weekends? B: I don''t like __BLANK__ TV, so I usually read a book.', '["to watch", "watch", "watches", "watched"]', 0, '「〜するのが好きではない」は "don''t like to do" の形。like の後は "to + 動詞の原形" です。');
 
 -- (30) oldest / the 最上級
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: What animal is the __BLANK__ in this zoo? B: This elephant is.', '["too old", "older", "oldest", "much older"]', 2, '「この動物園でいちばん年を取っている」は最上級 "the oldest" を使います。');
+VALUES ('4級', 'short_fill', 'A: What animal is the __BLANK__ in this zoo? B: This elephant is.', '["too old", "older", "oldest", "much older"]', 2, '「この動物園でいちばん年を取っている」は最上級 "the oldest" を使います。');
 
 -- (31) trouble / have trouble with
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Mom, I''m having __BLANK__ with my homework. B: OK, I''ll help you with it.', '["trouble", "help", "homework", "time"]', 0, '「〜で困っている」は "have trouble with 〜" という表現です。trouble が正解。');
+VALUES ('4級', 'short_fill', 'A: Mom, I''m having __BLANK__ with my homework. B: OK, I''ll help you with it.', '["trouble", "help", "homework", "time"]', 0, '「〜で困っている」は "have trouble with 〜" という表現です。trouble が正解。');
 
 -- (32) do / do the housework
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -52,7 +52,7 @@ VALUES ('4級', 'short_fill', 'Mr. Smith usually __BLANK__ the housework on Sund
 
 -- (33) time / have a good time
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Bye, Mom. Dan and I are going to a party. B: OK, have a good __BLANK__.', '["time", "party", "day", "trip"]', 0, '「楽しんでね」は "Have a good time." という決まったあいさつです。');
+VALUES ('4級', 'short_fill', 'A: Bye, Mom. Dan and I are going to a party. B: OK, have a good __BLANK__.', '["time", "party", "day", "trip"]', 0, '「楽しんでね」は "Have a good time." という決まったあいさつです。');
 
 -- (34) old / years old
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -64,11 +64,11 @@ VALUES ('4級', 'short_fill', 'Henry __BLANK__ home from school early yesterday 
 
 -- (36) largest / the 最上級
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Many of the buildings in this city are very big. B: Yes, but this one is the __BLANK__.', '["large", "largest", "larger", "too large"]', 1, '「この中でいちばん大きい」は最上級 "the largest" を使います。');
+VALUES ('4級', 'short_fill', 'A: Many of the buildings in this city are very big. B: Yes, but this one is the __BLANK__.', '["large", "largest", "larger", "too large"]', 1, '「この中でいちばん大きい」は最上級 "the largest" を使います。');
 
 -- (37) There / There are
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: What''s your town like, Tom? B: It''s nice. __BLANK__ are lots of parks and a big pool.', '["They", "Those", "There", "Their"]', 2, '「たくさんの公園がある」と存在を表すときは "There are 〜" を使います。There が正解。');
+VALUES ('4級', 'short_fill', 'A: What''s your town like, Tom? B: It''s nice. __BLANK__ are lots of parks and a big pool.', '["They", "Those", "There", "Their"]', 2, '「たくさんの公園がある」と存在を表すときは "There are 〜" を使います。There が正解。');
 
 -- (38) professional / プロの
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -76,11 +76,11 @@ VALUES ('4級', 'short_fill', 'Kentaro wants to be a __BLANK__ baseball player i
 
 -- (39) umbrella / 傘
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: It''ll rain this evening, Peter. Don''t forget your __BLANK__. B: Thanks, Lisa.', '["umbrella", "dream", "mirror", "sandwich"]', 0, '雨の日に持っていくのは「傘」なので "umbrella" が正解。dream は夢、mirror は鏡です。');
+VALUES ('4級', 'short_fill', 'A: It''ll rain this evening, Peter. Don''t forget your __BLANK__. B: Thanks, Lisa.', '["umbrella", "dream", "mirror", "sandwich"]', 0, '雨の日に持っていくのは「傘」なので "umbrella" が正解。dream は夢、mirror は鏡です。');
 
 -- (40) useful / 役に立つ
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Do you know any good sports websites? B: Yes. This website is very __BLANK__.', '["quiet", "thirsty", "tall", "useful"]', 3, '良いサイトは「役に立つ」ので "useful" が正解。quiet は静かな、thirsty は喉が渇いた、tall は背が高いです。');
+VALUES ('4級', 'short_fill', 'A: Do you know any good sports websites? B: Yes. This website is very __BLANK__.', '["quiet", "thirsty", "tall", "useful"]', 3, '良いサイトは「役に立つ」ので "useful" が正解。quiet は静かな、thirsty は喉が渇いた、tall は背が高いです。');
 
 -- (41) heavy / 重い
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -96,7 +96,7 @@ VALUES ('4級', 'short_fill', 'Peter grows potatoes in his __BLANK__. He also ha
 
 -- (44) part / 部分
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Did you like the book, Andy? B: Well, the first __BLANK__ of the book was interesting, but the ending wasn''t very good.', '["country", "part", "way", "road"]', 1, '「本の最初の部分」は "the first part of the book" です。part は「部分」の意味。');
+VALUES ('4級', 'short_fill', 'A: Did you like the book, Andy? B: Well, the first __BLANK__ of the book was interesting, but the ending wasn''t very good.', '["country", "part", "way", "road"]', 1, '「本の最初の部分」は "the first part of the book" です。part は「部分」の意味。');
 
 -- (45) airport / 空港
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -104,7 +104,7 @@ VALUES ('4級', 'short_fill', 'Yuta loves flying. He often goes to the __BLANK__
 
 -- (46) forget / forget to do
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Don''t __BLANK__ to turn off the light when you leave. B: I won''t.', '["forget", "remember", "want", "need"]', 0, '「〜するのを忘れないで」は "Don''t forget to do" です。forget が正解。');
+VALUES ('4級', 'short_fill', 'A: Don''t __BLANK__ to turn off the light when you leave. B: I won''t.', '["forget", "remember", "want", "need"]', 0, '「〜するのを忘れないで」は "Don''t forget to do" です。forget が正解。');
 
 -- (47) same / the same as
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -112,7 +112,7 @@ VALUES ('4級', 'short_fill', 'My sister''s bag is the __BLANK__ as mine. We bou
 
 -- (48) already / すでに
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Can you help me with this? B: I''ve __BLANK__ finished it. Here you are.', '["already", "yet", "still", "again"]', 0, '「もう終わらせた」は "I''ve already finished" です。already は「すでに、もう」の意味。');
+VALUES ('4級', 'short_fill', 'A: Can you help me with this? B: I''ve __BLANK__ finished it. Here you are.', '["already", "yet", "still", "again"]', 0, '「もう終わらせた」は "I''ve already finished" です。already は「すでに、もう」の意味。');
 
 -- (49) never / 一度も〜ない
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -124,11 +124,11 @@ VALUES ('4級', 'short_fill', 'Today I feel __BLANK__ than yesterday. I had a go
 
 -- (51) much / how much
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ is this T-shirt? B: It''s twenty dollars.', '["How much", "How many", "How long", "How old"]', 0, '値段を聞くときは "How much is 〜?" を使います。much は不可算や金額に使います。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ is this T-shirt? B: It''s twenty dollars.', '["How much", "How many", "How long", "How old"]', 0, '値段を聞くときは "How much is 〜?" を使います。much は不可算や金額に使います。');
 
 -- (52) many / how many
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ books did you read last month? B: I read five books.', '["How much", "How many", "How long", "How often"]', 1, '数えられる名詞の数を聞くときは "How many 〜?" を使います。books は複数なので many。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ books did you read last month? B: I read five books.', '["How much", "How many", "How long", "How often"]', 1, '数えられる名詞の数を聞くときは "How many 〜?" を使います。books は複数なので many。');
 
 -- (53) since / since 過去
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -164,11 +164,11 @@ VALUES ('4級', 'short_fill', 'The coffee was __BLANK__ hot to drink. I waited f
 
 -- (61) something / 何か
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: I''m hungry. B: There''s __BLANK__ in the fridge. Help yourself.', '["something", "anything", "nothing", "everything"]', 0, '「冷蔵庫に何かある」は肯定文なので "something" を使います。something は「何か」の意味。');
+VALUES ('4級', 'short_fill', 'A: I''m hungry. B: There''s __BLANK__ in the fridge. Help yourself.', '["something", "anything", "nothing", "everything"]', 0, '「冷蔵庫に何かある」は肯定文なので "something" を使います。something は「何か」の意味。');
 
 -- (62) anything / 何か（疑問・否定）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Do you need __BLANK__ from the store? B: No, I have everything.', '["something", "anything", "nothing", "everything"]', 1, '疑問文で「何か」と言うときは "anything" を使います。anything は疑問文・否定文で使います。');
+VALUES ('4級', 'short_fill', 'A: Do you need __BLANK__ from the store? B: No, I have everything.', '["something", "anything", "nothing", "everything"]', 1, '疑問文で「何か」と言うときは "anything" を使います。anything は疑問文・否定文で使います。');
 
 -- (63) everyone / みんな
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -196,7 +196,7 @@ VALUES ('4級', 'short_fill', 'The bus is coming. We need to run __BLANK__ to th
 
 -- (69) better / had better
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: I have a headache. B: You __BLANK__ better go to bed early tonight.', '["have", "had", "has", "having"]', 1, '「〜したほうがいい」は "had better do" という表現です。had が正解。');
+VALUES ('4級', 'short_fill', 'A: I have a headache. B: You __BLANK__ better go to bed early tonight.', '["have", "had", "has", "having"]', 1, '「〜したほうがいい」は "had better do" という表現です。had が正解。');
 
 -- (70) could / 過去の能力
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -204,11 +204,11 @@ VALUES ('4級', 'short_fill', 'When I was five, I __BLANK__ not swim. I learned 
 
 -- (71) would / Would you like
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ you like some orange juice? B: Yes, please.', '["Do", "Would", "Are", "Can"]', 1, '「オレンジジュースはいかがですか」は丁寧な "Would you like 〜?" を使います。Would が正解。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ you like some orange juice? B: Yes, please.', '["Do", "Would", "Are", "Can"]', 1, '「オレンジジュースはいかがですか」は丁寧な "Would you like 〜?" を使います。Would が正解。');
 
 -- (72) shall / Shall we
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ we go to the library together? B: Good idea.', '["Do", "Will", "Shall", "Can"]', 2, '「一緒に図書館に行きませんか」と提案するときは "Shall we 〜?" を使います。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ we go to the library together? B: Good idea.', '["Do", "Will", "Shall", "Can"]', 2, '「一緒に図書館に行きませんか」と提案するときは "Shall we 〜?" を使います。');
 
 -- (73) going / be going to
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -244,7 +244,7 @@ VALUES ('4級', 'short_fill', 'Have you ever __BLANK__ to Paris? I went there tw
 
 -- (81) yet / まだ（否定・疑問）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: Have you done your homework? B: Not __BLANK__. I will do it after dinner.', '["already", "yet", "still", "just"]', 1, '否定文で「まだ」と言うときは "not yet" を使います。yet は疑問・否定で「まだ」の意味。');
+VALUES ('4級', 'short_fill', 'A: Have you done your homework? B: Not __BLANK__. I will do it after dinner.', '["already", "yet", "still", "just"]', 1, '否定文で「まだ」と言うときは "not yet" を使います。yet は疑問・否定で「まだ」の意味。');
 
 -- (82) just / たった今
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -276,7 +276,7 @@ VALUES ('4級', 'short_fill', 'We __BLANK__ enjoyed the party. Thank you for inv
 
 -- (89) another / もう一つ
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: This pen doesn''t work. B: Here is __BLANK__ one. You can use it.', '["other", "another", "the other", "others"]', 1, '「もう1本」は "another one" です。another は「別の1つ、もう1つ」の意味。');
+VALUES ('4級', 'short_fill', 'A: This pen doesn''t work. B: Here is __BLANK__ one. You can use it.', '["other", "another", "the other", "others"]', 1, '「もう1本」は "another one" です。another は「別の1つ、もう1つ」の意味。');
 
 -- (90) other / the other
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -308,16 +308,16 @@ VALUES ('4級', 'short_fill', 'I think __BLANK__ this book is very interesting. 
 
 -- (97) which / どちら
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ bag is yours, the red one or the blue one? B: The blue one.', '["What", "Which", "Whose", "Who"]', 1, '「どちらのかばんがあなたの？」は "Which bag is yours?" です。限られた選択肢から選ぶときは which。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ bag is yours, the red one or the blue one? B: The blue one.', '["What", "Which", "Whose", "Who"]', 1, '「どちらのかばんがあなたの？」は "Which bag is yours?" です。限られた選択肢から選ぶときは which。');
 
 -- (98) whose / 誰の
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ notebook is this? B: I think it''s Ken''s.', '["Who", "Whose", "Which", "Whom"]', 1, '「これは誰のノート？」は "Whose notebook is this?" です。whose は「誰の」という意味。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ notebook is this? B: I think it''s Ken''s.', '["Who", "Whose", "Which", "Whom"]', 1, '「これは誰のノート？」は "Whose notebook is this?" です。whose は「誰の」という意味。');
 
 -- (99) how / How long
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ long did you stay in Tokyo? B: I stayed for three days.', '["How", "What", "When", "Where"]', 0, '「どのくらいの間」は "How long 〜?" で聞きます。期間をたずねる表現です。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ long did you stay in Tokyo? B: I stayed for three days.', '["How", "What", "When", "Where"]', 0, '「どのくらいの間」は "How long 〜?" で聞きます。期間をたずねる表現です。');
 
 -- (100) often / How often
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'conversation_fill', 'A: __BLANK__ often do you play soccer? B: I play twice a week.', '["How", "What", "When", "Why"]', 0, '「どのくらいの頻度で」は "How often 〜?" で聞きます。often が正解。');
+VALUES ('4級', 'short_fill', 'A: __BLANK__ often do you play soccer? B: I play twice a week.', '["How", "What", "When", "Why"]', 0, '「どのくらいの頻度で」は "How often 〜?" で聞きます。often が正解。');

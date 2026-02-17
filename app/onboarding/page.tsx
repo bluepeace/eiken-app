@@ -37,12 +37,12 @@ function BuddySpeech({
           aria-hidden
         />
       </div>
-      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-2 border-white bg-gradient-to-br from-[#50c2cb]/20 to-[#50c2cb]/5 shadow-lg ring-2 ring-[#50c2cb]/20">
+      <div className="relative h-24 w-24 shrink-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imgSrc}
           alt={alt}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain object-bottom"
           onError={(e) => {
             (e.target as HTMLImageElement).src = "/logo-aiken.png";
           }}
@@ -279,12 +279,12 @@ export default function OnboardingPage() {
                         : "border-slate-200 bg-slate-50 hover:border-slate-300"
                     }`}
                   >
-                    <div className="h-14 w-14 overflow-hidden rounded-full border border-slate-200 bg-white">
+                    <div className="h-14 w-14 shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={b.image_url}
                         alt={b.name}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-contain"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src = "/logo-aiken.png";
                         }}
@@ -297,39 +297,13 @@ export default function OnboardingPage() {
               {buddies.length === 0 && (
                 <p className="text-sm text-slate-500">バディの読み込み中…</p>
               )}
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="flex-1 rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
-                >
-                  {saving ? "保存中..." : "選んで次へ"}
-                </button>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    setSaving(true);
-                    try {
-                      const { data: { user } } = await supabase.auth.getUser();
-                      if (!user) return;
-                      const { data: existing } = await supabase
-                        .from("user_profiles")
-                        .select("id")
-                        .eq("auth_user_id", user.id)
-                        .maybeSingle();
-                      if (existing) {
-                        await supabase.from("user_profiles").update({ buddy_id: null }).eq("id", existing.id);
-                      }
-                      setStep(3);
-                    } finally {
-                      setSaving(false);
-                    }
-                  }}
-                  className="text-sm text-slate-500 hover:text-slate-700"
-                >
-                  スキップ
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={saving || !selectedBuddyId || buddies.length === 0}
+                className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+              >
+                {saving ? "保存中..." : "選んで次へ"}
+              </button>
               {error && <p className="text-sm text-red-600">{error}</p>}
             </form>
           </>

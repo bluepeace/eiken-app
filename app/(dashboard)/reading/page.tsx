@@ -45,6 +45,12 @@ export default function ReadingPage() {
               />
               リーディング
             </h1>
+            <Link
+              href="/reading/history"
+              className="text-sm text-slate-600 hover:text-slate-900"
+            >
+              履歴
+            </Link>
           </div>
           <p className="text-sm text-slate-600">
             級を選ぶと、その級で出題される形式のメニューが表示されます。形式を選んで学習を開始しましょう。

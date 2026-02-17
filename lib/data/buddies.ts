@@ -24,7 +24,18 @@ export async function getBuddies(): Promise<Buddy[]> {
   }));
 }
 
-/** ログイン中ユーザーが選択しているバディを1件取得（ダッシュボード用） */
+/** ウィジェット用のデフォルトバディ（未選択・テーブル空時） */
+const DEFAULT_BUDDY: Buddy = {
+  id: "",
+  name: "バディ",
+  kind: "dog",
+  image_url: "/images/mascot-aiken.png"
+};
+
+/**
+ * ログイン中ユーザーが表示するバディを1件取得（ダッシュボード右下用）。
+ * 未選択の場合は先頭のバディ、登録が無い場合はデフォルト（マスコット）を返す。
+ */
 export async function getCurrentUserBuddy(): Promise<Buddy | null> {
   const {
     data: { user }
@@ -38,19 +49,24 @@ export async function getCurrentUserBuddy(): Promise<Buddy | null> {
     .maybeSingle();
 
   const buddyId = profile?.buddy_id;
-  if (!buddyId) return null;
+  if (buddyId) {
+    const { data: buddy, error } = await supabase
+      .from("buddies")
+      .select("id, name, kind, image_url")
+      .eq("id", buddyId)
+      .maybeSingle();
 
-  const { data: buddy, error } = await supabase
-    .from("buddies")
-    .select("id, name, kind, image_url")
-    .eq("id", buddyId)
-    .maybeSingle();
+    if (!error && buddy) {
+      return {
+        id: buddy.id as string,
+        name: buddy.name as string,
+        kind: buddy.kind as string,
+        image_url: buddy.image_url as string
+      };
+    }
+  }
 
-  if (error || !buddy) return null;
-  return {
-    id: buddy.id as string,
-    name: buddy.name as string,
-    kind: buddy.kind as string,
-    image_url: buddy.image_url as string
-  };
+  const all = await getBuddies();
+  if (all.length > 0) return all[0];
+  return DEFAULT_BUDDY;
 }

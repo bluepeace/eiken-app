@@ -15,9 +15,60 @@ export interface BuddyHintPanelProps {
 }
 
 const ACCENT_STYLES = {
-  writing: "bg-[#A6D472]/15 ring-[#A6D472]/40",
-  reading: "bg-[#50c2cb]/15 ring-[#50c2cb]/40"
+  writing:
+    "bg-white/98 shadow-[0_4px_20px_rgba(166,212,114,0.2)]",
+  reading:
+    "bg-white/98 shadow-[0_4px_20px_rgba(80,194,203,0.2)]"
 };
+
+/** ヒント本文をパースし、・で始まる行は ul/li に、それ以外は段落に */
+function renderHintContent(content: string) {
+  const lines = content.split("\n");
+  const nodes: React.ReactNode[] = [];
+  let listItems: string[] = [];
+  let index = 0;
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      nodes.push(
+        <ul
+          key={`list-${index++}`}
+          className="list-inside list-disc space-y-1 pl-1 text-sm text-slate-700"
+        >
+          {listItems.map((text, i) => (
+            <li key={i}>{text}</li>
+          ))}
+        </ul>
+      );
+      listItems = [];
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+    const isBullet = trimmed.startsWith("・");
+
+    if (isBullet && trimmed) {
+      listItems.push(trimmed.replace(/^・\s*/, "").trim());
+    } else {
+      flushList();
+      if (trimmed) {
+        nodes.push(
+          <p key={`p-${index++}`} className="text-sm leading-relaxed text-slate-700">
+            {trimmed}
+          </p>
+        );
+      }
+    }
+  }
+  flushList();
+  return (
+    <div className="[&>p]:mt-2 [&>p:first-child]:mt-0 [&>ul]:mt-2 [&>ul:first-child]:mt-0">
+      {nodes}
+    </div>
+  );
+}
 
 export function BuddyHintPanel({
   title,
@@ -94,38 +145,43 @@ export function BuddyHintPanel({
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-4 py-4">
+          <div className="flex flex-1 flex-col overflow-y-auto px-4 py-4">
             {buddyLoaded && buddy ? (
-              <div className="flex flex-col gap-4">
+              <>
                 <p className="text-xs text-slate-500">
                   {buddy.name}からのヒントだよ。わからないときはここを見てね。
                 </p>
-                <div className={`flex flex-col gap-3 rounded-2xl p-4 ring-1 ${accentStyle}`}>
-                  <div className="flex items-start gap-3">
-                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-white bg-slate-100 shadow">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={buddy.image_url}
-                        alt=""
-                        className="h-full w-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/logo-aiken.png";
-                        }}
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1 pt-0.5">
-                      <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-slate-700">
-                        {hintContent}
-                      </pre>
-                    </div>
+                {/* 吹き出し（バディがしゃべっている） */}
+                <div className={`relative mt-3 rounded-3xl px-5 py-4 ${accentStyle}`}>
+                  <div className="font-zen-maru text-slate-700">
+                    {renderHintContent(hintContent)}
+                  </div>
+                  {/* 吹き出しの尻尾（下・バディ側） */}
+                  <div
+                    className="absolute -bottom-1.5 left-8 h-2.5 w-2.5 rotate-45 rounded-sm bg-white/98 shadow-[0_2px_6px_rgba(0,0,0,0.06)]"
+                    aria-hidden
+                  />
+                </div>
+                {/* バディ（吹き出しの外・その場にいる雰囲気） */}
+                <div className="mt-4 flex justify-start">
+                  <div className="h-20 w-20 shrink-0 md:h-24 md:w-24">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={buddy.image_url}
+                      alt=""
+                      className="h-full w-full object-contain object-bottom"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/logo-aiken.png";
+                      }}
+                    />
                   </div>
                 </div>
-              </div>
+              </>
             ) : (
-              <div className={`rounded-2xl p-4 ring-1 ${accentStyle}`}>
-                <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-slate-700">
-                  {hintContent}
-                </pre>
+              <div className={`rounded-3xl px-5 py-4 ${accentStyle}`}>
+                <div className="font-sans text-slate-700">
+                  {renderHintContent(hintContent)}
+                </div>
               </div>
             )}
           </div>

@@ -49,7 +49,8 @@ export default function ReadingConversationPage() {
       return;
     }
     setError(null);
-    const data = await fetchReadingShortQuestions(level, "conversation_fill", 10);
+    const profileId = await getProfileId();
+    const data = await fetchReadingShortQuestions(level, "conversation_fill", 10, profileId);
     if (data.length === 0) {
       setError("この級にはまだ問題が登録されていません。");
       return;
