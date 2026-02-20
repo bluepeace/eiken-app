@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   adminGetUserProfile,
-  adminUpdateUserProfile
+  adminUpdateUserProfile,
+  adminGetOrganizations,
 } from "@/lib/data/admin-db";
+import type { AdminOrganization } from "@/lib/data/admin-db";
 
 const LEVEL_OPTIONS = [
   "英検5級",
@@ -29,6 +31,8 @@ export default function AdminUserEditPage() {
   const [role, setRole] = useState<"user" | "admin">("user");
   const [subscriptionStatus, setSubscriptionStatus] = useState<string>("free");
   const [subscriptionSource, setSubscriptionSource] = useState<string>("stripe");
+  const [organizationId, setOrganizationId] = useState<string>("");
+  const [organizations, setOrganizations] = useState<AdminOrganization[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +42,11 @@ export default function AdminUserEditPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const data = await adminGetUserProfile(id);
+        const [data, orgs] = await Promise.all([
+          adminGetUserProfile(id),
+          adminGetOrganizations(),
+        ]);
+        setOrganizations(orgs);
         if (!data) {
           setError("ユーザーが見つかりません");
           return;
@@ -52,6 +60,9 @@ export default function AdminUserEditPage() {
         setRole((data.role as "user" | "admin") || "user");
         setSubscriptionStatus((data.subscription_status as string) ?? "free");
         setSubscriptionSource((data.subscription_source as string) ?? "stripe");
+        setOrganizationId(
+          data.organization_id != null ? String(data.organization_id) : "1"
+        );
         setCreatedAt(data.created_at ?? null);
       } catch (e) {
         setError(e instanceof Error ? e.message : "読み込みに失敗しました");
@@ -73,7 +84,8 @@ export default function AdminUserEditPage() {
         target_level: targetLevel,
         role,
         subscription_status: subscriptionStatus,
-        subscription_source: subscriptionSource === "manual" ? "manual" : "stripe"
+        subscription_source: subscriptionSource === "manual" ? "manual" : "stripe",
+        organization_id: organizationId ? parseInt(organizationId, 10) : 1,
       });
       setMessage("保存しました");
       setTimeout(() => setMessage(null), 3000);
@@ -126,6 +138,22 @@ export default function AdminUserEditPage() {
             onChange={(e) => setDisplayName(e.target.value)}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
           />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">
+            所属企業
+          </label>
+          <select
+            value={organizationId}
+            onChange={(e) => setOrganizationId(e.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+          >
+            {organizations.map((org) => (
+              <option key={org.id} value={String(org.id)}>
+                {org.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-400">

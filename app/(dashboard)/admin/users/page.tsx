@@ -46,6 +46,7 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [organizationFilter, setOrganizationFilter] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -67,25 +68,32 @@ export default function AdminUsersPage() {
     let list = users;
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase();
-      list = users.filter((u) => {
+      list = list.filter((u) => {
         const idStr = String(u.display_id);
         const name = (u.display_name ?? "").toLowerCase();
         const email = (u.email ?? "").toLowerCase();
         const level = (u.target_level ?? "").toLowerCase();
+        const orgName = (u.organization_name ?? "").toLowerCase();
         return (
           idStr.includes(q) ||
           name.includes(q) ||
           email.includes(q) ||
-          level.includes(q)
+          level.includes(q) ||
+          orgName.includes(q)
         );
       });
+    }
+    if (organizationFilter) {
+      list = list.filter(
+        (u) => String(u.organization_id) === organizationFilter
+      );
     }
     return [...list].sort((a, b) =>
       sortOrder === "asc"
         ? a.display_id - b.display_id
         : b.display_id - a.display_id
     );
-  }, [users, searchQuery, sortOrder]);
+  }, [users, searchQuery, organizationFilter, sortOrder]);
 
   const totalPages = Math.max(1, Math.ceil(filteredUsers.length / PER_PAGE));
   const paginatedUsers = useMemo(() => {
@@ -97,10 +105,21 @@ export default function AdminUsersPage() {
     setCurrentPage(1);
   }, [searchQuery, sortOrder]);
 
+  const organizationOptions = useMemo(() => {
+    const seen = new Map<number, string>();
+    for (const u of users) {
+      if (u.organization_id != null && u.organization_name != null && !seen.has(u.organization_id)) {
+        seen.set(u.organization_id, u.organization_name);
+      }
+    }
+    return [...seen.entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  }, [users]);
+
   const userCsvColumns: CsvColumn<AdminUser>[] = [
     { key: "display_id", label: "ID" },
     { key: "email", label: "メール" },
     { key: "display_name", label: "表示名" },
+    { key: "organization_name", label: "所属企業" },
     { key: "target_level", label: "目標級" },
     { key: "role", label: "ロール" },
     { key: "total_study_seconds", label: "学習秒数" },
@@ -129,30 +148,52 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-slate-100">ユーザー一覧</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-xl font-semibold text-slate-100">ユーザー一覧</h1>
+        <Link
+          href="/admin/users/new"
+          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
+        >
+          会員を追加
+        </Link>
+      </div>
 
       <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative flex-1 max-w-sm">
-          <input
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ID・名前・メール・級で検索"
-            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 pl-9 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-brand-500"
-          />
-          <svg
-            className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        <div className="flex flex-1 flex-wrap items-center gap-3">
+          <div className="relative max-w-sm flex-1">
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="ID・名前・メール・級で検索"
+              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 pl-9 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-brand-500"
             />
-          </svg>
+            <svg
+              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+          <select
+            value={organizationFilter}
+            onChange={(e) => setOrganizationFilter(e.target.value)}
+            className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-200 outline-none focus:border-brand-500"
+          >
+            <option value="">すべての企業</option>
+            {organizationOptions.map(([id, name]) => (
+              <option key={id} value={String(id)}>
+                {name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex items-center gap-4">
           <p className="text-xs text-slate-500">
@@ -196,6 +237,7 @@ export default function AdminUsersPage() {
               <th className="px-4 py-3 font-medium text-slate-300" />
               <th className="px-4 py-3 font-medium text-slate-300">メール</th>
               <th className="px-4 py-3 font-medium text-slate-300">表示名</th>
+              <th className="px-4 py-3 font-medium text-slate-300">所属企業</th>
               <th className="px-4 py-3 font-medium text-slate-300">目標級</th>
               <th className="px-4 py-3 font-medium text-slate-300">学習時間</th>
               <th className="px-4 py-3 font-medium text-slate-300">連続</th>
@@ -226,6 +268,9 @@ export default function AdminUsersPage() {
                 <td className="px-4 py-3 text-slate-200">{u.email ?? "-"}</td>
                 <td className="px-4 py-3 text-slate-200">
                   {u.display_name ?? "-"}
+                </td>
+                <td className="px-4 py-3 text-slate-300">
+                  {u.organization_name ?? "-"}
                 </td>
                 <td className="px-4 py-3 text-slate-400">{u.target_level ?? "-"}</td>
                 <td className="px-4 py-3 text-slate-300">

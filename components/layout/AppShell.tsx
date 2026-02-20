@@ -22,6 +22,7 @@ export function AppShell({ children }: AppShellProps) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
+  const [organizationLogoUrl, setOrganizationLogoUrl] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -49,11 +50,21 @@ export function AppShell({ children }: AppShellProps) {
         setIsLoggedIn(!!user);
         if (user) {
           void preloadProfileCache(); // ログイン直後にプロフィールを1回取得してキャッシュし、各画面の級表示を即時反映
-          const admin = await checkIsAdmin();
+          const [admin, profileRes] = await Promise.all([
+            checkIsAdmin(),
+            supabase
+              .from("user_profiles")
+              .select("organization_id, organizations(logo_url)")
+              .eq("auth_user_id", user.id)
+              .maybeSingle()
+          ]);
           if (!mounted) return;
           setIsAdmin(admin);
+          const org = (profileRes.data as { organizations?: { logo_url?: string } | null } | null)?.organizations;
+          setOrganizationLogoUrl(org?.logo_url ?? null);
         } else {
           setIsAdmin(false);
+          setOrganizationLogoUrl(null);
         }
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
@@ -99,7 +110,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className="group relative">
         <button
           type="button"
-          className="flex items-center gap-0.5 text-slate-800 hover:text-[#F99F66]"
+          className="flex items-center gap-0.5 text-slate-800 hover:text-[#FF991F]"
         >
           <span
             className={`mr-1 h-1.5 w-1.5 shrink-0 rounded-full ${MODULE_COLORS.vocabulary.dot}`}
@@ -114,14 +125,14 @@ export function AppShell({ children }: AppShellProps) {
             <Link
               href="/vocabulary"
               onClick={() => setDrawerOpen(false)}
-              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#F99F66]"
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#FF991F]"
             >
               単語クイズ
             </Link>
             <Link
               href="/vocabulary/history"
               onClick={() => setDrawerOpen(false)}
-              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#F99F66]"
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#FF991F]"
             >
               学習履歴
             </Link>
@@ -133,7 +144,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className="group relative">
         <button
           type="button"
-          className="flex items-center gap-0.5 text-slate-800 hover:text-[#A6D472]"
+          className="flex items-center gap-0.5 text-slate-800 hover:text-[#8DC63A]"
         >
           <span
             className={`mr-1 h-1.5 w-1.5 shrink-0 rounded-full ${MODULE_COLORS.writing.dot}`}
@@ -148,14 +159,14 @@ export function AppShell({ children }: AppShellProps) {
             <Link
               href="/writing"
               onClick={() => setDrawerOpen(false)}
-              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#A6D472]"
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#8DC63A]"
             >
               英文添削
             </Link>
             <Link
               href="/writing/history"
               onClick={() => setDrawerOpen(false)}
-              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#A6D472]"
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#8DC63A]"
             >
               学習履歴
             </Link>
@@ -167,7 +178,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className="group relative">
         <button
           type="button"
-          className="flex items-center gap-0.5 text-slate-800 hover:text-[#50c2cb]"
+          className="flex items-center gap-0.5 text-slate-800 hover:text-[#009DC9]"
         >
           <span
             className={`mr-1 h-1.5 w-1.5 shrink-0 rounded-full ${MODULE_COLORS.reading.dot}`}
@@ -182,7 +193,7 @@ export function AppShell({ children }: AppShellProps) {
             <Link
               href="/reading"
               onClick={() => setDrawerOpen(false)}
-              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#50c2cb]"
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#009DC9]"
             >
               リーディング
             </Link>
@@ -269,14 +280,22 @@ export function AppShell({ children }: AppShellProps) {
             href={logoHref}
             className="flex items-center"
           >
-            <Image
-              src="/logo-aiken.png"
-              alt="AiKen"
-              width={120}
-              height={36}
-              className="h-9 w-auto"
-              priority
-            />
+            {organizationLogoUrl ? (
+              <img
+                src={organizationLogoUrl}
+                alt=""
+                className="h-9 w-auto max-w-[120px] object-contain object-left"
+              />
+            ) : (
+              <Image
+                src="/logo-aiken.png"
+                alt="AiKen"
+                width={120}
+                height={36}
+                className="h-9 w-auto"
+                priority
+              />
+            )}
           </Link>
 
           {/* Desktop nav */}
@@ -358,14 +377,14 @@ export function AppShell({ children }: AppShellProps) {
               <Link
                 href="/vocabulary"
                 onClick={() => setDrawerOpen(false)}
-                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#F99F66]"
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#FF991F]"
               >
                 単語クイズ
               </Link>
               <Link
                 href="/vocabulary/history"
                 onClick={() => setDrawerOpen(false)}
-                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#F99F66]"
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#FF991F]"
               >
                 学習履歴
               </Link>
@@ -378,14 +397,14 @@ export function AppShell({ children }: AppShellProps) {
               <Link
                 href="/writing"
                 onClick={() => setDrawerOpen(false)}
-                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#A6D472]"
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#8DC63A]"
               >
                 英文添削
               </Link>
               <Link
                 href="/writing/history"
                 onClick={() => setDrawerOpen(false)}
-                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#A6D472]"
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#8DC63A]"
               >
                 学習履歴
               </Link>
@@ -398,7 +417,7 @@ export function AppShell({ children }: AppShellProps) {
               <Link
                 href="/reading"
                 onClick={() => setDrawerOpen(false)}
-                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#50c2cb]"
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#009DC9]"
               >
                 リーディング
               </Link>

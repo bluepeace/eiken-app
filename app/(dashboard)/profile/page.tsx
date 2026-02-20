@@ -70,6 +70,7 @@ export default function ProfilePage() {
   );
   const [buddyId, setBuddyId] = useState<string | null>(null);
   const [buddies, setBuddies] = useState<Buddy[]>([]);
+  const [organizationName, setOrganizationName] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -98,7 +99,7 @@ export default function ProfilePage() {
         supabase
           .from("user_profiles")
           .select(
-            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date"
+            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, organization_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date, organizations(name)"
           )
           .eq("auth_user_id", user.id)
           .maybeSingle(),
@@ -121,6 +122,8 @@ export default function ProfilePage() {
         if (data.avatar_url) setAvatarUrl(data.avatar_url);
         if (data.avatar_style) setAvatarStyle(data.avatar_style);
         if (data.buddy_id) setBuddyId(data.buddy_id);
+        const org = (data as { organizations?: { name?: string } | null }).organizations;
+        setOrganizationName(org?.name ?? null);
         if (data.target_exam_year != null && data.target_exam_round != null) {
           setTargetExam(`${data.target_exam_year}-${data.target_exam_round}`);
         }
@@ -234,6 +237,7 @@ export default function ProfilePage() {
             avatar_url: avatarUrl,
             avatar_style: avatarStyle,
             buddy_id: buddyId || null,
+            organization_id: 1,
             target_exam_year: targetExamYear,
             target_exam_round: targetExamRound,
             target_exam_primary_date: targetPrimary,
@@ -362,6 +366,11 @@ export default function ProfilePage() {
           <p className="text-sm text-slate-600">
             ダッシュボードの表示名・メールアドレス・目標レベル・バディ・目標の受験日・アバターを設定できます。
           </p>
+          {organizationName && (
+            <p className="mt-1 text-xs text-slate-500">
+              所属: {organizationName}
+            </p>
+          )}
         </div>
 
         <form onSubmit={handleSave} className="space-y-4">

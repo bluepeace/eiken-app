@@ -16,7 +16,15 @@ export async function checkIsAdmin(): Promise<boolean> {
   return data?.role === "admin";
 }
 
-/** 管理者用: ユーザー一覧（メール・課金含む） */
+/** 管理者用: 企業 */
+export interface AdminOrganization {
+  id: number;
+  name: string;
+  logo_url: string | null;
+  created_at: string;
+}
+
+/** 管理者用: ユーザー一覧（メール・課金・所属企業含む） */
 export interface AdminUser {
   id: string;
   display_id: number;
@@ -34,6 +42,8 @@ export interface AdminUser {
   subscription_source: string | null;
   subscription_current_period_end: string | null;
   stripe_customer_id: string | null;
+  organization_id: number | null;
+  organization_name: string | null;
 }
 
 export async function adminGetUsers(): Promise<AdminUser[]> {
@@ -59,15 +69,62 @@ export async function adminGetUsers(): Promise<AdminUser[]> {
     subscription_status: (r.subscription_status as string) ?? "free",
     subscription_source: (r.subscription_source as string) ?? null,
     subscription_current_period_end: (r.subscription_current_period_end as string) ?? null,
-    stripe_customer_id: (r.stripe_customer_id as string) ?? null
+    stripe_customer_id: (r.stripe_customer_id as string) ?? null,
+    organization_id: (r.organization_id as number) ?? null,
+    organization_name: (r.organization_name as string) ?? null
   }));
+}
+
+// ========== 企業管理 ==========
+
+export async function adminGetOrganizations(): Promise<AdminOrganization[]> {
+  const { data, error } = await supabase
+    .from("organizations")
+    .select("id, name, logo_url, created_at")
+    .order("id", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((r) => ({
+    id: r.id as number,
+    name: (r.name as string) ?? "",
+    logo_url: (r.logo_url as string) ?? null,
+    created_at: (r.created_at as string) ?? ""
+  }));
+}
+
+export async function adminCreateOrganization(name: string): Promise<AdminOrganization> {
+  const { data, error } = await supabase
+    .from("organizations")
+    .insert({ name })
+    .select("id, name, logo_url, created_at")
+    .single();
+
+  if (error) throw new Error(error.message);
+  return {
+    id: data.id as number,
+    name: (data.name as string) ?? "",
+    logo_url: (data.logo_url as string) ?? null,
+    created_at: (data.created_at as string) ?? ""
+  };
+}
+
+export async function adminUpdateOrganization(
+  id: number,
+  updates: { name?: string; logo_url?: string | null }
+): Promise<void> {
+  const { error } = await supabase
+    .from("organizations")
+    .update(updates)
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
 }
 
 /** 管理者用: ユーザー詳細（user_profiles の更新用） */
 export async function adminGetUserProfile(profileId: string) {
   const { data, error } = await supabase
     .from("user_profiles")
-    .select("id, auth_user_id, display_name, target_level, role, created_at, subscription_status, subscription_source")
+    .select("id, auth_user_id, display_name, target_level, role, created_at, subscription_status, subscription_source, organization_id")
     .eq("id", profileId)
     .maybeSingle();
 
@@ -84,6 +141,7 @@ export async function adminUpdateUserProfile(
     role?: string;
     subscription_status?: string;
     subscription_source?: string | null;
+    organization_id?: number | null;
   }
 ) {
   const { error } = await supabase

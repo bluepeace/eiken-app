@@ -139,7 +139,8 @@ export default function OnboardingPage() {
         await supabase.from("user_profiles").insert({
           auth_user_id: user.id,
           display_name: displayName.trim(),
-          target_level: null
+          target_level: null,
+          organization_id: 1
         });
       }
       setStep(2);
@@ -176,7 +177,8 @@ export default function OnboardingPage() {
           auth_user_id: user.id,
           display_name: displayName.trim() || null,
           target_level: null,
-          buddy_id: selectedBuddyId || null
+          buddy_id: selectedBuddyId || null,
+          organization_id: 1
         });
       }
       setStep(3);
@@ -212,7 +214,8 @@ export default function OnboardingPage() {
         await supabase.from("user_profiles").insert({
           auth_user_id: user.id,
           display_name: displayName.trim() || null,
-          target_level: targetLevel
+          target_level: targetLevel,
+          organization_id: 1
         });
       }
       setStep(4);

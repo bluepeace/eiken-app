@@ -10,6 +10,7 @@ const ADMIN_NAV = [
   { href: "/admin/dashboard", label: "問題数ダッシュボード" },
   { href: "/admin/settings", label: "基本設定" },
   { href: "/admin/billing", label: "決済管理" },
+  { href: "/admin/organizations", label: "企業管理" },
   { href: "/admin/users", label: "ユーザー管理" },
   { href: "/admin/vocabulary", label: "単語管理" },
   { href: "/admin/writing", label: "ライティング問題" },
