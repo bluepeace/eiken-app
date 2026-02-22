@@ -12,6 +12,8 @@ export function profileLevelToVocabularyLevel(
   profileLevel: string | null
 ): string {
   if (!profileLevel) return "5級";
+  if (profileLevel.includes("準2級プラス") || profileLevel.includes("准2級プラス"))
+    return "準2級プラス";
   const m = profileLevel.match(/英検(準?[0-9一二]級)/);
   if (m) return m[1]; // 準2級, 2級 など
   if (profileLevel.includes("5")) return "5級";

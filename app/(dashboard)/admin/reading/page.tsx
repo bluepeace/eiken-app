@@ -10,7 +10,7 @@ import {
 import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
 const PER_PAGE = 20;
-const LEVELS = ["5級", "4級", "3級", "準2級", "2級", "準1級", "1級"];
+const LEVELS = ["5級", "4級", "3級", "準2級", "準2級プラス", "2級", "準1級", "1級"];
 const QUESTION_TYPES = [
   { value: "short_fill", label: "短文の語句空所" },
   { value: "conversation_fill", label: "会話文の空所" }

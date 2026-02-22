@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const STEPS = [
   { num: 1, title: "会員登録", desc: "メールアドレスで無料登録" },
-  { num: 2, title: "目標級を選択", desc: "英検5級〜1級から選択" },
+  { num: 2, title: "目標級を選択", desc: "英検5級〜1級・準2級プラスから選択" },
   { num: 3, title: "今日のおすすめから始める", desc: "単語・ライティングなど、提案に沿って学習" }
 ];
 

@@ -9,7 +9,7 @@ import {
   adminDeleteWritingPrompt
 } from "@/lib/data/admin-db";
 
-const LEVELS = ["3級", "準2級", "2級", "準1級", "1級"];
+const LEVELS = ["3級", "準2級", "準2級プラス", "2級", "準1級", "1級"];
 
 export default function AdminWritingEditPage() {
   const params = useParams();

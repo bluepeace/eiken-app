@@ -10,7 +10,7 @@ import {
 import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
 const PER_PAGE = 50;
-const LEVELS = ["5級", "4級", "3級", "準2級", "2級", "準1級", "1級"];
+const LEVELS = ["5級", "4級", "3級", "準2級", "準2級プラス", "2級", "準1級", "1級"];
 
 export default function AdminVocabularyPage() {
   const [items, setItems] = useState<VocabularyItem[]>([]);

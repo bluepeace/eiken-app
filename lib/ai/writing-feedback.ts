@@ -3,6 +3,7 @@ import { openai } from "@/lib/ai/openai-client";
 const LEVEL_DESCRIPTIONS: Record<string, string> = {
   "3級": "中学3年生レベル（junior high school 3rd year）",
   "準2級": "高校中級程度（high school intermediate）",
+  "準2級プラス": "高校上級程度（high school upper level, between 準2級 and 2級）",
   "2級": "高校卒業程度（high school graduate）",
   "準1級": "大学中級程度（university intermediate）",
   "1級": "大学上級程度（university advanced）"
@@ -64,6 +65,7 @@ Grade the student's writing according to the specified level.${summaryNote}
 Level criteria:
 - 3級: Junior high school 3rd year level. Be encouraging; focus on basic correctness.
 - 準2級: High school intermediate. Expect simple but coherent essays.
+- 準2級プラス: High school upper level (between 準2級 and 2級). Expect coherent essays with appropriate vocabulary, slightly more sophisticated than 準2級.
 - 2級: High school graduate. Expect clear structure and appropriate vocabulary.
 - 準1級: University intermediate. Expect well-structured arguments with varied vocabulary.
 - 1級: University advanced. Expect sophisticated arguments, complex structures, and precise vocabulary.

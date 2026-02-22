@@ -10,7 +10,7 @@ export function HeroSection() {
         {/* 左：キャッチコピー + CTA */}
         <div className="flex-1 space-y-6 text-center lg:text-left">
           <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-600 shadow-sm">
-            英検5級〜1級 / AI添削対応
+            英検5級〜1級・準2級プラス / AI添削対応
           </span>
 
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">

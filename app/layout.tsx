@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "AiKen | 英検対策アプリ",
-  description: "英検5級〜1級まで対応した総合学習プラットフォーム"
+  description: "英検5級〜1級・準2級プラス対応の総合学習プラットフォーム"
 };
 
 export default function RootLayout({

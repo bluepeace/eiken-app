@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { adminCreateWritingPrompt } from "@/lib/data/admin-db";
 
-const LEVELS = ["3級", "準2級", "2級", "準1級", "1級"];
+const LEVELS = ["3級", "準2級", "準2級プラス", "2級", "準1級", "1級"];
 
 export default function AdminWritingNewPage() {
   const router = useRouter();
