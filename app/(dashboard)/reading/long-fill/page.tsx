@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
   type ReadingPassageBlank,
 } from "@/lib/data/reading-db";
 import { getProfileId } from "@/lib/data/vocabulary-db";
+import { logStudyActivity } from "@/lib/data/study-activity";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
 
@@ -26,6 +27,7 @@ export default function ReadingLongFillPage() {
   const [submitted, setSubmitted] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const sessionStartRef = useRef<number | null>(null);
 
   const load = useCallback(async () => {
     if (!level) {
@@ -52,6 +54,7 @@ export default function ReadingLongFillPage() {
     setSelections({});
     setSubmitted(false);
     setCorrectCount(0);
+    sessionStartRef.current = Date.now();
     setStage("session");
   }, [level]);
 
@@ -69,8 +72,14 @@ export default function ReadingLongFillPage() {
   const handleSubmit = async () => {
     if (!passage || !allSelected || submitted) return;
     setSubmitted(true);
-    let count = 0;
     const profileId = await getProfileId();
+    if (sessionStartRef.current !== null && profileId) {
+      const elapsed = Math.round((Date.now() - sessionStartRef.current) / 1000);
+      if (elapsed > 0) {
+        void logStudyActivity(profileId, "reading", { seconds: elapsed });
+      }
+    }
+    let count = 0;
     for (const bl of blanks) {
       const choice = selections[bl.blank_index];
       const isCorrect = choice === bl.correct_index;

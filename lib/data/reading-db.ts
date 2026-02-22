@@ -234,7 +234,7 @@ export async function fetchReadingPassageQuestions(
   }));
 }
 
-/** 解答履歴1件（短文・会話空所） */
+/** 解答履歴1件（短文・会話空所・語句整序） */
 export interface ReadingHistoryEntry {
   id: number;
   sourceType: string;
@@ -243,11 +243,17 @@ export interface ReadingHistoryEntry {
   isCorrect: boolean;
   createdAt: string;
   level: string;
-  questionType: "short_fill" | "conversation_fill";
+  questionType: "short_fill" | "conversation_fill" | "word_order";
   bodySnippet: string;
+  /** ユーザーが選んだ選択肢のテキスト（語句整序では null） */
+  userAnswerText: string | null;
+  /** 正解の選択肢テキスト（語句整序では正解英文） */
+  correctAnswerText: string | null;
+  /** 解説（日本語） */
+  explanation: string | null;
 }
 
-/** 短文・会話の解答履歴を取得（新しい順） */
+/** 短文・会話・語句整序の解答履歴を取得（新しい順） */
 export async function getReadingHistory(
   profileId: string,
   limit = 50
@@ -256,54 +262,126 @@ export async function getReadingHistory(
     .from("reading_results")
     .select("id, source_type, source_id, user_answer, is_correct, created_at")
     .eq("user_id", profileId)
-    .eq("source_type", "short")
+    .in("source_type", ["short", "word_order"])
     .order("created_at", { ascending: false })
     .limit(limit);
 
   if (resError || !results || results.length === 0) return [];
 
-  const sourceIds = [...new Set(results.map((r) => Number(r.source_id)))];
-  const { data: questions } = await supabase
-    .from("reading_short_questions")
-    .select("id, level, question_type, body")
-    .in("id", sourceIds);
+  const shortIds = [...new Set(results.filter((r) => r.source_type === "short").map((r) => Number(r.source_id)))];
+  const wordOrderIds = [...new Set(results.filter((r) => r.source_type === "word_order").map((r) => Number(r.source_id)))];
 
   const questionMap = new Map<
-    number,
-    { level: string; question_type: string; body: string }
+    string,
+    {
+      sourceType: "short" | "word_order";
+      level: string;
+      question_type: string;
+      body: string;
+      choices: string[];
+      correct_index: number;
+      correctSentence?: string;
+      explanation: string | null;
+    }
   >();
-  for (const q of questions ?? []) {
-    const body = (q.body as string) ?? "";
-    questionMap.set(q.id as number, {
-      level: (q.level as string) ?? "",
-      question_type: (q.question_type as string) ?? "short_fill",
-      body: body.replace(/__BLANK__/g, "（ ）").slice(0, 80) + (body.length > 80 ? "…" : ""),
-    });
+
+  if (shortIds.length > 0) {
+    const { data: questions } = await supabase
+      .from("reading_short_questions")
+      .select("id, level, question_type, body, choices, correct_index, explanation")
+      .in("id", shortIds);
+    for (const q of questions ?? []) {
+      const body = (q.body as string) ?? "";
+      const choices = Array.isArray(q.choices) ? (q.choices as string[]) : [];
+      questionMap.set(`short-${q.id}`, {
+        sourceType: "short",
+        level: (q.level as string) ?? "",
+        question_type: (q.question_type as string) ?? "short_fill",
+        body: body.replace(/__BLANK__/g, "（ ）").slice(0, 80) + (body.length > 80 ? "…" : ""),
+        choices,
+        correct_index: Number(q.correct_index) ?? 0,
+        explanation: (q.explanation as string) ?? null,
+      });
+    }
+  }
+
+  if (wordOrderIds.length > 0) {
+    const { data: wq } = await supabase
+      .from("reading_word_order_questions")
+      .select("id, level, prompt_ja, words, correct_order")
+      .in("id", wordOrderIds);
+    for (const q of wq ?? []) {
+      const words = Array.isArray(q.words) ? (q.words as string[]) : [];
+      const order = Array.isArray(q.correct_order) ? (q.correct_order as number[]) : [];
+      const correctSentence = order.map((i) => words[i]).join(" ");
+      questionMap.set(`word_order-${q.id}`, {
+        sourceType: "word_order",
+        level: (q.level as string) ?? "",
+        question_type: "word_order",
+        body: (q.prompt_ja as string) ?? "",
+        choices: [],
+        correct_index: 0,
+        correctSentence,
+        explanation: null,
+      });
+    }
   }
 
   return results.map((r) => {
-    const q = questionMap.get(Number(r.source_id));
+    const st = (r.source_type as string) ?? "short";
+    const sid = Number(r.source_id);
+    const q = questionMap.get(`${st}-${sid}`);
+    const sourceType = (r.source_type as string) ?? "short";
+    const userAnsIdx = Number(r.user_answer);
+    const correctIdx = q?.correct_index ?? 0;
+    const choices = q?.choices ?? [];
+
+    if (sourceType === "word_order" && q?.sourceType === "word_order") {
+      return {
+        id: r.id as number,
+        sourceType,
+        sourceId: Number(r.source_id),
+        userAnswer: userAnsIdx,
+        isCorrect: Boolean(r.is_correct),
+        createdAt: (r.created_at as string) ?? "",
+        level: q.level,
+        questionType: "word_order" as const,
+        bodySnippet: q.body,
+        userAnswerText: null,
+        correctAnswerText: q.correctSentence ?? null,
+        explanation: q.explanation ?? null,
+      };
+    }
+
     return {
       id: r.id as number,
-      sourceType: (r.source_type as string) ?? "short",
+      sourceType,
       sourceId: Number(r.source_id),
-      userAnswer: Number(r.user_answer),
+      userAnswer: userAnsIdx,
       isCorrect: Boolean(r.is_correct),
       createdAt: (r.created_at as string) ?? "",
       level: q?.level ?? "",
       questionType: (q?.question_type === "conversation_fill" ? "conversation_fill" : "short_fill") as "short_fill" | "conversation_fill",
       bodySnippet: q?.body ?? "",
+      userAnswerText: choices[userAnsIdx] ?? null,
+      correctAnswerText: choices[correctIdx] ?? null,
+      explanation: q?.explanation ?? null,
     };
   });
 }
 
-/** 間違えた問題の集計（短文・会話、間違い回数が多い順） */
+/** 間違えた問題の集計（短文・会話・語句整序、間違い回数が多い順） */
 export interface ReadingWrongStats {
   sourceId: number;
+  sourceType: "short" | "word_order";
   wrongCount: number;
   level: string;
-  questionType: "short_fill" | "conversation_fill";
+  questionType: "short_fill" | "conversation_fill" | "word_order";
   bodySnippet: string;
+  /** 正解の選択肢テキスト（語句整序では正解英文） */
+  correctAnswerText: string | null;
+  /** 解説（日本語） */
+  explanation: string | null;
 }
 
 export async function getReadingWrongStats(
@@ -311,48 +389,71 @@ export async function getReadingWrongStats(
 ): Promise<ReadingWrongStats[]> {
   const { data, error } = await supabase
     .from("reading_results")
-    .select("source_id")
+    .select("source_type, source_id")
     .eq("user_id", profileId)
-    .eq("source_type", "short")
+    .in("source_type", ["short", "word_order"])
     .eq("is_correct", false);
 
   if (error || !data) return [];
 
-  const countMap = new Map<number, number>();
+  const countMap = new Map<string, number>();
   for (const row of data) {
-    const id = Number(row.source_id);
-    countMap.set(id, (countMap.get(id) ?? 0) + 1);
-  }
-  const ids = [...countMap.keys()];
-  if (ids.length === 0) return [];
-
-  const { data: questions } = await supabase
-    .from("reading_short_questions")
-    .select("id, level, question_type, body")
-    .in("id", ids);
-
-  const questionMap = new Map<
-    number,
-    { level: string; question_type: string; body: string }
-  >();
-  for (const q of questions ?? []) {
-    const body = (q.body as string) ?? "";
-    questionMap.set(q.id as number, {
-      level: (q.level as string) ?? "",
-      question_type: (q.question_type as string) ?? "short_fill",
-      body: body.replace(/__BLANK__/g, "（ ）").slice(0, 80) + (body.length > 80 ? "…" : ""),
-    });
+    const key = `${row.source_type}-${row.source_id}`;
+    countMap.set(key, (countMap.get(key) ?? 0) + 1);
   }
 
-  return ids
-    .map((sourceId) => ({
-      sourceId,
-      wrongCount: countMap.get(sourceId) ?? 0,
-      level: questionMap.get(sourceId)?.level ?? "",
-      questionType: (questionMap.get(sourceId)?.question_type === "conversation_fill" ? "conversation_fill" : "short_fill") as "short_fill" | "conversation_fill",
-      bodySnippet: questionMap.get(sourceId)?.body ?? "",
-    }))
-    .sort((a, b) => b.wrongCount - a.wrongCount);
+  const shortIds = [...new Set(data.filter((r) => r.source_type === "short").map((r) => Number(r.source_id)))];
+  const wordOrderIds = [...new Set(data.filter((r) => r.source_type === "word_order").map((r) => Number(r.source_id)))];
+
+  const result: ReadingWrongStats[] = [];
+
+  if (shortIds.length > 0) {
+    const { data: questions } = await supabase
+      .from("reading_short_questions")
+      .select("id, level, question_type, body, choices, correct_index, explanation")
+      .in("id", shortIds);
+    for (const q of questions ?? []) {
+      const body = (q.body as string) ?? "";
+      const choices = Array.isArray(q.choices) ? (q.choices as string[]) : [];
+      const correctIdx = Number(q.correct_index) ?? 0;
+      const key = `short-${q.id}`;
+      result.push({
+        sourceId: q.id as number,
+        sourceType: "short",
+        wrongCount: countMap.get(key) ?? 0,
+        level: (q.level as string) ?? "",
+        questionType: (q.question_type === "conversation_fill" ? "conversation_fill" : "short_fill") as "short_fill" | "conversation_fill",
+        bodySnippet: body.replace(/__BLANK__/g, "（ ）").slice(0, 80) + (body.length > 80 ? "…" : ""),
+        correctAnswerText: choices[correctIdx] ?? null,
+        explanation: (q.explanation as string) ?? null,
+      });
+    }
+  }
+
+  if (wordOrderIds.length > 0) {
+    const { data: wq } = await supabase
+      .from("reading_word_order_questions")
+      .select("id, level, prompt_ja, words, correct_order")
+      .in("id", wordOrderIds);
+    for (const q of wq ?? []) {
+      const words = Array.isArray(q.words) ? (q.words as string[]) : [];
+      const order = Array.isArray(q.correct_order) ? (q.correct_order as number[]) : [];
+      const correctSentence = order.map((i) => words[i]).join(" ");
+      const key = `word_order-${q.id}`;
+      result.push({
+        sourceId: q.id as number,
+        sourceType: "word_order",
+        wrongCount: countMap.get(key) ?? 0,
+        level: (q.level as string) ?? "",
+        questionType: "word_order",
+        bodySnippet: (q.prompt_ja as string) ?? "",
+        correctAnswerText: correctSentence || null,
+        explanation: null,
+      });
+    }
+  }
+
+  return result.sort((a, b) => b.wrongCount - a.wrongCount);
 }
 
 /** 回答履歴を保存（任意・ログイン時） */

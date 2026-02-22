@@ -768,3 +768,46 @@ export async function adminDeleteReadingShortQuestion(id: number) {
 
   if (error) throw new Error(error.message);
 }
+
+/** 管理者用: 語句整序問題一覧 */
+export interface AdminReadingWordOrderQuestion {
+  id: number;
+  level: string;
+  prompt_ja: string;
+  words: string[];
+  correct_order: number[];
+  created_at?: string;
+}
+
+export async function adminGetReadingWordOrderQuestions(): Promise<AdminReadingWordOrderQuestion[]> {
+  const all: AdminReadingWordOrderQuestion[] = [];
+  const pageSize = 500;
+  let offset = 0;
+  let hasMore = true;
+
+  while (hasMore) {
+    const { data, error } = await supabase
+      .from("reading_word_order_questions")
+      .select("id, level, prompt_ja, words, correct_order, created_at")
+      .order("id", { ascending: true })
+      .range(offset, offset + pageSize - 1);
+
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) break;
+
+    for (const r of data) {
+      all.push({
+        id: r.id as number,
+        level: (r.level as string) ?? "",
+        prompt_ja: (r.prompt_ja as string) ?? "",
+        words: Array.isArray(r.words) ? (r.words as string[]) : [],
+        correct_order: Array.isArray(r.correct_order) ? (r.correct_order as number[]) : [],
+        created_at: r.created_at as string | undefined
+      });
+    }
+    hasMore = data.length >= pageSize;
+    offset += pageSize;
+  }
+
+  return all;
+}

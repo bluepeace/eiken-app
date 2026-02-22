@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
   type ReadingPassageQuestion,
 } from "@/lib/data/reading-db";
 import { getProfileId } from "@/lib/data/vocabulary-db";
+import { logStudyActivity } from "@/lib/data/study-activity";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
 
@@ -24,6 +25,7 @@ export default function ReadingLongContentPage() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const sessionStartRef = useRef<number | null>(null);
 
   const load = useCallback(async () => {
     if (!level) {
@@ -50,6 +52,7 @@ export default function ReadingLongContentPage() {
     setCurrentQ(0);
     setSelectedIndex(null);
     setCorrectCount(0);
+    sessionStartRef.current = Date.now();
     setStage("session");
   }, [level]);
 
@@ -72,8 +75,17 @@ export default function ReadingLongContentPage() {
   };
 
   const handleNext = () => {
+    const isLastQuestion = currentQ + 1 >= questions.length;
+    if (isLastQuestion && sessionStartRef.current !== null) {
+      const elapsed = Math.round((Date.now() - sessionStartRef.current) / 1000);
+      getProfileId().then((profileId) => {
+        if (profileId && elapsed > 0) {
+          void logStudyActivity(profileId, "reading", { seconds: elapsed });
+        }
+      });
+    }
     setSelectedIndex(null);
-    if (currentQ + 1 >= questions.length) {
+    if (isLastQuestion) {
       setStage("result");
     } else {
       setCurrentQ((i) => i + 1);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -9,6 +9,7 @@ import {
   type ReadingWordOrderQuestion,
 } from "@/lib/data/reading-db";
 import { getProfileId } from "@/lib/data/vocabulary-db";
+import { logStudyActivity } from "@/lib/data/study-activity";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
 
@@ -32,6 +33,7 @@ export default function ReadingWordOrderPage() {
   const [submitted, setSubmitted] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const sessionStartRef = useRef<number | null>(null);
 
   const load = useCallback(async () => {
     if (!level) {
@@ -51,6 +53,7 @@ export default function ReadingWordOrderPage() {
     setQuestions(shuffle(data));
     setCurrentIndex(0);
     setCorrectCount(0);
+    sessionStartRef.current = Date.now();
     setStage("session");
   }, [level]);
 
@@ -96,7 +99,16 @@ export default function ReadingWordOrderPage() {
   };
 
   const handleNext = () => {
-    if (currentIndex + 1 >= questions.length) {
+    const isLastQuestion = currentIndex + 1 >= questions.length;
+    if (isLastQuestion && sessionStartRef.current !== null) {
+      const elapsed = Math.round((Date.now() - sessionStartRef.current) / 1000);
+      getProfileId().then((profileId) => {
+        if (profileId && elapsed > 0) {
+          void logStudyActivity(profileId, "reading", { seconds: elapsed });
+        }
+      });
+    }
+    if (isLastQuestion) {
       setStage("result");
     } else {
       setCurrentIndex((i) => i + 1);

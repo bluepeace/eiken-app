@@ -4,8 +4,10 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import {
   adminGetReadingShortQuestions,
+  adminGetReadingWordOrderQuestions,
   adminDeleteReadingShortQuestion,
-  type AdminReadingShortQuestion
+  type AdminReadingShortQuestion,
+  type AdminReadingWordOrderQuestion
 } from "@/lib/data/admin-db";
 import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
@@ -16,8 +18,12 @@ const QUESTION_TYPES = [
   { value: "conversation_fill", label: "会話文の空所" }
 ] as const;
 
+type TabType = "short" | "word_order";
+
 export default function AdminReadingPage() {
+  const [tab, setTab] = useState<TabType>("short");
   const [items, setItems] = useState<AdminReadingShortQuestion[]>([]);
+  const [wordOrderItems, setWordOrderItems] = useState<AdminReadingWordOrderQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,8 +34,12 @@ export default function AdminReadingPage() {
 
   const load = async () => {
     try {
-      const data = await adminGetReadingShortQuestions();
+      const [data, woData] = await Promise.all([
+        adminGetReadingShortQuestions(),
+        adminGetReadingWordOrderQuestions()
+      ]);
       setItems(data);
+      setWordOrderItems(woData);
     } catch (e) {
       setError(e instanceof Error ? e.message : "読み込みに失敗しました");
     } finally {
@@ -59,15 +69,33 @@ export default function AdminReadingPage() {
     );
   }, [items, searchQuery, levelFilter, typeFilter, sortOrder]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredItems.length / PER_PAGE));
+  const filteredWordOrderItems = useMemo(() => {
+    let list = wordOrderItems;
+    if (levelFilter) list = list.filter((q) => q.level === levelFilter);
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(
+        (item) =>
+          item.prompt_ja.toLowerCase().includes(q) ||
+          String(item.id).includes(q) ||
+          item.words.some((w) => w.toLowerCase().includes(q))
+      );
+    }
+    return [...list].sort((a, b) =>
+      sortOrder === "asc" ? a.id - b.id : b.id - a.id
+    );
+  }, [wordOrderItems, searchQuery, levelFilter, sortOrder]);
+
+  const activeFilteredItems = tab === "short" ? filteredItems : filteredWordOrderItems;
+  const totalPages = Math.max(1, Math.ceil(activeFilteredItems.length / PER_PAGE));
   const paginatedItems = useMemo(() => {
     const start = (currentPage - 1) * PER_PAGE;
-    return filteredItems.slice(start, start + PER_PAGE);
-  }, [filteredItems, currentPage]);
+    return activeFilteredItems.slice(start, start + PER_PAGE);
+  }, [activeFilteredItems, currentPage]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, levelFilter, typeFilter, sortOrder]);
+  }, [searchQuery, levelFilter, typeFilter, sortOrder, tab]);
 
   const handleDelete = async (id: number) => {
     if (!confirm(`問題 ID ${id} を削除しますか？`)) return;
@@ -95,7 +123,26 @@ export default function AdminReadingPage() {
   ];
 
   const handleDownloadCsv = () => {
-    exportToCsv(`reading_${new Date().toISOString().slice(0, 10)}.csv`, filteredItems, readingCsvColumns);
+    if (tab === "short") {
+      exportToCsv(`reading_short_${new Date().toISOString().slice(0, 10)}.csv`, filteredItems, readingCsvColumns);
+    } else {
+      const woColumns: CsvColumn<AdminReadingWordOrderQuestion>[] = [
+        { key: "id", label: "ID" },
+        { key: "level", label: "級" },
+        { key: "prompt_ja", label: "日本文" },
+        {
+          key: "words",
+          label: "語句",
+          format: (v) => (Array.isArray(v) ? (v as string[]).join(" | ") : String(v ?? ""))
+        },
+        {
+          key: "correct_order",
+          label: "正解順",
+          format: (v) => (Array.isArray(v) ? (v as number[]).join(",") : String(v ?? ""))
+        }
+      ];
+      exportToCsv(`reading_word_order_${new Date().toISOString().slice(0, 10)}.csv`, filteredWordOrderItems, woColumns);
+    }
   };
 
   const bodyPreview = (body: string, maxLen: number) => {
@@ -117,7 +164,28 @@ export default function AdminReadingPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-slate-100">リーディング問題（短文・会話）</h1>
+      <h1 className="mb-6 text-xl font-semibold text-slate-100">リーディング問題</h1>
+
+      <div className="mb-4 flex gap-2 rounded-lg bg-slate-800/50 p-1">
+        <button
+          type="button"
+          onClick={() => setTab("short")}
+          className={`rounded-md px-4 py-2 text-sm font-medium ${
+            tab === "short" ? "bg-slate-700 text-white" : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          短文・会話 ({items.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab("word_order")}
+          className={`rounded-md px-4 py-2 text-sm font-medium ${
+            tab === "word_order" ? "bg-slate-700 text-white" : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          語句整序 ({wordOrderItems.length})
+        </button>
+      </div>
 
       <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:flex-wrap">
         <input
@@ -137,19 +205,21 @@ export default function AdminReadingPage() {
             <option key={l} value={l}>{l}</option>
           ))}
         </select>
-        <select
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value)}
-          className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
-        >
-          <option value="">形式（すべて）</option>
-          {QUESTION_TYPES.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
-          ))}
-        </select>
+        {tab === "short" && (
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none focus:border-brand-500"
+          >
+            <option value="">形式（すべて）</option>
+            {QUESTION_TYPES.map((t) => (
+              <option key={t.value} value={t.value}>{t.label}</option>
+            ))}
+          </select>
+        )}
         <div className="flex items-center gap-4">
           <p className="text-xs text-slate-500">
-            {filteredItems.length} 件 / {items.length} 件
+            {activeFilteredItems.length} 件 / {tab === "short" ? items.length : wordOrderItems.length} 件
           </p>
           <button
             type="button"
@@ -158,12 +228,14 @@ export default function AdminReadingPage() {
           >
             CSVダウンロード（絞り込み結果）
           </button>
-          <Link
-            href="/admin/reading/new"
-            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
-          >
-            新規登録
-          </Link>
+          {tab === "short" && (
+            <Link
+              href="/admin/reading/new"
+              className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
+            >
+              新規登録
+            </Link>
+          )}
         </div>
       </div>
 
@@ -190,44 +262,72 @@ export default function AdminReadingPage() {
                 </button>
               </th>
               <th className="px-4 py-3 font-medium text-slate-300">級</th>
-              <th className="px-4 py-3 font-medium text-slate-300">形式</th>
-              <th className="px-4 py-3 font-medium text-slate-300">本文（抜粋）</th>
-              <th className="px-4 py-3 font-medium text-slate-300" />
+              {tab === "short" && (
+                <th className="px-4 py-3 font-medium text-slate-300">形式</th>
+              )}
+              <th className="px-4 py-3 font-medium text-slate-300">
+                {tab === "short" ? "本文（抜粋）" : "日本文（抜粋）"}
+              </th>
+              {tab === "word_order" && (
+                <th className="px-4 py-3 font-medium text-slate-300">正解英文（抜粋）</th>
+              )}
+              {tab === "short" && (
+                <th className="px-4 py-3 font-medium text-slate-300" />
+              )}
             </tr>
           </thead>
           <tbody>
-            {paginatedItems.map((q) => (
-              <tr
-                key={q.id}
-                className="border-b border-slate-800 transition hover:bg-slate-800/30"
-              >
-                <td className="px-4 py-3 font-mono text-slate-300">{q.id}</td>
-                <td className="px-4 py-3 text-slate-400">{q.level}</td>
-                <td className="px-4 py-3 text-slate-400">
-                  {q.question_type === "short_fill" ? "短文" : "会話"}
-                </td>
-                <td className="max-w-md truncate px-4 py-3 text-slate-300" title={q.body}>
-                  {bodyPreview(q.body, 50)}
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex gap-2">
-                    <Link
-                      href={`/admin/reading/${q.id}`}
-                      className="text-brand-400 hover:text-brand-300 hover:underline"
+            {tab === "short"
+              ? (paginatedItems as AdminReadingShortQuestion[]).map((q) => (
+                  <tr
+                    key={q.id}
+                    className="border-b border-slate-800 transition hover:bg-slate-800/30"
+                  >
+                    <td className="px-4 py-3 font-mono text-slate-300">{q.id}</td>
+                    <td className="px-4 py-3 text-slate-400">{q.level}</td>
+                    <td className="px-4 py-3 text-slate-400">
+                      {q.question_type === "short_fill" ? "短文" : "会話"}
+                    </td>
+                    <td className="max-w-md truncate px-4 py-3 text-slate-300" title={q.body}>
+                      {bodyPreview(q.body, 50)}
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2">
+                        <Link
+                          href={`/admin/reading/${q.id}`}
+                          className="text-brand-400 hover:text-brand-300 hover:underline"
+                        >
+                          編集
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(q.id)}
+                          className="text-red-400 hover:text-red-300 hover:underline"
+                        >
+                          削除
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              : (paginatedItems as AdminReadingWordOrderQuestion[]).map((q) => {
+                  const correctSentence = q.correct_order.map((i) => q.words[i]).join(" ");
+                  return (
+                    <tr
+                      key={q.id}
+                      className="border-b border-slate-800 transition hover:bg-slate-800/30"
                     >
-                      編集
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(q.id)}
-                      className="text-red-400 hover:text-red-300 hover:underline"
-                    >
-                      削除
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                      <td className="px-4 py-3 font-mono text-slate-300">{q.id}</td>
+                      <td className="px-4 py-3 text-slate-400">{q.level}</td>
+                      <td className="max-w-md truncate px-4 py-3 text-slate-300" title={q.prompt_ja}>
+                        {bodyPreview(q.prompt_ja, 50)}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-slate-500" title={correctSentence}>
+                        {bodyPreview(correctSentence, 40)}
+                      </td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </table>
       </div>
@@ -256,11 +356,13 @@ export default function AdminReadingPage() {
         </div>
       )}
 
-      {filteredItems.length === 0 && (
+      {activeFilteredItems.length === 0 && (
         <p className="mt-6 text-center text-slate-500">
-          {searchQuery || levelFilter || typeFilter
+          {searchQuery || levelFilter || (tab === "short" && typeFilter)
             ? "検索に一致する問題はありません"
-            : "問題が登録されていません。新規登録から追加してください。"}
+            : tab === "short"
+              ? "問題が登録されていません。新規登録から追加してください。"
+              : "語句整序の問題が登録されていません。"}
         </p>
       )}
     </div>

@@ -22,7 +22,7 @@ function formatDate(iso: string) {
   });
 }
 
-function questionTypeLabel(t: "short_fill" | "conversation_fill") {
+function questionTypeLabel(t: "short_fill" | "conversation_fill" | "word_order") {
   return PROBLEM_TYPE_INFO[t]?.label ?? t;
 }
 
@@ -45,8 +45,9 @@ export default function ReadingHistoryPage() {
         getReadingHistory(profileId),
         getReadingWrongStats(profileId),
       ]);
-      setHistory(h);
-      setWrongStats(w);
+      // 問題文が取得できなかった履歴は非表示にする
+      setHistory(h.filter((e) => e.bodySnippet?.trim()));
+      setWrongStats(w.filter((s) => s.bodySnippet?.trim()));
       setLoading(false);
     };
     load();
@@ -126,13 +127,13 @@ export default function ReadingHistoryPage() {
             </p>
             {wrongStats.length === 0 ? (
               <p className="text-sm text-slate-500">
-                まだ間違えた問題はありません。短文・会話の空所補充に挑戦してみましょう。
+                まだ間違えた問題はありません。短文・会話の空所補充や語句整序に挑戦してみましょう。
               </p>
             ) : (
               <ul className="space-y-3">
                 {wrongStats.map((s) => (
                   <li
-                    key={s.sourceId}
+                    key={`${s.sourceType}-${s.sourceId}`}
                     className="flex flex-col gap-2 rounded-lg border border-slate-100 bg-slate-50 px-4 py-3"
                   >
                     <div className="flex items-start justify-between gap-2">
@@ -148,6 +149,18 @@ export default function ReadingHistoryPage() {
                         {s.wrongCount}回
                       </span>
                     </div>
+                    {s.correctAnswerText && (
+                      <p className="text-xs text-slate-600">
+                        <span className="font-medium text-slate-700">正解：</span>
+                        {s.correctAnswerText}
+                      </p>
+                    )}
+                    {s.explanation && (
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        <span className="font-medium text-slate-700">解説：</span>
+                        {s.explanation}
+                      </p>
+                    )}
                     <Link
                       href={`${PROBLEM_TYPE_INFO[s.questionType]?.path ?? "/reading/short"}?level=${encodeURIComponent(s.level)}`}
                       className="mt-1 text-xs text-[#50c2cb] hover:underline"
@@ -164,7 +177,7 @@ export default function ReadingHistoryPage() {
         {tab === "history" && (
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <p className="mb-4 text-sm text-slate-600">
-              直近の解答履歴（短文・会話の空所補充）です。
+              直近の解答履歴（短文・会話の空所補充・語句整序）です。
             </p>
             {history.length === 0 ? (
               <p className="text-sm text-slate-500">
@@ -197,6 +210,28 @@ export default function ReadingHistoryPage() {
                     <p className="text-slate-700">
                       {e.bodySnippet || "—"}
                     </p>
+                    {!e.isCorrect && (e.userAnswerText != null || e.correctAnswerText != null) && (
+                      <div className="space-y-0.5 text-xs text-slate-600">
+                        {e.userAnswerText != null && (
+                          <p>
+                            <span className="font-medium text-red-700">あなたの解答：</span>
+                            {e.userAnswerText}
+                          </p>
+                        )}
+                        {e.correctAnswerText != null && (
+                          <p>
+                            <span className="font-medium text-emerald-700">正解：</span>
+                            {e.correctAnswerText}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {!e.isCorrect && e.explanation && (
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        <span className="font-medium text-slate-700">解説：</span>
+                        {e.explanation}
+                      </p>
+                    )}
                   </li>
                 ))}
               </ul>

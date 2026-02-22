@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AbortErrorHandler } from "@/components/AbortErrorHandler";
 
 export const metadata: Metadata = {
   title: "AiKen | 英検対策アプリ",
@@ -26,6 +27,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-slate-950 text-slate-50 antialiased">
+        <AbortErrorHandler />
         {children}
       </body>
     </html>
