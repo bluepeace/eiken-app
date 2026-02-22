@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { profileLevelToVocabularyLevel } from "@/lib/data/vocabulary-db";
 import { MODULE_COLORS, type ModuleKey } from "@/lib/constants/module-colors";
 
 const MODULES = [
@@ -46,6 +47,10 @@ interface LearningModulesGridProps {
 }
 
 export function LearningModulesGrid({ targetLevel }: LearningModulesGridProps) {
+  const levelParam = targetLevel
+    ? encodeURIComponent(profileLevelToVocabularyLevel(targetLevel))
+    : null;
+
   const modules = MODULES.filter(
     (m) =>
       !(
@@ -65,10 +70,16 @@ export function LearningModulesGrid({ targetLevel }: LearningModulesGridProps) {
       <div className="grid gap-3 md:grid-cols-3">
         {modules.map((m) => {
           const colors = MODULE_COLORS[m.key as ModuleKey];
-          return (
+          const href =
+              m.key === "vocabulary" || m.key === "writing" || m.key === "reading"
+                ? levelParam
+                  ? `${m.href}?level=${levelParam}`
+                  : m.href
+                : m.href;
+            return (
             <Link
               key={m.key}
-              href={m.href}
+              href={href}
               className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg ${colors.hoverBg}`}
             >
               <div className="space-y-2">

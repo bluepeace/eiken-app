@@ -34,6 +34,20 @@ export const ESSAY_HINTS: Record<string, string> = {
 ・1文＝1アイデアでシンプルに
 ・接続詞（First, Second, Therefore）で流れをつける`,
 
+  "準2級プラス": `【英検準2級プラス 英作文の型】
+
+■ 基本構成（50〜60語）
+1. 意見「I think ...」
+2. 理由1「First, ～」
+3. 理由2「Second, ～」
+4. 結論「Therefore, ...」
+
+■ 書き方のコツ
+・日常生活・社会・環境・観光など身近なトピックが中心
+・意見を明確にし、理由を2つ具体的に述べる
+・接続詞（First, Second, Therefore）で論理の流れを作る
+・準2級よりやや発展した語彙を使うと高評価`,
+
   "2級": `【英検2級 英作文の型】
 
 ■ 基本構成（80〜100語）
@@ -186,5 +200,5 @@ export function getWritingHint(
 ): string {
   if (type === "summary") return SUMMARY_HINTS[level] ?? SUMMARY_HINTS["2級"] ?? SUMMARY_HINTS["準1級"] ?? SUMMARY_HINTS["1級"] ?? "";
   const hints = type === "essay" ? ESSAY_HINTS : EMAIL_HINTS;
-  return hints[level] ?? hints["3級"] ?? "";
+  return hints[level] ?? hints["準2級プラス"] ?? hints["準2級"] ?? hints["3級"] ?? "";
 }

@@ -2,15 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { getProfileTargetLevel, profileLevelToVocabularyLevel } from "@/lib/data/vocabulary-db";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 
-const WRITING_LEVELS = ["3級", "準2級", "2級", "準1級", "1級"] as const;
+const WRITING_LEVELS = ["3級", "準2級", "準2級プラス", "2級", "準1級", "1級"] as const;
 type WritingLevel = (typeof WRITING_LEVELS)[number];
 
 const LEVEL_INFO: Record<WritingLevel, { wordRange: string; desc: string }> = {
   "3級": { wordRange: "25〜35語", desc: "QUESTIONについて考えと理由を2つ述べます。" },
   "準2級": { wordRange: "50〜60語", desc: "QUESTIONについて意見と理由を2つ述べます。" },
+  "準2級プラス": { wordRange: "50〜60語", desc: "QUESTIONについて意見と理由を2つ述べます。" },
   "2級": { wordRange: "80〜100語", desc: "TOPICについて意見と理由を2つ述べます。POINTSを参考に。" },
   "準1級": { wordRange: "120〜150語", desc: "POINTSから2つ選び、序論・本論・結論でエッセイを書きます。" },
   "1級": { wordRange: "200〜240語", desc: "意見と理由を3つ述べます。序論・本論・結論。" },
@@ -21,7 +23,12 @@ function isValidWritingLevel(s: string): s is WritingLevel {
 }
 
 export default function WritingPage() {
-  const [selectedLevel, setSelectedLevel] = useState<WritingLevel>("3級");
+  const searchParams = useSearchParams();
+  const urlLevel = searchParams.get("level");
+  const [selectedLevel, setSelectedLevel] = useState<WritingLevel>(() => {
+    if (urlLevel && isValidWritingLevel(urlLevel)) return urlLevel;
+    return "3級";
+  });
   const [levelLoaded, setLevelLoaded] = useState(false);
 
   useEffect(() => {
@@ -30,10 +37,12 @@ export default function WritingPage() {
       if (!targetLevel) return;
       const profileLevel = profileLevelToVocabularyLevel(targetLevel);
       if (isValidWritingLevel(profileLevel)) {
-        setSelectedLevel(profileLevel);
+        setSelectedLevel((prev) =>
+          urlLevel && isValidWritingLevel(urlLevel) ? prev : profileLevel
+        );
       }
     });
-  }, []);
+  }, [urlLevel]);
 
   const info = LEVEL_INFO[selectedLevel];
 

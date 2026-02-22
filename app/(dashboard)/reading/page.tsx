@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   getProfileTargetLevel,
   profileLevelToVocabularyLevel,
@@ -18,7 +19,12 @@ function isValidReadingLevel(s: string): s is ReadingLevel {
 }
 
 export default function ReadingPage() {
-  const [selectedLevel, setSelectedLevel] = useState<ReadingLevel>("2級");
+  const searchParams = useSearchParams();
+  const urlLevel = searchParams.get("level");
+  const [selectedLevel, setSelectedLevel] = useState<ReadingLevel>(() => {
+    if (urlLevel && isValidReadingLevel(urlLevel)) return urlLevel;
+    return "2級";
+  });
   const [levelLoaded, setLevelLoaded] = useState(false);
 
   useEffect(() => {
@@ -27,10 +33,12 @@ export default function ReadingPage() {
       if (!targetLevel) return;
       const profileLevel = profileLevelToVocabularyLevel(targetLevel);
       if (isValidReadingLevel(profileLevel)) {
-        setSelectedLevel(profileLevel);
+        setSelectedLevel((prev) =>
+          urlLevel && isValidReadingLevel(urlLevel) ? prev : profileLevel
+        );
       }
     });
-  }, []);
+  }, [urlLevel]);
 
   const menuItems = getMenuItemsForLevel(selectedLevel);
 

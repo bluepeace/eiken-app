@@ -256,9 +256,9 @@ export async function getWritingHistory(
 /** プロフィールの目標級（英検2級）を writing_prompts の level（2級）に変換 */
 function profileLevelToWritingLevel(profileLevel: string | null): string | null {
   if (!profileLevel) return null;
-  // 準2級プラスは英作文形式が準2級と同じ（50〜60語）のため準2級にマッピング
+  // 準2級プラスは専用の英作文問題を用意しているためそのまま返す
   if (profileLevel.includes("準2級プラス") || profileLevel.includes("准2級プラス"))
-    return "準2級";
+    return "準2級プラス";
   const m = profileLevel.match(/英検(準?[0-9一二]級)/);
   if (m) return m[1]; // 3級, 準2級, 2級, 準1級, 1級
   if (profileLevel.includes("準2") || profileLevel.includes("准2"))

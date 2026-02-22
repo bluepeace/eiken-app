@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { VocabularyQuizCard } from "@/components/features/vocabulary/VocabularyQuizCard";
 import {
   VOCABULARY_LEVELS,
@@ -24,9 +25,22 @@ import {
 import { GuestLimitPrompt } from "@/components/GuestLimitPrompt";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 
+function isValidVocabLevel(
+  s: string,
+  levels: readonly string[]
+): s is (typeof levels)[number] {
+  return levels.includes(s);
+}
+
 export default function VocabularyPage() {
+  const searchParams = useSearchParams();
+  const urlLevel = searchParams.get("level");
   const [stage, setStage] = useState<"select" | "session" | "result">("select");
-  const [selectedLevel, setSelectedLevel] = useState<string>("");
+  const [selectedLevel, setSelectedLevel] = useState<string>(() => {
+    if (urlLevel && isValidVocabLevel(urlLevel, VOCABULARY_LEVELS))
+      return urlLevel;
+    return "";
+  });
   const [levelLoaded, setLevelLoaded] = useState(false);
   const [showGuestLimit, setShowGuestLimit] = useState(false);
   const [isGuest, setIsGuest] = useState<boolean | null>(null);
@@ -40,6 +54,7 @@ export default function VocabularyPage() {
   const sessionStartRef = useRef<number | null>(null);
 
   // 目標級が設定されていればデフォルトで選択、未設定なら空のまま自分で選ぶ
+  // URLのlevelパラメータがあればそれを優先（ダッシュボードからの遷移時）
   useEffect(() => {
     Promise.all([
       getProfileTargetLevel(),
@@ -49,11 +64,15 @@ export default function VocabularyPage() {
       setIsGuest(!profileId);
       if (!targetLevel) return;
       const vocabLevel = profileLevelToVocabularyLevel(targetLevel);
-      if (VOCABULARY_LEVELS.includes(vocabLevel as (typeof VOCABULARY_LEVELS)[number])) {
-        setSelectedLevel(vocabLevel);
+      if (isValidVocabLevel(vocabLevel, VOCABULARY_LEVELS)) {
+        setSelectedLevel((prev) =>
+          urlLevel && isValidVocabLevel(urlLevel, VOCABULARY_LEVELS)
+            ? prev
+            : vocabLevel
+        );
       }
     });
-  }, []);
+  }, [urlLevel]);
 
   const startSession = async () => {
     setError(null);

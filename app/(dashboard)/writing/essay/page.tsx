@@ -20,7 +20,7 @@ import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { WritingResult, type WritingResultData } from "@/components/features/writing/WritingResult";
 import { WritingHintPanel, WritingHintButton } from "@/components/features/writing/WritingHintPanel";
 
-const VALID_ESSAY_LEVELS = ["3級", "準2級", "2級", "準1級", "1級"] as const;
+const VALID_ESSAY_LEVELS = ["3級", "準2級", "準2級プラス", "2級", "準1級", "1級"] as const;
 type EssayLevel = (typeof VALID_ESSAY_LEVELS)[number];
 
 function isValidLevel(s: string | null): s is EssayLevel {
@@ -40,7 +40,7 @@ function getWordCountRange(prompt: WritingPrompt): string {
   return "50〜60語";
 }
 
-const ESSAY_LEVELS: EssayLevel[] = ["3級", "準2級", "2級", "準1級", "1級"];
+const ESSAY_LEVELS: EssayLevel[] = ["3級", "準2級", "準2級プラス", "2級", "準1級", "1級"];
 
 function WritingEssayContent() {
   const router = useRouter();
