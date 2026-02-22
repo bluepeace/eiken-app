@@ -72,32 +72,63 @@ export async function getVocabularyProficiency(
   return { percentage, mastered, total: totalCount };
 }
 
-/** ログインユーザーに紐づく user_profiles.id を取得 */
+// --- プロフィールキャッシュ（auth_user_id → { profileId, targetLevel }）。ログイン後に1回DB取得し、以降はキャッシュで返す
+const profileCache = new Map<
+  string,
+  { profileId: string; targetLevel: string | null }
+>();
+
+async function fetchAndCacheProfile(
+  authUserId: string
+): Promise<{ profileId: string | null; targetLevel: string | null }> {
+  const { data } = await supabase
+    .from("user_profiles")
+    .select("id, target_level")
+    .eq("auth_user_id", authUserId)
+    .maybeSingle();
+  if (!data) return { profileId: null, targetLevel: null };
+  const profileId = data.id as string;
+  const targetLevel = (data.target_level as string | null) ?? null;
+  profileCache.set(authUserId, { profileId, targetLevel });
+  return { profileId, targetLevel };
+}
+
+/** プロフィールキャッシュを無効化（プロフィール更新後などに呼ぶ） */
+export function invalidateProfileCache(): void {
+  profileCache.clear();
+}
+
+/** ログイン直後に呼ぶとプロフィールを1回取得してキャッシュに載せ、以降の取得を高速化する */
+export async function preloadProfileCache(): Promise<void> {
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+  if (!user) return;
+  await fetchAndCacheProfile(user.id);
+}
+
+/** ログインユーザーに紐づく user_profiles.id を取得（キャッシュ優先） */
 export async function getProfileId(): Promise<string | null> {
   const {
     data: { user }
   } = await supabase.auth.getUser();
   if (!user) return null;
-  const { data } = await supabase
-    .from("user_profiles")
-    .select("id")
-    .eq("auth_user_id", user.id)
-    .maybeSingle();
-  return data?.id ?? null;
+  const cached = profileCache.get(user.id);
+  if (cached) return cached.profileId;
+  const { profileId } = await fetchAndCacheProfile(user.id);
+  return profileId;
 }
 
-/** ログインユーザーの目標級（英検5級 など）を取得。未ログインなら null */
+/** ログインユーザーの目標級（英検5級 など）を取得。未ログインなら null（キャッシュ優先） */
 export async function getProfileTargetLevel(): Promise<string | null> {
   const {
     data: { user }
   } = await supabase.auth.getUser();
   if (!user) return null;
-  const { data } = await supabase
-    .from("user_profiles")
-    .select("target_level")
-    .eq("auth_user_id", user.id)
-    .maybeSingle();
-  return data?.target_level ?? null;
+  const cached = profileCache.get(user.id);
+  if (cached) return cached.targetLevel;
+  const { targetLevel } = await fetchAndCacheProfile(user.id);
+  return targetLevel;
 }
 
 /** 単語クイズのセッション数（10問＝1セッション）を取得 */

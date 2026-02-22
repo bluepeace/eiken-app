@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { checkIsAdmin } from "@/lib/data/admin-db";
+import { preloadProfileCache, invalidateProfileCache } from "@/lib/data/vocabulary-db";
 import { getMonthlyBackgroundUrl } from "@/lib/data/monthly-backgrounds";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { BuddyWidget } from "@/components/features/buddy/BuddyWidget";
@@ -47,6 +48,7 @@ export function AppShell({ children }: AppShellProps) {
         if (!mounted) return;
         setIsLoggedIn(!!user);
         if (user) {
+          void preloadProfileCache(); // ログイン直後にプロフィールを1回取得してキャッシュし、各画面の級表示を即時反映
           const admin = await checkIsAdmin();
           if (!mounted) return;
           setIsAdmin(admin);
@@ -77,6 +79,7 @@ export function AppShell({ children }: AppShellProps) {
   }, []);
 
   const handleLogout = async () => {
+    invalidateProfileCache();
     await supabase.auth.signOut();
     setDrawerOpen(false);
     router.push("/");

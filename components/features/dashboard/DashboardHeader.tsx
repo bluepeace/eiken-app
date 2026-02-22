@@ -14,7 +14,7 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({
   userName = "ゲスト",
-  targetLevel = "英検2級",
+  targetLevel = "…",
   avatarUrl = null,
   avatarStyle = null,
   todayStudyMinutes = 0,

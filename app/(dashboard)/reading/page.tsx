@@ -18,29 +18,37 @@ function isValidReadingLevel(s: string): s is ReadingLevel {
   return READING_LEVELS.includes(s as ReadingLevel);
 }
 
+const LOADING_PLACEHOLDER = "" as const;
+
 export default function ReadingPage() {
   const searchParams = useSearchParams();
   const urlLevel = searchParams.get("level");
-  const [selectedLevel, setSelectedLevel] = useState<ReadingLevel>(() => {
+  const [selectedLevel, setSelectedLevel] = useState<ReadingLevel | typeof LOADING_PLACEHOLDER>(() => {
     if (urlLevel && isValidReadingLevel(urlLevel)) return urlLevel;
-    return "2級";
+    return LOADING_PLACEHOLDER; // 未取得時は「2級」を出さず読み込み表示にする
   });
-  const [levelLoaded, setLevelLoaded] = useState(false);
+  const levelLoaded = selectedLevel !== LOADING_PLACEHOLDER;
 
   useEffect(() => {
     getProfileTargetLevel().then((targetLevel) => {
-      setLevelLoaded(true);
-      if (!targetLevel) return;
+      if (urlLevel && isValidReadingLevel(urlLevel)) {
+        setSelectedLevel(urlLevel);
+        return;
+      }
+      if (!targetLevel) {
+        setSelectedLevel("2級");
+        return;
+      }
       const profileLevel = profileLevelToVocabularyLevel(targetLevel);
       if (isValidReadingLevel(profileLevel)) {
-        setSelectedLevel((prev) =>
-          urlLevel && isValidReadingLevel(urlLevel) ? prev : profileLevel
-        );
+        setSelectedLevel(profileLevel);
+      } else {
+        setSelectedLevel("2級");
       }
     });
   }, [urlLevel]);
 
-  const menuItems = getMenuItemsForLevel(selectedLevel);
+  const menuItems = levelLoaded ? getMenuItemsForLevel(selectedLevel as ReadingLevel) : [];
 
   return (
     <main className="min-h-[calc(100vh-64px)] px-4 py-8">
@@ -74,12 +82,17 @@ export default function ReadingPage() {
                 setSelectedLevel(e.target.value as ReadingLevel)
               }
               className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+              disabled={!levelLoaded}
             >
-              {READING_LEVELS.map((l) => (
-                <option key={l} value={l}>
-                  英検{l}
-                </option>
-              ))}
+              {!levelLoaded ? (
+                <option value={LOADING_PLACEHOLDER}>読み込み中…</option>
+              ) : (
+                READING_LEVELS.map((l) => (
+                  <option key={l} value={l}>
+                    英検{l}
+                  </option>
+                ))
+              )}
             </select>
           </div>
 

@@ -9,6 +9,7 @@ import { BadgePopup } from "@/components/features/badges/BadgePopup";
 import { supabase } from "@/lib/supabase/client";
 import {
   getProfileId,
+  getProfileTargetLevel,
   getVocabularyProficiency,
   getVocabularyQuizSessionCount
 } from "@/lib/data/vocabulary-db";
@@ -68,6 +69,21 @@ export default function DashboardPage() {
         data: { user }
       } = await supabase.auth.getUser();
       if (!user) return;
+
+      // 先にキャッシュから級だけ取得して即反映（2級→3級のチラつき防止）
+      const cachedLevel = await getProfileTargetLevel();
+      if (cachedLevel !== null) {
+        setProfile((prev) => ({
+          display_name: prev?.display_name ?? null,
+          target_level: cachedLevel,
+          avatar_url: prev?.avatar_url ?? null,
+          avatar_style: prev?.avatar_style ?? null,
+          target_exam_year: prev?.target_exam_year ?? null,
+          target_exam_round: prev?.target_exam_round ?? null,
+          target_exam_primary_date: prev?.target_exam_primary_date ?? null,
+          target_exam_secondary_date: prev?.target_exam_secondary_date ?? null
+        }));
+      }
 
       const { data } = await supabase
         .from("user_profiles")
@@ -229,7 +245,11 @@ export default function DashboardPage() {
   }, []);
 
   const userName = profile?.display_name ?? "ゲスト";
-  const targetLevel = profile?.target_level ?? "英検2級";
+  // 未取得時は「…」にして 2級→3級 のチラつきを防ぐ。取得済みで未設定なら 2級
+  const targetLevel =
+    profile === null
+      ? "…"
+      : (profile?.target_level ?? "英検2級");
   const avatarUrl = profile?.avatar_url ?? null;
   const avatarStyle = profile?.avatar_style ?? null;
 

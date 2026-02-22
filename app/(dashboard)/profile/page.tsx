@@ -39,6 +39,7 @@ import {
   markBadgePopupShown,
   type UserBadge
 } from "@/lib/data/badges";
+import { invalidateProfileCache } from "@/lib/data/vocabulary-db";
 import { BadgePopup } from "@/components/features/badges/BadgePopup";
 
 export default function ProfilePage() {
@@ -248,6 +249,7 @@ export default function ProfilePage() {
         }
       }
 
+      invalidateProfileCache(); // 保存後はキャッシュを無効化し、次回取得で最新の級が反映される
       setMessage("プロフィールを保存しました。");
 
       if (effectiveProfileId) {
