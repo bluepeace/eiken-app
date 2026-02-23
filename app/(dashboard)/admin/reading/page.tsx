@@ -5,9 +5,12 @@ import Link from "next/link";
 import {
   adminGetReadingShortQuestions,
   adminGetReadingWordOrderQuestions,
+  adminGetReadingPassages,
   adminDeleteReadingShortQuestion,
+  adminDeleteReadingPassage,
   type AdminReadingShortQuestion,
-  type AdminReadingWordOrderQuestion
+  type AdminReadingWordOrderQuestion,
+  type AdminReadingPassage
 } from "@/lib/data/admin-db";
 import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
@@ -18,12 +21,13 @@ const QUESTION_TYPES = [
   { value: "conversation_fill", label: "会話文の空所" }
 ] as const;
 
-type TabType = "short" | "word_order";
+type TabType = "short" | "word_order" | "long_content";
 
 export default function AdminReadingPage() {
   const [tab, setTab] = useState<TabType>("short");
   const [items, setItems] = useState<AdminReadingShortQuestion[]>([]);
   const [wordOrderItems, setWordOrderItems] = useState<AdminReadingWordOrderQuestion[]>([]);
+  const [passageItems, setPassageItems] = useState<AdminReadingPassage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,12 +38,14 @@ export default function AdminReadingPage() {
 
   const load = async () => {
     try {
-      const [data, woData] = await Promise.all([
+      const [data, woData, passageData] = await Promise.all([
         adminGetReadingShortQuestions(),
-        adminGetReadingWordOrderQuestions()
+        adminGetReadingWordOrderQuestions(),
+        adminGetReadingPassages("long_content")
       ]);
       setItems(data);
       setWordOrderItems(woData);
+      setPassageItems(passageData);
     } catch (e) {
       setError(e instanceof Error ? e.message : "読み込みに失敗しました");
     } finally {
@@ -69,6 +75,23 @@ export default function AdminReadingPage() {
     );
   }, [items, searchQuery, levelFilter, typeFilter, sortOrder]);
 
+  const filteredPassageItems = useMemo(() => {
+    let list = passageItems;
+    if (levelFilter) list = list.filter((p) => p.level === levelFilter);
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(
+        (p) =>
+          (p.title ?? "").toLowerCase().includes(q) ||
+          (p.body ?? "").toLowerCase().includes(q) ||
+          String(p.id).includes(q)
+      );
+    }
+    return [...list].sort((a, b) =>
+      sortOrder === "asc" ? a.id - b.id : b.id - a.id
+    );
+  }, [passageItems, searchQuery, levelFilter, sortOrder]);
+
   const filteredWordOrderItems = useMemo(() => {
     let list = wordOrderItems;
     if (levelFilter) list = list.filter((q) => q.level === levelFilter);
@@ -86,7 +109,12 @@ export default function AdminReadingPage() {
     );
   }, [wordOrderItems, searchQuery, levelFilter, sortOrder]);
 
-  const activeFilteredItems = tab === "short" ? filteredItems : filteredWordOrderItems;
+  const activeFilteredItems =
+    tab === "short"
+      ? filteredItems
+      : tab === "word_order"
+        ? filteredWordOrderItems
+        : filteredPassageItems;
   const totalPages = Math.max(1, Math.ceil(activeFilteredItems.length / PER_PAGE));
   const paginatedItems = useMemo(() => {
     const start = (currentPage - 1) * PER_PAGE;
@@ -100,7 +128,11 @@ export default function AdminReadingPage() {
   const handleDelete = async (id: number) => {
     if (!confirm(`問題 ID ${id} を削除しますか？`)) return;
     try {
-      await adminDeleteReadingShortQuestion(id);
+      if (tab === "long_content") {
+        await adminDeleteReadingPassage(id);
+      } else {
+        await adminDeleteReadingShortQuestion(id);
+      }
       await load();
     } catch (e) {
       alert(e instanceof Error ? e.message : "削除に失敗しました");
@@ -123,7 +155,25 @@ export default function AdminReadingPage() {
   ];
 
   const handleDownloadCsv = () => {
-    if (tab === "short") {
+    if (tab === "long_content") {
+      const pcColumns: CsvColumn<AdminReadingPassage>[] = [
+        { key: "id", label: "ID" },
+        { key: "level", label: "級" },
+        { key: "genre", label: "ジャンル" },
+        { key: "title", label: "タイトル" },
+        {
+          key: "body",
+          label: "本文",
+          format: (v) => (typeof v === "string" ? v.slice(0, 200) + (v.length > 200 ? "…" : "") : "")
+        },
+        { key: "question_count", label: "設問数" }
+      ];
+      exportToCsv(
+        `reading_long_content_${new Date().toISOString().slice(0, 10)}.csv`,
+        filteredPassageItems,
+        pcColumns
+      );
+    } else if (tab === "short") {
       exportToCsv(`reading_short_${new Date().toISOString().slice(0, 10)}.csv`, filteredItems, readingCsvColumns);
     } else {
       const woColumns: CsvColumn<AdminReadingWordOrderQuestion>[] = [
@@ -185,6 +235,15 @@ export default function AdminReadingPage() {
         >
           語句整序 ({wordOrderItems.length})
         </button>
+        <button
+          type="button"
+          onClick={() => setTab("long_content")}
+          className={`rounded-md px-4 py-2 text-sm font-medium ${
+            tab === "long_content" ? "bg-slate-700 text-white" : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          長文の内容一致 ({passageItems.length})
+        </button>
       </div>
 
       <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:flex-wrap">
@@ -219,7 +278,8 @@ export default function AdminReadingPage() {
         )}
         <div className="flex items-center gap-4">
           <p className="text-xs text-slate-500">
-            {activeFilteredItems.length} 件 / {tab === "short" ? items.length : wordOrderItems.length} 件
+            {activeFilteredItems.length} 件 /{" "}
+          {tab === "short" ? items.length : tab === "word_order" ? wordOrderItems.length : passageItems.length} 件
           </p>
           <button
             type="button"
@@ -265,13 +325,23 @@ export default function AdminReadingPage() {
               {tab === "short" && (
                 <th className="px-4 py-3 font-medium text-slate-300">形式</th>
               )}
+              {tab === "long_content" && (
+                <th className="px-4 py-3 font-medium text-slate-300">ジャンル</th>
+              )}
               <th className="px-4 py-3 font-medium text-slate-300">
-                {tab === "short" ? "本文（抜粋）" : "日本文（抜粋）"}
+                {tab === "short"
+                  ? "本文（抜粋）"
+                  : tab === "word_order"
+                    ? "日本文（抜粋）"
+                    : "タイトル（抜粋）"}
               </th>
               {tab === "word_order" && (
                 <th className="px-4 py-3 font-medium text-slate-300">正解英文（抜粋）</th>
               )}
-              {tab === "short" && (
+              {tab === "long_content" && (
+                <th className="px-4 py-3 font-medium text-slate-300">設問数</th>
+              )}
+              {(tab === "short" || tab === "long_content") && (
                 <th className="px-4 py-3 font-medium text-slate-300" />
               )}
             </tr>
@@ -310,7 +380,33 @@ export default function AdminReadingPage() {
                     </td>
                   </tr>
                 ))
-              : (paginatedItems as AdminReadingWordOrderQuestion[]).map((q) => {
+              : tab === "long_content"
+                ? (paginatedItems as AdminReadingPassage[]).map((p) => (
+                    <tr
+                      key={p.id}
+                      className="border-b border-slate-800 transition hover:bg-slate-800/30"
+                    >
+                      <td className="px-4 py-3 font-mono text-slate-300">{p.id}</td>
+                      <td className="px-4 py-3 text-slate-400">{p.level}</td>
+                      <td className="px-4 py-3 text-slate-400">{p.genre ?? "—"}</td>
+                      <td className="max-w-md truncate px-4 py-3 text-slate-300" title={p.title ?? ""}>
+                        {bodyPreview(p.title ?? "", 40)}
+                      </td>
+                      <td className="px-4 py-3 text-slate-400">{p.question_count}</td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(p.id)}
+                            className="text-red-400 hover:text-red-300 hover:underline"
+                          >
+                            削除
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                : (paginatedItems as AdminReadingWordOrderQuestion[]).map((q) => {
                   const correctSentence = q.correct_order.map((i) => q.words[i]).join(" ");
                   return (
                     <tr
@@ -332,7 +428,7 @@ export default function AdminReadingPage() {
         </table>
       </div>
 
-      {filteredItems.length > 0 && totalPages > 1 && (
+      {activeFilteredItems.length > 0 && totalPages > 1 && (
         <div className="mt-4 flex justify-center gap-2">
           <button
             type="button"
@@ -362,7 +458,9 @@ export default function AdminReadingPage() {
             ? "検索に一致する問題はありません"
             : tab === "short"
               ? "問題が登録されていません。新規登録から追加してください。"
-              : "語句整序の問題が登録されていません。"}
+              : tab === "word_order"
+                ? "語句整序の問題が登録されていません。"
+                : "長文の内容一致が登録されていません。"}
         </p>
       )}
     </div>

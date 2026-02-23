@@ -689,6 +689,63 @@ export async function adminGetReadingShortQuestions(): Promise<AdminReadingShort
   return all;
 }
 
+/** 管理者用: 長文の内容一致（reading_passages）一覧 */
+export interface AdminReadingPassage {
+  id: number;
+  level: string;
+  genre: string | null;
+  passage_type: string;
+  title: string | null;
+  body: string | null;
+  question_count: number;
+}
+
+export async function adminGetReadingPassages(
+  passageType: "long_content" | "long_fill" = "long_content"
+): Promise<AdminReadingPassage[]> {
+  const { data: passages, error: passError } = await supabase
+    .from("reading_passages")
+    .select("id, level, genre, passage_type, title, body")
+    .eq("passage_type", passageType)
+    .order("id", { ascending: true });
+
+  if (passError) throw new Error(passError.message);
+  if (!passages || passages.length === 0) return [];
+
+  const ids = passages.map((p) => p.id as number);
+  const { data: questions, error: qError } = await supabase
+    .from("reading_passage_questions")
+    .select("passage_id")
+    .in("passage_id", ids);
+
+  if (qError) throw new Error(qError.message);
+
+  const countByPassage = new Map<number, number>();
+  for (const q of questions ?? []) {
+    const pid = q.passage_id as number;
+    countByPassage.set(pid, (countByPassage.get(pid) ?? 0) + 1);
+  }
+
+  return passages.map((p) => ({
+    id: p.id as number,
+    level: (p.level as string) ?? "",
+    genre: (p.genre as string) ?? null,
+    passage_type: (p.passage_type as string) ?? "",
+    title: (p.title as string) ?? null,
+    body: (p.body as string) ?? null,
+    question_count: countByPassage.get(p.id as number) ?? 0
+  }));
+}
+
+export async function adminDeleteReadingPassage(id: number) {
+  const { error } = await supabase
+    .from("reading_passages")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+}
+
 export async function adminGetReadingShortQuestionById(id: number) {
   const { data, error } = await supabase
     .from("reading_short_questions")

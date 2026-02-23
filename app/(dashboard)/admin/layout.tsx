@@ -7,6 +7,7 @@ import { checkIsAdmin } from "@/lib/data/admin-db";
 
 const ADMIN_NAV = [
   { href: "/admin", label: "管理トップ" },
+  { href: "/admin/dashboard", label: "問題数ダッシュボード" },
   { href: "/admin/settings", label: "基本設定" },
   { href: "/admin/billing", label: "決済管理" },
   { href: "/admin/users", label: "ユーザー管理" },
