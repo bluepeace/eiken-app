@@ -5,13 +5,15 @@ export interface QuestionCountRow {
   level: string;
   question_type: string | null;
   count: number;
+  /** リーディング長文のみ: 問題数（パッセージ数）。count は設問数。 */
+  passage_count: number | null;
   updated_at: string;
 }
 
 export async function adminGetQuestionCounts(): Promise<QuestionCountRow[]> {
   const { data, error } = await supabase
     .from("question_counts")
-    .select("category, level, question_type, count, updated_at")
+    .select("category, level, question_type, count, passage_count, updated_at")
     .order("category")
     .order("level");
 
@@ -21,6 +23,7 @@ export async function adminGetQuestionCounts(): Promise<QuestionCountRow[]> {
     level: (r.level as string) ?? "",
     question_type: (r.question_type as string) ?? null,
     count: Number(r.count) ?? 0,
+    passage_count: r.passage_count != null ? Number(r.passage_count) : null,
     updated_at: (r.updated_at as string) ?? ""
   }));
 }

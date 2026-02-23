@@ -102,19 +102,23 @@ export default function AdminDashboardPage() {
   const byCategory = (category: QuestionCountRow["category"]) =>
     rows.filter((r) => r.category === category);
 
-  const countFor = (
+  const rowFor = (
     category: QuestionCountRow["category"],
     level: string,
     questionType: string | null
-  ) => {
-    const r = rows.find(
+  ): QuestionCountRow | undefined =>
+    rows.find(
       (x) =>
         x.category === category &&
         x.level === level &&
         (x.question_type ?? null) === (questionType ?? null)
     );
-    return r?.count ?? 0;
-  };
+
+  const countFor = (
+    category: QuestionCountRow["category"],
+    level: string,
+    questionType: string | null
+  ) => rowFor(category, level, questionType)?.count ?? 0;
 
   const vocabularyRows = byCategory("vocabulary");
   const writingRows = byCategory("writing");
@@ -245,23 +249,31 @@ export default function AdminDashboardPage() {
           <div className="space-y-4">
             {LEVEL_ORDER.map((level) => {
               const menuItems = getMenuItemsForLevel(level);
-              const entries = menuItems.map((item) => ({
-                type: item.type,
-                label: item.label,
-                count: countFor("reading", level, item.type)
-              }));
+              const entries = menuItems.map((item) => {
+                const row = rowFor("reading", level, item.type);
+                const count = row?.count ?? 0;
+                const passageCount = row?.passage_count ?? null;
+                return {
+                  type: item.type,
+                  label: item.label,
+                  count,
+                  passageCount
+                };
+              });
               return (
                 <div key={level}>
                   <p className="mb-1.5 font-medium text-slate-300">{level}</p>
                   <ul className="ml-4 space-y-0.5 text-slate-400">
-                    {entries.map(({ type, count, label }) => (
+                    {entries.map(({ type, count, label, passageCount }) => (
                       <li
                         key={type}
                         className="flex justify-between gap-4"
                       >
                         <span>{label}</span>
                         <span className="font-mono tabular-nums">
-                          {count}問
+                          {passageCount != null
+                            ? `問題数：${passageCount}、設問数：${count}`
+                            : `${count}問`}
                         </span>
                       </li>
                     ))}
@@ -283,6 +295,8 @@ export default function AdminDashboardPage() {
         POST /api/admin/refresh-question-counts を
         Authorization: Bearer (CRON_SECRET) 付きで呼び出すか、Supabase の
         pg_cron で select refresh_question_counts(); をスケジュールしてください。
+        <br />
+        シード（例: seed_reading_long_content_jun2kyu_50.sql）を投入したあとは「今すぐ集計」を押すと反映されます。
       </p>
     </div>
   );
