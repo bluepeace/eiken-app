@@ -107,7 +107,7 @@ export default function SubscribePage() {
           </p>
           <Link
             href="/login"
-            className="mt-6 inline-flex rounded-full bg-[#50c2cb] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#46adb5]"
+            className="mt-6 inline-flex rounded-full bg-[#009DC9] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#0087A8]"
           >
             ログイン
           </Link>
@@ -159,7 +159,7 @@ export default function SubscribePage() {
             type="button"
             onClick={handleSubscribe}
             disabled={checkingOut}
-            className="mt-6 flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
           >
             {checkingOut ? "決済ページへ移動中..." : "プレミアムに登録"}
           </button>

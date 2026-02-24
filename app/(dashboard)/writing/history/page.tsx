@@ -59,7 +59,7 @@ function HistoryCard({
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-lg font-semibold text-[#50c2cb]">
+          <span className="text-lg font-semibold text-[#009DC9]">
             {entry.overallScore.toFixed(1)}
           </span>
           <svg
@@ -134,7 +134,7 @@ function HistoryCard({
           {entry.feedback && (
             <div>
               <h4 className="text-xs font-medium text-slate-500 mb-1">フィードバック</h4>
-              <p className="whitespace-pre-wrap text-sm text-slate-800 rounded-lg bg-[#50c2cb]/10 p-3 border border-[#50c2cb]/30">
+              <p className="whitespace-pre-wrap text-sm text-slate-800 rounded-lg bg-[#009DC9]/10 p-3 border border-[#009DC9]/30">
                 {entry.feedback}
               </p>
             </div>
@@ -186,7 +186,7 @@ export default function WritingHistoryPage() {
           </p>
           <Link
             href="/login"
-            className="mt-4 inline-block rounded-full bg-[#50c2cb] px-4 py-2 text-sm font-semibold text-white hover:bg-[#46adb5]"
+            className="mt-4 inline-block rounded-full bg-[#009DC9] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0087A8]"
           >
             ログイン
           </Link>
@@ -219,7 +219,7 @@ export default function WritingHistoryPage() {
             </p>
             <Link
               href="/writing"
-              className="mt-4 inline-block rounded-full bg-[#50c2cb] px-4 py-2 text-sm font-semibold text-white hover:bg-[#46adb5]"
+              className="mt-4 inline-block rounded-full bg-[#009DC9] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0087A8]"
             >
               ライティングを始める
             </Link>

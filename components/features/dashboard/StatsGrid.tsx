@@ -76,14 +76,14 @@ function StatCard({
   const colors = MODULE_COLORS[moduleKey];
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className={`rounded-2xl border ${colors.border} bg-white p-4 shadow-sm`}>
       <div className="mb-2 flex items-center gap-2">
         <span
-          className={`h-1.5 w-1.5 rounded-full ${colors.dot}`}
+          className={`h-2 w-2 rounded-full ${colors.dot}`}
         />
-        <p className="text-[11px] font-semibold text-slate-500">{label}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{label}</p>
       </div>
-      <p className={`text-xl font-semibold ${colors.text}`}>{value}</p>
+      <p className={`text-2xl font-bold ${colors.text}`}>{value}</p>
       {subLabel && (
         <p className="mt-1 text-[11px] text-slate-500">{subLabel}</p>
       )}

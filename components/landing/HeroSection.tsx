@@ -15,7 +15,7 @@ export function HeroSection() {
 
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-5xl">
             英検対策を、
-            <span className="block text-[#50c2cb]">ひとつに。</span>
+            <span className="block text-[#009DC9]">ひとつに。</span>
           </h1>
 
           <p className="max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg">
@@ -27,7 +27,7 @@ export function HeroSection() {
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center rounded-full bg-[#50c2cb] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#50c2cb]/25 transition hover:bg-[#46adb5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#50c2cb]/60 focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-full bg-[#009DC9] px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#009DC9]/25 transition hover:bg-[#0087A8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#009DC9]/60 focus-visible:ring-offset-2"
             >
               無料で会員登録
             </Link>

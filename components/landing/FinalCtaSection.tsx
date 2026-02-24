@@ -15,7 +15,7 @@ export function FinalCtaSection() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/signup"
-            className="inline-flex items-center justify-center rounded-full bg-[#50c2cb] px-10 py-4 text-lg font-semibold text-white shadow-lg shadow-[#50c2cb]/25 transition hover:bg-[#46adb5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#50c2cb]/60 focus-visible:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-full bg-[#009DC9] px-10 py-4 text-lg font-semibold text-white shadow-lg shadow-[#009DC9]/25 transition hover:bg-[#0087A8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#009DC9]/60 focus-visible:ring-offset-2"
           >
             無料で会員登録
           </Link>

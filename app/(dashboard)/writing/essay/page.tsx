@@ -238,7 +238,7 @@ function WritingEssayContent() {
             </p>
             <Link
               href="/writing"
-              className="mt-4 inline-block text-sm text-[#50c2cb] hover:underline"
+              className="mt-4 inline-block text-sm text-[#009DC9] hover:underline"
             >
               ← 形式選択に戻る
             </Link>
@@ -344,7 +344,7 @@ function WritingEssayContent() {
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="ここに英文を入力してください..."
                   rows={8}
-                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#50c2cb] focus:outline-none focus:ring-1 focus:ring-[#50c2cb]"
+                  className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#009DC9] focus:outline-none focus:ring-1 focus:ring-[#009DC9]"
                 />
                 <p className="mt-1 text-right text-xs text-slate-500">
                   目安: {wordRange}（現在 {wordCount} 語）

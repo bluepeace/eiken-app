@@ -73,7 +73,7 @@ export default function ReadingHistoryPage() {
           </p>
           <Link
             href="/login"
-            className="mt-4 inline-block rounded-full bg-[#50c2cb] px-4 py-2 text-sm font-semibold text-white hover:bg-[#46adb5]"
+            className="mt-4 inline-block rounded-full bg-[#009DC9] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0087A8]"
           >
             ログイン
           </Link>
@@ -163,7 +163,7 @@ export default function ReadingHistoryPage() {
                     )}
                     <Link
                       href={`${PROBLEM_TYPE_INFO[s.questionType]?.path ?? "/reading/short"}?level=${encodeURIComponent(s.level)}`}
-                      className="mt-1 text-xs text-[#50c2cb] hover:underline"
+                      className="mt-1 text-xs text-[#009DC9] hover:underline"
                     >
                       この形式で再挑戦 →
                     </Link>

@@ -19,25 +19,26 @@ const config: Config = {
         "zen-maru": ['"Zen Maru Gothic"', "sans-serif"]
       },
       colors: {
-        /** カラーチャート準拠のモジュール色 */
+        /** Stay Colorful パレット */
         module: {
-          vocabulary: "#F99F66", // オレンジ
-          writing: "#A6D472", // グリーン
-          reading: "#50c2cb", // ブルー（キーカラー）
-          listening: "#A77CBF", // パープル
-          speaking: "#F57A9C" // ピンク
+          vocabulary: "#FF991F", // Tree Poppy
+          writing: "#8DC63A", // Wild Lime
+          reading: "#009DC9", // Morpho Blue（キーカラー）
+          listening: "#843DAD", // Trendy Violet
+          speaking: "#EC3496" // Dazzling Fuchsia
         },
+        /** キーカラー Morpho Blue ベース */
         brand: {
-          50: "#e8f8f9",
-          100: "#cceff1",
-          200: "#99dfe3",
-          300: "#66cfd5",
-          400: "#50c2cb",
-          500: "#46adb5",
-          600: "#3d989f",
-          700: "#338389",
-          800: "#2a6e73",
-          900: "#20595d"
+          50: "#e6f7fb",
+          100: "#cceef7",
+          200: "#99ddef",
+          300: "#66cce7",
+          400: "#33bbdf",
+          500: "#009DC9",
+          600: "#0087A8",
+          700: "#007187",
+          800: "#005b66",
+          900: "#004545"
         }
       }
     }

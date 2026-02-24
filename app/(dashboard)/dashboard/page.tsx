@@ -291,7 +291,7 @@ export default function DashboardPage() {
           )}
           <Link
             href="/profile"
-            className="text-[#50c2cb] hover:text-[#46adb5] hover:underline"
+            className="text-[#009DC9] hover:text-[#0087A8] hover:underline"
           >
             目標を変更 →
           </Link>

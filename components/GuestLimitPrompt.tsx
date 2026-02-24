@@ -23,7 +23,7 @@ export function GuestLimitPrompt({ type }: GuestLimitPromptProps) {
       <div className="flex flex-col gap-3 sm:flex-row">
         <Link
           href="/signup"
-          className="flex-1 rounded-full bg-[#50c2cb] px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#46adb5]"
+          className="flex-1 rounded-full bg-[#009DC9] px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-[#0087A8]"
         >
           新規登録
         </Link>

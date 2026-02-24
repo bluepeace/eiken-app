@@ -67,7 +67,7 @@ export default function TokushohoPage() {
 
         <Link
           href="/"
-          className="mt-8 inline-block text-sm text-[#50c2cb] hover:underline"
+          className="mt-8 inline-block text-sm text-[#009DC9] hover:underline"
         >
           ← トップに戻る
         </Link>

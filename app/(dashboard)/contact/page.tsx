@@ -109,7 +109,7 @@ export default function ContactPage() {
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-[#50c2cb] focus:outline-none focus:ring-1 focus:ring-[#50c2cb]"
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-[#009DC9] focus:outline-none focus:ring-1 focus:ring-[#009DC9]"
             >
               <option value="">選択してください</option>
               {CATEGORIES.map((c) => (
@@ -133,7 +133,7 @@ export default function ContactPage() {
               onChange={(e) => setMessage(e.target.value)}
               rows={8}
               placeholder="お問い合わせ内容をご記入ください"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:border-[#50c2cb] focus:outline-none focus:ring-1 focus:ring-[#50c2cb]"
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:border-[#009DC9] focus:outline-none focus:ring-1 focus:ring-[#009DC9]"
             />
           </div>
 
@@ -145,7 +145,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="rounded-full bg-[#50c2cb] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#46adb5] disabled:opacity-60"
+              className="rounded-full bg-[#009DC9] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0087A8] disabled:opacity-60"
             >
               {status === "sending" ? "送信中..." : "送信する"}
             </button>

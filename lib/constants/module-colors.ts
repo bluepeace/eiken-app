@@ -1,8 +1,6 @@
 /**
- * 学習モジュールごとの固定カラー（カラーチャート準拠）
- * 単語・ライティング・リーディング・リスニング・スピーキングをカラフルに区別
- *
- * チャートの色: #A77CBF(紫) #F57A9C(ピンク) #F99F66(オレンジ) #FFD758(黄) #A6D472(緑) #50c2cb(青・キーカラー)
+ * 学習モジュールごとの固定カラー
+ * Stay Colorful パレット（Morpho Blue, Trendy Violet, Dazzling Fuchsia, Tree Poppy, Wild Lime）をベースに割り当て。
  */
 export type ModuleKey =
   | "vocabulary"
@@ -42,79 +40,79 @@ export const MODULE_COLORS: Record<
   }
 > = {
   vocabulary: {
-    badge: "bg-[#F99F66]/20 text-[#C77A3D] border-[#F99F66]/40",
-    text: "text-[#D98A45]",
-    textHover: "hover:text-[#F99F66]",
-    border: "border-[#F99F66]/50",
-    borderLeft: "border-l-[#F99F66]",
-    bgHover: "hover:border-[#F99F66]/50 hover:bg-[#F99F66]/10",
-    hoverBg: "hover:bg-[#F99F66]/8",
-    dot: "bg-[#F99F66]",
-    bg: "bg-[#F99F66]/10",
-    accent: "text-[#F99F66]",
-    accentHover: "hover:text-[#FFB380]",
-    solid: "bg-[#F99F66]",
-    solidHover: "hover:bg-[#E08F55]"
+    badge: "bg-[#FF991F]/25 text-[#B86E00] border-[#FF991F]/55",
+    text: "text-[#CC7A19]",
+    textHover: "hover:text-[#FF991F]",
+    border: "border-[#FF991F]/55",
+    borderLeft: "border-l-[#FF991F]",
+    bgHover: "hover:border-[#FF991F]/55 hover:bg-[#FF991F]/14",
+    hoverBg: "hover:bg-[#FF991F]/12",
+    dot: "bg-[#FF991F]",
+    bg: "bg-[#FF991F]/14",
+    accent: "text-[#FF991F]",
+    accentHover: "hover:text-[#FFA940]",
+    solid: "bg-[#FF991F]",
+    solidHover: "hover:bg-[#E08818]"
   },
   writing: {
-    badge: "bg-[#A6D472]/25 text-[#5A8A3A] border-[#A6D472]/50",
-    text: "text-[#7AB54D]",
-    textHover: "hover:text-[#A6D472]",
-    border: "border-[#A6D472]/50",
-    borderLeft: "border-l-[#A6D472]",
-    bgHover: "hover:border-[#A6D472]/50 hover:bg-[#A6D472]/15",
-    hoverBg: "hover:bg-[#A6D472]/8",
-    dot: "bg-[#A6D472]",
-    bg: "bg-[#A6D472]/15",
-    accent: "text-[#A6D472]",
-    accentHover: "hover:text-[#B8E08A]",
-    solid: "bg-[#A6D472]",
-    solidHover: "hover:bg-[#96C462]"
+    badge: "bg-[#8DC63A]/25 text-[#5C8A28] border-[#8DC63A]/55",
+    text: "text-[#6B9E2E]",
+    textHover: "hover:text-[#8DC63A]",
+    border: "border-[#8DC63A]/55",
+    borderLeft: "border-l-[#8DC63A]",
+    bgHover: "hover:border-[#8DC63A]/55 hover:bg-[#8DC63A]/14",
+    hoverBg: "hover:bg-[#8DC63A]/12",
+    dot: "bg-[#8DC63A]",
+    bg: "bg-[#8DC63A]/14",
+    accent: "text-[#8DC63A]",
+    accentHover: "hover:text-[#9FD44D]",
+    solid: "bg-[#8DC63A]",
+    solidHover: "hover:bg-[#7AB32F]"
   },
   reading: {
-    badge: "bg-[#50c2cb]/20 text-[#2a6e73] border-[#50c2cb]/40",
-    text: "text-[#46adb5]",
-    textHover: "hover:text-[#50c2cb]",
-    border: "border-[#50c2cb]/50",
-    borderLeft: "border-l-[#50c2cb]",
-    bgHover: "hover:border-[#50c2cb]/50 hover:bg-[#50c2cb]/10",
-    hoverBg: "hover:bg-[#50c2cb]/8",
-    dot: "bg-[#50c2cb]",
-    bg: "bg-[#50c2cb]/10",
-    accent: "text-[#50c2cb]",
-    accentHover: "hover:text-[#66cfd5]",
-    solid: "bg-[#50c2cb]",
-    solidHover: "hover:bg-[#46adb5]"
+    badge: "bg-[#009DC9]/25 text-[#006B89] border-[#009DC9]/55",
+    text: "text-[#0087A8]",
+    textHover: "hover:text-[#009DC9]",
+    border: "border-[#009DC9]/55",
+    borderLeft: "border-l-[#009DC9]",
+    bgHover: "hover:border-[#009DC9]/55 hover:bg-[#009DC9]/14",
+    hoverBg: "hover:bg-[#009DC9]/12",
+    dot: "bg-[#009DC9]",
+    bg: "bg-[#009DC9]/14",
+    accent: "text-[#009DC9]",
+    accentHover: "hover:text-[#00B4E0]",
+    solid: "bg-[#009DC9]",
+    solidHover: "hover:bg-[#0087A8]"
   },
   listening: {
-    badge: "bg-[#A77CBF]/25 text-[#7A5A94] border-[#A77CBF]/50",
-    text: "text-[#8E67A8]",
-    textHover: "hover:text-[#A77CBF]",
-    border: "border-[#A77CBF]/50",
-    borderLeft: "border-l-[#A77CBF]",
-    bgHover: "hover:border-[#A77CBF]/50 hover:bg-[#A77CBF]/15",
-    hoverBg: "hover:bg-[#A77CBF]/8",
-    dot: "bg-[#A77CBF]",
-    bg: "bg-[#A77CBF]/15",
-    accent: "text-[#A77CBF]",
-    accentHover: "hover:text-[#B899CE]",
-    solid: "bg-[#A77CBF]",
-    solidHover: "hover:bg-[#966BAF]"
+    badge: "bg-[#843DAD]/25 text-[#5B2A7A] border-[#843DAD]/55",
+    text: "text-[#6A3190]",
+    textHover: "hover:text-[#843DAD]",
+    border: "border-[#843DAD]/55",
+    borderLeft: "border-l-[#843DAD]",
+    bgHover: "hover:border-[#843DAD]/55 hover:bg-[#843DAD]/14",
+    hoverBg: "hover:bg-[#843DAD]/12",
+    dot: "bg-[#843DAD]",
+    bg: "bg-[#843DAD]/14",
+    accent: "text-[#843DAD]",
+    accentHover: "hover:text-[#9B4FC7]",
+    solid: "bg-[#843DAD]",
+    solidHover: "hover:bg-[#6A3190]"
   },
   speaking: {
-    badge: "bg-[#F57A9C]/25 text-[#C45A78] border-[#F57A9C]/50",
-    text: "text-[#E06A8A]",
-    textHover: "hover:text-[#F57A9C]",
-    border: "border-[#F57A9C]/50",
-    borderLeft: "border-l-[#F57A9C]",
-    bgHover: "hover:border-[#F57A9C]/50 hover:bg-[#F57A9C]/15",
-    hoverBg: "hover:bg-[#F57A9C]/8",
-    dot: "bg-[#F57A9C]",
-    bg: "bg-[#F57A9C]/15",
-    accent: "text-[#F57A9C]",
-    accentHover: "hover:text-[#F89AB4]",
-    solid: "bg-[#F57A9C]",
-    solidHover: "hover:bg-[#E56A8C]"
+    badge: "bg-[#EC3496]/25 text-[#A02466] border-[#EC3496]/55",
+    text: "text-[#BD2A78]",
+    textHover: "hover:text-[#EC3496]",
+    border: "border-[#EC3496]/55",
+    borderLeft: "border-l-[#EC3496]",
+    bgHover: "hover:border-[#EC3496]/55 hover:bg-[#EC3496]/14",
+    hoverBg: "hover:bg-[#EC3496]/12",
+    dot: "bg-[#EC3496]",
+    bg: "bg-[#EC3496]/14",
+    accent: "text-[#EC3496]",
+    accentHover: "hover:text-[#F04DA8]",
+    solid: "bg-[#EC3496]",
+    solidHover: "hover:bg-[#D12A84]"
   }
 };
 

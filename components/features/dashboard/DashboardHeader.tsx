@@ -80,7 +80,7 @@ export function DashboardHeader({
           <p className="text-[11px] font-semibold text-slate-500 mb-1">
             今日の学習時間
           </p>
-          <p className="text-xl font-semibold text-[#50c2cb]">
+          <p className="text-xl font-semibold text-[#009DC9]">
             {todayStudyMinutes} 分
           </p>
         </div>

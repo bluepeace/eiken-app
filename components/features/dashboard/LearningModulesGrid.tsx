@@ -80,7 +80,7 @@ export function LearningModulesGrid({ targetLevel }: LearningModulesGridProps) {
             <Link
               key={m.key}
               href={href}
-              className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-lg ${colors.hoverBg}`}
+              className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border ${colors.border} bg-white p-5 shadow-md transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-xl ${colors.hoverBg}`}
             >
               <div className="space-y-2">
                 <div

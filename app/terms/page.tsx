@@ -41,19 +41,19 @@ export default function TermsPage() {
         <div className="mt-12 flex gap-4">
           <Link
             href="/"
-            className="text-sm text-[#50c2cb] hover:underline"
+            className="text-sm text-[#009DC9] hover:underline"
           >
             ← トップに戻る
           </Link>
           <Link
             href="/privacy"
-            className="text-sm text-[#50c2cb] hover:underline"
+            className="text-sm text-[#009DC9] hover:underline"
           >
             プライバシーポリシー
           </Link>
           <Link
             href="/tokushoho"
-            className="text-sm text-[#50c2cb] hover:underline"
+            className="text-sm text-[#009DC9] hover:underline"
           >
             特定商取引法に基づく表記
           </Link>

@@ -46,7 +46,7 @@ export function ReadingHintButton({ onClick, isOpen }: ReadingHintButtonProps) {
       onClick={onClick}
       className={`fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium shadow-lg transition-all hover:shadow-xl ${
         isOpen
-          ? "bg-[#50c2cb] text-white hover:bg-[#46adb5]"
+          ? "bg-[#009DC9] text-white hover:bg-[#0087A8]"
           : "bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50"
       }`}
       aria-label="ヒントを見る"

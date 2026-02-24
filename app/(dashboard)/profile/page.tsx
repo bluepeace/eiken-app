@@ -347,7 +347,7 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="inline-flex items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#46adb5]"
+            className="inline-flex items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0087A8]"
           >
             ログインページへ移動
           </button>
@@ -693,7 +693,7 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={isSaving}
-            className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+            className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
           >
             {isSaving ? "保存中..." : "プロフィールを保存"}
           </button>

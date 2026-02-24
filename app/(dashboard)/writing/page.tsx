@@ -142,7 +142,7 @@ export default function WritingPage() {
             <p className="pt-4 text-xs font-medium text-slate-500">履歴</p>
             <Link
               href="/writing/history"
-              className={`flex flex-col gap-2 rounded-xl border-2 p-5 transition-colors ${MODULE_COLORS.writing.border} ${MODULE_COLORS.writing.bg} hover:bg-[#A6D472]/20`}
+              className={`flex flex-col gap-2 rounded-xl border-2 p-5 transition-colors ${MODULE_COLORS.writing.border} ${MODULE_COLORS.writing.bg} hover:bg-[#8DC63A]/20`}
             >
               <span className="text-sm font-medium text-slate-900">
                 過去のフィードバック・履歴を見る

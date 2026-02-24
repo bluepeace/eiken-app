@@ -211,7 +211,7 @@ export function WritingResult({ data, level, promptType, onNewProblem }: Writing
 
       <div>
         <h3 className="mb-2 text-sm font-medium text-slate-700">フィードバック</h3>
-        <div className="rounded-lg border border-[#A6D472]/40 bg-[#A6D472]/15 p-4">
+        <div className="rounded-lg border border-[#8DC63A]/40 bg-[#8DC63A]/15 p-4">
           <p className="whitespace-pre-wrap text-sm text-slate-800">
             {data.feedback}
           </p>

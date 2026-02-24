@@ -29,7 +29,7 @@ export function LandingHeader() {
           </Link>
           <Link
             href="/signup"
-            className="rounded-full bg-[#50c2cb] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#46adb5]"
+            className="rounded-full bg-[#009DC9] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#0087A8]"
           >
             会員登録
           </Link>

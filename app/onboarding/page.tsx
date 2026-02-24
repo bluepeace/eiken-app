@@ -29,12 +29,12 @@ function BuddySpeech({
 
   return (
     <div className="flex flex-row items-center justify-center gap-3">
-      <div className="relative flex-1 max-w-sm rounded-2xl bg-[#50c2cb]/15 px-5 py-4 shadow-sm ring-1 ring-[#50c2cb]/10">
+      <div className="relative flex-1 max-w-sm rounded-2xl bg-[#009DC9]/15 px-5 py-4 shadow-sm ring-1 ring-[#009DC9]/10">
         <div className="text-center text-base leading-relaxed text-slate-800">
           {children}
         </div>
         <div
-          className="absolute -right-3 top-1/2 h-0 w-0 -translate-y-1/2 border-t-[10px] border-b-[10px] border-l-[12px] border-t-transparent border-b-transparent border-l-[#50c2cb]/15"
+          className="absolute -right-3 top-1/2 h-0 w-0 -translate-y-1/2 border-t-[10px] border-b-[10px] border-l-[12px] border-t-transparent border-b-transparent border-l-[#009DC9]/15"
           aria-hidden
         />
       </div>
@@ -248,7 +248,7 @@ export default function OnboardingPage() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="例: 太郎"
-                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-[#50c2cb] focus:ring-2 focus:ring-[#50c2cb]/30"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-[#009DC9] focus:ring-2 focus:ring-[#009DC9]/30"
                 autoFocus
               />
               {error && (
@@ -257,7 +257,7 @@ export default function OnboardingPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+                className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
               >
                 {saving ? "保存中..." : "次へ"}
               </button>
@@ -279,7 +279,7 @@ export default function OnboardingPage() {
                     onClick={() => setSelectedBuddyId(selectedBuddyId === b.id ? null : b.id)}
                     className={`flex flex-col items-center gap-1 rounded-xl border-2 p-3 transition ${
                       selectedBuddyId === b.id
-                        ? "border-[#50c2cb] bg-[#50c2cb]/10"
+                        ? "border-[#009DC9] bg-[#009DC9]/10"
                         : "border-slate-200 bg-slate-50 hover:border-slate-300"
                     }`}
                   >
@@ -304,7 +304,7 @@ export default function OnboardingPage() {
               <button
                 type="submit"
                 disabled={saving || !selectedBuddyId || buddies.length === 0}
-                className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+                className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
               >
                 {saving ? "保存中..." : "選んで次へ"}
               </button>
@@ -322,7 +322,7 @@ export default function OnboardingPage() {
               <select
                 value={targetLevel}
                 onChange={(e) => setTargetLevel(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-[#50c2cb] focus:ring-2 focus:ring-[#50c2cb]/30"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-[#009DC9] focus:ring-2 focus:ring-[#009DC9]/30"
               >
                 {LEVEL_OPTIONS.map((l) => (
                   <option key={l} value={l}>
@@ -336,7 +336,7 @@ export default function OnboardingPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+                className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
               >
                 {saving ? "保存中..." : "次へ"}
               </button>
@@ -348,14 +348,14 @@ export default function OnboardingPage() {
           <>
             <BuddySpeech buddy={buddies.find((b) => b.id === selectedBuddyId) ?? null}>
               登録ありがとうございます！
-              <span className="mt-2 block text-sm font-medium text-[#50c2cb]">
+              <span className="mt-2 block text-sm font-medium text-[#009DC9]">
                 さっそく学習を始めましょう。
               </span>
             </BuddySpeech>
             <button
               type="button"
               onClick={() => router.push("/dashboard")}
-              className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5]"
+              className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8]"
             >
               ダッシュボードへ移動
             </button>

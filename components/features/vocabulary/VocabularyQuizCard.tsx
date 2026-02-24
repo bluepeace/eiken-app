@@ -50,7 +50,7 @@ export function VocabularyQuizCard({
     }
     const opt = options[index];
     if (opt.isCorrect) {
-      return "border-[#F99F66] bg-[#F99F66]/15 text-[#B36A3D]";
+      return "border-[#FF991F] bg-[#FF991F]/15 text-[#B86E00]";
     }
     if (selectedIndex === index) {
       return "border-red-400 bg-red-50 text-red-900";

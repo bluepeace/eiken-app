@@ -39,13 +39,13 @@ export default function PrivacyPage() {
         </div>
 
         <div className="mt-12 flex flex-wrap gap-4">
-          <Link href="/" className="text-sm text-[#50c2cb] hover:underline">
+          <Link href="/" className="text-sm text-[#009DC9] hover:underline">
             ← トップに戻る
           </Link>
-          <Link href="/terms" className="text-sm text-[#50c2cb] hover:underline">
+          <Link href="/terms" className="text-sm text-[#009DC9] hover:underline">
             利用規約
           </Link>
-          <Link href="/tokushoho" className="text-sm text-[#50c2cb] hover:underline">
+          <Link href="/tokushoho" className="text-sm text-[#009DC9] hover:underline">
             特定商取引法に基づく表記
           </Link>
         </div>

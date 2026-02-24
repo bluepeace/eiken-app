@@ -38,13 +38,13 @@ export function DashboardMockup() {
         <div className="rounded-xl border border-slate-200 bg-slate-50/50 p-3">
           <p className="mb-2 text-[10px] font-semibold text-slate-500">今日のおすすめ学習</p>
           <div className="space-y-1.5">
-            <div className="flex items-center gap-2 rounded-lg border-l-4 border-[#F99F66] border-slate-200 bg-white px-2 py-1.5 text-[10px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#F99F66]" />
+            <div className="flex items-center gap-2 rounded-lg border-l-4 border-[#FF991F] border-slate-200 bg-white px-2 py-1.5 text-[10px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#FF991F]" />
               <span>単語クイズ</span>
               <span className="ml-auto text-slate-400">約1分</span>
             </div>
-            <div className="flex items-center gap-2 rounded-lg border-l-4 border-[#A6D472] border-slate-200 bg-white px-2 py-1.5 text-[10px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#A6D472]" />
+            <div className="flex items-center gap-2 rounded-lg border-l-4 border-[#8DC63A] border-slate-200 bg-white px-2 py-1.5 text-[10px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#8DC63A]" />
               <span>ライティング</span>
               <span className="ml-auto text-slate-400">約15分</span>
             </div>

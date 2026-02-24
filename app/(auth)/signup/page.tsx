@@ -146,7 +146,7 @@ export default function SignupPage() {
               href="/terms"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-[#50c2cb] hover:underline"
+              className="font-medium text-[#009DC9] hover:underline"
             >
               利用規約
             </Link>
@@ -155,7 +155,7 @@ export default function SignupPage() {
               href="/privacy"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-[#50c2cb] hover:underline"
+              className="font-medium text-[#009DC9] hover:underline"
             >
               プライバシーポリシー
             </Link>
@@ -165,7 +165,7 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="flex w-full items-center justify-center rounded-full bg-[#50c2cb] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#46adb5] disabled:opacity-60"
+            className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
           >
             {isLoading ? "登録中..." : "アカウントを作成"}
           </button>
@@ -192,7 +192,7 @@ export default function SignupPage() {
           <button
             type="button"
             onClick={() => router.push("/login")}
-            className="font-semibold text-[#50c2cb] hover:underline"
+            className="font-semibold text-[#009DC9] hover:underline"
           >
             サインイン
           </button>
