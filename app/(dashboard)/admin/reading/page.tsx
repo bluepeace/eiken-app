@@ -8,6 +8,7 @@ import {
   adminGetReadingPassages,
   adminDeleteReadingShortQuestion,
   adminDeleteReadingPassage,
+  adminDeleteReadingWordOrderQuestion,
   type AdminReadingShortQuestion,
   type AdminReadingWordOrderQuestion,
   type AdminReadingPassage
@@ -130,14 +131,17 @@ export default function AdminReadingPage() {
     try {
       if (tab === "long_content") {
         await adminDeleteReadingPassage(id);
-      } else {
+      } else if (tab === "short") {
         await adminDeleteReadingShortQuestion(id);
+      } else {
+        await adminDeleteReadingWordOrderQuestion(id);
       }
       await load();
     } catch (e) {
       alert(e instanceof Error ? e.message : "削除に失敗しました");
     }
   };
+
 
   const readingCsvColumns: CsvColumn<AdminReadingShortQuestion>[] = [
     { key: "id", label: "ID" },
@@ -341,7 +345,7 @@ export default function AdminReadingPage() {
               {tab === "long_content" && (
                 <th className="px-4 py-3 font-medium text-slate-300">設問数</th>
               )}
-              {(tab === "short" || tab === "long_content") && (
+              {(tab === "short" || tab === "long_content" || tab === "word_order") && (
                 <th className="px-4 py-3 font-medium text-slate-300" />
               )}
             </tr>
@@ -395,6 +399,12 @@ export default function AdminReadingPage() {
                       <td className="px-4 py-3 text-slate-400">{p.question_count}</td>
                       <td className="px-4 py-3">
                         <div className="flex gap-2">
+                          <Link
+                            href={`/admin/reading/long/${p.id}`}
+                            className="text-brand-400 hover:text-brand-300 hover:underline"
+                          >
+                            編集
+                          </Link>
                           <button
                             type="button"
                             onClick={() => handleDelete(p.id)}
@@ -420,6 +430,23 @@ export default function AdminReadingPage() {
                       </td>
                       <td className="px-4 py-3 text-xs text-slate-500" title={correctSentence}>
                         {bodyPreview(correctSentence, 40)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex gap-2">
+                          <Link
+                            href={`/admin/reading/word-order/${q.id}`}
+                            className="text-brand-400 hover:text-brand-300 hover:underline"
+                          >
+                            編集
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(q.id)}
+                            className="text-red-400 hover:text-red-300 hover:underline"
+                          >
+                            削除
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );

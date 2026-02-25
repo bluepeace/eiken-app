@@ -804,6 +804,119 @@ export async function adminDeleteReadingPassage(id: number) {
   if (error) throw new Error(error.message);
 }
 
+/** 管理者用: 長文1件取得（設問付き） */
+export interface AdminReadingPassageQuestion {
+  id: number;
+  question_text: string;
+  choices: string[];
+  correct_index: number;
+  order_num: number;
+}
+
+export interface AdminReadingPassageDetail {
+  id: number;
+  level: string;
+  genre: string | null;
+  passage_type: string;
+  title: string | null;
+  body: string | null;
+  questions: AdminReadingPassageQuestion[];
+}
+
+export async function adminGetReadingPassageById(
+  id: number
+): Promise<AdminReadingPassageDetail | null> {
+  const { data: passage, error: passError } = await supabase
+    .from("reading_passages")
+    .select("id, level, genre, passage_type, title, body")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (passError) throw new Error(passError.message);
+  if (!passage) return null;
+
+  const { data: questions, error: qError } = await supabase
+    .from("reading_passage_questions")
+    .select("id, question_text, choices, correct_index, order_num")
+    .eq("passage_id", id)
+    .order("order_num", { ascending: true });
+
+  if (qError) throw new Error(qError.message);
+
+  return {
+    id: passage.id as number,
+    level: (passage.level as string) ?? "",
+    genre: (passage.genre as string) ?? null,
+    passage_type: (passage.passage_type as string) ?? "",
+    title: (passage.title as string) ?? null,
+    body: (passage.body as string) ?? null,
+    questions: (questions ?? []).map((q) => ({
+      id: q.id as number,
+      question_text: (q.question_text as string) ?? "",
+      choices: Array.isArray(q.choices) ? (q.choices as string[]) : [],
+      correct_index: Number(q.correct_index) ?? 0,
+      order_num: Number(q.order_num) ?? 0
+    }))
+  };
+}
+
+export interface AdminReadingPassageQuestionInput {
+  question_text: string;
+  choices: string[];
+  correct_index: number;
+  order_num: number;
+}
+
+export interface AdminReadingPassageUpdateInput {
+  level: string;
+  genre: string | null;
+  passage_type: "long_content" | "long_fill";
+  title: string | null;
+  body: string | null;
+  questions: AdminReadingPassageQuestionInput[];
+}
+
+export async function adminUpdateReadingPassage(
+  id: number,
+  input: AdminReadingPassageUpdateInput
+) {
+  const bodyText = input.body?.trim() ?? "";
+  const { error: passError } = await supabase
+    .from("reading_passages")
+    .update({
+      level: input.level,
+      genre: input.genre || null,
+      passage_type: input.passage_type,
+      title: input.title?.trim() || null,
+      body: bodyText || null,
+      content: bodyText || ""
+    })
+    .eq("id", id);
+
+  if (passError) throw new Error(passError.message);
+
+  const { error: delError } = await supabase
+    .from("reading_passage_questions")
+    .delete()
+    .eq("passage_id", id);
+
+  if (delError) throw new Error(delError.message);
+
+  if (input.questions.length > 0) {
+    const rows = input.questions.map((q, i) => ({
+      passage_id: id,
+      question_text: q.question_text.trim(),
+      choices: q.choices,
+      correct_index: q.correct_index,
+      order_num: q.order_num ?? i
+    }));
+    const { error: insError } = await supabase
+      .from("reading_passage_questions")
+      .insert(rows);
+    if (insError) throw new Error(insError.message);
+  }
+}
+
 export async function adminGetReadingShortQuestionById(id: number) {
   const { data, error } = await supabase
     .from("reading_short_questions")
@@ -925,4 +1038,79 @@ export async function adminGetReadingWordOrderQuestions(): Promise<AdminReadingW
   }
 
   return all;
+}
+
+/** 管理者用: 語句整序1件取得 */
+export async function adminGetReadingWordOrderQuestionById(
+  id: number
+): Promise<AdminReadingWordOrderQuestion | null> {
+  const { data, error } = await supabase
+    .from("reading_word_order_questions")
+    .select("id, level, prompt_ja, words, correct_order, created_at")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  if (!data) return null;
+
+  return {
+    id: data.id as number,
+    level: (data.level as string) ?? "",
+    prompt_ja: (data.prompt_ja as string) ?? "",
+    words: Array.isArray(data.words) ? (data.words as string[]) : [],
+    correct_order: Array.isArray(data.correct_order) ? (data.correct_order as number[]) : [],
+    created_at: data.created_at as string | undefined
+  };
+}
+
+export interface AdminReadingWordOrderQuestionInput {
+  level: string;
+  prompt_ja: string;
+  words: string[];
+  correct_order: number[];
+}
+
+export async function adminUpdateReadingWordOrderQuestion(
+  id: number,
+  input: AdminReadingWordOrderQuestionInput
+) {
+  const { error } = await supabase
+    .from("reading_word_order_questions")
+    .update({
+      level: input.level,
+      prompt_ja: input.prompt_ja.trim(),
+      words: input.words,
+      correct_order: input.correct_order
+    })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function adminCreateReadingWordOrderQuestion(
+  input: AdminReadingWordOrderQuestionInput
+): Promise<number> {
+  const { data, error } = await supabase
+    .from("reading_word_order_questions")
+    .insert({
+      level: input.level,
+      prompt_ja: input.prompt_ja.trim(),
+      words: input.words,
+      correct_order: input.correct_order
+    })
+    .select("id")
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  if (!data?.id) throw new Error("Failed to create question");
+  return data.id as number;
+}
+
+export async function adminDeleteReadingWordOrderQuestion(id: number) {
+  const { error } = await supabase
+    .from("reading_word_order_questions")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
 }
