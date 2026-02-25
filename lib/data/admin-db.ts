@@ -17,6 +17,35 @@ export async function checkIsAdmin(): Promise<boolean> {
   return profile?.role === "admin";
 }
 
+/** 企業管理者かどうか。管理対象の組織IDを返す。一般ユーザーなら null */
+export async function checkIsOrganizationAdmin(): Promise<number | null> {
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data } = await supabase
+    .from("user_profiles")
+    .select("organization_admin_for_id")
+    .eq("auth_user_id", user.id)
+    .maybeSingle();
+
+  const id = data?.organization_admin_for_id;
+  return id != null ? (id as number) : null;
+}
+
+/** 管理画面にアクセス可能か（スーパー管理者 or 企業管理者） */
+export async function canAccessAdmin(): Promise<
+  | { type: "super_admin" }
+  | { type: "org_admin"; organizationId: number }
+  | null
+> {
+  if (await checkIsAdmin()) return { type: "super_admin" };
+  const orgId = await checkIsOrganizationAdmin();
+  if (orgId != null) return { type: "org_admin", organizationId: orgId };
+  return null;
+}
+
 /** 管理者用: 企業 */
 export interface AdminOrganization {
   id: number;
@@ -121,6 +150,53 @@ export async function adminUpdateOrganization(
   if (error) throw new Error(error.message);
 }
 
+/** 企業管理者を設定（スーパー管理者のみ。既存の管理者は解除され、指定ユーザーが管理者になる） */
+export async function adminSetOrganizationAdmin(
+  organizationId: number,
+  profileId: string
+): Promise<void> {
+  const { error: clearError } = await supabase
+    .from("user_profiles")
+    .update({ organization_admin_for_id: null })
+    .eq("organization_admin_for_id", organizationId);
+  if (clearError) throw new Error(clearError.message);
+
+  const { error } = await supabase
+    .from("user_profiles")
+    .update({ organization_admin_for_id: organizationId })
+    .eq("id", profileId);
+  if (error) throw new Error(error.message);
+}
+
+/** 企業管理者を解除 */
+export async function adminRemoveOrganizationAdmin(profileId: string): Promise<void> {
+  const { error } = await supabase
+    .from("user_profiles")
+    .update({ organization_admin_for_id: null })
+    .eq("id", profileId);
+
+  if (error) throw new Error(error.message);
+}
+
+/** 企業の管理者プロフィールを取得（スーパー管理者のみ） */
+export async function adminGetOrganizationAdmin(
+  organizationId: number
+): Promise<{ id: string; email: string | null; display_name: string | null } | null> {
+  const { data, error } = await supabase.rpc("admin_get_organization_admin", {
+    p_org_id: organizationId
+  });
+
+  if (error) throw new Error(error.message);
+  const row = Array.isArray(data) ? data[0] : null;
+  if (!row) return null;
+
+  return {
+    id: row.profile_id as string,
+    email: (row.email as string) ?? null,
+    display_name: (row.display_name as string) ?? null
+  };
+}
+
 /** 管理者用: ユーザー詳細（user_profiles の更新用） */
 export async function adminGetUserProfile(profileId: string) {
   const { data, error } = await supabase
@@ -131,6 +207,43 @@ export async function adminGetUserProfile(profileId: string) {
 
   if (error) throw new Error(error.message);
   return data;
+}
+
+/** 管理者用: ユーザー詳細（メール・編集可否含む。直接登録=email のときのみメール編集可） */
+export async function adminGetUserDetail(profileId: string): Promise<{
+  id: string;
+  auth_user_id: string;
+  email: string | null;
+  is_email_editable: boolean;
+  display_name: string | null;
+  target_level: string | null;
+  role: string;
+  created_at: string | null;
+  subscription_status: string | null;
+  subscription_source: string | null;
+  organization_id: number | null;
+} | null> {
+  const { data, error } = await supabase.rpc("admin_get_user_detail", {
+    p_profile_id: profileId
+  });
+
+  if (error) throw new Error(error.message);
+  const row = Array.isArray(data) ? data[0] : null;
+  if (!row) return null;
+
+  return {
+    id: row.id as string,
+    auth_user_id: row.auth_user_id as string,
+    email: (row.email as string) ?? null,
+    is_email_editable: Boolean(row.is_email_editable),
+    display_name: (row.display_name as string) ?? null,
+    target_level: (row.target_level as string) ?? null,
+    role: (row.role as string) ?? "user",
+    created_at: (row.created_at as string) ?? null,
+    subscription_status: (row.subscription_status as string) ?? null,
+    subscription_source: (row.subscription_source as string) ?? null,
+    organization_id: row.organization_id != null ? Number(row.organization_id) : null
+  };
 }
 
 /** 管理者用: ユーザープロフィール更新 */

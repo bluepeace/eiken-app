@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import { adminGetUsers, type AdminUser } from "@/lib/data/admin-db";
+import { adminGetUsers, canAccessAdmin, type AdminUser } from "@/lib/data/admin-db";
 import { PRESET_AVATARS } from "@/lib/constants/avatars";
 import { exportToCsv, type CsvColumn } from "@/lib/utils/csv-export";
 
@@ -47,12 +47,15 @@ export default function AdminUsersPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [organizationFilter, setOrganizationFilter] = useState<string>("");
+  const [isOrgAdmin, setIsOrgAdmin] = useState(false);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const load = async () => {
       try {
+        const access = await canAccessAdmin();
+        setIsOrgAdmin(access?.type === "org_admin");
         const data = await adminGetUsers();
         setUsers(data);
       } catch (e) {
@@ -149,13 +152,17 @@ export default function AdminUsersPage() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-slate-100">ユーザー一覧</h1>
-        <Link
-          href="/admin/users/new"
-          className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
-        >
-          会員を追加
-        </Link>
+        <h1 className="text-xl font-semibold text-slate-100">
+          {isOrgAdmin ? "所属ユーザー一覧" : "ユーザー一覧"}
+        </h1>
+        {!isOrgAdmin && (
+          <Link
+            href="/admin/users/new"
+            className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-500"
+          >
+            会員を追加
+          </Link>
+        )}
       </div>
 
       <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

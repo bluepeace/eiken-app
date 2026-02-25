@@ -3,7 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { checkIsAdmin } from "@/lib/data/admin-db";
+import { canAccessAdmin } from "@/lib/data/admin-db";
 
 const ADMIN_NAV = [
   { href: "/admin", label: "管理トップ" },
@@ -29,17 +29,27 @@ export default function AdminLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [status, setStatus] = useState<"loading" | "ok" | "denied">("loading");
+  const [accessType, setAccessType] = useState<"super_admin" | "org_admin" | null>(null);
 
   useEffect(() => {
     const run = async () => {
-      const ok = await checkIsAdmin();
-      setStatus(ok ? "ok" : "denied");
-      if (!ok) {
+      const access = await canAccessAdmin();
+      if (!access) {
+        setStatus("denied");
         router.replace("/dashboard");
+        return;
+      }
+      setAccessType(access.type);
+      setStatus("ok");
+      if (access.type === "org_admin") {
+        const isAllowed = pathname === "/admin" || pathname.startsWith("/admin/users");
+        if (!isAllowed) {
+          router.replace("/admin/users");
+        }
       }
     };
     void run();
-  }, [router]);
+  }, [router, pathname]);
 
   if (status === "loading") {
     return (
@@ -53,15 +63,19 @@ export default function AdminLayout({
     return null;
   }
 
+  const navItems = accessType === "org_admin"
+    ? [{ href: "/admin/users", label: "ユーザー管理" }]
+    : ADMIN_NAV;
+
   return (
     <div className="flex min-h-[calc(100vh-56px)] w-full bg-slate-950">
       <aside className="w-52 shrink-0 border-r border-slate-800 bg-slate-900/30">
         <nav className="sticky top-0 p-4">
           <p className="mb-4 text-xs font-medium uppercase tracking-wider text-slate-500">
-            管理メニュー
+            {accessType === "org_admin" ? "企業管理メニュー" : "管理メニュー"}
           </p>
           <ul className="space-y-0.5">
-            {ADMIN_NAV.map((item) => {
+            {navItems.map((item) => {
               const isActive =
                 item.href === "/admin"
                   ? pathname === "/admin"

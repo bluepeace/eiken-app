@@ -1,6 +1,23 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { canAccessAdmin } from "@/lib/data/admin-db";
 
 export default function AdminPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const run = async () => {
+      const access = await canAccessAdmin();
+      if (access?.type === "org_admin") {
+        router.replace("/admin/users");
+      }
+    };
+    void run();
+  }, [router]);
+
   return (
     <div>
       <h1 className="mb-6 text-xl font-semibold text-slate-100">管理画面</h1>

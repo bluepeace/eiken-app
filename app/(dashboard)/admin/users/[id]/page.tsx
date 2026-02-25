@@ -1,14 +1,16 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
-  adminGetUserProfile,
+  adminGetUserDetail,
   adminUpdateUserProfile,
   adminGetOrganizations,
+  canAccessAdmin,
 } from "@/lib/data/admin-db";
 import type { AdminOrganization } from "@/lib/data/admin-db";
+import { supabase } from "@/lib/supabase/client";
 
 const LEVEL_OPTIONS = [
   "英検5級",
@@ -23,9 +25,11 @@ const LEVEL_OPTIONS = [
 
 export default function AdminUserEditPage() {
   const params = useParams();
-  const router = useRouter();
   const id = params.id as string;
+  const [isOrgAdmin, setIsOrgAdmin] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [isEmailEditable, setIsEmailEditable] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [targetLevel, setTargetLevel] = useState("英検2級");
   const [role, setRole] = useState<"user" | "admin">("user");
@@ -38,19 +42,25 @@ export default function AdminUserEditPage() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [createdAt, setCreatedAt] = useState<string | null>(null);
+  const [initialEmail, setInitialEmail] = useState("");
 
   useEffect(() => {
     const load = async () => {
       try {
+        const access = await canAccessAdmin();
+        setIsOrgAdmin(access?.type === "org_admin");
         const [data, orgs] = await Promise.all([
-          adminGetUserProfile(id),
-          adminGetOrganizations(),
+          adminGetUserDetail(id),
+          access?.type === "super_admin" ? adminGetOrganizations() : Promise.resolve([]),
         ]);
         setOrganizations(orgs);
         if (!data) {
           setError("ユーザーが見つかりません");
           return;
         }
+        setEmail(data.email ?? "");
+        setInitialEmail(data.email ?? "");
+        setIsEmailEditable(data.is_email_editable);
         setDisplayName(data.display_name ?? "");
         setTargetLevel(
           data.target_level && LEVEL_OPTIONS.includes(data.target_level)
@@ -79,6 +89,25 @@ export default function AdminUserEditPage() {
     setMessage(null);
     setSaving(true);
     try {
+      if (isEmailEditable && email.trim() && email !== initialEmail) {
+        const { data: { session } } = await supabase.auth.getSession();
+        const token = session?.access_token;
+        if (!token) {
+          setError("セッションが切れています。再ログインしてください。");
+          return;
+        }
+        const res = await fetch("/api/admin/update-user-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ profile_id: id, email: email.trim() }),
+        });
+        const json = await res.json();
+        if (!res.ok) {
+          setError(json.error ?? "メールの更新に失敗しました");
+          return;
+        }
+        setInitialEmail(email.trim());
+      }
       await adminUpdateUserProfile(id, {
         display_name: displayName || null,
         target_level: targetLevel,
@@ -89,8 +118,8 @@ export default function AdminUserEditPage() {
       });
       setMessage("保存しました");
       setTimeout(() => setMessage(null), 3000);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "保存に失敗しました");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "保存に失敗しました");
     } finally {
       setSaving(false);
     }
@@ -124,10 +153,45 @@ export default function AdminUserEditPage() {
         </Link>
       </div>
       <h1 className="mb-6 text-xl font-semibold text-slate-100">
-        ユーザー編集
+        {isOrgAdmin ? "ユーザー詳細" : "ユーザー編集"}
       </h1>
 
+      {isOrgAdmin && (
+        <div className="mb-6 flex gap-3">
+          <Link
+            href={`/admin/users/${id}/vocabulary-history`}
+            className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800"
+          >
+            単語履歴
+          </Link>
+          <Link
+            href={`/admin/users/${id}/writing-history`}
+            className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800"
+          >
+            ライティング履歴
+          </Link>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="max-w-md space-y-4">
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">
+            メールアドレス
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={!isEmailEditable || isOrgAdmin}
+            placeholder={isEmailEditable ? "" : "Googleアカウントのため編集不可"}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500 disabled:opacity-60 disabled:cursor-not-allowed"
+          />
+          {!isEmailEditable && (
+            <p className="mt-1 text-xs text-slate-500">
+              Googleアカウントでログインしたユーザーはメールアドレスを編集できません
+            </p>
+          )}
+        </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-400">
             表示名
@@ -136,9 +200,11 @@ export default function AdminUserEditPage() {
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+            disabled={isOrgAdmin}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500 disabled:opacity-60"
           />
         </div>
+        {!isOrgAdmin && (
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-400">
             所属企業
@@ -155,6 +221,7 @@ export default function AdminUserEditPage() {
             ))}
           </select>
         </div>
+        )}
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-400">
             目標級
@@ -162,7 +229,8 @@ export default function AdminUserEditPage() {
           <select
             value={targetLevel}
             onChange={(e) => setTargetLevel(e.target.value)}
-            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+            disabled={isOrgAdmin}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500 disabled:opacity-60"
           >
             {LEVEL_OPTIONS.map((l) => (
               <option key={l} value={l}>
@@ -171,6 +239,7 @@ export default function AdminUserEditPage() {
             ))}
           </select>
         </div>
+        {!isOrgAdmin && (
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-400">
             ロール
@@ -184,6 +253,8 @@ export default function AdminUserEditPage() {
             <option value="admin">admin</option>
           </select>
         </div>
+        )}
+        {!isOrgAdmin && (
         <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
           <p className="mb-3 text-xs font-medium text-slate-400">プレミアム（課金）</p>
           <div className="space-y-3">
@@ -213,6 +284,7 @@ export default function AdminUserEditPage() {
             </div>
           </div>
         </div>
+        )}
         {createdAt && (
           <p className="text-xs text-slate-500">
             登録日: {new Date(createdAt).toLocaleString("ja-JP")}
@@ -229,6 +301,7 @@ export default function AdminUserEditPage() {
           </p>
         )}
         <div className="flex gap-3">
+          {!isOrgAdmin && (
           <button
             type="submit"
             disabled={saving}
@@ -236,6 +309,7 @@ export default function AdminUserEditPage() {
           >
             {saving ? "保存中..." : "保存"}
           </button>
+          )}
           <Link
             href="/admin/users"
             className="rounded-lg border border-slate-600 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800"

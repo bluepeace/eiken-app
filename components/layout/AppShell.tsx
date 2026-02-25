@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { checkIsAdmin } from "@/lib/data/admin-db";
+import { checkIsAdmin, canAccessAdmin } from "@/lib/data/admin-db";
 import { preloadProfileCache, invalidateProfileCache } from "@/lib/data/vocabulary-db";
 import { getMonthlyBackgroundUrl } from "@/lib/data/monthly-backgrounds";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
@@ -50,8 +50,8 @@ export function AppShell({ children }: AppShellProps) {
         setIsLoggedIn(!!user);
         if (user) {
           void preloadProfileCache(); // ログイン直後にプロフィールを1回取得してキャッシュし、各画面の級表示を即時反映
-          const [admin, profileRes] = await Promise.all([
-            checkIsAdmin(),
+          const [access, profileRes] = await Promise.all([
+            canAccessAdmin(),
             supabase
               .from("user_profiles")
               .select("organization_id, organizations(logo_url)")
@@ -59,7 +59,7 @@ export function AppShell({ children }: AppShellProps) {
               .limit(1)
           ]);
           if (!mounted) return;
-          setIsAdmin(admin);
+          setIsAdmin(!!access);
           const profileData = Array.isArray(profileRes.data) ? profileRes.data[0] : profileRes.data;
           const org = (profileData as { organizations?: { logo_url?: string } | null } | null)?.organizations;
           setOrganizationLogoUrl(org?.logo_url ?? null);
