@@ -1,5 +1,6 @@
 -- 040_admin_user_detail_email.sql
 -- 管理者用: ユーザー詳細取得（メール・プロバイダー含む）メール編集可否
+-- 純粋 SQL 関数にすることで RETURNS TABLE のスコープ問題を回避
 
 CREATE OR REPLACE FUNCTION public.admin_get_user_detail(p_profile_id uuid)
 RETURNS TABLE (
@@ -15,21 +16,10 @@ RETURNS TABLE (
   subscription_source text,
   organization_id bigint
 )
-LANGUAGE plpgsql
+LANGUAGE sql
 SECURITY DEFINER
+STABLE
 AS $$
-BEGIN
-  IF NOT public.is_admin() AND NOT (
-    public.get_organization_admin_for() IS NOT NULL
-    AND EXISTS (
-      SELECT 1 FROM public.user_profiles
-      WHERE id = p_profile_id AND organization_id = public.get_organization_admin_for()
-    )
-  ) THEN
-    RAISE EXCEPTION 'Not authorized';
-  END IF;
-
-  RETURN QUERY
   SELECT
     p.id,
     p.auth_user_id,
@@ -48,6 +38,12 @@ BEGIN
   FROM public.user_profiles p
   JOIN auth.users u ON u.id = p.auth_user_id
   WHERE p.id = p_profile_id
+    AND (
+      public.is_admin()
+      OR (
+        public.get_organization_admin_for() IS NOT NULL
+        AND p.organization_id = public.get_organization_admin_for()
+      )
+    )
   LIMIT 1;
-END;
 $$;

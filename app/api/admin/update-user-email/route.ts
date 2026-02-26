@@ -36,7 +36,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "認証に失敗しました" }, { status: 401 });
     }
 
-    const { data: profile } = await anonClient
+    // ユーザーの JWT でリクエストしないと RLS で auth.uid() が null になる
+    const userClient = createClient(supabaseUrl, anonKey, {
+      global: { headers: { Authorization: `Bearer ${accessToken}` } }
+    });
+    const { data: profile } = await userClient
       .from("user_profiles")
       .select("role")
       .eq("auth_user_id", user.id)
