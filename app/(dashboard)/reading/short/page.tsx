@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   fetchReadingShortQuestions,
   saveReadingResult,
@@ -28,6 +28,7 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default function ReadingShortPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const level = searchParams.get("level") ?? "";
   const [stage, setStage] = useState<"loading" | "session" | "result">("loading");
@@ -183,7 +184,19 @@ export default function ReadingShortPage() {
           <span className="text-sm text-slate-500">
             問 {currentIndex + 1} / {questions.length}（{level}）
           </span>
-          <Link href="/reading" className="text-sm text-slate-500 hover:underline">
+          <Link
+            href="/reading"
+            className="text-sm text-slate-500 hover:underline"
+            onClick={async (e) => {
+              if (sessionStartRef.current) {
+                e.preventDefault();
+                const profileId = await getProfileId();
+                const elapsed = Math.round((Date.now() - sessionStartRef.current) / 1000);
+                if (profileId && elapsed > 0) await logStudyActivity(profileId, "reading", { seconds: elapsed });
+                router.push("/reading");
+              }
+            }}
+          >
             終了
           </Link>
         </div>

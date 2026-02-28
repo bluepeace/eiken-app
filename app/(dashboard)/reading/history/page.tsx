@@ -9,7 +9,7 @@ import {
   type ReadingHistoryEntry,
   type ReadingWrongStats,
 } from "@/lib/data/reading-db";
-import { PROBLEM_TYPE_INFO } from "@/lib/constants/reading";
+import { PROBLEM_TYPE_INFO, type ReadingProblemType } from "@/lib/constants/reading";
 
 function formatDate(iso: string) {
   const d = new Date(iso);
@@ -22,7 +22,7 @@ function formatDate(iso: string) {
   });
 }
 
-function questionTypeLabel(t: "short_fill" | "conversation_fill" | "word_order") {
+function questionTypeLabel(t: ReadingProblemType) {
   return PROBLEM_TYPE_INFO[t]?.label ?? t;
 }
 
@@ -127,7 +127,7 @@ export default function ReadingHistoryPage() {
             </p>
             {wrongStats.length === 0 ? (
               <p className="text-sm text-slate-500">
-                まだ間違えた問題はありません。短文・会話の空所補充や語句整序に挑戦してみましょう。
+                まだ間違えた問題はありません。リーディングの各形式に挑戦してみましょう。
               </p>
             ) : (
               <ul className="space-y-3">
@@ -177,7 +177,7 @@ export default function ReadingHistoryPage() {
         {tab === "history" && (
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <p className="mb-4 text-sm text-slate-600">
-              直近の解答履歴（短文・会話の空所補充・語句整序）です。
+              直近の解答履歴（短文・会話・語句整序・長文の語句空所・長文の内容一致）です。
             </p>
             {history.length === 0 ? (
               <p className="text-sm text-slate-500">

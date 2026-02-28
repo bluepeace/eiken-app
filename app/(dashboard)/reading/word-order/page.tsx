@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   fetchReadingWordOrderQuestions,
   saveReadingResult,
@@ -23,6 +23,7 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 export default function ReadingWordOrderPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const level = searchParams.get("level") ?? "";
   const [stage, setStage] = useState<"loading" | "session" | "result">("loading");
@@ -169,7 +170,21 @@ export default function ReadingWordOrderPage() {
       <div className="mx-auto max-w-xl space-y-6 rounded-2xl border border-slate-200 bg-white p-6">
         <div className="flex items-center justify-between">
           <span className="text-sm text-slate-500">問 {currentIndex + 1} / {questions.length}（{level}）</span>
-          <Link href="/reading" className="text-sm text-slate-500 hover:underline">終了</Link>
+          <Link
+            href="/reading"
+            className="text-sm text-slate-500 hover:underline"
+            onClick={async (e) => {
+              if (sessionStartRef.current) {
+                e.preventDefault();
+                const profileId = await getProfileId();
+                const elapsed = Math.round((Date.now() - sessionStartRef.current) / 1000);
+                if (profileId && elapsed > 0) await logStudyActivity(profileId, "reading", { seconds: elapsed });
+                router.push("/reading");
+              }
+            }}
+          >
+            終了
+          </Link>
         </div>
 
         <p className="rounded-lg bg-slate-50 p-4 text-slate-800">{current.prompt_ja}</p>

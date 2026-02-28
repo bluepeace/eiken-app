@@ -198,6 +198,13 @@ export function AppShell({ children }: AppShellProps) {
             >
               リーディング
             </Link>
+            <Link
+              href="/reading/history"
+              onClick={() => setDrawerOpen(false)}
+              className="block px-4 py-2 text-left text-slate-800 hover:bg-slate-100 hover:text-[#009DC9]"
+            >
+              学習履歴
+            </Link>
           </div>
         </div>
       </div>
@@ -421,6 +428,13 @@ export function AppShell({ children }: AppShellProps) {
                 className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#009DC9]"
               >
                 リーディング
+              </Link>
+              <Link
+                href="/reading/history"
+                onClick={() => setDrawerOpen(false)}
+                className="rounded-lg pl-6 pr-3 py-2 hover:bg-slate-100 hover:text-[#009DC9]"
+              >
+                学習履歴
               </Link>
               <Link
                 href="/subscribe"

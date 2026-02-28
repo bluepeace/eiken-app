@@ -237,7 +237,7 @@ export async function fetchReadingPassageQuestions(
   }));
 }
 
-/** 解答履歴1件（短文・会話空所・語句整序） */
+/** 解答履歴1件（短文・会話・語句整序・長文語句空所・長文内容一致） */
 export interface ReadingHistoryEntry {
   id: number;
   sourceType: string;
@@ -246,7 +246,7 @@ export interface ReadingHistoryEntry {
   isCorrect: boolean;
   createdAt: string;
   level: string;
-  questionType: "short_fill" | "conversation_fill" | "word_order";
+  questionType: "short_fill" | "conversation_fill" | "word_order" | "long_fill" | "long_content";
   bodySnippet: string;
   /** ユーザーが選んだ選択肢のテキスト（語句整序では null） */
   userAnswerText: string | null;
@@ -256,7 +256,7 @@ export interface ReadingHistoryEntry {
   explanation: string | null;
 }
 
-/** 短文・会話・語句整序の解答履歴を取得（新しい順） */
+/** 短文・会話・語句整序・長文語句空所・長文内容一致の解答履歴を取得（新しい順） */
 export async function getReadingHistory(
   profileId: string,
   limit = 50
@@ -265,7 +265,7 @@ export async function getReadingHistory(
     .from("reading_results")
     .select("id, source_type, source_id, user_answer, is_correct, created_at")
     .eq("user_id", profileId)
-    .in("source_type", ["short", "word_order"])
+    .in("source_type", ["short", "word_order", "passage_fill", "passage_content"])
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -273,20 +273,20 @@ export async function getReadingHistory(
 
   const shortIds = [...new Set(results.filter((r) => r.source_type === "short").map((r) => Number(r.source_id)))];
   const wordOrderIds = [...new Set(results.filter((r) => r.source_type === "word_order").map((r) => Number(r.source_id)))];
+  const passageFillIds = [...new Set(results.filter((r) => r.source_type === "passage_fill").map((r) => Number(r.source_id)))];
+  const passageContentIds = [...new Set(results.filter((r) => r.source_type === "passage_content").map((r) => Number(r.source_id)))];
 
-  const questionMap = new Map<
-    string,
-    {
-      sourceType: "short" | "word_order";
-      level: string;
-      question_type: string;
-      body: string;
-      choices: string[];
-      correct_index: number;
-      correctSentence?: string;
-      explanation: string | null;
-    }
-  >();
+  type QuestionMeta = {
+    sourceType: "short" | "word_order" | "passage_fill" | "passage_content";
+    level: string;
+    question_type: "short_fill" | "conversation_fill" | "word_order" | "long_fill" | "long_content";
+    body: string;
+    choices: string[];
+    correct_index: number;
+    correctSentence?: string;
+    explanation: string | null;
+  };
+  const questionMap = new Map<string, QuestionMeta>();
 
   if (shortIds.length > 0) {
     const { data: questions } = await supabase
@@ -299,7 +299,7 @@ export async function getReadingHistory(
       questionMap.set(`short-${q.id}`, {
         sourceType: "short",
         level: (q.level as string) ?? "",
-        question_type: (q.question_type as string) ?? "short_fill",
+        question_type: (q.question_type === "conversation_fill" ? "conversation_fill" : "short_fill"),
         body: body.replace(/__BLANK__/g, "（ ）").slice(0, 80) + (body.length > 80 ? "…" : ""),
         choices,
         correct_index: Number(q.correct_index) ?? 0,
@@ -330,6 +330,58 @@ export async function getReadingHistory(
     }
   }
 
+  if (passageFillIds.length > 0) {
+    const { data: blanks } = await supabase
+      .from("reading_passage_blanks")
+      .select("id, passage_id, choices, correct_index")
+      .in("id", passageFillIds);
+    const passageIds = [...new Set((blanks ?? []).map((b) => b.passage_id as number))];
+    const { data: passages } = passageIds.length > 0
+      ? await supabase.from("reading_passages").select("id, level, title").in("id", passageIds)
+      : { data: [] };
+    const passageById = new Map((passages ?? []).map((p) => [p.id as number, p]));
+    for (const b of blanks ?? []) {
+      const p = passageById.get(b.passage_id as number);
+      const choices = Array.isArray(b.choices) ? (b.choices as string[]) : [];
+      const title = (p?.title as string) ?? "長文";
+      questionMap.set(`passage_fill-${b.id}`, {
+        sourceType: "passage_fill",
+        level: (p?.level as string) ?? "",
+        question_type: "long_fill",
+        body: `長文の語句空所: ${title}`,
+        choices,
+        correct_index: Number(b.correct_index) ?? 0,
+        explanation: null,
+      });
+    }
+  }
+
+  if (passageContentIds.length > 0) {
+    const { data: pq } = await supabase
+      .from("reading_passage_questions")
+      .select("id, passage_id, question_text, choices, correct_index, explanation")
+      .in("id", passageContentIds);
+    const passageIds = [...new Set((pq ?? []).map((q) => q.passage_id as number))];
+    const { data: passages } = passageIds.length > 0
+      ? await supabase.from("reading_passages").select("id, level").in("id", passageIds)
+      : { data: [] };
+    const passageById = new Map((passages ?? []).map((p) => [p.id as number, p]));
+    for (const q of pq ?? []) {
+      const p = passageById.get(q.passage_id as number);
+      const body = (q.question_text as string) ?? "";
+      const choices = Array.isArray(q.choices) ? (q.choices as string[]) : [];
+      questionMap.set(`passage_content-${q.id}`, {
+        sourceType: "passage_content",
+        level: (p?.level as string) ?? "",
+        question_type: "long_content",
+        body: body.slice(0, 80) + (body.length > 80 ? "…" : ""),
+        choices,
+        correct_index: Number(q.correct_index) ?? 0,
+        explanation: (q.explanation as string) ?? null,
+      });
+    }
+  }
+
   return results.map((r) => {
     const st = (r.source_type as string) ?? "short";
     const sid = Number(r.source_id);
@@ -356,6 +408,40 @@ export async function getReadingHistory(
       };
     }
 
+    if (sourceType === "passage_fill" && q?.sourceType === "passage_fill") {
+      return {
+        id: r.id as number,
+        sourceType,
+        sourceId: Number(r.source_id),
+        userAnswer: userAnsIdx,
+        isCorrect: Boolean(r.is_correct),
+        createdAt: (r.created_at as string) ?? "",
+        level: q.level,
+        questionType: "long_fill" as const,
+        bodySnippet: q.body,
+        userAnswerText: choices[userAnsIdx] ?? null,
+        correctAnswerText: choices[correctIdx] ?? null,
+        explanation: q.explanation ?? null,
+      };
+    }
+
+    if (sourceType === "passage_content" && q?.sourceType === "passage_content") {
+      return {
+        id: r.id as number,
+        sourceType,
+        sourceId: Number(r.source_id),
+        userAnswer: userAnsIdx,
+        isCorrect: Boolean(r.is_correct),
+        createdAt: (r.created_at as string) ?? "",
+        level: q.level,
+        questionType: "long_content" as const,
+        bodySnippet: q.body,
+        userAnswerText: choices[userAnsIdx] ?? null,
+        correctAnswerText: choices[correctIdx] ?? null,
+        explanation: q.explanation ?? null,
+      };
+    }
+
     return {
       id: r.id as number,
       sourceType,
@@ -373,13 +459,13 @@ export async function getReadingHistory(
   });
 }
 
-/** 間違えた問題の集計（短文・会話・語句整序、間違い回数が多い順） */
+/** 間違えた問題の集計（全種別、間違い回数が多い順） */
 export interface ReadingWrongStats {
   sourceId: number;
-  sourceType: "short" | "word_order";
+  sourceType: "short" | "word_order" | "passage_fill" | "passage_content";
   wrongCount: number;
   level: string;
-  questionType: "short_fill" | "conversation_fill" | "word_order";
+  questionType: "short_fill" | "conversation_fill" | "word_order" | "long_fill" | "long_content";
   bodySnippet: string;
   /** 正解の選択肢テキスト（語句整序では正解英文） */
   correctAnswerText: string | null;
@@ -394,7 +480,7 @@ export async function getReadingWrongStats(
     .from("reading_results")
     .select("source_type, source_id")
     .eq("user_id", profileId)
-    .in("source_type", ["short", "word_order"])
+    .in("source_type", ["short", "word_order", "passage_fill", "passage_content"])
     .eq("is_correct", false);
 
   if (error || !data) return [];
@@ -407,6 +493,8 @@ export async function getReadingWrongStats(
 
   const shortIds = [...new Set(data.filter((r) => r.source_type === "short").map((r) => Number(r.source_id)))];
   const wordOrderIds = [...new Set(data.filter((r) => r.source_type === "word_order").map((r) => Number(r.source_id)))];
+  const passageFillIds = [...new Set(data.filter((r) => r.source_type === "passage_fill").map((r) => Number(r.source_id)))];
+  const passageContentIds = [...new Set(data.filter((r) => r.source_type === "passage_content").map((r) => Number(r.source_id)))];
 
   const result: ReadingWrongStats[] = [];
 
@@ -452,6 +540,64 @@ export async function getReadingWrongStats(
         bodySnippet: (q.prompt_ja as string) ?? "",
         correctAnswerText: correctSentence || null,
         explanation: null,
+      });
+    }
+  }
+
+  if (passageFillIds.length > 0) {
+    const { data: blanks } = await supabase
+      .from("reading_passage_blanks")
+      .select("id, passage_id, choices, correct_index")
+      .in("id", passageFillIds);
+    const passageIds = [...new Set((blanks ?? []).map((b) => b.passage_id as number))];
+    const { data: passages } = passageIds.length > 0
+      ? await supabase.from("reading_passages").select("id, level, title").in("id", passageIds)
+      : { data: [] };
+    const passageById = new Map((passages ?? []).map((p) => [p.id as number, p]));
+    for (const b of blanks ?? []) {
+      const p = passageById.get(b.passage_id as number);
+      const choices = Array.isArray(b.choices) ? (b.choices as string[]) : [];
+      const correctIdx = Number(b.correct_index) ?? 0;
+      const key = `passage_fill-${b.id}`;
+      const title = (p?.title as string) ?? "長文";
+      result.push({
+        sourceId: b.id as number,
+        sourceType: "passage_fill",
+        wrongCount: countMap.get(key) ?? 0,
+        level: (p?.level as string) ?? "",
+        questionType: "long_fill",
+        bodySnippet: `長文の語句空所: ${title}`,
+        correctAnswerText: choices[correctIdx] ?? null,
+        explanation: null,
+      });
+    }
+  }
+
+  if (passageContentIds.length > 0) {
+    const { data: pq } = await supabase
+      .from("reading_passage_questions")
+      .select("id, passage_id, question_text, choices, correct_index, explanation")
+      .in("id", passageContentIds);
+    const passageIds = [...new Set((pq ?? []).map((q) => q.passage_id as number))];
+    const { data: passages } = passageIds.length > 0
+      ? await supabase.from("reading_passages").select("id, level").in("id", passageIds)
+      : { data: [] };
+    const passageById = new Map((passages ?? []).map((p) => [p.id as number, p]));
+    for (const q of pq ?? []) {
+      const p = passageById.get(q.passage_id as number);
+      const body = (q.question_text as string) ?? "";
+      const choices = Array.isArray(q.choices) ? (q.choices as string[]) : [];
+      const correctIdx = Number(q.correct_index) ?? 0;
+      const key = `passage_content-${q.id}`;
+      result.push({
+        sourceId: q.id as number,
+        sourceType: "passage_content",
+        wrongCount: countMap.get(key) ?? 0,
+        level: (p?.level as string) ?? "",
+        questionType: "long_content",
+        bodySnippet: body.slice(0, 80) + (body.length > 80 ? "…" : ""),
+        correctAnswerText: choices[correctIdx] ?? null,
+        explanation: (q.explanation as string) ?? null,
       });
     }
   }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   fetchReadingPassage,
   fetchReadingPassageBlanks,
@@ -18,6 +18,7 @@ import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
 const BLANK = "__BLANK__";
 
 export default function ReadingLongFillPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const level = searchParams.get("level") ?? "";
   const [stage, setStage] = useState<"loading" | "session" | "result">("loading");
@@ -131,7 +132,21 @@ export default function ReadingLongFillPage() {
       <div className="mx-auto max-w-xl space-y-6 rounded-2xl border border-slate-200 bg-white p-6">
         <div className="flex items-center justify-between">
           <span className="text-sm text-slate-500">{level} 長文の語句空所補充</span>
-          <Link href="/reading" className="text-sm text-slate-500 hover:underline">終了</Link>
+          <Link
+            href="/reading"
+            className="text-sm text-slate-500 hover:underline"
+            onClick={async (e) => {
+              if (sessionStartRef.current) {
+                e.preventDefault();
+                const profileId = await getProfileId();
+                const elapsed = Math.round((Date.now() - sessionStartRef.current) / 1000);
+                if (profileId && elapsed > 0) await logStudyActivity(profileId, "reading", { seconds: elapsed });
+                router.push("/reading");
+              }
+            }}
+          >
+            終了
+          </Link>
         </div>
 
         {passage.title && <h2 className="text-lg font-medium text-slate-800">{passage.title}</h2>}
