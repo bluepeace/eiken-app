@@ -170,12 +170,21 @@ export default function ReadingLongContentPage() {
                         : "border-slate-200 hover:bg-slate-50"
                   }`}
                 >
+                  {showCorrect && <span className="mr-2 inline-block font-semibold">正解</span>}
+                  {showWrong && <span className="mr-2 inline-block font-semibold">不正解</span>}
                   {choice}
                 </button>
               </li>
             );
           })}
         </ul>
+
+        {showResult && question.explanation && (
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="mb-1 text-xs font-medium text-slate-500">解説</p>
+            <p className="whitespace-pre-wrap text-sm text-slate-800">{question.explanation}</p>
+          </div>
+        )}
 
         {showResult && (
           <button

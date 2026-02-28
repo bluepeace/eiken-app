@@ -5,6 +5,52 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getBuddies, type Buddy } from "@/lib/data/buddies";
 
+/** プロフィールを再取得してからダッシュボードへ遷移（ガードで弾かれるのを防ぐ） */
+function GoToDashboardButton({ onError }: { onError: (msg: string) => void }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async () => {
+    setLoading(true);
+    onError("");
+    try {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.replace("/login");
+        return;
+      }
+      const { data: profileRows } = await supabase
+        .from("user_profiles")
+        .select("display_name, target_level")
+        .eq("auth_user_id", user.id)
+        .limit(1);
+      const profile = Array.isArray(profileRows) ? profileRows[0] : profileRows;
+      if (profile?.display_name && profile?.target_level) {
+        router.replace("/dashboard");
+        return;
+      }
+      onError("プロフィールの確認ができませんでした。しばらく待ってから再度お試しください。");
+    } catch {
+      onError("エラーが発生しました。もう一度お試しください。");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={loading}
+      className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
+    >
+      {loading ? "確認中..." : "ダッシュボードへ移動"}
+    </button>
+  );
+}
+
 const LEVEL_OPTIONS = [
   "英検5級",
   "英検4級",
@@ -79,10 +125,11 @@ export default function OnboardingPage() {
           .from("user_profiles")
           .select("display_name, target_level, buddy_id")
           .eq("auth_user_id", user.id)
-          .maybeSingle(),
+          .limit(1),
         getBuddies()
       ]);
-      const { data: profile } = profileRes;
+      const profileRows = profileRes.data;
+      const profile = Array.isArray(profileRows) ? profileRows[0] : profileRows;
 
       if (profile?.display_name && profile?.target_level) {
         router.replace("/dashboard");
@@ -124,11 +171,12 @@ export default function OnboardingPage() {
       } = await supabase.auth.getUser();
       if (!user) throw new Error("ログインが必要です");
 
-      const { data: existing } = await supabase
+      const { data: existingRows } = await supabase
         .from("user_profiles")
         .select("id")
         .eq("auth_user_id", user.id)
-        .maybeSingle();
+        .limit(1);
+      const existing = Array.isArray(existingRows) ? existingRows[0] : existingRows;
 
       if (existing) {
         await supabase
@@ -161,11 +209,12 @@ export default function OnboardingPage() {
       } = await supabase.auth.getUser();
       if (!user) throw new Error("ログインが必要です");
 
-      const { data: existing } = await supabase
+      const { data: existingRows } = await supabase
         .from("user_profiles")
         .select("id")
         .eq("auth_user_id", user.id)
-        .maybeSingle();
+        .limit(1);
+      const existing = Array.isArray(existingRows) ? existingRows[0] : existingRows;
 
       if (existing) {
         await supabase
@@ -199,28 +248,46 @@ export default function OnboardingPage() {
       } = await supabase.auth.getUser();
       if (!user) throw new Error("ログインが必要です");
 
-      const { data: existing } = await supabase
+      const { data: existingRows, error: fetchError } = await supabase
         .from("user_profiles")
         .select("id")
         .eq("auth_user_id", user.id)
-        .maybeSingle();
+        .limit(1);
 
+      if (fetchError) throw fetchError;
+
+      const existing = Array.isArray(existingRows) ? existingRows[0] : existingRows;
       if (existing) {
-        await supabase
+        const { data: updatedRows, error: updateError } = await supabase
           .from("user_profiles")
           .update({ target_level: targetLevel })
-          .eq("id", existing.id);
+          .eq("id", existing.id)
+          .select("display_name, target_level");
+        if (updateError) throw updateError;
+        const updated = Array.isArray(updatedRows) ? updatedRows[0] : updatedRows;
+        if (updated?.display_name && updated?.target_level) {
+          setStep(4);
+        } else {
+          setError("保存できましたが確認に失敗しました。下の「ダッシュボードへ移動」を押して再度お試しください。");
+        }
       } else {
-        await supabase.from("user_profiles").insert({
+        const { error: insertError } = await supabase.from("user_profiles").insert({
           auth_user_id: user.id,
           display_name: displayName.trim() || null,
           target_level: targetLevel,
           organization_id: 1
         });
+        if (insertError) throw insertError;
+        setStep(4);
       }
-      setStep(4);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "保存に失敗しました");
+      const message =
+        err && typeof err === "object" && "message" in err
+          ? String((err as { message: unknown }).message)
+          : err instanceof Error
+            ? err.message
+            : "保存に失敗しました";
+      setError(message);
     } finally {
       setSaving(false);
     }
@@ -299,14 +366,14 @@ export default function OnboardingPage() {
                 ))}
               </div>
               {buddies.length === 0 && (
-                <p className="text-sm text-slate-500">バディの読み込み中…</p>
+                <p className="text-sm text-slate-500">バディの読み込み中… スキップして次へ進めます。</p>
               )}
               <button
                 type="submit"
-                disabled={saving || !selectedBuddyId || buddies.length === 0}
+                disabled={saving}
                 className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
               >
-                {saving ? "保存中..." : "選んで次へ"}
+                {saving ? "保存中..." : selectedBuddyId ? "選んで次へ" : "スキップして次へ"}
               </button>
               {error && <p className="text-sm text-red-600">{error}</p>}
             </form>
@@ -352,13 +419,8 @@ export default function OnboardingPage() {
                 さっそく学習を始めましょう。
               </span>
             </BuddySpeech>
-            <button
-              type="button"
-              onClick={() => router.push("/dashboard")}
-              className="flex w-full items-center justify-center rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8]"
-            >
-              ダッシュボードへ移動
-            </button>
+            {error && <p className="text-sm text-red-600">{error}</p>}
+            <GoToDashboardButton onError={setError} />
           </>
         )}
       </div>

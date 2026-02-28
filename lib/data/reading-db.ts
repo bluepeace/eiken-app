@@ -49,6 +49,8 @@ export interface ReadingPassageQuestion {
   choices: string[];
   correct_index: number;
   order_num: number;
+  /** 正解の解説（日本語） */
+  explanation: string | null;
 }
 
 /** 短文空所の優先度スコア（間違い回数 − 正解回数。正のとき出題優先） */
@@ -218,7 +220,7 @@ export async function fetchReadingPassageQuestions(
 ): Promise<ReadingPassageQuestion[]> {
   const { data, error } = await supabase
     .from("reading_passage_questions")
-    .select("id, passage_id, question_text, choices, correct_index, order_num")
+    .select("id, passage_id, question_text, choices, correct_index, order_num, explanation")
     .eq("passage_id", passageId)
     .order("order_num", { ascending: true });
 
@@ -231,6 +233,7 @@ export async function fetchReadingPassageQuestions(
     choices: Array.isArray(row.choices) ? (row.choices as string[]) : [],
     correct_index: Number(row.correct_index) ?? 0,
     order_num: Number(row.order_num) ?? 0,
+    explanation: (row.explanation as string) ?? null,
   }));
 }
 

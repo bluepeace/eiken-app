@@ -56,11 +56,12 @@ export function AppShell({ children }: AppShellProps) {
               .from("user_profiles")
               .select("organization_id, organizations(logo_url)")
               .eq("auth_user_id", user.id)
-              .maybeSingle()
+              .limit(1)
           ]);
           if (!mounted) return;
           setIsAdmin(admin);
-          const org = (profileRes.data as { organizations?: { logo_url?: string } | null } | null)?.organizations;
+          const profileData = Array.isArray(profileRes.data) ? profileRes.data[0] : profileRes.data;
+          const org = (profileData as { organizations?: { logo_url?: string } | null } | null)?.organizations;
           setOrganizationLogoUrl(org?.logo_url ?? null);
         } else {
           setIsAdmin(false);

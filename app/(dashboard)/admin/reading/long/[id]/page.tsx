@@ -25,7 +25,8 @@ const emptyQuestion = (): AdminReadingPassageQuestionInput => ({
   question_text: "",
   choices: ["", "", "", ""],
   correct_index: 0,
-  order_num: 0
+  order_num: 0,
+  explanation: null
 });
 
 export default function AdminReadingLongEditPage() {
@@ -65,7 +66,8 @@ export default function AdminReadingLongEditPage() {
                 question_text: q.question_text,
                 choices: choices4,
                 correct_index: Math.min(3, Math.max(0, q.correct_index)),
-                order_num: q.order_num
+                order_num: q.order_num,
+                explanation: q.explanation ?? null
               };
             })
           );
@@ -109,7 +111,8 @@ export default function AdminReadingLongEditPage() {
           question_text: q.question_text.trim(),
           choices,
           correct_index: Math.min(3, Math.max(0, q.correct_index)),
-          order_num: i
+          order_num: i,
+          explanation: q.explanation?.trim() || null
         };
       })
       .filter((q) => q.question_text.length > 0);
@@ -296,6 +299,16 @@ export default function AdminReadingLongEditPage() {
                     <option key={n} value={n}>{n + 1} 番目</option>
                   ))}
                 </select>
+                <div className="mt-2">
+                  <label className="mb-1 block text-xs text-slate-500">解説（任意）</label>
+                  <textarea
+                    value={q.explanation ?? ""}
+                    onChange={(e) => setQuestion(idx, { explanation: e.target.value || null })}
+                    placeholder="正解の解説"
+                    rows={3}
+                    className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
+                  />
+                </div>
               </div>
             ))}
           </div>

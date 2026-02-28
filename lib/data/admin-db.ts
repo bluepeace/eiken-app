@@ -7,13 +7,14 @@ export async function checkIsAdmin(): Promise<boolean> {
   } = await supabase.auth.getUser();
   if (!user) return false;
 
-  const { data } = await supabase
+  const { data: rows } = await supabase
     .from("user_profiles")
     .select("role")
     .eq("auth_user_id", user.id)
-    .maybeSingle();
+    .limit(1);
 
-  return data?.role === "admin";
+  const profile = Array.isArray(rows) ? rows[0] : rows;
+  return profile?.role === "admin";
 }
 
 /** 管理者用: 企業 */
@@ -811,6 +812,7 @@ export interface AdminReadingPassageQuestion {
   choices: string[];
   correct_index: number;
   order_num: number;
+  explanation: string | null;
 }
 
 export interface AdminReadingPassageDetail {
@@ -837,7 +839,7 @@ export async function adminGetReadingPassageById(
 
   const { data: questions, error: qError } = await supabase
     .from("reading_passage_questions")
-    .select("id, question_text, choices, correct_index, order_num")
+    .select("id, question_text, choices, correct_index, order_num, explanation")
     .eq("passage_id", id)
     .order("order_num", { ascending: true });
 
@@ -855,7 +857,8 @@ export async function adminGetReadingPassageById(
       question_text: (q.question_text as string) ?? "",
       choices: Array.isArray(q.choices) ? (q.choices as string[]) : [],
       correct_index: Number(q.correct_index) ?? 0,
-      order_num: Number(q.order_num) ?? 0
+      order_num: Number(q.order_num) ?? 0,
+      explanation: (q.explanation as string) ?? null
     }))
   };
 }
@@ -865,6 +868,7 @@ export interface AdminReadingPassageQuestionInput {
   choices: string[];
   correct_index: number;
   order_num: number;
+  explanation?: string | null;
 }
 
 export interface AdminReadingPassageUpdateInput {
@@ -908,7 +912,8 @@ export async function adminUpdateReadingPassage(
       question_text: q.question_text.trim(),
       choices: q.choices,
       correct_index: q.correct_index,
-      order_num: q.order_num ?? i
+      order_num: q.order_num ?? i,
+      explanation: (q.explanation?.trim() && q.explanation.trim().length > 0) ? q.explanation.trim() : null
     }));
     const { error: insError } = await supabase
       .from("reading_passage_questions")

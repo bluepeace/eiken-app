@@ -19,13 +19,14 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      const { data: profile } = await supabase
+      const { data: profileRows, error: profileError } = await supabase
         .from("user_profiles")
         .select("display_name, target_level")
         .eq("auth_user_id", user.id)
-        .maybeSingle();
+        .limit(1);
+      const profile = Array.isArray(profileRows) ? profileRows[0] : profileRows;
 
-      if (!profile?.display_name || !profile?.target_level) {
+      if (profileError || !profile?.display_name || !profile?.target_level) {
         router.replace("/onboarding");
         return;
       }

@@ -26,12 +26,22 @@ export default function LoginPage() {
 
     setIsLoading(false);
 
-    if (signInError || !data.session) {
+    if (signInError || !data.session?.user) {
       setError(signInError?.message ?? "サインインに失敗しました。");
       return;
     }
 
-    router.push("/onboarding");
+    const { data: profileRows } = await supabase
+      .from("user_profiles")
+      .select("display_name, target_level")
+      .eq("auth_user_id", data.user.id)
+      .limit(1);
+    const profile = Array.isArray(profileRows) ? profileRows[0] : profileRows;
+    if (profile?.display_name && profile?.target_level) {
+      router.push("/dashboard");
+    } else {
+      router.push("/onboarding");
+    }
   };
 
   const handleGoogleSignIn = async () => {
@@ -110,6 +120,15 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
+            <p className="text-right">
+              <button
+                type="button"
+                onClick={() => router.push("/forgot-password")}
+                className="text-xs text-[#009DC9] hover:underline"
+              >
+                パスワードを忘れた方
+              </button>
+            </p>
           </div>
   
           {error && (

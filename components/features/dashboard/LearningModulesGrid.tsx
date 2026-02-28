@@ -24,14 +24,16 @@ const MODULES = [
     description: "面接形式のロールプレイでアウトプット練習。",
     badge: "音声入力",
     href: "/speaking",
-    hideForLevels: ["英検4級", "英検5級"]
+    hideForLevels: ["英検4級", "英検5級"],
+    comingSoon: true
   },
   {
     key: "listening",
     titleEn: "Listening",
     description: "速度調整やディクテーションで耳を鍛える。",
     badge: "音声教材",
-    href: "/listening"
+    href: "/listening",
+    comingSoon: true
   },
   {
     key: "reading",
@@ -76,7 +78,39 @@ export function LearningModulesGrid({ targetLevel }: LearningModulesGridProps) {
                   ? `${m.href}?level=${levelParam}`
                   : m.href
                 : m.href;
+          const comingSoon = "comingSoon" in m && m.comingSoon;
+
+          if (comingSoon) {
             return (
+              <div
+                key={m.key}
+                className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border ${colors.border} bg-white p-5 shadow-md opacity-75 cursor-not-allowed`}
+                aria-disabled="true"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <div
+                      className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-0.5 text-xs font-medium ${colors.badge}`}
+                    >
+                      <span>{m.badge}</span>
+                    </div>
+                    <span className="rounded-full bg-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                      開発中
+                    </span>
+                  </div>
+                  <h3 className={`text-xl font-bold ${colors.text}`}>
+                    {m.titleEn}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-600">{m.description}</p>
+                </div>
+                <div className="mt-4 text-sm text-slate-500">
+                  準備ができ次第、利用可能になります
+                </div>
+              </div>
+            );
+          }
+
+          return (
             <Link
               key={m.key}
               href={href}

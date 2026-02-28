@@ -24,14 +24,16 @@ const OPTIONAL_TASKS = [
     detail: "自己紹介 + 質問",
     duration: "約10分",
     href: "/speaking",
-    hideForLevels: ["英検4級", "英検5級"]
+    hideForLevels: ["英検4級", "英検5級"],
+    comingSoon: true
   },
   {
     key: "listening",
     title: "リスニング",
     detail: "音声を聞いて問題に答える",
     duration: "約10分",
-    href: "/listening"
+    href: "/listening",
+    comingSoon: true
   },
   {
     key: "reading",
@@ -115,6 +117,7 @@ export function TodayPlanCard({
             detail={t.detail}
             duration={t.duration}
             href={t.href}
+            comingSoon={"comingSoon" in t && t.comingSoon}
           />
         ))}
       </div>
@@ -128,6 +131,7 @@ interface TodayTaskProps {
   detail: string;
   duration: string;
   href: string;
+  comingSoon?: boolean;
 }
 
 function TodayTask({
@@ -135,34 +139,42 @@ function TodayTask({
   title,
   detail,
   duration,
-  href
+  href,
+  comingSoon
 }: TodayTaskProps) {
   const colors = MODULE_COLORS[moduleKey as ModuleKey] ?? MODULE_COLORS.vocabulary;
   return (
     <div
-      className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border border-slate-200 ${colors.bg} p-4`}
+      className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border border-slate-200 ${colors.bg} p-4 ${comingSoon ? "opacity-75 cursor-not-allowed" : ""}`}
+      aria-disabled={comingSoon}
     >
       <div className="space-y-1">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
           <span
-            className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-medium ${colors.badge}`}
+            className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-medium ${comingSoon ? "bg-slate-200 text-slate-600 border-slate-300" : colors.badge}`}
           >
-            {duration}
+            {comingSoon ? "開発中" : duration}
           </span>
         </div>
         <p className="text-xs text-slate-600">{detail}</p>
       </div>
       <div className="mt-3">
-        <Link
-          href={href}
-          className={`inline-flex items-center text-xs font-semibold ${colors.text} ${colors.textHover}`}
-        >
-          始める
-          <span aria-hidden="true" className="ml-1">
-            →
+        {comingSoon ? (
+          <span className="inline-flex items-center text-xs font-medium text-slate-500">
+            準備ができ次第、利用可能になります
           </span>
-        </Link>
+        ) : (
+          <Link
+            href={href}
+            className={`inline-flex items-center text-xs font-semibold ${colors.text} ${colors.textHover}`}
+          >
+            始める
+            <span aria-hidden="true" className="ml-1">
+              →
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );
