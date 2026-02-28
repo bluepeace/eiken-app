@@ -19,6 +19,13 @@ const MODULES = [
     hideForLevels: ["英検4級", "英検5級"]
   },
   {
+    key: "reading",
+    titleEn: "Reading",
+    description: "長文読解と要約で読解力をアップ。",
+    badge: "長文対策",
+    href: "/reading"
+  },
+  {
     key: "speaking",
     titleEn: "Speaking",
     description: "面接形式のロールプレイでアウトプット練習。",
@@ -34,13 +41,6 @@ const MODULES = [
     badge: "音声教材",
     href: "/listening",
     comingSoon: true
-  },
-  {
-    key: "reading",
-    titleEn: "Reading",
-    description: "長文読解と要約で読解力をアップ。",
-    badge: "長文対策",
-    href: "/reading"
   }
 ] as const;
 
@@ -84,7 +84,7 @@ export function LearningModulesGrid({ targetLevel }: LearningModulesGridProps) {
             return (
               <div
                 key={m.key}
-                className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border ${colors.border} bg-white p-5 shadow-md opacity-75 cursor-not-allowed`}
+                className={`flex flex-col justify-between rounded-2xl border-l-4 ${colors.borderLeft} border ${colors.border} bg-white p-5 shadow-md opacity-55 cursor-not-allowed`}
                 aria-disabled="true"
               >
                 <div className="space-y-2">
