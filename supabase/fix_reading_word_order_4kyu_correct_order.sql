@@ -25,8 +25,9 @@ UPDATE public.reading_word_order_questions
 SET words = '["a ticket", "to", "went to the station", "buy", "I"]', correct_order = '[4, 2, 1, 3, 0]'
 WHERE level = '4級' AND prompt_ja = '私はチケットを買うために駅へ行きました。';
 
+-- She is studying to become a doctor at university.（to の位置を修正）
 UPDATE public.reading_word_order_questions
-SET words = '["a doctor at university", "to", "she", "become", "is studying"]', correct_order = '[2, 1, 4, 3, 0]'
+SET words = '["a doctor at university", "to", "she", "become", "is studying"]', correct_order = '[2, 4, 1, 3, 0]'
 WHERE level = '4級' AND prompt_ja = '彼女は医者になるために大学で勉強しています。';
 
 UPDATE public.reading_word_order_questions
@@ -34,8 +35,9 @@ SET words = '["the news", "he", "watch", "turned on the TV", "to"]', correct_ord
 WHERE level = '4級' AND prompt_ja = '彼はニュースを見るためにテレビをつけました。';
 
 -- ========== 連番 [0,1,2,3,4] を解消 ==========
+-- They didn't have time to see the movie.（time の位置を修正）
 UPDATE public.reading_word_order_questions
-SET words = '["to see the movie", "time", "didn''t", "they", "have"]', correct_order = '[3, 1, 2, 4, 0]'
+SET words = '["to see the movie", "time", "didn''t", "they", "have"]', correct_order = '[3, 2, 4, 1, 0]'
 WHERE level = '4級' AND prompt_ja = '彼らは映画を見る時間がありませんでした。';
 
 -- 主語を入れて全文に（Bill didn't have time to eat breakfast.）

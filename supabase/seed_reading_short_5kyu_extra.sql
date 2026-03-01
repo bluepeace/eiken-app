@@ -66,9 +66,9 @@ VALUES ('5級', 'short_fill', 'A: This dress is very nice. __BLANK__ is it? B: I
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('5級', 'short_fill', 'A: Let''s __BLANK__ the homework together. B: Good idea.', '["check", "checked", "checks", "checking"]', 0, 'Let''s の後には動詞の原形がきます。「宿題を確認する」は "check the homework"。');
 
--- (37) musician / 音楽家
+-- (37) teacher / 音楽の先生（5級では musician より teacher）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('5級', 'short_fill', 'Henry is a __BLANK__. He plays the guitar and the piano.', '["rabbit", "musician", "jacket", "team"]', 1, 'ギターとピアノを弾く人は「音楽家」なので "musician" が正解。rabbit はウサギ、team はチーム。');
+VALUES ('5級', 'short_fill', 'Henry is a music __BLANK__. He plays the guitar and the piano.', '["teacher", "rabbit", "jacket", "team"]', 0, 'ギターとピアノを弾く人は「音楽の先生」なので "teacher" が正解。music teacher で「音楽の先生」。');
 
 -- (38) gym / 体育館
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -86,9 +86,9 @@ VALUES ('5級', 'short_fill', 'Mr. Hara has a big __BLANK__ in his garden. It ha
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('5級', 'short_fill', 'A: Mom, I don''t know this word. Can you help me? B: Use your __BLANK__, Tom.', '["page", "cup", "dictionary", "story"]', 2, '言葉の意味を調べる本は「辞書」なので "dictionary" が正解。');
 
--- (42) trumpet / トランペット
+-- (42) piano / ピアノ（5級でよく出る楽器）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('5級', 'short_fill', 'Mr. Brown is a music teacher. He plays the __BLANK__ very well.', '["trumpet", "cup", "clock", "pencil"]', 0, '音楽の先生が弾く「楽器」は trumpet（トランペット）が自然。play the 〜 で楽器を演奏する。');
+VALUES ('5級', 'short_fill', 'Mr. Brown is a music teacher. He plays the __BLANK__ very well.', '["piano", "cup", "clock", "pencil"]', 0, '音楽の先生が弾く「楽器」は piano（ピアノ）が自然。play the 〜 で楽器を演奏する。');
 
 -- (43) great / 素晴らしい
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -102,9 +102,9 @@ VALUES ('5級', 'short_fill', 'Sally has a smart dog. He can stand and __BLANK__
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('5級', 'short_fill', 'A: Mom, please __BLANK__ sandwiches for lunch. B: OK, John.', '["know", "make", "sit", "study"]', 1, '「サンドイッチを作って」は "Please make sandwiches." です。make は「作る」という動詞。');
 
--- (46) like / I'd like
+-- (46) want / What do you want to drink?（5級では I want が中心）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('5級', 'short_fill', 'A: What would you like to drink? B: I''d __BLANK__ some water, please.', '["like", "want", "have", "need"]', 0, '「〜がほしいです」と丁寧に言うとき "I''d like 〜" を使います。I''d = I would。');
+VALUES ('5級', 'short_fill', 'A: What do you __BLANK__ to drink? B: I want some water, please.', '["want", "like", "have", "need"]', 0, '「何が飲みたい？」は "What do you want to drink?" です。「水がほしい」は "I want some water." で答えます。');
 
 -- (47) many / 多くの（可算）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)

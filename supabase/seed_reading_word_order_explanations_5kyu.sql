@@ -9,7 +9,7 @@ UPDATE public.reading_word_order_questions SET explanation = '「いくつ」は
 UPDATE public.reading_word_order_questions SET explanation = '「いくら」は How much。That bag は単数なので is。How much + is + 主語の順。' WHERE level = '5級' AND prompt_ja = 'あのカバンはいくらですか。';
 
 -- ========== What / Who / Where / When 疑問文 ==========
-UPDATE public.reading_word_order_questions SET explanation = '「だれ」は Who。Who の疑問文は Who + be動詞 + 主語。in the photo は the girl を修飾します。' WHERE level = '5級' AND prompt_ja = 'この写真の中の女の子はだれですか。';
+UPDATE public.reading_word_order_questions SET explanation = '「だれ」は Who。Who の疑問文は Who + be動詞 + 主語。That girl で「あの女の子」。' WHERE level = '5級' AND prompt_ja = 'あの女の子はだれですか。';
 UPDATE public.reading_word_order_questions SET explanation = '「何をしている」は What are you doing。現在進行形の疑問文です。' WHERE level = '5級' AND prompt_ja = 'あなたは今何をしていますか。';
 UPDATE public.reading_word_order_questions SET explanation = '「どこに」は Where。Where の疑問文は Where + be動詞 + 主語。' WHERE level = '5級' AND prompt_ja = 'あなたの本はどこにありますか。';
 UPDATE public.reading_word_order_questions SET explanation = '「いつ」は When。Do で始まる疑問文で、When は文頭に置きます。When + do + 主語 + 動詞。' WHERE level = '5級' AND prompt_ja = 'あなたはいつ学校に行きますか。';
@@ -29,10 +29,10 @@ UPDATE public.reading_word_order_questions SET explanation = 'Do you like ...? �
 
 -- ========== 肯定文（SVO, SVC, 時・場所の前置詞句）==========
 UPDATE public.reading_word_order_questions SET explanation = '主語は The flower shop（単数）。opens at ten o''clock で「10時に開く」。時を表す at は動詞の後。' WHERE level = '5級' AND prompt_ja = 'その花屋は毎日10時に開きます。';
-UPDATE public.reading_word_order_questions SET explanation = 'Today is the first day of ... で「今日は〜の初日です」。of の後に修飾される名詞が続きます。' WHERE level = '5級' AND prompt_ja = '今日は私たちの修学旅行の初日です。';
+UPDATE public.reading_word_order_questions SET explanation = 'Today is the first day. で「今日は初日です」。SVC の文です。' WHERE level = '5級' AND prompt_ja = '今日は初日です。';
 UPDATE public.reading_word_order_questions SET explanation = '主語 + 動詞 + 場所。My aunt lives in London で「私の叔母はロンドンに住んでいる」。in は場所の前置詞。' WHERE level = '5級' AND prompt_ja = '私の叔母はロンドンに住んでいます。';
 UPDATE public.reading_word_order_questions SET explanation = 'He gets up at seven every morning. 主語 + 動詞 + 時の表現の順。at seven は「7時に」。' WHERE level = '5級' AND prompt_ja = '彼は毎朝7時に起きます。';
-UPDATE public.reading_word_order_questions SET explanation = '現在進行形は am/are/is + -ing。I am cooking breakfast for Hiro. for は「〜のために」。' WHERE level = '5級' AND prompt_ja = '私は浩のために朝食を作っています。';
+UPDATE public.reading_word_order_questions SET explanation = '現在進行形は am + -ing。I am cooking breakfast で「私は朝食を作っている」。' WHERE level = '5級' AND prompt_ja = '私は朝食を作っています。';
 UPDATE public.reading_word_order_questions SET explanation = '主語 + 動詞 + 目的語。She likes music で「彼女は音楽が好きです」。' WHERE level = '5級' AND prompt_ja = '彼女は音楽が好きです。';
 UPDATE public.reading_word_order_questions SET explanation = 'We play soccer in the park. 主語 + 動詞 + 目的語 + 場所。in the park は「公園で」。' WHERE level = '5級' AND prompt_ja = '私たちは公園でサッカーをします。';
 UPDATE public.reading_word_order_questions SET explanation = '主語 + 動詞 + 時の表現。He swims on Mondays で「彼は月曜日に泳ぐ」。' WHERE level = '5級' AND prompt_ja = '彼は月曜日に泳ぎます。';

@@ -13,7 +13,7 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 
 -- ========== What / Who / Where / When 疑問文 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
-  ('5級', 'この写真の中の女の子はだれですか。', '["the girl", "in", "who", "is"]', '[2, 3, 0, 1]'),
+  ('5級', 'あの女の子はだれですか。', '["that girl", "who", "is"]', '[1, 2, 0]'),
   ('5級', 'あなたは今何をしていますか。', '["you", "doing", "are", "what"]', '[3, 2, 0, 1]'),
   ('5級', 'あなたの本はどこにありますか。', '["your book", "where", "is"]', '[1, 2, 0]'),
   ('5級', 'あなたはいつ学校に行きますか。', '["do", "you", "when", "go to school"]', '[2, 0, 1, 3]'),
@@ -35,10 +35,10 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 -- ========== 肯定文（SVO, SVC, 時・場所の前置詞句）==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('5級', 'その花屋は毎日10時に開きます。', '["opens", "ten o''clock", "the flower shop", "at"]', '[2, 0, 3, 1]'),
-  ('5級', '今日は私たちの修学旅行の初日です。', '["of", "is", "the first day", "today"]', '[3, 1, 2, 0]'),
+  ('5級', '今日は初日です。', '["today", "is", "the first day"]', '[0, 1, 2]'),
   ('5級', '私の叔母はロンドンに住んでいます。', '["my aunt", "London", "lives", "in"]', '[0, 2, 3, 1]'),
   ('5級', '彼は毎朝7時に起きます。', '["gets up", "he", "at seven", "every morning"]', '[1, 0, 3, 2]'),
-  ('5級', '私は浩のために朝食を作っています。', '["for", "breakfast", "am", "cooking"]', '[2, 3, 1, 0]'),
+  ('5級', '私は朝食を作っています。', '["I", "am", "cooking", "breakfast"]', '[0, 1, 2, 3]'),
   ('5級', '彼女は音楽が好きです。', '["likes", "she", "music"]', '[1, 0, 2]'),
   ('5級', '私たちは公園でサッカーをします。', '["soccer", "we", "in the park", "play"]', '[1, 3, 0, 2]'),
   ('5級', '彼は月曜日に泳ぎます。', '["swims", "he", "on Mondays"]', '[1, 0, 2]'),
