@@ -15,7 +15,7 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('4級', '私は本を借りるために図書館へ行きました。', '["some books", "went to the library", "I", "borrow", "to"]', '[2, 1, 4, 3, 0]'),
   ('4級', '彼は英語を学ぶために毎日勉強しています。', '["learn", "he", "English every day", "to", "studies hard"]', '[1, 4, 0, 3, 2]'),
-  ('4級', '私はチケットを買うために駅へ行きました。', '["a ticket", "to", "went to the station", "buy", "I"]', '[4, 1, 2, 3, 0]'),
+  ('4級', '私はチケットを買うために駅へ行きました。', '["a ticket", "to", "went to the station", "buy", "I"]', '[4, 2, 1, 3, 0]'),
   ('4級', '彼女は医者になるために大学で勉強しています。', '["a doctor at university", "to", "she", "become", "is studying"]', '[2, 1, 4, 3, 0]'),
   ('4級', '彼はニュースを見るためにテレビをつけました。', '["the news", "he", "watch", "turned on the TV", "to"]', '[1, 3, 4, 2, 0]'),
   ('4級', '私は泳ぐことが好きです。', '["swim", "I", "to", "like"]', '[1, 3, 2, 0]'),

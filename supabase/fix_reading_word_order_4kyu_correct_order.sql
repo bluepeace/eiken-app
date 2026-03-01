@@ -20,8 +20,9 @@ UPDATE public.reading_word_order_questions
 SET words = '["learn", "he", "English every day", "to", "studies hard"]', correct_order = '[1, 4, 0, 3, 2]'
 WHERE level = '4級' AND prompt_ja = '彼は英語を学ぶために毎日勉強しています。';
 
+-- I went to the station to buy a ticket（to の位置を修正）
 UPDATE public.reading_word_order_questions
-SET words = '["a ticket", "to", "went to the station", "buy", "I"]', correct_order = '[4, 1, 2, 3, 0]'
+SET words = '["a ticket", "to", "went to the station", "buy", "I"]', correct_order = '[4, 2, 1, 3, 0]'
 WHERE level = '4級' AND prompt_ja = '私はチケットを買うために駅へ行きました。';
 
 UPDATE public.reading_word_order_questions
