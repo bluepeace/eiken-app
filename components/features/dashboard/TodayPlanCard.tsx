@@ -11,6 +11,13 @@ const VOCABULARY_TASK = {
 
 const OPTIONAL_TASKS = [
   {
+    key: "reading",
+    title: "リーディング",
+    detail: "長文読解と要約",
+    duration: "約15分",
+    href: "/reading"
+  },
+  {
     key: "writing",
     title: "ライティング",
     detail: "自由英作文 1題",
@@ -34,13 +41,6 @@ const OPTIONAL_TASKS = [
     duration: "約10分",
     href: "/listening",
     comingSoon: true
-  },
-  {
-    key: "reading",
-    title: "リーディング",
-    detail: "長文読解と要約",
-    duration: "約15分",
-    href: "/reading"
   }
 ] as const;
 

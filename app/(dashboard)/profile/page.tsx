@@ -25,7 +25,6 @@ const LEVEL_OPTIONS: LevelOption[] = [
   "英検1級"
 ];
 
-import { PRESET_AVATARS } from "@/lib/constants/avatars";
 import {
   getRecentExamRoundOptions,
   getDatesByRound,
@@ -52,7 +51,7 @@ export default function ProfilePage() {
   const [canEditEmail, setCanEditEmail] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarStyle, setAvatarStyle] = useState<string | null>(null);
-  const [avatarTab, setAvatarTab] = useState<"preset" | "registered" | "upload">("preset");
+  const [avatarTab, setAvatarTab] = useState<"registered" | "upload">("registered");
   const [avatarPresets, setAvatarPresets] = useState<AvatarPreset[]>([]);
   const [targetExam, setTargetExam] = useState<string>("");
   const [examOptions, setExamOptions] = useState<ExamRoundOption[]>([]);
@@ -69,13 +68,14 @@ export default function ProfilePage() {
     null
   );
   const [buddyId, setBuddyId] = useState<string | null>(null);
-  const [buddyImageUrl, setBuddyImageUrl] = useState<string | null>(null);
   const [buddies, setBuddies] = useState<Buddy[]>([]);
   const [organizationName, setOrganizationName] = useState<string | null>(null);
 
   useEffect(() => {
     const load = async () => {
       setIsLoading(true);
+      // セッション復元を待つ: getSession で確実にセッションを読み込んでからプロフィール取得する
+      await supabase.auth.getSession();
       const {
         data: { user }
       } = await supabase.auth.getUser();
@@ -96,17 +96,33 @@ export default function ProfilePage() {
           user.identities.some((id: any) => id.provider === "google"));
       setCanEditEmail(!isGoogle);
 
-      const [profileRes, examOptionsRes] = await Promise.all([
-        supabase
+      // プロフィール取得（RLS で auth.uid() が必要なため、セッション付きで取得）
+      // maybeSingle() は 0件または2件以上で null を返すため、2件以上ある場合も1件取れるよう limit(1) で取得
+      const fetchProfile = async () => {
+        const res = await supabase
           .from("user_profiles")
           .select(
-            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, buddy_image_url, organization_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date, organizations(name)"
+            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, organization_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date, organizations!organization_id(name)"
           )
           .eq("auth_user_id", user.id)
-          .maybeSingle(),
+          .limit(1)
+          .maybeSingle();
+        return res;
+      };
+
+      const [profileRes, examOptionsRes] = await Promise.all([
+        fetchProfile(),
         getRecentExamRoundOptions(3)
       ]);
-      const { data, error: profileError } = profileRes;
+      let rawProfile = profileRes.data;
+      let profileError = profileRes.error;
+      // データがなくエラーもない場合（RLS やセッション遅延の可能性）、1回だけリトライ
+      if (rawProfile == null && profileError == null) {
+        await new Promise((r) => setTimeout(r, 200));
+        const retry = await fetchProfile();
+        rawProfile = retry.data;
+        profileError = retry.error;
+      }
 
       if (profileError) {
         // RLS などで失敗しても、とりあえず表示名だけ編集できるようにする
@@ -114,28 +130,19 @@ export default function ProfilePage() {
         console.warn("[profile] failed to load profile", profileError.message);
       }
 
-      if (data) {
-        setProfileId(data.id);
-        setDisplayName(data.display_name ?? "");
-        if (data.target_level && LEVEL_OPTIONS.includes(data.target_level)) {
-          setTargetLevel(data.target_level as LevelOption);
-        }
-        if (data.avatar_url) setAvatarUrl(data.avatar_url);
-        if (data.avatar_style) setAvatarStyle(data.avatar_style);
-        if (data.buddy_id) setBuddyId(data.buddy_id);
-        setBuddyImageUrl(data.buddy_image_url ?? null);
-        const org = (data as { organizations?: { name?: string } | null }).organizations;
-        setOrganizationName(org?.name ?? null);
-        if (data.target_exam_year != null && data.target_exam_round != null) {
-          setTargetExam(`${data.target_exam_year}-${data.target_exam_round}`);
-        }
-        if (data.target_exam_primary_date) {
-          setPrimaryDate(data.target_exam_primary_date);
-        }
-        if (data.target_exam_secondary_date) {
-          setSecondaryDate(data.target_exam_secondary_date);
-        }
-      }
+      // Supabase は通常 snake_case を返す。念のため camelCase も参照して確実に反映する
+      const p = rawProfile as Record<string, unknown> | null;
+      const str = (snake: string, camel: string) => {
+        if (!p) return "";
+        const v = p[snake] ?? p[camel];
+        return v != null && v !== "" ? String(v) : "";
+      };
+      const strOrNull = (snake: string, camel: string) => {
+        if (!p) return null;
+        const v = p[snake] ?? p[camel];
+        return v != null && v !== "" ? String(v) : null;
+      };
+
       const opts = examOptionsRes;
       setExamOptions(opts);
 
@@ -145,22 +152,50 @@ export default function ProfilePage() {
       ]);
       setAvatarPresets(presets);
       setBuddies(buddiesList);
-      // 年度・回はあるが日程が未設定の場合、DBから取得してセット
-      if (data) {
-        const y = data.target_exam_year;
-        const r = data.target_exam_round;
+
+      // プロフィールの反映はバディ・プリセット取得の後にまとめて行い、確実に1回で反映する
+      if (p) {
+        const id = p.id as string | undefined;
+        const displayNameVal = str("display_name", "displayName");
+        const targetLevelVal = (p.target_level ?? p.targetLevel) as string | undefined;
+        const avatarUrlVal = strOrNull("avatar_url", "avatarUrl");
+        const avatarStyleVal = strOrNull("avatar_style", "avatarStyle");
+        const buddyIdVal = (p.buddy_id ?? p.buddyId) as string | null | undefined;
+        const org = (rawProfile as { organizations?: { name?: string } | null })?.organizations;
+        const ty = p.target_exam_year ?? p.targetExamYear;
+        const tr = p.target_exam_round ?? p.targetExamRound;
+        const primaryVal = (p.target_exam_primary_date ?? p.targetExamPrimaryDate) ?? "";
+        const secondaryVal = (p.target_exam_secondary_date ?? p.targetExamSecondaryDate) ?? "";
+
+        if (id) setProfileId(id);
+        setDisplayName(displayNameVal);
+        if (targetLevelVal && LEVEL_OPTIONS.includes(targetLevelVal as LevelOption)) {
+          setTargetLevel(targetLevelVal as LevelOption);
+        }
+        setAvatarUrl(avatarUrlVal ?? null);
+        setAvatarStyle(avatarStyleVal ?? null);
+        setBuddyId(buddyIdVal ?? null);
+        if (avatarUrlVal) setAvatarTab("upload");
+        setOrganizationName(org?.name ?? null);
+        if (ty != null && tr != null) {
+          setTargetExam(`${ty}-${tr}`);
+        }
+        setPrimaryDate(primaryVal);
+        setSecondaryDate(secondaryVal);
+
+        // 年度・回はあるが日程が未設定の場合、DBから取得してセット
         if (
-          y != null &&
-          r != null &&
-          !data.target_exam_primary_date &&
-          !data.target_exam_secondary_date
+          ty != null &&
+          tr != null &&
+          !p.target_exam_primary_date &&
+          !p.target_exam_secondary_date
         ) {
-          const match = opts.find((o) => o.examYear === y && o.round === r);
+          const match = opts.find((o) => o.examYear === ty && o.round === tr);
           if (match) {
             setPrimaryDate(match.primaryDate);
             setSecondaryDate(match.secondaryDate);
           } else {
-            const dates = await getDatesByRound(y, r);
+            const dates = await getDatesByRound(ty as number, tr as number);
             if (dates) {
               setPrimaryDate(dates.primaryDate);
               setSecondaryDate(dates.secondaryDate);
@@ -218,7 +253,7 @@ export default function ProfilePage() {
         avatar_url: avatarUrl,
         avatar_style: avatarStyle,
         buddy_id: buddyId || null,
-        buddy_image_url: buddyImageUrl?.trim() || null,
+        buddy_image_url: null,
         target_exam_year: targetExamYear,
         target_exam_round: targetExamRound,
         target_exam_primary_date: targetPrimary,
@@ -426,56 +461,35 @@ export default function ProfilePage() {
               一緒に学習するバディ
             </label>
             <p className="text-[11px] text-slate-600">
-              オンボーディングで選んだバディを変更できます。名前を変えずに画像だけ差し替えることもできます。
+              オンボーディングで選んだバディを変更できます。
             </p>
             {buddies.length > 0 ? (
-              <div className="space-y-3">
-                <div className="flex flex-wrap gap-2">
-                  {buddies.map((b) => (
-                    <button
-                      key={b.id}
-                      type="button"
-                      onClick={() => setBuddyId(buddyId === b.id ? null : b.id)}
-                      className={`flex items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition ${
-                        buddyId === b.id
-                          ? "border-brand-500 bg-brand-50 text-brand-800"
-                          : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
-                      }`}
-                    >
-                      <span className="relative flex h-8 w-8 shrink-0 items-end justify-center">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={buddyId === b.id && buddyImageUrl ? buddyImageUrl : b.image_url}
-                          alt={b.name}
-                          className="h-full w-full object-contain"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "/logo-aiken.png";
-                          }}
-                        />
-                      </span>
-                      {b.name}
-                    </button>
-                  ))}
-                </div>
-                {buddyId && (
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                    <p className="mb-1.5 text-[11px] font-medium text-slate-700">バディの画像だけ変更（任意）</p>
-                    <input
-                      type="url"
-                      value={buddyImageUrl ?? ""}
-                      onChange={(e) => setBuddyImageUrl(e.target.value.trim() || null)}
-                      placeholder="https://... 画像のURLを入力"
-                      className="w-full rounded border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 placeholder:text-slate-400"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setBuddyImageUrl(null)}
-                      className="mt-1.5 text-[11px] text-slate-600 hover:underline"
-                    >
-                      デフォルトの画像に戻す
-                    </button>
-                  </div>
-                )}
+              <div className="flex flex-wrap gap-2">
+                {buddies.map((b) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => setBuddyId(buddyId === b.id ? null : b.id)}
+                    className={`flex items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition ${
+                      buddyId === b.id
+                        ? "border-brand-500 bg-brand-50 text-brand-800"
+                        : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                    }`}
+                  >
+                    <span className="relative flex h-8 w-8 shrink-0 items-end justify-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={b.image_url}
+                        alt={b.name}
+                        className="h-full w-full object-contain"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/logo-aiken.png";
+                        }}
+                      />
+                    </span>
+                    {b.name}
+                  </button>
+                ))}
               </div>
             ) : (
               <p className="text-[11px] text-slate-500">バディの読み込み中…</p>
@@ -496,20 +510,6 @@ export default function ProfilePage() {
                       alt="avatar"
                       className="h-full w-full rounded-full object-cover"
                     />
-                  ) : avatarStyle &&
-                    PRESET_AVATARS.some((a) => a.id === avatarStyle) ? (
-                    (() => {
-                      const preset = PRESET_AVATARS.find(
-                        (a) => a.id === avatarStyle
-                      )!;
-                      return (
-                        <span
-                          className={`flex h-full w-full items-center justify-center text-lg ${preset.bg} ${preset.fg}`}
-                        >
-                          {preset.emoji}
-                        </span>
-                      );
-                    })()
                   ) : displayName ? (
                     displayName[0]?.toUpperCase()
                   ) : (
@@ -518,17 +518,6 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex flex-col gap-2 text-[11px] text-slate-600">
                   <div className="inline-flex flex-wrap gap-1 rounded-full bg-slate-100 p-[2px] text-[11px]">
-                    <button
-                      type="button"
-                      onClick={() => setAvatarTab("preset")}
-                      className={`px-3 py-1 rounded-full ${
-                        avatarTab === "preset"
-                          ? "bg-white text-slate-900 border border-slate-300"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      プリセット
-                    </button>
                     <button
                       type="button"
                       onClick={() => setAvatarTab("registered")}
@@ -572,27 +561,6 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              {avatarTab === "preset" && (
-                <div className="grid grid-cols-6 gap-2">
-                  {PRESET_AVATARS.map((a) => (
-                    <button
-                      type="button"
-                      key={a.id}
-                      onClick={() => {
-                        setAvatarStyle(a.id);
-                        setAvatarUrl(null);
-                      }}
-                      className={`flex h-10 w-10 items-center justify-center rounded-full border text-lg ${
-                        avatarStyle === a.id
-                          ? "border-brand-500 shadow-sm"
-                          : "border-slate-200"
-                      } ${a.bg} ${a.fg}`}
-                    >
-                      {a.emoji}
-                    </button>
-                  ))}
-                </div>
-              )}
               {avatarTab === "registered" && (
                 <div className="grid grid-cols-6 gap-2">
                   {avatarPresets.length === 0 ? (

@@ -14,6 +14,7 @@ const LEVELS = ["5級", "4級", "3級", "準2級", "準2級プラス", "2級", "
 const GENRES = [
   { value: "email", label: "Eメール" },
   { value: "narrative", label: "説明文" },
+  { value: "explanation", label: "説明文（長文空所用）" },
   { value: "notice", label: "お知らせ" }
 ];
 const PASSAGE_TYPES = [
@@ -103,22 +104,23 @@ export default function AdminReadingLongEditPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    const isLongFill = passageType === "long_fill";
     const trimmedQuestions = questions
       .map((q, i) => {
         const raw = q.choices ?? ["", "", "", ""];
         const choices = Array.from({ length: 4 }, (_, j) => (raw[j] ?? "").trim());
         return {
-          question_text: q.question_text.trim(),
+          question_text: (q.question_text ?? "").trim(),
           choices,
           correct_index: Math.min(3, Math.max(0, q.correct_index)),
           order_num: i,
           explanation: q.explanation?.trim() || null
         };
       })
-      .filter((q) => q.question_text.length > 0);
+      .filter((q) => (isLongFill ? q.choices.every((c) => c.length > 0) : q.question_text.length > 0));
     const invalid = trimmedQuestions.some((q) => q.choices.some((c) => !c));
     if (invalid) {
-      setError("各設問の質問文と選択肢4つをすべて入力してください");
+      setError(isLongFill ? "各空所の選択肢4つをすべて入力してください" : "各設問の質問文と選択肢4つをすべて入力してください");
       return;
     }
     setSaving(true);
@@ -173,7 +175,9 @@ export default function AdminReadingLongEditPage() {
           ← リーディング問題一覧
         </Link>
       </div>
-      <h1 className="mb-6 text-xl font-semibold text-slate-100">長文の内容一致を編集（ID: {id}）</h1>
+      <h1 className="mb-6 text-xl font-semibold text-slate-100">
+        {passageType === "long_fill" ? "長文の語句空所を編集" : "長文の内容一致を編集"}（ID: {id}）
+      </h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
@@ -239,13 +243,15 @@ export default function AdminReadingLongEditPage() {
 
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <label className="text-xs font-medium text-slate-400">設問</label>
+            <label className="text-xs font-medium text-slate-400">
+              {passageType === "long_fill" ? "空所（本文の __BLANK__ に対応）" : "設問"}
+            </label>
             <button
               type="button"
               onClick={addQuestion}
               className="rounded border border-slate-600 px-2 py-1 text-xs text-slate-300 hover:bg-slate-800"
             >
-              + 設問を追加
+              + {passageType === "long_fill" ? "空所を追加" : "設問を追加"}
             </button>
           </div>
           <div className="space-y-4">
@@ -255,7 +261,9 @@ export default function AdminReadingLongEditPage() {
                 className="rounded-lg border border-slate-700 bg-slate-800/30 p-4"
               >
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="text-xs text-slate-500">設問 {idx + 1}</span>
+                  <span className="text-xs text-slate-500">
+                    {passageType === "long_fill" ? `空所 ${idx + 1}` : `設問 ${idx + 1}`}
+                  </span>
                   {questions.length > 1 && (
                     <button
                       type="button"
@@ -266,13 +274,15 @@ export default function AdminReadingLongEditPage() {
                     </button>
                   )}
                 </div>
-                <input
-                  type="text"
-                  value={q.question_text}
-                  onChange={(e) => setQuestion(idx, { question_text: e.target.value })}
-                  placeholder="質問文"
-                  className="mb-2 w-full rounded border border-slate-600 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
-                />
+                {passageType !== "long_fill" && (
+                  <input
+                    type="text"
+                    value={q.question_text}
+                    onChange={(e) => setQuestion(idx, { question_text: e.target.value })}
+                    placeholder="質問文"
+                    className="mb-2 w-full rounded border border-slate-600 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
+                  />
+                )}
                 <div className="mb-2 space-y-1">
                   {[0, 1, 2, 3].map((ci) => (
                     <input
@@ -299,16 +309,18 @@ export default function AdminReadingLongEditPage() {
                     <option key={n} value={n}>{n + 1} 番目</option>
                   ))}
                 </select>
-                <div className="mt-2">
-                  <label className="mb-1 block text-xs text-slate-500">解説（任意）</label>
-                  <textarea
-                    value={q.explanation ?? ""}
-                    onChange={(e) => setQuestion(idx, { explanation: e.target.value || null })}
-                    placeholder="正解の解説"
-                    rows={3}
-                    className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
-                  />
-                </div>
+                {passageType !== "long_fill" && (
+                  <div className="mt-2">
+                    <label className="mb-1 block text-xs text-slate-500">解説（任意）</label>
+                    <textarea
+                      value={q.explanation ?? ""}
+                      onChange={(e) => setQuestion(idx, { explanation: e.target.value || null })}
+                      placeholder="正解の解説"
+                      rows={3}
+                      className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
+                    />
+                  </div>
+                )}
               </div>
             ))}
           </div>

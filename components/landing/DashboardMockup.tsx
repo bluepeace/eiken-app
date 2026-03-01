@@ -7,8 +7,8 @@ import { MODULE_COLORS, type ModuleKey } from "@/lib/constants/module-colors";
 export function DashboardMockup() {
   const modules: { key: ModuleKey; title: string; badge: string }[] = [
     { key: "vocabulary", title: "単語学習", badge: "毎日の基本" },
-    { key: "writing", title: "ライティング", badge: "AI 添削" },
-    { key: "reading", title: "リーディング", badge: "長文対策" }
+    { key: "reading", title: "リーディング", badge: "長文対策" },
+    { key: "writing", title: "ライティング", badge: "AI 添削" }
   ];
 
   return (

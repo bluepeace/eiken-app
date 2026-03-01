@@ -11,19 +11,19 @@ const MODULES = [
     href: "/vocabulary"
   },
   {
+    key: "reading",
+    titleEn: "Reading",
+    description: "長文読解と要約で読解力をアップ。",
+    badge: "長文対策",
+    href: "/reading"
+  },
+  {
     key: "writing",
     titleEn: "Writing",
     description: "AI 添削で文法・構成・語彙をフィードバック。",
     badge: "AI 添削",
     href: "/writing",
     hideForLevels: ["英検4級", "英検5級"]
-  },
-  {
-    key: "reading",
-    titleEn: "Reading",
-    description: "長文読解と要約で読解力をアップ。",
-    badge: "長文対策",
-    href: "/reading"
   },
   {
     key: "speaking",

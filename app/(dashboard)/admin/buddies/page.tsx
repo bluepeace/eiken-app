@@ -20,6 +20,8 @@ export default function AdminBuddiesPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const replaceFileInputRef = useRef<HTMLInputElement>(null);
+  const replaceTargetIdRef = useRef<string | null>(null);
 
   const load = async () => {
     try {
@@ -82,6 +84,46 @@ export default function AdminBuddiesPage() {
     }
   };
 
+  const handleReplaceImageClick = (id: string) => {
+    replaceTargetIdRef.current = id;
+    replaceFileInputRef.current?.click();
+  };
+
+  const handleReplaceFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id = replaceTargetIdRef.current;
+    replaceTargetIdRef.current = null;
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file || !id || !file.type.startsWith("image/")) return;
+
+    setError(null);
+    setMessage(null);
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `buddies/${id}.${ext}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(path, file, { upsert: true });
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage.from("avatars").getPublicUrl(path);
+      await adminUpdateBuddy(id, { image_url: data.publicUrl });
+      await load();
+      setMessage("画像を更新しました");
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : (err as { message?: string })?.message ?? "画像の差し替えに失敗しました";
+      setError(msg);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSaveName = async (id: string) => {
     if (!editName.trim()) return;
     setError(null);
@@ -140,6 +182,13 @@ export default function AdminBuddiesPage() {
             accept="image/*"
             className="hidden"
             onChange={handleFileChange}
+          />
+          <input
+            ref={replaceFileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleReplaceFileChange}
           />
           <button
             type="button"
@@ -200,7 +249,15 @@ export default function AdminBuddiesPage() {
                 ) : (
                   <>
                     <p className="text-sm font-medium text-slate-200">{b.name}</p>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <button
+                        type="button"
+                        onClick={() => handleReplaceImageClick(b.id)}
+                        disabled={uploading}
+                        className="text-xs text-slate-400 hover:text-slate-200 disabled:opacity-60"
+                      >
+                        画像を差し替え
+                      </button>
                       <button
                         type="button"
                         onClick={() => { setEditingId(b.id); setEditName(b.name); }}

@@ -22,13 +22,14 @@ const QUESTION_TYPES = [
   { value: "conversation_fill", label: "会話文の空所" }
 ] as const;
 
-type TabType = "short" | "word_order" | "long_content";
+type TabType = "short" | "word_order" | "long_content" | "long_fill";
 
 export default function AdminReadingPage() {
   const [tab, setTab] = useState<TabType>("short");
   const [items, setItems] = useState<AdminReadingShortQuestion[]>([]);
   const [wordOrderItems, setWordOrderItems] = useState<AdminReadingWordOrderQuestion[]>([]);
   const [passageItems, setPassageItems] = useState<AdminReadingPassage[]>([]);
+  const [passageItemsFill, setPassageItemsFill] = useState<AdminReadingPassage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,14 +40,16 @@ export default function AdminReadingPage() {
 
   const load = async () => {
     try {
-      const [data, woData, passageData] = await Promise.all([
+      const [data, woData, passageData, passageFillData] = await Promise.all([
         adminGetReadingShortQuestions(),
         adminGetReadingWordOrderQuestions(),
-        adminGetReadingPassages("long_content")
+        adminGetReadingPassages("long_content"),
+        adminGetReadingPassages("long_fill")
       ]);
       setItems(data);
       setWordOrderItems(woData);
       setPassageItems(passageData);
+      setPassageItemsFill(passageFillData);
     } catch (e) {
       setError(e instanceof Error ? e.message : "読み込みに失敗しました");
     } finally {
@@ -93,6 +96,23 @@ export default function AdminReadingPage() {
     );
   }, [passageItems, searchQuery, levelFilter, sortOrder]);
 
+  const filteredPassageItemsFill = useMemo(() => {
+    let list = passageItemsFill;
+    if (levelFilter) list = list.filter((p) => p.level === levelFilter);
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(
+        (p) =>
+          (p.title ?? "").toLowerCase().includes(q) ||
+          (p.body ?? "").toLowerCase().includes(q) ||
+          String(p.id).includes(q)
+      );
+    }
+    return [...list].sort((a, b) =>
+      sortOrder === "asc" ? a.id - b.id : b.id - a.id
+    );
+  }, [passageItemsFill, searchQuery, levelFilter, sortOrder]);
+
   const filteredWordOrderItems = useMemo(() => {
     let list = wordOrderItems;
     if (levelFilter) list = list.filter((q) => q.level === levelFilter);
@@ -115,7 +135,9 @@ export default function AdminReadingPage() {
       ? filteredItems
       : tab === "word_order"
         ? filteredWordOrderItems
-        : filteredPassageItems;
+        : tab === "long_fill"
+          ? filteredPassageItemsFill
+          : filteredPassageItems;
   const totalPages = Math.max(1, Math.ceil(activeFilteredItems.length / PER_PAGE));
   const paginatedItems = useMemo(() => {
     const start = (currentPage - 1) * PER_PAGE;
@@ -129,7 +151,7 @@ export default function AdminReadingPage() {
   const handleDelete = async (id: number) => {
     if (!confirm(`問題 ID ${id} を削除しますか？`)) return;
     try {
-      if (tab === "long_content") {
+      if (tab === "long_content" || tab === "long_fill") {
         await adminDeleteReadingPassage(id);
       } else if (tab === "short") {
         await adminDeleteReadingShortQuestion(id);
@@ -159,7 +181,7 @@ export default function AdminReadingPage() {
   ];
 
   const handleDownloadCsv = () => {
-    if (tab === "long_content") {
+    if (tab === "long_content" || tab === "long_fill") {
       const pcColumns: CsvColumn<AdminReadingPassage>[] = [
         { key: "id", label: "ID" },
         { key: "level", label: "級" },
@@ -170,11 +192,14 @@ export default function AdminReadingPage() {
           label: "本文",
           format: (v) => (typeof v === "string" ? v.slice(0, 200) + (v.length > 200 ? "…" : "") : "")
         },
-        { key: "question_count", label: "設問数" }
+        { key: "question_count", label: tab === "long_fill" ? "空所数" : "設問数" }
       ];
+      const list = tab === "long_fill" ? filteredPassageItemsFill : filteredPassageItems;
       exportToCsv(
-        `reading_long_content_${new Date().toISOString().slice(0, 10)}.csv`,
-        filteredPassageItems,
+        tab === "long_fill"
+          ? `reading_long_fill_${new Date().toISOString().slice(0, 10)}.csv`
+          : `reading_long_content_${new Date().toISOString().slice(0, 10)}.csv`,
+        list,
         pcColumns
       );
     } else if (tab === "short") {
@@ -248,6 +273,15 @@ export default function AdminReadingPage() {
         >
           長文の内容一致 ({passageItems.length})
         </button>
+        <button
+          type="button"
+          onClick={() => setTab("long_fill")}
+          className={`rounded-md px-4 py-2 text-sm font-medium ${
+            tab === "long_fill" ? "bg-slate-700 text-white" : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          長文の語句空所 ({passageItemsFill.length})
+        </button>
       </div>
 
       <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:flex-wrap">
@@ -283,7 +317,14 @@ export default function AdminReadingPage() {
         <div className="flex items-center gap-4">
           <p className="text-xs text-slate-500">
             {activeFilteredItems.length} 件 /{" "}
-          {tab === "short" ? items.length : tab === "word_order" ? wordOrderItems.length : passageItems.length} 件
+            {tab === "short"
+              ? items.length
+              : tab === "word_order"
+                ? wordOrderItems.length
+                : tab === "long_fill"
+                  ? passageItemsFill.length
+                  : passageItems.length}{" "}
+            件
           </p>
           <button
             type="button"
@@ -329,7 +370,7 @@ export default function AdminReadingPage() {
               {tab === "short" && (
                 <th className="px-4 py-3 font-medium text-slate-300">形式</th>
               )}
-              {tab === "long_content" && (
+              {(tab === "long_content" || tab === "long_fill") && (
                 <th className="px-4 py-3 font-medium text-slate-300">ジャンル</th>
               )}
               <th className="px-4 py-3 font-medium text-slate-300">
@@ -342,10 +383,12 @@ export default function AdminReadingPage() {
               {tab === "word_order" && (
                 <th className="px-4 py-3 font-medium text-slate-300">正解英文（抜粋）</th>
               )}
-              {tab === "long_content" && (
-                <th className="px-4 py-3 font-medium text-slate-300">設問数</th>
+              {(tab === "long_content" || tab === "long_fill") && (
+                <th className="px-4 py-3 font-medium text-slate-300">
+                  {tab === "long_fill" ? "空所数" : "設問数"}
+                </th>
               )}
-              {(tab === "short" || tab === "long_content" || tab === "word_order") && (
+              {(tab === "short" || tab === "long_content" || tab === "long_fill" || tab === "word_order") && (
                 <th className="px-4 py-3 font-medium text-slate-300" />
               )}
             </tr>
@@ -384,7 +427,7 @@ export default function AdminReadingPage() {
                     </td>
                   </tr>
                 ))
-              : tab === "long_content"
+              : tab === "long_content" || tab === "long_fill"
                 ? (paginatedItems as AdminReadingPassage[]).map((p) => (
                     <tr
                       key={p.id}
@@ -487,7 +530,9 @@ export default function AdminReadingPage() {
               ? "問題が登録されていません。新規登録から追加してください。"
               : tab === "word_order"
                 ? "語句整序の問題が登録されていません。"
-                : "長文の内容一致が登録されていません。"}
+                : tab === "long_fill"
+                  ? "長文の語句空所が登録されていません。"
+                  : "長文の内容一致が登録されていません。"}
         </p>
       )}
     </div>

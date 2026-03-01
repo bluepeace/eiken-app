@@ -772,17 +772,28 @@ export async function adminGetReadingPassages(
   if (!passages || passages.length === 0) return [];
 
   const ids = passages.map((p) => p.id as number);
-  const { data: questions, error: qError } = await supabase
-    .from("reading_passage_questions")
-    .select("passage_id")
-    .in("passage_id", ids);
-
-  if (qError) throw new Error(qError.message);
-
   const countByPassage = new Map<number, number>();
-  for (const q of questions ?? []) {
-    const pid = q.passage_id as number;
-    countByPassage.set(pid, (countByPassage.get(pid) ?? 0) + 1);
+
+  if (passageType === "long_fill") {
+    const { data: blanks, error: bError } = await supabase
+      .from("reading_passage_blanks")
+      .select("passage_id")
+      .in("passage_id", ids);
+    if (bError) throw new Error(bError.message);
+    for (const b of blanks ?? []) {
+      const pid = b.passage_id as number;
+      countByPassage.set(pid, (countByPassage.get(pid) ?? 0) + 1);
+    }
+  } else {
+    const { data: questions, error: qError } = await supabase
+      .from("reading_passage_questions")
+      .select("passage_id")
+      .in("passage_id", ids);
+    if (qError) throw new Error(qError.message);
+    for (const q of questions ?? []) {
+      const pid = q.passage_id as number;
+      countByPassage.set(pid, (countByPassage.get(pid) ?? 0) + 1);
+    }
   }
 
   return passages.map((p) => ({
@@ -837,6 +848,35 @@ export async function adminGetReadingPassageById(
   if (passError) throw new Error(passError.message);
   if (!passage) return null;
 
+  const passageType = (passage.passage_type as string) ?? "long_content";
+
+  if (passageType === "long_fill") {
+    const { data: blanks, error: bError } = await supabase
+      .from("reading_passage_blanks")
+      .select("id, blank_index, choices, correct_index")
+      .eq("passage_id", id)
+      .order("blank_index", { ascending: true });
+
+    if (bError) throw new Error(bError.message);
+
+    return {
+      id: passage.id as number,
+      level: (passage.level as string) ?? "",
+      genre: (passage.genre as string) ?? null,
+      passage_type: passageType,
+      title: (passage.title as string) ?? null,
+      body: (passage.body as string) ?? null,
+      questions: (blanks ?? []).map((b) => ({
+        id: b.id as number,
+        question_text: `空所 ${(Number(b.blank_index) ?? 0) + 1}`,
+        choices: Array.isArray(b.choices) ? (b.choices as string[]) : [],
+        correct_index: Number(b.correct_index) ?? 0,
+        order_num: Number(b.blank_index) ?? 0,
+        explanation: null
+      }))
+    };
+  }
+
   const { data: questions, error: qError } = await supabase
     .from("reading_passage_questions")
     .select("id, question_text, choices, correct_index, order_num, explanation")
@@ -849,7 +889,7 @@ export async function adminGetReadingPassageById(
     id: passage.id as number,
     level: (passage.level as string) ?? "",
     genre: (passage.genre as string) ?? null,
-    passage_type: (passage.passage_type as string) ?? "",
+    passage_type: passageType,
     title: (passage.title as string) ?? null,
     body: (passage.body as string) ?? null,
     questions: (questions ?? []).map((q) => ({
@@ -898,6 +938,29 @@ export async function adminUpdateReadingPassage(
     .eq("id", id);
 
   if (passError) throw new Error(passError.message);
+
+  if (input.passage_type === "long_fill") {
+    const { error: delBlanks } = await supabase
+      .from("reading_passage_blanks")
+      .delete()
+      .eq("passage_id", id);
+
+    if (delBlanks) throw new Error(delBlanks.message);
+
+    if (input.questions.length > 0) {
+      const rows = input.questions.map((q, i) => ({
+        passage_id: id,
+        blank_index: q.order_num ?? i,
+        choices: q.choices ?? [],
+        correct_index: Math.min(3, Math.max(0, q.correct_index))
+      }));
+      const { error: insError } = await supabase
+        .from("reading_passage_blanks")
+        .insert(rows);
+      if (insError) throw new Error(insError.message);
+    }
+    return;
+  }
 
   const { error: delError } = await supabase
     .from("reading_passage_questions")
