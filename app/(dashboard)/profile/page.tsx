@@ -164,8 +164,8 @@ export default function ProfilePage() {
         const org = (rawProfile as { organizations?: { name?: string } | null })?.organizations;
         const ty = p.target_exam_year ?? p.targetExamYear;
         const tr = p.target_exam_round ?? p.targetExamRound;
-        const primaryVal = (p.target_exam_primary_date ?? p.targetExamPrimaryDate) ?? "";
-        const secondaryVal = (p.target_exam_secondary_date ?? p.targetExamSecondaryDate) ?? "";
+        const primaryVal = (p.target_exam_primary_date ?? (p as { targetExamPrimaryDate?: string }).targetExamPrimaryDate) ?? "";
+        const secondaryVal = (p.target_exam_secondary_date ?? (p as { targetExamSecondaryDate?: string }).targetExamSecondaryDate) ?? "";
 
         if (id) setProfileId(id);
         setDisplayName(displayNameVal);
@@ -180,8 +180,8 @@ export default function ProfilePage() {
         if (ty != null && tr != null) {
           setTargetExam(`${ty}-${tr}`);
         }
-        setPrimaryDate(primaryVal);
-        setSecondaryDate(secondaryVal);
+        setPrimaryDate(typeof primaryVal === "string" ? primaryVal : "");
+        setSecondaryDate(typeof secondaryVal === "string" ? secondaryVal : "");
 
         // 年度・回はあるが日程が未設定の場合、DBから取得してセット
         if (

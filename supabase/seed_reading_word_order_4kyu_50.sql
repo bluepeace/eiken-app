@@ -14,7 +14,7 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 -- ========== to不定詞（目的・名詞的用法） ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('4級', '私は本を借りるために図書館へ行きました。', '["some books", "went to the library", "I", "borrow", "to"]', '[2, 1, 4, 3, 0]'),
-  ('4級', '彼は英語を学ぶために毎日勉強しています。', '["learn", "he", "English every day", "to", "studies hard"]', '[1, 4, 0, 3, 2]'),
+  ('4級', '彼は英語を学ぶために毎日勉強しています。', '["learn", "he", "English every day", "to", "studies hard"]', '[1, 4, 3, 0, 2]'),
   ('4級', '私はチケットを買うために駅へ行きました。', '["a ticket", "to", "went to the station", "buy", "I"]', '[4, 2, 1, 3, 0]'),
   ('4級', '彼女は医者になるために大学で勉強しています。', '["a doctor at university", "to", "she", "become", "is studying"]', '[2, 4, 1, 3, 0]'),
   ('4級', '彼はニュースを見るためにテレビをつけました。', '["the news", "he", "watch", "turned on the TV", "to"]', '[1, 3, 4, 2, 0]'),
@@ -35,7 +35,7 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('4級', '祖父は去年初めて飛行機に乗りました。', '["a plane", "for", "my grandfather", "took", "the first time"]', '[2, 3, 0, 1, 4]'),
   ('4級', 'キャロルは昨日7時に家を出て学校へ向かいました。', '["school", "for", "left", "at 7", "her house"]', '[2, 3, 0, 4, 1]'),
-  ('4級', '私は新しいCDを何回も聞きました。', '["many times", "my new CD", "listened", "I", "to"]', '[3, 1, 2, 4, 0]'),
+  ('4級', '私は新しいCDを何回も聞きました。', '["many times", "my new CD", "listened", "I", "to"]', '[3, 2, 4, 1, 0]'),
   ('4級', '彼女は先週京都で楽しい週末を過ごしました。', '["great", "a", "she", "weekend", "had"]', '[2, 4, 1, 0, 3]'),
   ('4級', '彼は昨夜11時に寝ました。', '["at eleven", "he", "last night", "went to bed"]', '[1, 3, 0, 2]'),
   ('4級', '彼らは昨日公園でサッカーをしました。', '["in the park", "they", "yesterday", "played soccer"]', '[1, 3, 0, 2]'),
@@ -44,7 +44,7 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 -- ========== talk about / speak / ask 等 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('4級', '私はケント先生に趣味についてたずねました。', '["about", "Mr. Kent", "hobbies", "asked", "his"]', '[3, 1, 0, 4, 2]'),
-  ('4級', '私は、よく兄と映画について話します。', '["movies", "about", "my brother", "talk", "with"]', '[3, 4, 1, 2, 0]'),
+  ('4級', '私は、よく兄と映画について話します。', '["movies", "about", "my brother", "talk", "with"]', '[3, 4, 2, 1, 0]'),
   ('4級', '私は、数学のテストについてブラウン先生と放課後に話します。', '["about the math test", "talk", "with Mr. Brown", "I", "will"]', '[3, 4, 1, 2, 0]'),
   ('4級', 'あなたのお父さんは中国語とフランス語の両方を話せますか。', '["Chinese and French", "both", "your father", "Can", "speak"]', '[3, 4, 1, 2, 0]'),
   ('4級', 'あの動物園でライオンを見ましたか。', '["did", "see", "at", "the lions", "you"]', '[0, 4, 1, 3, 2]');

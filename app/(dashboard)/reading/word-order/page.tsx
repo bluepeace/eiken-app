@@ -68,7 +68,7 @@ export default function ReadingWordOrderPage() {
   useEffect(() => {
     if (!current) return;
     setSelectedOrder([]);
-    setRemainingIndices(current.words.map((_, i) => i));
+    setRemainingIndices(shuffle(current.words.map((_, i) => i)));
     setSubmitted(false);
   }, [current?.id]);
 
@@ -81,7 +81,7 @@ export default function ReadingWordOrderPage() {
   const handleUndo = (wordIndex: number) => {
     if (submitted || !current) return;
     setSelectedOrder((prev) => prev.filter((i) => i !== wordIndex));
-    setRemainingIndices((prev) => [...prev, wordIndex].sort((a, b) => a - b));
+    setRemainingIndices((prev) => [...prev, wordIndex]);
   };
 
   const isCorrectOrder = (order: number[]) => {

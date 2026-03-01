@@ -17,7 +17,7 @@ SET words = '["some books", "went to the library", "I", "borrow", "to"]', correc
 WHERE level = '4級' AND prompt_ja = '私は本を借りるために図書館へ行きました。';
 
 UPDATE public.reading_word_order_questions
-SET words = '["learn", "he", "English every day", "to", "studies hard"]', correct_order = '[1, 4, 0, 3, 2]'
+SET words = '["learn", "he", "English every day", "to", "studies hard"]', correct_order = '[1, 4, 3, 0, 2]'
 WHERE level = '4級' AND prompt_ja = '彼は英語を学ぶために毎日勉強しています。';
 
 -- I went to the station to buy a ticket（to の位置を修正）
@@ -58,11 +58,11 @@ SET words = '["school", "for", "left", "at 7", "her house"]', correct_order = '[
 WHERE level = '4級' AND prompt_ja = 'キャロルは昨日7時に家を出て学校へ向かいました。';
 
 UPDATE public.reading_word_order_questions
-SET words = '["many times", "my new CD", "listened", "I", "to"]', correct_order = '[3, 1, 2, 4, 0]'
+SET words = '["many times", "my new CD", "listened", "I", "to"]', correct_order = '[3, 2, 4, 1, 0]'
 WHERE level = '4級' AND prompt_ja = '私は新しいCDを何回も聞きました。';
 
 UPDATE public.reading_word_order_questions
-SET words = '["movies", "about", "my brother", "talk", "with"]', correct_order = '[3, 4, 1, 2, 0]'
+SET words = '["movies", "about", "my brother", "talk", "with"]', correct_order = '[3, 4, 2, 1, 0]'
 WHERE level = '4級' AND prompt_ja = '私は、よく兄と映画について話します。';
 
 UPDATE public.reading_word_order_questions
