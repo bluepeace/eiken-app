@@ -20,6 +20,7 @@ export default function AdminReadingWordOrderEditPage() {
   const [promptJa, setPromptJa] = useState("");
   const [wordsText, setWordsText] = useState("");
   const [orderText, setOrderText] = useState("");
+  const [explanation, setExplanation] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +37,7 @@ export default function AdminReadingWordOrderEditPage() {
         setPromptJa(data.prompt_ja ?? "");
         setWordsText((data.words ?? []).join("\n"));
         setOrderText((data.correct_order ?? []).join(","));
+        setExplanation(data.explanation ?? "");
       } catch (e) {
         setError(e instanceof Error ? e.message : "読み込みに失敗しました");
       } finally {
@@ -77,7 +79,8 @@ export default function AdminReadingWordOrderEditPage() {
         level,
         prompt_ja: promptJa.trim(),
         words,
-        correct_order: correctOrder
+        correct_order: correctOrder,
+        explanation: explanation.trim() || null
       });
       router.push("/admin/reading");
     } catch (e) {
@@ -172,6 +175,18 @@ export default function AdminReadingWordOrderEditPage() {
             required
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500 font-mono"
             placeholder="例: 1,3,4,2,0"
+          />
+        </div>
+
+        <div className="rounded-lg border border-slate-600 bg-slate-800/50 p-4">
+          <h2 className="mb-2 text-sm font-medium text-slate-200">解説（任意）</h2>
+          <p className="mb-2 text-xs text-slate-500">学習画面で答え合わせ後に表示されます。正解の並びの理由や文法のポイントを入力してください。</p>
+          <textarea
+            value={explanation}
+            onChange={(e) => setExplanation(e.target.value)}
+            rows={4}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500 text-sm"
+            placeholder="例: How much は「いくら」で、疑問文では How much + be動詞 + 主語の順になります。"
           />
         </div>
 

@@ -1009,6 +1009,7 @@ export interface AdminReadingWordOrderQuestion {
   prompt_ja: string;
   words: string[];
   correct_order: number[];
+  explanation: string | null;
   created_at?: string;
 }
 
@@ -1021,7 +1022,7 @@ export async function adminGetReadingWordOrderQuestions(): Promise<AdminReadingW
   while (hasMore) {
     const { data, error } = await supabase
       .from("reading_word_order_questions")
-      .select("id, level, prompt_ja, words, correct_order, created_at")
+      .select("id, level, prompt_ja, words, correct_order, explanation, created_at")
       .order("id", { ascending: true })
       .range(offset, offset + pageSize - 1);
 
@@ -1035,6 +1036,7 @@ export async function adminGetReadingWordOrderQuestions(): Promise<AdminReadingW
         prompt_ja: (r.prompt_ja as string) ?? "",
         words: Array.isArray(r.words) ? (r.words as string[]) : [],
         correct_order: Array.isArray(r.correct_order) ? (r.correct_order as number[]) : [],
+        explanation: (r.explanation as string) ?? null,
         created_at: r.created_at as string | undefined
       });
     }
@@ -1051,7 +1053,7 @@ export async function adminGetReadingWordOrderQuestionById(
 ): Promise<AdminReadingWordOrderQuestion | null> {
   const { data, error } = await supabase
     .from("reading_word_order_questions")
-    .select("id, level, prompt_ja, words, correct_order, created_at")
+    .select("id, level, prompt_ja, words, correct_order, explanation, created_at")
     .eq("id", id)
     .maybeSingle();
 
@@ -1064,6 +1066,7 @@ export async function adminGetReadingWordOrderQuestionById(
     prompt_ja: (data.prompt_ja as string) ?? "",
     words: Array.isArray(data.words) ? (data.words as string[]) : [],
     correct_order: Array.isArray(data.correct_order) ? (data.correct_order as number[]) : [],
+    explanation: (data.explanation as string) ?? null,
     created_at: data.created_at as string | undefined
   };
 }
@@ -1073,6 +1076,7 @@ export interface AdminReadingWordOrderQuestionInput {
   prompt_ja: string;
   words: string[];
   correct_order: number[];
+  explanation?: string | null;
 }
 
 export async function adminUpdateReadingWordOrderQuestion(
@@ -1085,7 +1089,8 @@ export async function adminUpdateReadingWordOrderQuestion(
       level: input.level,
       prompt_ja: input.prompt_ja.trim(),
       words: input.words,
-      correct_order: input.correct_order
+      correct_order: input.correct_order,
+      explanation: input.explanation?.trim() || null
     })
     .eq("id", id);
 
@@ -1101,7 +1106,8 @@ export async function adminCreateReadingWordOrderQuestion(
       level: input.level,
       prompt_ja: input.prompt_ja.trim(),
       words: input.words,
-      correct_order: input.correct_order
+      correct_order: input.correct_order,
+      explanation: input.explanation?.trim() || null
     })
     .select("id")
     .maybeSingle();

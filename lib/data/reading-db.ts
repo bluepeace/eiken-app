@@ -19,6 +19,7 @@ export interface ReadingWordOrderQuestion {
   prompt_ja: string;
   words: string[];
   correct_order: number[];
+  explanation: string | null;
 }
 
 /** 長文パッセージ（長文語句空所・内容一致の親） */
@@ -142,18 +143,36 @@ export async function fetchReadingShortQuestions(
   return selected.slice(0, limit);
 }
 
-/** 語句整序問題を級で取得 */
+/** 語句整序問題を級で取得。explanation 取得に失敗した場合は解説なしで再取得する */
 export async function fetchReadingWordOrderQuestions(
   level: string,
   limit: number
 ): Promise<ReadingWordOrderQuestion[]> {
   const { data, error } = await supabase
     .from("reading_word_order_questions")
-    .select("id, level, prompt_ja, words, correct_order")
+    .select("id, level, prompt_ja, words, correct_order, explanation")
     .eq("level", level)
     .limit(limit * 3);
 
-  if (error || !data) return [];
+  if (error) {
+    const fallback = await supabase
+      .from("reading_word_order_questions")
+      .select("id, level, prompt_ja, words, correct_order")
+      .eq("level", level)
+      .limit(limit * 3);
+    if (fallback.error || !fallback.data) return [];
+    return fallback.data.map((row) => ({
+      id: row.id as number,
+      level: (row.level as string) ?? "",
+      prompt_ja: (row.prompt_ja as string) ?? "",
+      words: Array.isArray(row.words) ? (row.words as string[]) : [],
+      correct_order: Array.isArray(row.correct_order)
+        ? (row.correct_order as number[])
+        : [],
+      explanation: null,
+    })).slice(0, limit);
+  }
+  if (!data) return [];
 
   return data.map((row) => ({
     id: row.id as number,
@@ -163,6 +182,7 @@ export async function fetchReadingWordOrderQuestions(
     correct_order: Array.isArray(row.correct_order)
       ? (row.correct_order as number[])
       : [],
+    explanation: (row.explanation as string) ?? null,
   })).slice(0, limit);
 }
 

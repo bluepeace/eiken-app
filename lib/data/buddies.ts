@@ -44,11 +44,13 @@ export async function getCurrentUserBuddy(): Promise<Buddy | null> {
 
   const { data: profile } = await supabase
     .from("user_profiles")
-    .select("buddy_id")
+    .select("buddy_id, buddy_image_url")
     .eq("auth_user_id", user.id)
     .maybeSingle();
 
   const buddyId = profile?.buddy_id;
+  const overrideImageUrl = (profile?.buddy_image_url as string)?.trim() || null;
+
   if (buddyId) {
     const { data: buddy, error } = await supabase
       .from("buddies")
@@ -61,7 +63,7 @@ export async function getCurrentUserBuddy(): Promise<Buddy | null> {
         id: buddy.id as string,
         name: buddy.name as string,
         kind: buddy.kind as string,
-        image_url: buddy.image_url as string
+        image_url: overrideImageUrl ?? (buddy.image_url as string)
       };
     }
   }

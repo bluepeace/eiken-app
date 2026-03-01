@@ -12,6 +12,7 @@ import { getProfileId } from "@/lib/data/vocabulary-db";
 import { logStudyActivity } from "@/lib/data/study-activity";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
+import { ReadingHintPanel, ReadingHintButton } from "@/components/features/reading/ReadingHintPanel";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -34,6 +35,7 @@ export default function ReadingWordOrderPage() {
   const [submitted, setSubmitted] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [isHintOpen, setIsHintOpen] = useState(false);
   const sessionStartRef = useRef<number | null>(null);
 
   const load = useCallback(async () => {
@@ -164,9 +166,24 @@ export default function ReadingWordOrderPage() {
   if (!current) return null;
 
   const correct = submitted && isCorrectOrder(selectedOrder);
+  const hasHint = level === "5級" || level === "4級";
 
   return (
-    <main className="min-h-[calc(100vh-64px)] px-4 py-8">
+    <main className="min-h-[calc(100vh-64px)] px-4 py-8 pb-20">
+      {hasHint && (
+        <>
+          <ReadingHintPanel
+            type="word_order"
+            level={level}
+            isOpen={isHintOpen}
+            onClose={() => setIsHintOpen(false)}
+          />
+          <ReadingHintButton
+            onClick={() => setIsHintOpen((o) => !o)}
+            isOpen={isHintOpen}
+          />
+        </>
+      )}
       <div className="mx-auto max-w-xl space-y-6 rounded-2xl border border-slate-200 bg-white p-6">
         <div className="flex items-center justify-between">
           <span className="text-sm text-slate-500">問 {currentIndex + 1} / {questions.length}（{level}）</span>
@@ -230,6 +247,12 @@ export default function ReadingWordOrderPage() {
             <p className={correct ? "text-green-700" : "text-red-700"}>
               {correct ? "正解です！" : "不正解です。"} 正解: {current.correct_order.map((i) => current.words[i]).join(" ")}
             </p>
+            {(current.explanation != null && String(current.explanation).trim() !== "") && (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="mb-1 text-xs font-medium text-slate-500">解説</p>
+                <p className="whitespace-pre-wrap text-sm text-slate-800">{String(current.explanation).trim()}</p>
+              </div>
+            )}
             <button type="button" onClick={handleNext} className={`w-full rounded-full py-2.5 text-sm font-medium text-white ${MODULE_COLORS.reading.solid}`}>
               {currentIndex + 1 >= questions.length ? "結果を見る" : "次の問題"}
             </button>

@@ -69,6 +69,7 @@ export default function ProfilePage() {
     null
   );
   const [buddyId, setBuddyId] = useState<string | null>(null);
+  const [buddyImageUrl, setBuddyImageUrl] = useState<string | null>(null);
   const [buddies, setBuddies] = useState<Buddy[]>([]);
   const [organizationName, setOrganizationName] = useState<string | null>(null);
 
@@ -99,7 +100,7 @@ export default function ProfilePage() {
         supabase
           .from("user_profiles")
           .select(
-            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, organization_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date, organizations(name)"
+            "id, display_name, target_level, avatar_url, avatar_style, buddy_id, buddy_image_url, organization_id, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date, organizations(name)"
           )
           .eq("auth_user_id", user.id)
           .maybeSingle(),
@@ -122,6 +123,7 @@ export default function ProfilePage() {
         if (data.avatar_url) setAvatarUrl(data.avatar_url);
         if (data.avatar_style) setAvatarStyle(data.avatar_style);
         if (data.buddy_id) setBuddyId(data.buddy_id);
+        setBuddyImageUrl(data.buddy_image_url ?? null);
         const org = (data as { organizations?: { name?: string } | null }).organizations;
         setOrganizationName(org?.name ?? null);
         if (data.target_exam_year != null && data.target_exam_round != null) {
@@ -210,46 +212,59 @@ export default function ProfilePage() {
 
       let effectiveProfileId = profileId;
 
+      const profilePayload = {
+        display_name: displayName || null,
+        target_level: targetLevel,
+        avatar_url: avatarUrl,
+        avatar_style: avatarStyle,
+        buddy_id: buddyId || null,
+        buddy_image_url: buddyImageUrl?.trim() || null,
+        target_exam_year: targetExamYear,
+        target_exam_round: targetExamRound,
+        target_exam_primary_date: targetPrimary,
+        target_exam_secondary_date: targetSecondary
+      };
+
       if (profileId) {
         const { error: updateError } = await supabase
           .from("user_profiles")
-          .update({
-            display_name: displayName || null,
-            target_level: targetLevel,
-            avatar_url: avatarUrl,
-            avatar_style: avatarStyle,
-            buddy_id: buddyId || null,
-            target_exam_year: targetExamYear,
-            target_exam_round: targetExamRound,
-            target_exam_primary_date: targetPrimary,
-            target_exam_secondary_date: targetSecondary
-          })
+          .update(profilePayload)
           .eq("id", profileId);
 
         if (updateError) throw updateError;
       } else {
-        const { data: insertData, error: insertError } = await supabase
+        // クライアントで profileId が無くても、既に DB に同一 auth_user_id の行がある場合がある
+        // （例: 複数行で maybeSingle() が失敗した、管理者が別経路で作成した など）
+        const { data: existing } = await supabase
           .from("user_profiles")
-          .insert({
-            auth_user_id: user.id,
-            display_name: displayName || null,
-            target_level: targetLevel,
-            avatar_url: avatarUrl,
-            avatar_style: avatarStyle,
-            buddy_id: buddyId || null,
-            organization_id: 1,
-            target_exam_year: targetExamYear,
-            target_exam_round: targetExamRound,
-            target_exam_primary_date: targetPrimary,
-            target_exam_secondary_date: targetSecondary
-          })
           .select("id")
+          .eq("auth_user_id", user.id)
           .maybeSingle();
 
-        if (insertError) throw insertError;
-        if (insertData?.id) {
-          setProfileId(insertData.id);
-          effectiveProfileId = insertData.id;
+        if (existing?.id) {
+          const { error: updateError } = await supabase
+            .from("user_profiles")
+            .update(profilePayload)
+            .eq("id", existing.id);
+          if (updateError) throw updateError;
+          setProfileId(existing.id);
+          effectiveProfileId = existing.id;
+        } else {
+          const { data: insertData, error: insertError } = await supabase
+            .from("user_profiles")
+            .insert({
+              auth_user_id: user.id,
+              ...profilePayload,
+              organization_id: 1
+            })
+            .select("id")
+            .maybeSingle();
+
+          if (insertError) throw insertError;
+          if (insertData?.id) {
+            setProfileId(insertData.id);
+            effectiveProfileId = insertData.id;
+          }
         }
       }
 
@@ -411,35 +426,56 @@ export default function ProfilePage() {
               一緒に学習するバディ
             </label>
             <p className="text-[11px] text-slate-600">
-              オンボーディングで選んだバディを変更できます。
+              オンボーディングで選んだバディを変更できます。名前を変えずに画像だけ差し替えることもできます。
             </p>
             {buddies.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {buddies.map((b) => (
-                  <button
-                    key={b.id}
-                    type="button"
-                    onClick={() => setBuddyId(buddyId === b.id ? null : b.id)}
-                    className={`flex items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition ${
-                      buddyId === b.id
-                        ? "border-brand-500 bg-brand-50 text-brand-800"
-                        : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
-                    }`}
-                  >
-                    <span className="relative flex h-8 w-8 shrink-0 items-end justify-center">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={b.image_url}
-                        alt={b.name}
-                        className="h-full w-full object-contain"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "/logo-aiken.png";
-                        }}
-                      />
-                    </span>
-                    {b.name}
-                  </button>
-                ))}
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {buddies.map((b) => (
+                    <button
+                      key={b.id}
+                      type="button"
+                      onClick={() => setBuddyId(buddyId === b.id ? null : b.id)}
+                      className={`flex items-center gap-2 rounded-full border-2 px-3 py-1.5 text-sm transition ${
+                        buddyId === b.id
+                          ? "border-brand-500 bg-brand-50 text-brand-800"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                      }`}
+                    >
+                      <span className="relative flex h-8 w-8 shrink-0 items-end justify-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={buddyId === b.id && buddyImageUrl ? buddyImageUrl : b.image_url}
+                          alt={b.name}
+                          className="h-full w-full object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "/logo-aiken.png";
+                          }}
+                        />
+                      </span>
+                      {b.name}
+                    </button>
+                  ))}
+                </div>
+                {buddyId && (
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                    <p className="mb-1.5 text-[11px] font-medium text-slate-700">バディの画像だけ変更（任意）</p>
+                    <input
+                      type="url"
+                      value={buddyImageUrl ?? ""}
+                      onChange={(e) => setBuddyImageUrl(e.target.value.trim() || null)}
+                      placeholder="https://... 画像のURLを入力"
+                      className="w-full rounded border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 placeholder:text-slate-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setBuddyImageUrl(null)}
+                      className="mt-1.5 text-[11px] text-slate-600 hover:underline"
+                    >
+                      デフォルトの画像に戻す
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <p className="text-[11px] text-slate-500">バディの読み込み中…</p>

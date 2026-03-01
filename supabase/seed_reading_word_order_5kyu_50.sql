@@ -7,8 +7,8 @@
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('5級', 'これらの靴はいくらですか。', '["are", "how", "much", "these shoes"]', '[1, 2, 0, 3]'),
   ('5級', 'あの本はいくらですか。', '["is", "how", "much", "that book"]', '[1, 2, 0, 3]'),
-  ('5級', 'あなたのクラスには何人の生徒がいますか。', '["how many", "students", "are", "there"]', '[0, 1, 2, 3]'),
-  ('5級', '机の上にりんごがいくつありますか。', '["how many", "apples", "are", "there"]', '[0, 1, 2, 3]'),
+  ('5級', 'あなたのクラスには何人の生徒がいますか。', '["students", "there", "how many", "are"]', '[2, 0, 3, 1]'),
+  ('5級', '机の上にりんごがいくつありますか。', '["are", "there", "how many", "apples"]', '[2, 3, 0, 1]'),
   ('5級', 'あのカバンはいくらですか。', '["is", "how", "much", "that bag"]', '[1, 2, 0, 3]');
 
 -- ========== What / Who / Where / When 疑問文 ==========
@@ -17,7 +17,7 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
   ('5級', 'あなたは今何をしていますか。', '["you", "doing", "are", "what"]', '[3, 2, 0, 1]'),
   ('5級', 'あなたの本はどこにありますか。', '["your book", "where", "is"]', '[1, 2, 0]'),
   ('5級', 'あなたはいつ学校に行きますか。', '["do", "you", "when", "go to school"]', '[2, 0, 1, 3]'),
-  ('5級', '私たちは何が必要ですか。', '["what", "do", "we", "need"]', '[0, 1, 2, 3]'),
+  ('5級', '私たちは何が必要ですか。', '["do", "need", "what", "we"]', '[2, 0, 3, 1]'),
   ('5級', 'トムのお父さんは大学で何を教えていますか。', '["does", "what", "teach", "Tom''s father"]', '[1, 0, 3, 2]'),
   ('5級', 'あなたは朝何時に起きますか。', '["do", "you", "when", "get up in the morning"]', '[2, 0, 1, 3]'),
   ('5級', 'あの男の子はだれですか。', '["that boy", "who", "is"]', '[1, 2, 0]'),
@@ -27,10 +27,10 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 -- ========== Does / Do 疑問文 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('5級', 'あなたの妹さんは毎年スキーに行きますか。', '["go", "does", "your sister", "skiing"]', '[1, 2, 0, 3]'),
-  ('5級', '彼は毎日勉強しますか。', '["does", "he", "study", "every day"]', '[0, 1, 2, 3]'),
-  ('5級', 'あなたは日曜日にテニスをしますか。', '["do", "you", "play tennis", "on Sundays"]', '[0, 1, 2, 3]'),
-  ('5級', '彼女は英語を話しますか。', '["does", "she", "speak", "English"]', '[0, 1, 2, 3]'),
-  ('5級', 'あなたは野球が好きですか。', '["do", "you", "like", "baseball"]', '[0, 1, 2, 3]');
+  ('5級', '彼は毎日勉強しますか。', '["study", "every day", "he", "does"]', '[3, 2, 0, 1]'),
+  ('5級', 'あなたは日曜日にテニスをしますか。', '["play tennis", "you", "on Sundays", "do"]', '[3, 1, 0, 2]'),
+  ('5級', '彼女は英語を話しますか。', '["she", "English", "speak", "does"]', '[3, 0, 2, 1]'),
+  ('5級', 'あなたは野球が好きですか。', '["you", "baseball", "do", "like"]', '[2, 0, 3, 1]');
 
 -- ========== 肯定文（SVO, SVC, 時・場所の前置詞句）==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
@@ -50,19 +50,19 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('5級', '放課後、公園でサッカーをしましょう。', '["play", "let''s", "in the park", "soccer"]', '[1, 0, 3, 2]'),
   ('5級', 'コーヒーのお代わりはいかがですか。', '["would", "like", "you", "some more coffee"]', '[0, 2, 1, 3]'),
-  ('5級', '今から映画を見ましょう。', '["let''s", "see", "a movie", "now"]', '[0, 1, 2, 3]'),
+  ('5級', '今から映画を見ましょう。', '["see", "now", "a movie", "let''s"]', '[3, 0, 2, 1]'),
   ('5級', 'ジュースをいかがですか。', '["would", "like", "you", "some juice"]', '[0, 2, 1, 3]'),
-  ('5級', '今から宿題をしましょう。', '["let''s", "do", "our homework", "now"]', '[0, 1, 2, 3]');
+  ('5級', '今から宿題をしましょう。', '["do", "now", "our homework", "let''s"]', '[3, 0, 2, 1]');
 
 -- ========== 現在進行形・Can ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('5級', '彼女は今ピアノを弾いています。', '["is", "she", "playing", "the piano"]', '[1, 0, 2, 3]'),
-  ('5級', 'あなたは英語を話せますか。', '["can", "you", "speak", "English"]', '[0, 1, 2, 3]'),
-  ('5級', '私は泳ぐことができます。', '["can", "I", "swim"]', '[0, 1, 2]'),
+  ('5級', 'あなたは英語を話せますか。', '["you", "English", "can", "speak"]', '[2, 0, 3, 1]'),
+  ('5級', '私は泳ぐことができます。', '["swim", "can", "I"]', '[1, 2, 0]'),
   ('5級', '彼は今宿題をしています。', '["doing", "he", "his homework", "is"]', '[1, 3, 0, 2]'),
-  ('5級', 'あなたは自転車に乗れますか。', '["can", "you", "ride", "a bicycle"]', '[0, 1, 2, 3]'),
+  ('5級', 'あなたは自転車に乗れますか。', '["you", "a bicycle", "can", "ride"]', '[2, 0, 3, 1]'),
   ('5級', '母は今夕食を作っています。', '["is", "my mother", "cooking", "dinner"]', '[1, 0, 2, 3]'),
-  ('5級', '私は日本語を話すことができます。', '["can", "I", "speak", "Japanese"]', '[0, 1, 2, 3]');
+  ('5級', '私は日本語を話すことができます。', '["speak", "Japanese", "I", "can"]', '[2, 3, 0, 1]');
 
 -- ========== その他（否定・依頼・挨拶応答など）==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES

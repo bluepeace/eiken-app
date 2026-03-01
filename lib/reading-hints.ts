@@ -1,8 +1,8 @@
 /**
- * リーディング形式別ヒント（短文空所・会話文空所など）
+ * リーディング形式別ヒント（短文空所・会話文空所・語句整序など）
  */
 
-export type ReadingHintType = "short_fill" | "conversation_fill";
+export type ReadingHintType = "short_fill" | "conversation_fill" | "word_order";
 
 const SHORT_FILL_HINTS: Record<string, string> = {
   "5級": `【短文の語句空所補充のコツ（5級）】
@@ -112,15 +112,42 @@ const CONVERSATION_FILL_HINTS: Record<string, string> = {
 ・言い換えや要約の表現に注意する`
 };
 
+/** 語句整序のヒント（5級・4級は解説シードを調査して作成） */
+const WORD_ORDER_HINTS: Record<string, string> = {
+  "5級": `【語句整序のコツ（5級）】
+
+・疑問詞（How much / How many / What / Who / Where / When）は文頭
+・How much + be動詞 + 主語（いくら？）/ How many + 名詞 + are + there（いくつ？）
+・Do の疑問文：Do + 主語 + 動詞の原形。Does は三人称単数（he/she/名前）のとき
+・肯定文は「主語 + 動詞 + 目的語」、場所・時は後ろに
+・Let's + 動詞の原形（〜しよう）/ Would you like ...?（〜はいかが？）
+・現在進行形：主語 + am/are/is + -ing
+・Can + 動詞の原形（〜できる）。否定は don't / doesn't / isn't / wasn't`,
+
+  "4級": `【語句整序のコツ（4級）】
+
+・May I have ...? / Could you ...? / Could I have ...? は丁寧な依頼
+・to不定詞「〜するために」：主語+動詞のあとに to + 動詞の原形
+・have to + 動詞の原形（〜しなければならない）。過去は had to
+・助動詞（will / must / should / can）は主語の直後
+・受動態：主語 + be動詞 + 過去分詞 + by 〜
+・接続詞：because（〜なので）/ so（だから）/ When 〜（〜とき）/ If 〜（もし〜なら）
+・be good at + -ing / enjoy + -ing / like + -ing`
+};
+
 export function getReadingHint(
   type: ReadingHintType,
   level: string
 ): string {
+  if (type === "word_order") {
+    return WORD_ORDER_HINTS[level] ?? "";
+  }
   const hints =
     type === "short_fill" ? SHORT_FILL_HINTS : CONVERSATION_FILL_HINTS;
   return hints[level] ?? hints["3級"] ?? "";
 }
 
 export function getReadingHintLabel(type: ReadingHintType): string {
+  if (type === "word_order") return "語句整序";
   return type === "short_fill" ? "短文の語句空所" : "会話文の空所";
 }

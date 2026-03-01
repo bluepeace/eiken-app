@@ -231,12 +231,21 @@ export default function ReadingShortPage() {
                         : "border-slate-200 hover:bg-slate-50"
                   }`}
                 >
+                  {showCorrect && <span className="mr-2 inline-block font-semibold">正解</span>}
+                  {showWrong && <span className="mr-2 inline-block font-semibold">不正解</span>}
                   {choice}
                 </button>
               </li>
             );
           })}
         </ul>
+
+        {showResult && current.explanation && (
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <p className="mb-1 text-xs font-medium text-slate-500">解説</p>
+            <p className="text-sm text-slate-800">{current.explanation}</p>
+          </div>
+        )}
 
         {showResult && (
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
@@ -259,13 +268,6 @@ export default function ReadingShortPage() {
             <p className="mt-2 text-xs text-amber-700">
               音読してみよう！正しい発音を聞いて、自分でも声に出して読むと学習効果が上がります。
             </p>
-          </div>
-        )}
-
-        {showResult && current.explanation && (
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <p className="mb-1 text-xs font-medium text-slate-500">解説</p>
-            <p className="text-sm text-slate-800">{current.explanation}</p>
           </div>
         )}
 

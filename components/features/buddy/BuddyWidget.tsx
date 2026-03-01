@@ -38,7 +38,8 @@ export function BuddyWidget() {
     pathname.startsWith("/writing/email") ||
     pathname.startsWith("/writing/summary") ||
     pathname.startsWith("/reading/short") ||
-    pathname.startsWith("/reading/conversation");
+    pathname.startsWith("/reading/conversation") ||
+    pathname.startsWith("/reading/word-order");
   if (loading || !buddy || pathname.startsWith("/admin") || isHintPage) return null;
 
   return (
