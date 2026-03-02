@@ -16,7 +16,8 @@ import {
 import {
   getTodayStudySeconds,
   getStreak,
-  getTotalStudySeconds
+  getTotalStudySeconds,
+  getReadingSessionCount
 } from "@/lib/data/study-activity";
 import {
   getWritingSubmissionCount,
@@ -140,7 +141,8 @@ export default function DashboardPage() {
       vocabSessions,
       totalWriting,
       totalStudySecs,
-      readingRate
+      readingRate,
+      readingSessions
     ] = await Promise.all([
       getTodayStudySeconds(profileId),
       getStreak(profileId),
@@ -149,7 +151,8 @@ export default function DashboardPage() {
       getVocabularyQuizSessionCount(profileId),
       getTotalWritingCount(profileId),
       getTotalStudySeconds(profileId),
-      getReadingCorrectRateLastN(profileId, 30)
+      getReadingCorrectRateLastN(profileId, 30),
+      getReadingSessionCount(profileId)
     ]);
     setTodayStudyMinutes(Math.round(seconds / 60));
     setTotalStudyMinutes(Math.round(totalStudySecs / 60));
@@ -161,6 +164,7 @@ export default function DashboardPage() {
     const [activityEarned, profileEarned] = await Promise.all([
       checkAndEarnBadges(profileId, {
         vocabQuizCount: vocabSessions,
+        readingCount: readingSessions,
         writingCount: totalWriting,
         totalStudySeconds: totalStudySecs,
         currentStreak: streak.current,

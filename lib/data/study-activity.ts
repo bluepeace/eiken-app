@@ -1,5 +1,19 @@
 import { supabase } from "@/lib/supabase/client";
 
+/** リーディング対策のセッション数（累計）を取得 */
+export async function getReadingSessionCount(
+  profileId: string
+): Promise<number> {
+  const { count, error } = await supabase
+    .from("user_activity_log")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", profileId)
+    .eq("activity_type", "reading");
+
+  if (error) return 0;
+  return count ?? 0;
+}
+
 /** モジュール別の活動回数（直近30日） */
 export async function getModuleActivityCounts(
   profileId: string

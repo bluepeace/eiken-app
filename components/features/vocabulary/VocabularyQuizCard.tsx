@@ -50,7 +50,7 @@ export function VocabularyQuizCard({
     }
     const opt = options[index];
     if (opt.isCorrect) {
-      return "border-[#FF991F] bg-[#FF991F]/15 text-[#B86E00]";
+      return "border-green-500 bg-green-50 text-green-800";
     }
     if (selectedIndex === index) {
       return "border-red-400 bg-red-50 text-red-900";
@@ -94,6 +94,12 @@ export function VocabularyQuizCard({
             disabled={revealed}
             className={`w-full rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition ${getOptionStyle(index)}`}
           >
+            {revealed && opt.isCorrect && (
+              <span className="mr-2 inline-block font-semibold text-green-800">正解</span>
+            )}
+            {revealed && selectedIndex === index && !opt.isCorrect && (
+              <span className="mr-2 inline-block font-semibold text-red-700">不正解</span>
+            )}
             <span className="mr-2 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-300 text-xs font-semibold text-slate-800">
               {["A", "B", "C", "D"][index]}
             </span>

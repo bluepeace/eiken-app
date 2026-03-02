@@ -255,7 +255,7 @@ export default function VocabularyPage() {
         {stage === "result" && (
           <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h1 className="text-xl font-semibold text-slate-900">学習完了</h1>
-            <p className="text-3xl font-bold text-emerald-600">
+            <p className={`text-3xl font-bold ${MODULE_COLORS.vocabulary.text}`}>
               {correctCount} / {items.length} 問 正解
             </p>
             <p className="text-sm text-slate-600">

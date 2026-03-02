@@ -20,13 +20,23 @@ export interface BadgeDef {
 export const BADGE_DEFINITIONS: BadgeDef[] = [
   { key: "account_created", title: "アカウント開設", description: "アカウントを作成しました", tier: "bronze" },
   { key: "vocab_first", title: "初めての単語テスト", description: "初めて単語テストに挑戦しました", tier: "bronze" },
+  { key: "reading_first", title: "初めてのリーディング対策", description: "初めてリーディング対策に挑戦しました", tier: "bronze" },
   { key: "writing_first", title: "初めてのライティング添削", description: "初めてライティングを添削してもらいました", tier: "bronze" },
   { key: "vocab_10", title: "単語テスト10回", description: "単語テストを10回完了しました", tier: "bronze" },
+  { key: "reading_10", title: "リーディング対策10回", description: "リーディング対策を10回完了しました", tier: "bronze" },
   { key: "writing_10", title: "ライティング添削10回", description: "ライティング添削を10回受けました", tier: "bronze" },
   { key: "vocab_25", title: "単語テスト25回", description: "単語テストを25回完了しました", tier: "bronze" },
+  { key: "reading_25", title: "リーディング対策25回", description: "リーディング対策を25回完了しました", tier: "bronze" },
   { key: "writing_20", title: "ライティング添削20回", description: "ライティング添削を20回受けました", tier: "bronze" },
   { key: "vocab_50", title: "単語テスト50回", description: "単語テストを50回完了しました", tier: "silver" },
+  { key: "vocab_75", title: "単語テスト75回", description: "単語テストを75回完了しました", tier: "silver" },
+  { key: "vocab_100", title: "単語テスト100回", description: "単語テストを100回完了しました", tier: "gold" },
+  { key: "reading_50", title: "リーディング対策50回", description: "リーディング対策を50回完了しました", tier: "silver" },
+  { key: "reading_75", title: "リーディング対策75回", description: "リーディング対策を75回完了しました", tier: "silver" },
+  { key: "reading_100", title: "リーディング対策100回", description: "リーディング対策を100回完了しました", tier: "gold" },
   { key: "writing_30", title: "ライティング添削30回", description: "ライティング添削を30回受けました", tier: "silver" },
+  { key: "writing_40", title: "ライティング添削40回", description: "ライティング添削を40回受けました", tier: "silver" },
+  { key: "writing_50", title: "ライティング添削50回", description: "ライティング添削を50回受けました", tier: "gold" },
   { key: "study_1h", title: "学習時間1時間", description: "累計学習時間が1時間に達しました", tier: "bronze" },
   { key: "study_5h", title: "学習時間5時間", description: "累計学習時間が5時間に達しました", tier: "bronze" },
   { key: "study_10h", title: "学習時間10時間", description: "累計学習時間が10時間に達しました", tier: "silver" },
@@ -139,6 +149,7 @@ export async function hasBadge(
 /** バッヂ条件チェック用の統計 */
 export interface BadgeStats {
   vocabQuizCount: number;
+  readingCount: number;
   writingCount: number;
   totalStudySeconds: number;
   currentStreak: number;
@@ -162,14 +173,24 @@ export async function checkAndEarnBadges(
 
   await maybeEarn("account_created", true); // プロフィールがある＝アカウント開設済み
   await maybeEarn("vocab_first", stats.vocabQuizCount >= 1);
+  await maybeEarn("reading_first", stats.readingCount >= 1);
   await maybeEarn("vocab_10", stats.vocabQuizCount >= 10);
+  await maybeEarn("reading_10", stats.readingCount >= 10);
   await maybeEarn("vocab_25", stats.vocabQuizCount >= 25);
+  await maybeEarn("reading_25", stats.readingCount >= 25);
   await maybeEarn("vocab_50", stats.vocabQuizCount >= 50);
+  await maybeEarn("vocab_75", stats.vocabQuizCount >= 75);
+  await maybeEarn("vocab_100", stats.vocabQuizCount >= 100);
+  await maybeEarn("reading_50", stats.readingCount >= 50);
+  await maybeEarn("reading_75", stats.readingCount >= 75);
+  await maybeEarn("reading_100", stats.readingCount >= 100);
 
   await maybeEarn("writing_first", stats.writingCount >= 1);
   await maybeEarn("writing_10", stats.writingCount >= 10);
   await maybeEarn("writing_20", stats.writingCount >= 20);
   await maybeEarn("writing_30", stats.writingCount >= 30);
+  await maybeEarn("writing_40", stats.writingCount >= 40);
+  await maybeEarn("writing_50", stats.writingCount >= 50);
 
   const totalHours = stats.totalStudySeconds / 3600;
   await maybeEarn("study_1h", totalHours >= 1);
