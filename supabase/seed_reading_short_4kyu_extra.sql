@@ -70,9 +70,9 @@ VALUES ('4級', 'short_fill', 'A: Many of the buildings in this city are very bi
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('4級', 'short_fill', 'A: What''s your town like, Tom? B: It''s nice. __BLANK__ are lots of parks and a big pool.', '["They", "Those", "There", "Their"]', 2, '「たくさんの公園がある」と存在を表すときは "There are 〜" を使います。There が正解。');
 
--- (38) professional / プロの
+-- (38) famous / 有名な（4級頻出）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'Kentaro wants to be a __BLANK__ baseball player in the future. He wants to play in the United States someday.', '["difficult", "professional", "strange", "thick"]', 1, '「アメリカでプレーしたい」という夢から、「プロの」選手を表す "professional" が正解です。');
+VALUES ('4級', 'short_fill', 'Kentaro wants to be a __BLANK__ baseball player in the future. He practices every day.', '["famous", "difficult", "strange", "thick"]', 0, '「将来有名な野球選手になりたい」は "famous baseball player" です。famous は「有名な」の意味で4級頻出語です。');
 
 -- (39) umbrella / 傘
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -86,9 +86,9 @@ VALUES ('4級', 'short_fill', 'A: Do you know any good sports websites? B: Yes. 
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('4級', 'short_fill', 'Takeru''s bag has many large books in it. It is very __BLANK__, so Takeru can''t carry it.', '["heavy", "nervous", "late", "fast"]', 0, 'たくさんの本で「持てない」のは「重い」からなので "heavy" が正解。nervous は緊張した、late は遅いです。');
 
--- (42) castle / 城
+-- (42) museum / 博物館（4級頻出の場所）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'Yumi visited a __BLANK__ last weekend. She likes learning about history.', '["dictionary", "question", "castle", "cloud"]', 2, '歴史を学ぶために訪れるのは「城」のような場所なので "castle" が正解。dictionary は辞書です。');
+VALUES ('4級', 'short_fill', 'Yumi visited a __BLANK__ last weekend. She likes learning about history.', '["dictionary", "question", "museum", "cloud"]', 2, '歴史を学ぶために訪れるのは「博物館」なので "museum" が正解。museum は4級でよく出る語です。');
 
 -- (43) garden / 庭
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -130,13 +130,13 @@ VALUES ('4級', 'short_fill', 'A: __BLANK__ is this T-shirt? B: It''s twenty dol
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('4級', 'short_fill', 'A: __BLANK__ books did you read last month? B: I read five books.', '["How much", "How many", "How long", "How often"]', 1, '数えられる名詞の数を聞くときは "How many 〜?" を使います。books は複数なので many。');
 
--- (53) since / since 過去
+-- (53) when / 接続詞「〜のときに」
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'I have known her __BLANK__ we were in elementary school.', '["when", "since", "for", "ago"]', 1, '「小学校のときから知っている」は "have known 〜 since" で、since の後は過去の起点を表します。');
+VALUES ('4級', 'short_fill', 'I met her __BLANK__ we were in elementary school. We have been friends since then.', '["when", "since", "for", "ago"]', 0, '「小学校のときに会った」は "when we were in elementary school" です。when は「〜のときに」という接続詞です。');
 
--- (54) for / for 期間
+-- (54) on / 曜日の前
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'They have lived in this town __BLANK__ ten years.', '["since", "for", "from", "during"]', 1, '「10年間」と期間を表すときは "for + 期間" を使います。for が正解。');
+VALUES ('4級', 'short_fill', 'We have soccer practice __BLANK__ Wednesday. I always look forward to it.', '["on", "at", "in", "from"]', 0, '曜日の前には "on" を使います。"on Wednesday" で「水曜日に」という意味です。');
 
 -- (55) if / 条件
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -234,13 +234,13 @@ VALUES ('4級', 'short_fill', 'This book was __BLANK__ by a famous writer. Many 
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('4級', 'short_fill', 'I __BLANK__ my key under the table. I was so glad.', '["find", "finds", "found", "finding"]', 2, '「鍵をテーブルの下で見つけた」は過去の出来事なので、find の過去形 "found" が正解。');
 
--- (79) taken / have 過去分詞
+-- (79) took / 過去形
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'She has __BLANK__ many photos of the mountains. They are beautiful.', '["take", "takes", "took", "taken"]', 3, '「たくさんの写真を撮ってきた」は現在完了 "has taken" です。take の過去分詞は taken。');
+VALUES ('4級', 'short_fill', 'She __BLANK__ many photos of the mountains last summer. They are beautiful.', '["take", "takes", "took", "taken"]', 2, '「去年の夏に撮った」は過去の出来事なので、take の過去形 "took" が正解です。');
 
--- (80) been / have been to
+-- (80) went / 過去形
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'Have you ever __BLANK__ to Paris? I went there two years ago.', '["go", "went", "gone", "been"]', 3, '「〜に行ったことがある」は "have been to 〜" です。go の過去分詞は been（行ったことがあるの意味で使う）。');
+VALUES ('4級', 'short_fill', 'I __BLANK__ to Paris two years ago. It was wonderful.', '["go", "went", "going", "gone"]', 1, '「2年前にパリに行った」は過去の出来事なので、go の過去形 "went" が正解です。');
 
 -- (81) yet / まだ（否定・疑問）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
@@ -294,13 +294,13 @@ VALUES ('4級', 'short_fill', 'I will wait here __BLANK__ you come back. Don''t 
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES ('4級', 'short_fill', 'My mother was cooking __BLANK__ I was doing my homework.', '["during", "while", "when", "as"]', 1, '「母が料理している間、私は宿題をしていた」は "while I was doing" です。while は「〜している間に」。');
 
--- (94) although / けれども
+-- (94) So / 結果「だから」
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', '__BLANK__ it was raining, we went to the park. We had umbrellas.', '["Because", "Although", "So", "If"]', 1, '「雨だったけれど公園に行った」は "Although it was raining" です。although は「〜だけれども」の意味。');
+VALUES ('4級', 'short_fill', 'It was raining. __BLANK__ we took our umbrellas and went to the park.', '["Because", "So", "Although", "If"]', 1, '「雨だった。だから傘を持って公園に行った」は "So we took" です。So は「だから」と結果を表します。');
 
--- (95) whether / 〜かどうか
+-- (95) when / 疑問詞「いつ」
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
-VALUES ('4級', 'short_fill', 'I don''t know __BLANK__ she will come to the party or not.', '["if", "whether", "that", "what"]', 1, '「彼女がパーティーに来るかどうかわからない」は "whether 〜 or not" を使います。whether が正解。');
+VALUES ('4級', 'short_fill', 'I don''t know __BLANK__ the train leaves. Let me check the schedule.', '["when", "whether", "that", "what"]', 0, '「電車がいつ出るかわからない」は "I don''t know when the train leaves" です。when は「いつ」を表す疑問詞です。');
 
 -- (96) that / 接続詞
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)

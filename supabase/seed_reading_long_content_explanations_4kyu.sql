@@ -355,3 +355,34 @@ SET explanation = '"He wants to go to the museum again with his family." が根�
 FROM reading_passages p
 WHERE q.passage_id = p.id AND p.level = '4級' AND p.passage_type = 'long_content'
   AND q.question_text = 'Taro wants to';
+
+-- ========== Lucy's First Pet（追加問題） ==========
+UPDATE reading_passage_questions q
+SET explanation = '本文に "Lucy is 9 years old." とあります。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '4級' AND p.passage_type = 'long_content'
+  AND p.title = 'Lucy''s First Pet' AND q.question_text = 'How old is Lucy?';
+
+UPDATE reading_passage_questions q
+SET explanation = '"She likes to play with her cousin Jane and Jane''s cat" が根拠です。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '4級' AND p.passage_type = 'long_content'
+  AND p.title = 'Lucy''s First Pet' AND q.question_text = 'What does Lucy like to do?';
+
+UPDATE reading_passage_questions q
+SET explanation = '"OK. You can have a cat." と母親が言っているので、Lucyが猫を飼うことになります。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '4級' AND p.passage_type = 'long_content'
+  AND p.title = 'Lucy''s First Pet' AND q.question_text = 'What kind of animal will Lucy have?';
+
+UPDATE reading_passage_questions q
+SET explanation = '"Can you promise to take care of it every day?" に対して Lucy が "Yes, I can!" と答えたので、Lucyが世話をします。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '4級' AND p.passage_type = 'long_content'
+  AND p.title = 'Lucy''s First Pet' AND q.question_text = 'Who will take care of Lucy''s cat?';
+
+UPDATE reading_passage_questions q
+SET explanation = '"I''m the happiest girl in the whole world!" は「ペットを飼える」ことへの喜びの表現です。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '4級' AND p.passage_type = 'long_content'
+  AND p.title = 'Lucy''s First Pet' AND q.question_text = 'Why did Lucy say "I''m the happiest girl in the whole world!"?';

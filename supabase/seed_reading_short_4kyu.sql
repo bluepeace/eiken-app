@@ -151,15 +151,15 @@ B: Yes, I saw it. It was so cute.',
   'テレビで動物園の話題を見るのは「ニュース」なので "news" が正解。weather は天気、sport はスポーツです。'
 );
 
--- (15) college / 大学
+-- (15) scientist / 科学者（4級頻出の職業）
 INSERT INTO public.reading_short_questions (level, question_type, body, choices, correct_index, explanation)
 VALUES (
   '4級', 'short_fill',
   'A: What does your brother do, Ms. Brown?
-B: He''s a __BLANK__ student. He studies computer science.',
-  '["towel", "mistake", "college", "station"]',
-  2,
-  'コンピュータ科学を学ぶのは「大学生」なので "college student" が正解。college は大学です。'
+B: He''s a __BLANK__. He studies science at a high school.',
+  '["scientist", "towel", "mistake", "station"]',
+  0,
+  '科学を学んでいる人は「科学者」を目指しているので "scientist" が正解。scientist は「科学者」の意味です。'
 );
 
 -- (16) finish / 終える

@@ -250,7 +250,7 @@ When: November 8 and 9
 Where: Community Center (Room 201)
 Hours: 10:00 a.m. to 5:00 p.m. on both days
 
-Students from five schools will show their pictures and sculptures.
+Students from five schools will show their pictures and art.
 Admission is free. Everyone is welcome.
 We will have a short talk by a famous artist on November 8 at 2:00 p.m.
 For details, visit our website or call the Community Center.',
@@ -261,7 +261,7 @@ When: November 8 and 9
 Where: Community Center (Room 201)
 Hours: 10:00 a.m. to 5:00 p.m. on both days
 
-Students from five schools will show their pictures and sculptures.
+Students from five schools will show their pictures and art.
 Admission is free. Everyone is welcome.
 We will have a short talk by a famous artist on November 8 at 2:00 p.m.
 For details, visit our website or call the Community Center.'
@@ -592,7 +592,7 @@ SELECT id, 'When should students give the permission form to Mr. Brown?',
 FROM public.reading_passages WHERE level = '4級' AND passage_type = 'long_content' ORDER BY id DESC LIMIT 1;
 INSERT INTO public.reading_passage_questions (passage_id, question_text, choices, correct_index, order_num)
 SELECT id, 'What does Mio ask David about?',
-  '["Where to buy gloves.", "Whether they need to bring lunch.", "What time to come to school.", "Who will drive the bus."]', 1, 2
+  '["Where to buy gloves.", "If they need to bring lunch.", "What time to come to school.", "Who will drive the bus."]', 1, 2
 FROM public.reading_passages WHERE level = '4級' AND passage_type = 'long_content' ORDER BY id DESC LIMIT 1;
 
 -- ========== 4C 説明文（各5問）==========
@@ -685,17 +685,17 @@ VALUES (
   '4級', 'narrative', 'long_content',
   'A Summer in the Countryside
 
-Maya is 13 years old. She lives in Osaka. Last summer, she visited her grandparents in the countryside for two weeks. Her grandparents have a small farm. They grow vegetables and have some chickens.
+Maya is 13 years old. She lives in Osaka. Last summer, she visited her grandparents in the country for two weeks. Her grandparents have a small farm. They grow vegetables and have some chickens.
 
-Every morning, Maya helped her grandmother in the garden. She watered the plants and picked tomatoes. In the afternoon, she often went to the river with her grandfather. They sometimes caught fish. Maya had never caught a fish before. She was very happy when she caught her first fish.
+Every morning, Maya helped her grandmother in the garden. She watered the plants and picked tomatoes. In the afternoon, she often went to the river with her grandfather. They sometimes caught fish. Maya caught a fish for the first time. She was very happy.
 
 On the last day, Maya''s grandmother taught her how to make strawberry jam. Maya brought the jam back to Osaka. Her family loved it. Maya says, "I want to visit my grandparents again next summer. I learned many things and had a great time."',
   'A Summer in the Countryside',
   'A Summer in the Countryside
 
-Maya is 13 years old. She lives in Osaka. Last summer, she visited her grandparents in the countryside for two weeks. Her grandparents have a small farm. They grow vegetables and have some chickens.
+Maya is 13 years old. She lives in Osaka. Last summer, she visited her grandparents in the country for two weeks. Her grandparents have a small farm. They grow vegetables and have some chickens.
 
-Every morning, Maya helped her grandmother in the garden. She watered the plants and picked tomatoes. In the afternoon, she often went to the river with her grandfather. They sometimes caught fish. Maya had never caught a fish before. She was very happy when she caught her first fish.
+Every morning, Maya helped her grandmother in the garden. She watered the plants and picked tomatoes. In the afternoon, she often went to the river with her grandfather. They sometimes caught fish. Maya caught a fish for the first time. She was very happy.
 
 On the last day, Maya''s grandmother taught her how to make strawberry jam. Maya brought the jam back to Osaka. Her family loved it. Maya says, "I want to visit my grandparents again next summer. I learned many things and had a great time."'
 );

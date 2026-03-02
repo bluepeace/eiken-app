@@ -24,9 +24,9 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 
 -- ========== have to / didn't have to / 過去形 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
-  ('4級', 'ポールは今日遅く起きたので、朝食を食べる時間がありませんでした。', '["have", "didn''t", "breakfast", "for", "time"]', '[1, 0, 4, 3, 2]'),
+  ('4級', 'ポールは今日遅く起きたので、朝食を食べる時間がありませんでした。', '["Paul", "didn''t", "have", "time", "to eat", "breakfast"]', '[0, 1, 2, 3, 4, 5]'),
   ('4級', 'ビルは今朝、朝食を食べる時間がありませんでした。', '["Bill", "breakfast", "to eat", "didn''t", "time", "have"]', '[0, 3, 5, 4, 2, 1]'),
-  ('4級', '私たちは明日家の掃除をしなければいけませんか。', '["clean our house tomorrow", "have", "we", "to", "Do"]', '[4, 1, 2, 3, 0]'),
+  ('4級', '私たちは明日家の掃除をしなければいけませんか。', '["clean our house tomorrow", "have", "we", "to", "Do"]', '[4, 2, 1, 3, 0]'),
   ('4級', '彼女は昨日宿題をしなければなりませんでした。', '["do", "she", "to", "had", "her homework yesterday"]', '[1, 3, 2, 0, 4]'),
   ('4級', '良夫君、あなたの英語の宿題を見せてください。', '["your", "homework", "English", "show", "me"]', '[3, 4, 0, 2, 1]'),
   ('4級', 'お母さん、明日は家の掃除をしなければいけませんか。', '["clean our house tomorrow", "have to", "Mom", "do", "we"]', '[2, 3, 4, 1, 0]');
@@ -34,12 +34,12 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 -- ========== 過去形・for the first time 等 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('4級', '祖父は去年初めて飛行機に乗りました。', '["a plane", "for", "my grandfather", "took", "the first time"]', '[2, 3, 0, 1, 4]'),
-  ('4級', 'キャロルは昨日7時に家を出て学校へ向かいました。', '["school", "for", "left", "at 7", "her house"]', '[2, 3, 0, 4, 1]'),
+  ('4級', 'キャロルは昨日7時に家を出て学校へ向かいました。', '["Carol", "left", "her house", "at 7", "for", "school"]', '[0, 1, 2, 3, 4, 5]'),
   ('4級', '私は新しいCDを何回も聞きました。', '["many times", "my new CD", "listened", "I", "to"]', '[3, 2, 4, 1, 0]'),
-  ('4級', '彼女は先週京都で楽しい週末を過ごしました。', '["great", "a", "she", "weekend", "had"]', '[2, 4, 1, 0, 3]'),
+  ('4級', '彼女は先週京都で楽しい週末を過ごしました。', '["she", "had", "a great weekend", "in Kyoto", "last week"]', '[0, 1, 2, 3, 4]'),
   ('4級', '彼は昨夜11時に寝ました。', '["at eleven", "he", "last night", "went to bed"]', '[1, 3, 0, 2]'),
   ('4級', '彼らは昨日公園でサッカーをしました。', '["in the park", "they", "yesterday", "played soccer"]', '[1, 3, 0, 2]'),
-  ('4級', '私は先週の日曜日に祖母を訪ねました。', '["last Sunday", "I", "visited", "my grandmother"]', '[1, 3, 0, 2]');
+  ('4級', '私は先週の日曜日に祖母を訪ねました。', '["last Sunday", "I", "visited", "my grandmother"]', '[1, 2, 3, 0]');
 
 -- ========== talk about / speak / ask 等 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
@@ -47,12 +47,12 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
   ('4級', '私は、よく兄と映画について話します。', '["movies", "about", "my brother", "talk", "with"]', '[3, 4, 2, 1, 0]'),
   ('4級', '私は、数学のテストについてブラウン先生と放課後に話します。', '["about the math test", "talk", "with Mr. Brown", "I", "will"]', '[3, 4, 1, 2, 0]'),
   ('4級', 'あなたのお父さんは中国語とフランス語の両方を話せますか。', '["Chinese and French", "both", "your father", "Can", "speak"]', '[3, 4, 1, 2, 0]'),
-  ('4級', 'あの動物園でライオンを見ましたか。', '["did", "see", "at", "the lions", "you"]', '[0, 4, 1, 3, 2]');
+  ('4級', 'あの動物園でライオンを見ましたか。', '["did", "you", "see", "the lions", "at the zoo"]', '[0, 1, 2, 3, 4]');
 
 -- ========== 助動詞（will, must, should, can） ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
   ('4級', '彼は来週大阪へ出張します。', '["to Osaka", "he", "will", "go", "on business next week"]', '[1, 2, 3, 0, 4]'),
-  ('4級', '私たちは今週末ハイキングに行くつもりです。', '["go", "we", "hiking", "will", "this weekend"]', '[1, 3, 2, 0, 4]'),
+  ('4級', '私たちは今週末ハイキングに行くつもりです。', '["go", "we", "hiking", "will", "this weekend"]', '[1, 3, 0, 2, 4]'),
   ('4級', 'あなたは今日早く帰らなければなりません。', '["early", "you", "must", "go home", "today"]', '[1, 2, 3, 0, 4]'),
   ('4級', '彼女はピアノを弾くことができます。', '["the piano", "she", "can", "play"]', '[1, 2, 3, 0]'),
   ('4級', 'あなたはもっと野菜を食べるべきです。', '["more vegetables", "you", "should", "eat"]', '[1, 2, 3, 0]'),
@@ -74,8 +74,8 @@ INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correc
 
 -- ========== What kind of / be good at / enjoy 等 ==========
 INSERT INTO public.reading_word_order_questions (level, prompt_ja, words, correct_order) VALUES
-  ('4級', 'ビル、君はどんな種類のアイスクリームが好きですか。', '["ice cream", "what", "kind", "do", "of"]', '[1, 2, 4, 0, 3]'),
-  ('4級', '彼女はテニスをするのが得意です。', '["tennis", "she", "playing", "is good at"]', '[1, 3, 0, 2]'),
-  ('4級', '私は本を読むことを楽しんでいます。', '["books", "I", "reading", "enjoy"]', '[1, 3, 0, 2]'),
-  ('4級', '彼はサッカーを見るのが好きです。', '["soccer", "he", "watching", "likes"]', '[1, 3, 0, 2]'),
-  ('4級', '彼女は歌を歌うことが好きです。', '["songs", "she", "singing", "likes"]', '[1, 3, 0, 2]');
+  ('4級', 'ビル、君はどんな種類のアイスクリームが好きですか。', '["what", "kind of", "ice cream", "do you like"]', '[0, 1, 2, 3]'),
+  ('4級', '彼女はテニスをするのが得意です。', '["tennis", "she", "playing", "is good at"]', '[1, 3, 2, 0]'),
+  ('4級', '私は本を読むことを楽しんでいます。', '["books", "I", "reading", "enjoy"]', '[1, 3, 2, 0]'),
+  ('4級', '彼はサッカーを見るのが好きです。', '["soccer", "he", "watching", "likes"]', '[1, 3, 2, 0]'),
+  ('4級', '彼女は歌を歌うことが好きです。', '["songs", "she", "singing", "likes"]', '[1, 3, 2, 0]');
