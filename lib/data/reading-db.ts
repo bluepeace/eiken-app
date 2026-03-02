@@ -86,6 +86,27 @@ export async function getReadingShortPriorityScores(
     .sort((a, b) => b.score - a.score);
 }
 
+/** 直近N問のリーディング正答率（負荷軽減のため件数制限） */
+export async function getReadingCorrectRateLastN(
+  profileId: string,
+  limit = 30
+): Promise<{ percentage: number; correct: number; total: number } | null> {
+  const { data, error } = await supabase
+    .from("reading_results")
+    .select("is_correct")
+    .eq("user_id", profileId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error || !data || data.length === 0) return null;
+
+  const correct = data.filter((r) => r.is_correct).length;
+  const total = data.length;
+  const percentage = Math.round((correct / total) * 100);
+
+  return { percentage, correct, total };
+}
+
 function shuffleReading<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {

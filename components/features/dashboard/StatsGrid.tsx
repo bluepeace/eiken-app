@@ -11,12 +11,14 @@ interface StatsGridProps {
   targetLevel?: string | null;
   vocabProficiency?: { percentage: number; mastered: number; total: number } | null;
   writingCount?: number | null;
+  readingCorrectRate?: { percentage: number; correct: number; total: number } | null;
 }
 
 export function StatsGrid({
   targetLevel,
   vocabProficiency,
-  writingCount
+  writingCount,
+  readingCorrectRate
 }: StatsGridProps) {
   const vocabValue =
     vocabProficiency != null && vocabProficiency.total > 0
@@ -30,7 +32,7 @@ export function StatsGrid({
         : "目標級を設定すると表示";
 
   return (
-    <section className="grid gap-3 md:grid-cols-4">
+    <section className="grid gap-3 md:grid-cols-3">
       <StatCard
         label="単語習熟度"
         value={vocabValue}
@@ -51,16 +53,19 @@ export function StatsGrid({
         }
         moduleKey="writing"
       />
-      <StatCard
-        label="スピーキング練習"
-        value="25分"
-        subLabel="直近7日"
-        moduleKey="speaking"
-      />
+      {/* スピーキング練習は一旦非表示 */}
       <StatCard
         label="リーディング正答率"
-        value="72%"
-        subLabel="模試ベース"
+        value={
+          readingCorrectRate != null && readingCorrectRate.total > 0
+            ? `${readingCorrectRate.percentage}%`
+            : "—"
+        }
+        subLabel={
+          readingCorrectRate != null && readingCorrectRate.total > 0
+            ? `直近${readingCorrectRate.total}問`
+            : "リーディングを解くと表示"
+        }
         moduleKey="reading"
       />
     </section>

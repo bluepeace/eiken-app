@@ -22,6 +22,7 @@ import {
   getWritingSubmissionCount,
   getTotalWritingCount
 } from "@/lib/data/writing-db";
+import { getReadingCorrectRateLastN } from "@/lib/data/reading-db";
 import {
   getNearestPrimaryDate,
   formatExamRoundLabel
@@ -57,6 +58,11 @@ export default function DashboardPage() {
     total: number;
   } | null>(null);
   const [writingCount, setWritingCount] = useState<number | null>(null);
+  const [readingCorrectRate, setReadingCorrectRate] = useState<{
+    percentage: number;
+    correct: number;
+    total: number;
+  } | null>(null);
   const [badgePopup, setBadgePopup] = useState<UserBadge | null>(null);
   const [examCountdown, setExamCountdown] = useState<{
     label: string;
@@ -133,7 +139,8 @@ export default function DashboardPage() {
       wCount,
       vocabSessions,
       totalWriting,
-      totalStudySecs
+      totalStudySecs,
+      readingRate
     ] = await Promise.all([
       getTodayStudySeconds(profileId),
       getStreak(profileId),
@@ -141,13 +148,15 @@ export default function DashboardPage() {
       getWritingSubmissionCount(profileId, targetLevel, 7),
       getVocabularyQuizSessionCount(profileId),
       getTotalWritingCount(profileId),
-      getTotalStudySeconds(profileId)
+      getTotalStudySeconds(profileId),
+      getReadingCorrectRateLastN(profileId, 30)
     ]);
     setTodayStudyMinutes(Math.round(seconds / 60));
     setTotalStudyMinutes(Math.round(totalStudySecs / 60));
     setStreakDays(streak.current);
     setVocabProficiency(proficiency);
     setWritingCount(wCount);
+    setReadingCorrectRate(readingRate);
 
     const [activityEarned, profileEarned] = await Promise.all([
       checkAndEarnBadges(profileId, {
@@ -300,6 +309,7 @@ export default function DashboardPage() {
           targetLevel={targetLevel}
           vocabProficiency={vocabProficiency}
           writingCount={writingCount}
+          readingCorrectRate={readingCorrectRate}
         />
         <LearningModulesGrid targetLevel={targetLevel} />
       </div>
