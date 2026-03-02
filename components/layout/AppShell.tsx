@@ -54,15 +54,24 @@ export function AppShell({ children }: AppShellProps) {
             canAccessAdmin(),
             supabase
               .from("user_profiles")
-              .select("organization_id, organizations(logo_url)")
+              .select("organization_id")
               .eq("auth_user_id", user.id)
               .limit(1)
+              .maybeSingle()
           ]);
           if (!mounted) return;
           setIsAdmin(!!access);
-          const profileData = Array.isArray(profileRes.data) ? profileRes.data[0] : profileRes.data;
-          const org = (profileData as { organizations?: { logo_url?: string } | null } | null)?.organizations;
-          setOrganizationLogoUrl(org?.logo_url ?? null);
+          const orgId = profileRes.data?.organization_id;
+          let logoUrl: string | null = null;
+          if (orgId) {
+            const orgRes = await supabase
+              .from("organizations")
+              .select("logo_url")
+              .eq("id", orgId)
+              .maybeSingle();
+            logoUrl = orgRes.data?.logo_url ?? null;
+          }
+          if (mounted) setOrganizationLogoUrl(logoUrl);
         } else {
           setIsAdmin(false);
           setOrganizationLogoUrl(null);
