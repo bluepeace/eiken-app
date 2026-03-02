@@ -12,6 +12,56 @@ import { getMonthlyBackgroundUrl } from "@/lib/data/monthly-backgrounds";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { BuddyWidget } from "@/components/features/buddy/BuddyWidget";
 
+const ORG_LOGO_CACHE_KEY = "eiken_org_logo";
+
+const storage = typeof window !== "undefined" ? localStorage : null;
+
+/** 初回レンダー用: キャッシュを同期的に読み、即表示（userId 未検証） */
+function getCachedOrgLogoForInitial(): string | null {
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(ORG_LOGO_CACHE_KEY);
+    if (!raw) return null;
+    const { logoUrl } = JSON.parse(raw) as { logoUrl?: string | null };
+    return logoUrl && typeof logoUrl === "string" ? logoUrl : null;
+  } catch {
+    return null;
+  }
+}
+
+function getCachedOrgLogo(userId: string): string | null {
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(ORG_LOGO_CACHE_KEY);
+    if (!raw) return null;
+    const { userId: cachedUserId, logoUrl } = JSON.parse(raw) as {
+      userId?: string;
+      logoUrl?: string | null;
+    };
+    return cachedUserId === userId && logoUrl ? logoUrl : null;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedOrgLogo(userId: string, logoUrl: string | null) {
+  if (!storage) return;
+  try {
+    storage.setItem(ORG_LOGO_CACHE_KEY, JSON.stringify({ userId, logoUrl }));
+  } catch {
+    // ignore
+  }
+}
+
+function clearCachedOrgLogo() {
+  if (!storage) return;
+  try {
+    storage.removeItem(ORG_LOGO_CACHE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 interface AppShellProps {
   children: ReactNode;
 }
@@ -23,6 +73,16 @@ export function AppShell({ children }: AppShellProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const [organizationLogoUrl, setOrganizationLogoUrl] = useState<string | null>(null);
+  const [logoResolved, setLogoResolved] = useState(false);
+
+  // マウント直後にキャッシュを反映（getUser を待たず即表示）
+  useEffect(() => {
+    const cached = getCachedOrgLogoForInitial();
+    if (cached) {
+      setOrganizationLogoUrl(cached);
+      setLogoResolved(true);
+    }
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -49,6 +109,14 @@ export function AppShell({ children }: AppShellProps) {
         if (!mounted) return;
         setIsLoggedIn(!!user);
         if (user) {
+          // キャッシュがあれば即時表示（チラつき防止）
+          const cached = getCachedOrgLogo(user.id);
+          if (cached) {
+            setOrganizationLogoUrl(cached);
+            setLogoResolved(true);
+          } else {
+            setLogoResolved(false);
+          }
           void preloadProfileCache(); // ログイン直後にプロフィールを1回取得してキャッシュし、各画面の級表示を即時反映
           const [access, profileRes] = await Promise.all([
             canAccessAdmin(),
@@ -71,13 +139,23 @@ export function AppShell({ children }: AppShellProps) {
               .maybeSingle();
             logoUrl = orgRes.data?.logo_url ?? null;
           }
-          if (mounted) setOrganizationLogoUrl(logoUrl);
+          if (mounted) {
+            setOrganizationLogoUrl(logoUrl);
+            setLogoResolved(true);
+            setCachedOrgLogo(user.id, logoUrl);
+          }
         } else {
           setIsAdmin(false);
           setOrganizationLogoUrl(null);
+          setLogoResolved(true);
+          clearCachedOrgLogo();
         }
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
+        if (mounted) {
+          setLogoResolved(true);
+          setOrganizationLogoUrl(null);
+        }
         throw err;
       }
     };
@@ -101,6 +179,7 @@ export function AppShell({ children }: AppShellProps) {
 
   const handleLogout = async () => {
     invalidateProfileCache();
+    clearCachedOrgLogo();
     await supabase.auth.signOut();
     setDrawerOpen(false);
     router.push("/");
@@ -290,6 +369,11 @@ export function AppShell({ children }: AppShellProps) {
 
   const logoHref = isLoggedIn ? "/dashboard" : "/";
 
+  // ロゴ表示: キャッシュがあれば即表示、読み込み中はスケルトン、確定後に企業 or AiKen
+  const showOrgLogo = logoResolved && !!organizationLogoUrl;
+  const showLogoSkeleton =
+    !logoResolved && (isLoggedIn === null || isLoggedIn === true);
+
   return (
     <div className="min-h-screen bg-transparent text-slate-900">
       <header className="relative z-20 border-b border-slate-200/80 bg-white/70 backdrop-blur-md">
@@ -298,9 +382,14 @@ export function AppShell({ children }: AppShellProps) {
             href={logoHref}
             className="flex items-center"
           >
-            {organizationLogoUrl ? (
+            {showLogoSkeleton ? (
+              <div
+                className="h-11 w-40 animate-pulse rounded bg-white/80"
+                aria-hidden
+              />
+            ) : showOrgLogo ? (
               <img
-                src={organizationLogoUrl}
+                src={organizationLogoUrl!}
                 alt=""
                 className="h-11 w-auto max-w-[160px] object-contain object-left"
               />
