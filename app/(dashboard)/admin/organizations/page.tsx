@@ -93,7 +93,7 @@ export default function AdminOrganizationsPage() {
     setSettingAdmin(true);
     try {
       await adminSetOrganizationAdmin(adminModalOrg.id, profileId);
-      await loadOrgAdmins();
+      await loadOrgAdmins(list);
       setAdminModalOrg(null);
       setAdminSearchEmail("");
       setAdminSearchResults([]);
