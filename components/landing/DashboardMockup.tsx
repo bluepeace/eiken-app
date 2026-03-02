@@ -18,9 +18,9 @@ export function DashboardMockup() {
         <Image
           src="/logo-aiken.png"
           alt="AiKen"
-          width={80}
-          height={24}
-          className="h-6 w-auto"
+          width={96}
+          height={29}
+          className="h-7 w-auto"
         />
       </div>
 

@@ -209,13 +209,14 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </div>
 
-      <Link
+      {/* プレミアムは一旦非表示（のちに復活予定） */}
+      {/* <Link
         href="/subscribe"
         onClick={() => setDrawerOpen(false)}
         className="text-slate-800 hover:text-brand-600"
       >
         プレミアム
-      </Link>
+      </Link> */}
 
       {/* 設定 ドロップダウン */}
       <div className="group relative">
@@ -292,15 +293,15 @@ export function AppShell({ children }: AppShellProps) {
               <img
                 src={organizationLogoUrl}
                 alt=""
-                className="h-9 w-auto max-w-[120px] object-contain object-left"
+                className="h-11 w-auto max-w-[160px] object-contain object-left"
               />
             ) : (
               <Image
                 src="/logo-aiken.png"
                 alt="AiKen"
-                width={120}
-                height={36}
-                className="h-9 w-auto"
+                width={160}
+                height={48}
+                className="h-11 w-auto"
                 priority
               />
             )}
@@ -308,7 +309,7 @@ export function AppShell({ children }: AppShellProps) {
 
           {/* Desktop nav */}
           <div className="hidden md:flex flex-1 justify-end">
-            <nav className="flex items-center gap-3 text-xs font-semibold text-slate-800">
+            <nav className="flex items-center gap-3 text-sm font-semibold text-slate-800">
               {navLinks}
             </nav>
           </div>
@@ -368,7 +369,7 @@ export function AppShell({ children }: AppShellProps) {
                 </svg>
               </button>
             </div>
-            <nav className="flex flex-col gap-1 text-sm font-semibold text-slate-800">
+            <nav className="flex flex-col gap-1 text-base font-semibold text-slate-800">
               <Link
                 href="/dashboard"
                 onClick={() => setDrawerOpen(false)}
@@ -436,13 +437,14 @@ export function AppShell({ children }: AppShellProps) {
               >
                 学習履歴
               </Link>
-              <Link
+              {/* プレミアムは一旦非表示（のちに復活予定） */}
+              {/* <Link
                 href="/subscribe"
                 onClick={() => setDrawerOpen(false)}
                 className="rounded-lg px-3 py-2 hover:bg-slate-100 hover:text-brand-600"
               >
                 プレミアム
-              </Link>
+              </Link> */}
               <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-slate-600">
                 設定
               </div>

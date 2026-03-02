@@ -14,9 +14,9 @@ export function LandingHeader() {
           <Image
             src="/logo-aiken.png"
             alt="AiKen"
-            width={120}
-            height={36}
-            className="h-9 w-auto"
+            width={160}
+            height={48}
+            className="h-11 w-auto"
             priority
           />
         </Link>

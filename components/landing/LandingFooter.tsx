@@ -14,9 +14,9 @@ export function LandingFooter() {
           <Image
             src="/logo-aiken.png"
             alt="AiKen"
-            width={120}
-            height={36}
-            className="h-9 w-auto"
+            width={160}
+            height={48}
+            className="h-11 w-auto"
           />
         </Link>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm text-slate-600">
