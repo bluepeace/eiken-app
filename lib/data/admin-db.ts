@@ -50,6 +50,7 @@ export async function canAccessAdmin(): Promise<
 export interface AdminOrganization {
   id: number;
   name: string;
+  slug: string | null;
   logo_url: string | null;
   favicon_url: string | null;
   created_at: string;
@@ -111,13 +112,14 @@ export async function adminGetUsers(): Promise<AdminUser[]> {
 export async function adminGetOrganizations(): Promise<AdminOrganization[]> {
   const { data, error } = await supabase
     .from("organizations")
-    .select("id, name, logo_url, favicon_url, created_at")
+    .select("id, name, slug, logo_url, favicon_url, created_at")
     .order("id", { ascending: true });
 
   if (error) throw new Error(error.message);
   return (data ?? []).map((r) => ({
     id: r.id as number,
     name: (r.name as string) ?? "",
+    slug: (r.slug as string) ?? null,
     logo_url: (r.logo_url as string) ?? null,
     favicon_url: (r.favicon_url as string) ?? null,
     created_at: (r.created_at as string) ?? ""
@@ -128,13 +130,14 @@ export async function adminCreateOrganization(name: string): Promise<AdminOrgani
   const { data, error } = await supabase
     .from("organizations")
     .insert({ name })
-    .select("id, name, logo_url, favicon_url, created_at")
+    .select("id, name, slug, logo_url, favicon_url, created_at")
     .single();
 
   if (error) throw new Error(error.message);
   return {
     id: data.id as number,
     name: (data.name as string) ?? "",
+    slug: (data.slug as string) ?? null,
     logo_url: (data.logo_url as string) ?? null,
     favicon_url: (data.favicon_url as string) ?? null,
     created_at: (data.created_at as string) ?? ""
@@ -143,7 +146,7 @@ export async function adminCreateOrganization(name: string): Promise<AdminOrgani
 
 export async function adminUpdateOrganization(
   id: number,
-  updates: { name?: string; logo_url?: string | null; favicon_url?: string | null }
+  updates: { name?: string; slug?: string | null; logo_url?: string | null; favicon_url?: string | null }
 ): Promise<void> {
   const { error } = await supabase
     .from("organizations")

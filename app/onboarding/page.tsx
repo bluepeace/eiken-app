@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { getBuddies, type Buddy } from "@/lib/data/buddies";
 
@@ -99,8 +99,9 @@ function BuddySpeech({
   );
 }
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [step, setStep] = useState(1);
   const [displayName, setDisplayName] = useState("");
   const [targetLevel, setTargetLevel] = useState("英検2級");
@@ -109,6 +110,17 @@ export default function OnboardingPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  const resolveOrgId = async (): Promise<number> => {
+    const slug = searchParams.get("s")?.trim();
+    if (!slug) return 1;
+    const { data } = await supabase
+      .from("organizations")
+      .select("id")
+      .eq("slug", slug)
+      .maybeSingle();
+    return (data?.id as number) ?? 1;
+  };
 
   useEffect(() => {
     const check = async () => {
@@ -179,16 +191,19 @@ export default function OnboardingPage() {
       const existing = Array.isArray(existingRows) ? existingRows[0] : existingRows;
 
       if (existing) {
-        await supabase
-          .from("user_profiles")
-          .update({ display_name: displayName.trim() })
-          .eq("id", existing.id);
+        const updates: { display_name: string; organization_id?: number } = {
+          display_name: displayName.trim()
+        };
+        const slug = searchParams.get("s")?.trim();
+        if (slug) updates.organization_id = await resolveOrgId();
+        await supabase.from("user_profiles").update(updates).eq("id", existing.id);
       } else {
+        const orgId = await resolveOrgId();
         await supabase.from("user_profiles").insert({
           auth_user_id: user.id,
           display_name: displayName.trim(),
           target_level: null,
-          organization_id: 1
+          organization_id: orgId
         });
       }
       setStep(2);
@@ -222,12 +237,13 @@ export default function OnboardingPage() {
           .update({ buddy_id: selectedBuddyId || null })
           .eq("id", existing.id);
       } else {
+        const orgId = await resolveOrgId();
         await supabase.from("user_profiles").insert({
           auth_user_id: user.id,
           display_name: displayName.trim() || null,
           target_level: null,
           buddy_id: selectedBuddyId || null,
-          organization_id: 1
+          organization_id: orgId
         });
       }
       setStep(3);
@@ -271,11 +287,12 @@ export default function OnboardingPage() {
           setError("保存できましたが確認に失敗しました。下の「ダッシュボードへ移動」を押して再度お試しください。");
         }
       } else {
+        const orgId = await resolveOrgId();
         const { error: insertError } = await supabase.from("user_profiles").insert({
           auth_user_id: user.id,
           display_name: displayName.trim() || null,
           target_level: targetLevel,
-          organization_id: 1
+          organization_id: orgId
         });
         if (insertError) throw insertError;
         setStep(4);
@@ -425,5 +442,17 @@ export default function OnboardingPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={
+      <main className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 bg-slate-50">
+        <p className="text-slate-600">読み込み中...</p>
+      </main>
+    }>
+      <OnboardingContent />
+    </Suspense>
   );
 }

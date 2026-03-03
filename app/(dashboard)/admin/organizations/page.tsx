@@ -155,15 +155,21 @@ export default function AdminOrganizationsPage() {
     if (!editModalOrg) return;
     const form = e.currentTarget;
     const name = (form.elements.namedItem("edit-name") as HTMLInputElement)?.value?.trim();
+    const slugRaw = (form.elements.namedItem("edit-slug") as HTMLInputElement)?.value?.trim();
+    const slug = slugRaw === "" ? null : slugRaw;
     if (!name) {
       setError("企業名を入力してください");
+      return;
+    }
+    if (slug && !/^[a-z0-9_-]+$/.test(slug)) {
+      setError("スラッグは英小文字・数字・ハイフン・アンダースコアのみ使用できます");
       return;
     }
     setError(null);
     setMessage(null);
     setSaving(true);
     try {
-      await adminUpdateOrganization(editModalOrg.id, { name });
+      await adminUpdateOrganization(editModalOrg.id, { name, slug });
       setEditModalOrg(null);
       await load();
       setMessage("企業を更新しました");
@@ -315,6 +321,7 @@ export default function AdminOrganizationsPage() {
               <th className="px-4 py-3 font-medium text-slate-300">ID</th>
               <th className="px-4 py-3 font-medium text-slate-300">ロゴ</th>
               <th className="px-4 py-3 font-medium text-slate-300">企業名</th>
+              <th className="px-4 py-3 font-medium text-slate-300">スラッグ</th>
               <th className="px-4 py-3 font-medium text-slate-300">管理者</th>
               <th className="px-4 py-3 font-medium text-slate-300">登録日</th>
               <th className="px-4 py-3 font-medium text-slate-300" />
@@ -349,6 +356,9 @@ export default function AdminOrganizationsPage() {
                       </span>
                     )}
                   </span>
+                </td>
+                <td className="px-4 py-3 font-mono text-sm text-slate-400">
+                  {org.slug ?? "—"}
                 </td>
                 <td className="px-4 py-3">
                   {orgAdmins[org.id] ? (
@@ -561,6 +571,23 @@ export default function AdminOrganizationsPage() {
                   className="w-full rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-brand-500"
                   disabled={saving}
                 />
+              </div>
+              <div>
+                <label htmlFor="edit-slug" className="mb-1 block text-sm font-medium text-slate-300">
+                  企業スラッグ
+                </label>
+                <input
+                  id="edit-slug"
+                  name="edit-slug"
+                  type="text"
+                  defaultValue={editModalOrg.slug ?? ""}
+                  placeholder="例: worldtalk（英小文字・数字・ハイフン・アンダースコア）"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-brand-500"
+                  disabled={saving}
+                />
+                <p className="mt-1 text-xs text-slate-500">
+                  /login/{"{slug}"} や /signup/{"{slug}"} で企業ロゴが表示されます。空欄の場合はデフォルトの AiKen ロゴを表示。
+                </p>
               </div>
               <div>
                 <label className="mb-1 block text-sm font-medium text-slate-300">ロゴ</label>
