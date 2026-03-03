@@ -97,6 +97,7 @@ export default function AdminWritingPage() {
     { key: "prompt_type", label: "形式" },
     { key: "title", label: "タイトル" },
     { key: "prompt", label: "問題文" },
+    { key: "model_answer", label: "模範解答" },
     { key: "word_count_min", label: "最小語数" },
     { key: "word_count_max", label: "最大語数" },
     { key: "time_limit_min_seconds", label: "制限時間最小(秒)" },

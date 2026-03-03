@@ -18,6 +18,7 @@ export interface WritingPrompt {
   prompt_type: "essay" | "email" | "summary";
   title: string;
   prompt: string;
+  model_answer: string | null;
   word_count_min: number | null;
   word_count_max: number | null;
   time_limit_min_seconds: number | null;
@@ -45,6 +46,7 @@ export async function fetchRandomEssayPrompt(
     prompt_type: "essay",
     title: row.title ?? "",
     prompt: row.prompt ?? "",
+    model_answer: row.model_answer ?? null,
     word_count_min: row.word_count_min ?? null,
     word_count_max: row.word_count_max ?? null,
     time_limit_min_seconds: row.time_limit_min_seconds ?? null,
@@ -73,6 +75,7 @@ export async function fetchRandomSummaryPrompt(
     prompt_type: "summary",
     title: row.title ?? "",
     prompt: row.prompt ?? "",
+    model_answer: row.model_answer ?? null,
     word_count_min: row.word_count_min ?? null,
     word_count_max: row.word_count_max ?? null,
     time_limit_min_seconds: row.time_limit_min_seconds ?? null,
@@ -101,6 +104,7 @@ export async function fetchRandomEmailPrompt(
     prompt_type: "email",
     title: row.title ?? "",
     prompt: row.prompt ?? "",
+    model_answer: row.model_answer ?? null,
     word_count_min: row.word_count_min ?? null,
     word_count_max: row.word_count_max ?? null,
     time_limit_min_seconds: row.time_limit_min_seconds ?? null,

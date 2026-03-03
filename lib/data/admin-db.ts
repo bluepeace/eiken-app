@@ -399,6 +399,7 @@ export interface WritingPromptItem {
   prompt_type: string;
   title: string;
   prompt: string;
+  model_answer: string | null;
   word_count_min: number | null;
   word_count_max: number | null;
   time_limit_min_seconds: number | null;
@@ -414,7 +415,7 @@ export async function adminGetWritingPrompts(): Promise<WritingPromptItem[]> {
   while (hasMore) {
     const { data, error } = await supabase
       .from("writing_prompts")
-      .select("id, level, prompt_type, title, prompt, word_count_min, word_count_max, time_limit_min_seconds, time_limit_max_seconds")
+      .select("*")
       .order("id", { ascending: true })
       .range(offset, offset + pageSize - 1);
 
@@ -428,6 +429,7 @@ export async function adminGetWritingPrompts(): Promise<WritingPromptItem[]> {
         prompt_type: (r.prompt_type as string) ?? "essay",
         title: r.title as string,
         prompt: r.prompt as string,
+        model_answer: (r.model_answer as string) ?? null,
         word_count_min: (r.word_count_min as number) ?? null,
         word_count_max: (r.word_count_max as number) ?? null,
         time_limit_min_seconds: (r.time_limit_min_seconds as number) ?? null,
@@ -444,7 +446,7 @@ export async function adminGetWritingPrompts(): Promise<WritingPromptItem[]> {
 export async function adminGetWritingPromptById(id: number) {
   const { data, error } = await supabase
     .from("writing_prompts")
-    .select("id, level, prompt_type, title, prompt, word_count_min, word_count_max, time_limit_min_seconds, time_limit_max_seconds")
+    .select("*")
     .eq("id", id)
     .maybeSingle();
 
@@ -457,6 +459,7 @@ export interface WritingPromptInput {
   prompt_type: "essay" | "email" | "summary";
   title: string;
   prompt: string;
+  model_answer?: string | null;
   word_count_min?: number | null;
   word_count_max?: number | null;
   time_limit_min_seconds?: number | null;
@@ -471,6 +474,7 @@ export async function adminCreateWritingPrompt(input: WritingPromptInput) {
       prompt_type: input.prompt_type,
       title: input.title,
       prompt: input.prompt,
+      model_answer: input.model_answer ?? null,
       word_count_min: input.word_count_min ?? null,
       word_count_max: input.word_count_max ?? null,
       time_limit_min_seconds: input.time_limit_min_seconds ?? null,
@@ -491,6 +495,7 @@ export async function adminUpdateWritingPrompt(id: number, input: WritingPromptI
       prompt_type: input.prompt_type,
       title: input.title,
       prompt: input.prompt,
+      model_answer: input.model_answer ?? null,
       word_count_min: input.word_count_min ?? null,
       word_count_max: input.word_count_max ?? null,
       time_limit_min_seconds: input.time_limit_min_seconds ?? null,

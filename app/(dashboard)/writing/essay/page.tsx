@@ -220,6 +220,7 @@ function WritingEssayContent() {
               data={result}
               level={level}
               promptType="essay"
+              modelAnswer={prompt?.model_answer}
               onNewProblem={handleNewProblem}
             />
           </div>

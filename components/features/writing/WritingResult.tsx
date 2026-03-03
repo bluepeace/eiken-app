@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { CorrectedTextWithHighlights } from "./CorrectedTextWithHighlights";
@@ -124,7 +125,30 @@ interface WritingResultProps {
   data: WritingResultData;
   level: string;
   promptType: "essay" | "email" | "summary";
+  modelAnswer?: string | null;
   onNewProblem?: () => void;
+}
+
+/** 模範解答を折りたたみ表示（英作文・Eメール・要約で共通利用） */
+export function ModelAnswerSection({ text }: { text: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="rounded-lg border border-slate-200 bg-amber-50/50">
+      <button
+        type="button"
+        onClick={() => setIsOpen((o) => !o)}
+        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-slate-700 hover:bg-amber-50"
+      >
+        <span>模範解答を見る</span>
+        <span className="text-slate-500">{isOpen ? "▲" : "▼"}</span>
+      </button>
+      {isOpen && (
+        <div className="border-t border-slate-200 px-4 py-3">
+          <p className="whitespace-pre-wrap text-sm text-slate-800">{text}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 const SCORE_LABELS: Record<string, string> = {
@@ -135,7 +159,7 @@ const SCORE_LABELS: Record<string, string> = {
   instruction_score: "指示遵守"
 };
 
-export function WritingResult({ data, level, promptType, onNewProblem }: WritingResultProps) {
+export function WritingResult({ data, level, promptType, modelAnswer, onNewProblem }: WritingResultProps) {
   const scoreItems = [
     "vocabulary_score",
     "grammar_score",
@@ -217,6 +241,10 @@ export function WritingResult({ data, level, promptType, onNewProblem }: Writing
           </p>
         </div>
       </div>
+
+      {modelAnswer && (
+        <ModelAnswerSection text={modelAnswer} />
+      )}
 
       <div className="flex flex-wrap gap-3 pt-2">
         <Link

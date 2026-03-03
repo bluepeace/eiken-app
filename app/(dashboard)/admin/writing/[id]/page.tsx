@@ -20,6 +20,7 @@ export default function AdminWritingEditPage() {
   const [promptType, setPromptType] = useState<"essay" | "email" | "summary">("essay");
   const [title, setTitle] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [modelAnswer, setModelAnswer] = useState("");
   const [wordCountMin, setWordCountMin] = useState("");
   const [wordCountMax, setWordCountMax] = useState("");
   const [timeLimitMin, setTimeLimitMin] = useState("");
@@ -40,6 +41,7 @@ export default function AdminWritingEditPage() {
         setPromptType((data.prompt_type as "essay" | "email" | "summary") ?? "essay");
         setTitle(data.title ?? "");
         setPrompt(data.prompt ?? "");
+        setModelAnswer(data.model_answer ?? "");
         setWordCountMin(data.word_count_min != null ? String(data.word_count_min) : "");
         setWordCountMax(data.word_count_max != null ? String(data.word_count_max) : "");
         setTimeLimitMin(data.time_limit_min_seconds != null ? String(data.time_limit_min_seconds) : "");
@@ -63,6 +65,7 @@ export default function AdminWritingEditPage() {
         prompt_type: promptType,
         title: title.trim(),
         prompt: prompt.trim(),
+        model_answer: modelAnswer.trim() || null,
         word_count_min: wordCountMin ? Number(wordCountMin) : null,
         word_count_max: wordCountMax ? Number(wordCountMax) : null,
         time_limit_min_seconds: timeLimitMin ? Number(timeLimitMin) : null,
@@ -163,6 +166,16 @@ export default function AdminWritingEditPage() {
             required
             rows={12}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500 font-mono text-sm"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">模範解答</label>
+          <textarea
+            value={modelAnswer}
+            onChange={(e) => setModelAnswer(e.target.value)}
+            rows={8}
+            placeholder="模範解答を入力（任意）"
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 placeholder-slate-500 outline-none focus:border-brand-500 font-mono text-sm"
           />
         </div>
         <div className="grid gap-4 sm:grid-cols-2">

@@ -177,6 +177,7 @@ function WritingSummaryContent() {
               data={result}
               level={level}
               promptType="summary"
+              modelAnswer={prompt?.model_answer}
               onNewProblem={handleNewProblem}
             />
           </div>

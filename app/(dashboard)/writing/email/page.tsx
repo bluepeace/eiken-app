@@ -261,6 +261,7 @@ function WritingEmailContent() {
               data={result}
               level={level}
               promptType="email"
+              modelAnswer={prompt?.model_answer}
               onNewProblem={handleNewProblem}
             />
           </div>

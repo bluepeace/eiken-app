@@ -9,7 +9,7 @@ body {
 }
 
 body {
-  @apply min-h-screen bg-white text-slate-900 antialiased;
+  @apply min-h-screen antialiased;
 }
 
 /* ベースレイアウト用（カードなどは Tailwind クラスで調整） */
