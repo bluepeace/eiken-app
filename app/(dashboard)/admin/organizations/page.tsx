@@ -26,12 +26,14 @@ export default function AdminOrganizationsPage() {
   const [adding, setAdding] = useState(false);
   const [saving, setSaving] = useState(false);
   const [uploadingLogoId, setUploadingLogoId] = useState<number | null>(null);
+  const [uploadingFaviconId, setUploadingFaviconId] = useState<number | null>(null);
   const [adminModalOrg, setAdminModalOrg] = useState<AdminOrganization | null>(null);
   const [orgAdmins, setOrgAdmins] = useState<Record<number, { id: string; email: string | null; display_name: string | null } | null>>({});
   const [adminSearchEmail, setAdminSearchEmail] = useState("");
   const [adminSearchResults, setAdminSearchResults] = useState<{ id: string; email: string | null; display_name: string | null }[]>([]);
   const [settingAdmin, setSettingAdmin] = useState(false);
   const fileInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
+  const faviconFileInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 
   const load = async (): Promise<AdminOrganization[]> => {
     try {
@@ -216,6 +218,50 @@ export default function AdminOrganizationsPage() {
     }
   };
 
+  const handleFaviconUpload = async (orgId: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    setError(null);
+    setMessage(null);
+    setUploadingFaviconId(orgId);
+    try {
+      const ext = file.name.split(".").pop()?.toLowerCase() || "png";
+      const path = `organization-favicons/${orgId}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(path, file, { upsert: true });
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from("avatars").getPublicUrl(path);
+      await adminUpdateOrganization(orgId, { favicon_url: data.publicUrl });
+      const rows = await load();
+      if (editModalOrg?.id === orgId) {
+        const updated = rows.find((o) => o.id === orgId);
+        if (updated) setEditModalOrg(updated);
+      }
+      setMessage("ファビコンを設定しました");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "ファビコンのアップロードに失敗しました");
+    } finally {
+      setUploadingFaviconId(null);
+      e.target.value = "";
+    }
+  };
+
+  const handleFaviconRemove = async (orgId: number) => {
+    setError(null);
+    setMessage(null);
+    try {
+      await adminUpdateOrganization(orgId, { favicon_url: null });
+      await load();
+      if (editModalOrg?.id === orgId) {
+        setEditModalOrg((prev) => (prev ? { ...prev, favicon_url: null } : null));
+      }
+      setMessage("ファビコンを削除しました");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "ファビコンの削除に失敗しました");
+    }
+  };
+
   const filteredList = searchQuery.trim()
     ? list.filter((org) =>
         org.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
@@ -230,7 +276,7 @@ export default function AdminOrganizationsPage() {
     <div>
       <h1 className="mb-6 text-xl font-semibold text-slate-100">企業管理</h1>
       <p className="mb-4 text-sm text-slate-400">
-        WEBから登録した会員は「AIKEN」に所属します。企業契約時はここで企業を追加し、会員編集で所属企業を設定してください。ロゴを設定すると、その企業に所属する会員の画面上では AiKen ロゴの代わりに企業ロゴが表示されます。
+        WEBから登録した会員は「AIKEN」に所属します。企業契約時はここで企業を追加し、会員編集で所属企業を設定してください。ロゴを設定すると、その企業に所属する会員の画面上では AiKen ロゴの代わりに企業ロゴが表示されます。ファビコンを設定すると、ブラウザタブのアイコンも企業のものに切り替わります。
       </p>
 
       {error && (
@@ -570,6 +616,66 @@ export default function AdminOrganizationsPage() {
                         className="text-sm text-brand-400 hover:text-brand-300 disabled:opacity-50"
                       >
                         {uploadingLogoId === editModalOrg.id ? "アップロード中..." : "ロゴを設定"}
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-slate-300">ファビコン</label>
+                <p className="mb-2 text-xs text-slate-500">ブラウザタブに表示されるアイコン。推奨: 32×32px 以上の PNG/ICO</p>
+                <div className="flex items-center gap-4">
+                  {editModalOrg.favicon_url ? (
+                    <>
+                      <img
+                        src={editModalOrg.favicon_url}
+                        alt=""
+                        className="h-8 w-8 rounded border border-slate-600 object-contain bg-slate-800"
+                      />
+                      <div className="flex flex-col gap-1">
+                        <input
+                          ref={(el) => { faviconFileInputRefs.current[editModalOrg.id] = el; }}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => handleFaviconUpload(editModalOrg.id, e)}
+                        />
+                        <button
+                          type="button"
+                          disabled={uploadingFaviconId === editModalOrg.id}
+                          onClick={() => faviconFileInputRefs.current[editModalOrg.id]?.click()}
+                          className="text-sm text-brand-400 hover:text-brand-300 disabled:opacity-50"
+                        >
+                          {uploadingFaviconId === editModalOrg.id ? "アップロード中..." : "変更"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleFaviconRemove(editModalOrg.id)}
+                          className="text-sm text-slate-400 hover:text-red-400"
+                        >
+                          削除
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex h-8 w-8 items-center justify-center rounded border border-dashed border-slate-600 bg-slate-800/50 text-xs text-slate-500">
+                        未設定
+                      </div>
+                      <input
+                        ref={(el) => { faviconFileInputRefs.current[editModalOrg.id] = el; }}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleFaviconUpload(editModalOrg.id, e)}
+                      />
+                      <button
+                        type="button"
+                        disabled={uploadingFaviconId === editModalOrg.id}
+                        onClick={() => faviconFileInputRefs.current[editModalOrg.id]?.click()}
+                        className="text-sm text-brand-400 hover:text-brand-300 disabled:opacity-50"
+                      >
+                        {uploadingFaviconId === editModalOrg.id ? "アップロード中..." : "ファビコンを設定"}
                       </button>
                     </>
                   )}

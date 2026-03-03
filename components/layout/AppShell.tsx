@@ -29,6 +29,18 @@ function getCachedOrgLogoForInitial(): string | null {
   }
 }
 
+function getCachedOrgFaviconForInitial(): string | null {
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(ORG_LOGO_CACHE_KEY);
+    if (!raw) return null;
+    const { faviconUrl } = JSON.parse(raw) as { faviconUrl?: string | null };
+    return faviconUrl && typeof faviconUrl === "string" ? faviconUrl : null;
+  } catch {
+    return null;
+  }
+}
+
 function getCachedOrgLogo(userId: string): string | null {
   if (!storage) return null;
   try {
@@ -44,10 +56,30 @@ function getCachedOrgLogo(userId: string): string | null {
   }
 }
 
-function setCachedOrgLogo(userId: string, logoUrl: string | null) {
+function getCachedOrgFavicon(userId: string): string | null {
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(ORG_LOGO_CACHE_KEY);
+    if (!raw) return null;
+    const { userId: cachedUserId, faviconUrl } = JSON.parse(raw) as {
+      userId?: string;
+      faviconUrl?: string | null;
+    };
+    return cachedUserId === userId && faviconUrl ? faviconUrl : null;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedOrgLogo(userId: string, logoUrl: string | null, faviconUrl?: string | null) {
   if (!storage) return;
   try {
-    storage.setItem(ORG_LOGO_CACHE_KEY, JSON.stringify({ userId, logoUrl }));
+    const raw = storage.getItem(ORG_LOGO_CACHE_KEY);
+    const existing = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+    storage.setItem(
+      ORG_LOGO_CACHE_KEY,
+      JSON.stringify({ ...existing, userId, logoUrl, faviconUrl: faviconUrl ?? existing.faviconUrl })
+    );
   } catch {
     // ignore
   }
@@ -73,16 +105,37 @@ export function AppShell({ children }: AppShellProps) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [backgroundUrl, setBackgroundUrl] = useState<string | null>(null);
   const [organizationLogoUrl, setOrganizationLogoUrl] = useState<string | null>(null);
+  const [organizationFaviconUrl, setOrganizationFaviconUrl] = useState<string | null>(null);
   const [logoResolved, setLogoResolved] = useState(false);
 
   // マウント直後にキャッシュを反映（getUser を待たず即表示）
   useEffect(() => {
-    const cached = getCachedOrgLogoForInitial();
-    if (cached) {
-      setOrganizationLogoUrl(cached);
+    const cachedLogo = getCachedOrgLogoForInitial();
+    const cachedFavicon = getCachedOrgFaviconForInitial();
+    if (cachedLogo) {
+      setOrganizationLogoUrl(cachedLogo);
       setLogoResolved(true);
     }
+    if (cachedFavicon) setOrganizationFaviconUrl(cachedFavicon);
   }, []);
+
+  // 企業ファビコンを document head に反映
+  useEffect(() => {
+    const id = "org-favicon";
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
+    if (organizationFaviconUrl) {
+      const link = document.createElement("link");
+      link.id = id;
+      link.rel = "icon";
+      link.href = organizationFaviconUrl;
+      document.head.appendChild(link);
+    }
+    return () => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    };
+  }, [organizationFaviconUrl]);
 
   useEffect(() => {
     let mounted = true;
@@ -110,13 +163,15 @@ export function AppShell({ children }: AppShellProps) {
         setIsLoggedIn(!!user);
         if (user) {
           // キャッシュがあれば即時表示（チラつき防止）
-          const cached = getCachedOrgLogo(user.id);
-          if (cached) {
-            setOrganizationLogoUrl(cached);
+          const cachedLogo = getCachedOrgLogo(user.id);
+          const cachedFavicon = getCachedOrgFavicon(user.id);
+          if (cachedLogo) {
+            setOrganizationLogoUrl(cachedLogo);
             setLogoResolved(true);
           } else {
             setLogoResolved(false);
           }
+          if (cachedFavicon) setOrganizationFaviconUrl(cachedFavicon);
           void preloadProfileCache(); // ログイン直後にプロフィールを1回取得してキャッシュし、各画面の級表示を即時反映
           const [access, profileRes] = await Promise.all([
             canAccessAdmin(),
@@ -131,22 +186,26 @@ export function AppShell({ children }: AppShellProps) {
           setIsAdmin(!!access);
           const orgId = profileRes.data?.organization_id;
           let logoUrl: string | null = null;
+          let faviconUrl: string | null = null;
           if (orgId) {
             const orgRes = await supabase
               .from("organizations")
-              .select("logo_url")
+              .select("logo_url, favicon_url")
               .eq("id", orgId)
               .maybeSingle();
             logoUrl = orgRes.data?.logo_url ?? null;
+            faviconUrl = orgRes.data?.favicon_url ?? null;
           }
           if (mounted) {
             setOrganizationLogoUrl(logoUrl);
+            setOrganizationFaviconUrl(faviconUrl);
             setLogoResolved(true);
-            setCachedOrgLogo(user.id, logoUrl);
+            setCachedOrgLogo(user.id, logoUrl, faviconUrl);
           }
         } else {
           setIsAdmin(false);
           setOrganizationLogoUrl(null);
+          setOrganizationFaviconUrl(null);
           setLogoResolved(true);
           clearCachedOrgLogo();
         }
