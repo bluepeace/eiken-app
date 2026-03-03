@@ -190,14 +190,66 @@ export default function ReadingLongFillPage() {
           </button>
         )}
 
-        {submitted && (
-          <div className="space-y-4">
-            <p className="text-slate-700">{correctCount} / {blanks.length} 問正解</p>
-            <div className="flex gap-4">
-              <button type="button" onClick={() => load()} className={`rounded-full px-4 py-2 text-sm font-medium text-white ${MODULE_COLORS.reading.solid}`}>別の長文に挑戦</button>
-              <Link href="/reading" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">リーディングトップへ</Link>
+        {submitted && passage && (
+          <>
+            <div className="space-y-4">
+              <p className="text-slate-700">{correctCount} / {blanks.length} 問正解</p>
+              <div className="flex flex-wrap gap-3">
+                <button type="button" onClick={() => load()} className={`rounded-full px-4 py-2 text-sm font-medium text-white ${MODULE_COLORS.reading.solid}`}>別の長文に挑戦</button>
+                <Link href="/reading" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">リーディングトップへ</Link>
+              </div>
             </div>
-          </div>
+
+            {/* 解説（訳・ポイント・単語・空所の正解） */}
+            <section className="border-t border-slate-200 pt-6">
+              <h2 className="mb-4 text-base font-semibold text-slate-800">解説</h2>
+              {passage.title && <h3 className="mb-2 text-sm font-medium text-slate-700">{passage.title}</h3>}
+              <div className="mb-4 rounded-lg bg-slate-50 p-4">
+                <p className="mb-1 text-xs font-medium text-slate-500">本文（正解入り）</p>
+                <div className="text-sm text-slate-800">
+                  {body.split(BLANK).map((text, i) => (
+                    <span key={i}>
+                      {text}
+                      {i < blanks.length && (
+                        <span className="mx-1 inline-block rounded bg-amber-100 px-1.5 py-0.5 font-medium text-amber-900">
+                          {blanks[i].choices[blanks[i].correct_index]}
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {passage.translation_ja?.trim() && (
+                <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
+                  <p className="mb-1 text-xs font-medium text-slate-500">訳</p>
+                  <p className="whitespace-pre-wrap text-sm text-slate-700">{passage.translation_ja}</p>
+                </div>
+              )}
+              {passage.vocabulary_notes?.trim() && (
+                <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
+                  <p className="mb-1 text-xs font-medium text-slate-500">ポイント・単語</p>
+                  <p className="whitespace-pre-wrap text-sm text-slate-700">{passage.vocabulary_notes}</p>
+                </div>
+              )}
+              {!passage.translation_ja?.trim() && !passage.vocabulary_notes?.trim() && (
+                <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-800">
+                  この長文の訳・単語解説はまだ登録されていません。
+                </p>
+              )}
+              {blanks.length > 0 && (
+                <div>
+                  <p className="mb-2 text-xs font-medium text-slate-500">空所の正解</p>
+                  <ul className="space-y-1 text-sm text-slate-700">
+                    {blanks.map((b, i) => (
+                      <li key={b.id}>
+                        空所 {i + 1}: <span className="font-medium text-green-700">{b.choices[b.correct_index]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </section>
+          </>
         )}
       </div>
     </main>

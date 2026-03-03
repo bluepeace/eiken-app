@@ -1,50 +1,6 @@
 import { supabase } from "@/lib/supabase/client";
 
-/** 管理者かどうか */
-export async function checkIsAdmin(): Promise<boolean> {
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-  if (!user) return false;
-
-  const { data: rows } = await supabase
-    .from("user_profiles")
-    .select("role")
-    .eq("auth_user_id", user.id)
-    .limit(1);
-
-  const profile = Array.isArray(rows) ? rows[0] : rows;
-  return profile?.role === "admin";
-}
-
-/** 企業管理者かどうか。管理対象の組織IDを返す。一般ユーザーなら null */
-export async function checkIsOrganizationAdmin(): Promise<number | null> {
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data } = await supabase
-    .from("user_profiles")
-    .select("organization_admin_for_id")
-    .eq("auth_user_id", user.id)
-    .maybeSingle();
-
-  const id = data?.organization_admin_for_id;
-  return id != null ? (id as number) : null;
-}
-
-/** 管理画面にアクセス可能か（スーパー管理者 or 企業管理者） */
-export async function canAccessAdmin(): Promise<
-  | { type: "super_admin" }
-  | { type: "org_admin"; organizationId: number }
-  | null
-> {
-  if (await checkIsAdmin()) return { type: "super_admin" };
-  const orgId = await checkIsOrganizationAdmin();
-  if (orgId != null) return { type: "org_admin", organizationId: orgId };
-  return null;
-}
+export { checkIsAdmin, checkIsOrganizationAdmin, canAccessAdmin } from "./admin-auth";
 
 /** 管理者用: 企業 */
 export interface AdminOrganization {
@@ -957,6 +913,8 @@ export interface AdminReadingPassageDetail {
   passage_type: string;
   title: string | null;
   body: string | null;
+  translation_ja: string | null;
+  vocabulary_notes: string | null;
   questions: AdminReadingPassageQuestion[];
 }
 
@@ -965,7 +923,7 @@ export async function adminGetReadingPassageById(
 ): Promise<AdminReadingPassageDetail | null> {
   const { data: passage, error: passError } = await supabase
     .from("reading_passages")
-    .select("id, level, genre, passage_type, title, body")
+    .select("id, level, genre, passage_type, title, body, translation_ja, vocabulary_notes")
     .eq("id", id)
     .maybeSingle();
 
@@ -990,6 +948,8 @@ export async function adminGetReadingPassageById(
       passage_type: passageType,
       title: (passage.title as string) ?? null,
       body: (passage.body as string) ?? null,
+      translation_ja: (passage.translation_ja as string) ?? null,
+      vocabulary_notes: (passage.vocabulary_notes as string) ?? null,
       questions: (blanks ?? []).map((b) => ({
         id: b.id as number,
         question_text: `空所 ${(Number(b.blank_index) ?? 0) + 1}`,
@@ -1016,6 +976,8 @@ export async function adminGetReadingPassageById(
     passage_type: passageType,
     title: (passage.title as string) ?? null,
     body: (passage.body as string) ?? null,
+    translation_ja: (passage.translation_ja as string) ?? null,
+    vocabulary_notes: (passage.vocabulary_notes as string) ?? null,
     questions: (questions ?? []).map((q) => ({
       id: q.id as number,
       question_text: (q.question_text as string) ?? "",
@@ -1041,6 +1003,8 @@ export interface AdminReadingPassageUpdateInput {
   passage_type: "long_content" | "long_fill";
   title: string | null;
   body: string | null;
+  translation_ja?: string | null;
+  vocabulary_notes?: string | null;
   questions: AdminReadingPassageQuestionInput[];
 }
 
@@ -1057,7 +1021,9 @@ export async function adminUpdateReadingPassage(
       passage_type: input.passage_type,
       title: input.title?.trim() || null,
       body: bodyText || null,
-      content: bodyText || ""
+      content: bodyText || "",
+      translation_ja: input.translation_ja?.trim() || null,
+      vocabulary_notes: input.vocabulary_notes?.trim() || null,
     })
     .eq("id", id);
 

@@ -31,6 +31,10 @@ export interface ReadingPassage {
   body: string | null;
   title?: string;
   content?: string; // 既存カラム互換
+  /** 長文の日本語訳（解説ページ用） */
+  translation_ja?: string | null;
+  /** ポイントとなる単語・表現の説明（解説ページ用） */
+  vocabulary_notes?: string | null;
 }
 
 /** 長文の空所1つ分 */
@@ -214,7 +218,7 @@ export async function fetchReadingPassage(
 ): Promise<ReadingPassage | null> {
   const { data, error } = await supabase
     .from("reading_passages")
-    .select("id, level, genre, passage_type, body, title, content")
+    .select("id, level, genre, passage_type, body, title, content, translation_ja, vocabulary_notes")
     .eq("level", level)
     .eq("passage_type", passageType)
     .limit(20);
@@ -231,6 +235,34 @@ export async function fetchReadingPassage(
     body: body || null,
     title: row.title as string | undefined,
     content: row.content as string | undefined,
+    translation_ja: (row.translation_ja as string) ?? null,
+    vocabulary_notes: (row.vocabulary_notes as string) ?? null,
+  };
+}
+
+/** 長文パッセージをIDで1件取得（解説ページ用） */
+export async function fetchReadingPassageById(
+  passageId: number
+): Promise<ReadingPassage | null> {
+  const { data, error } = await supabase
+    .from("reading_passages")
+    .select("id, level, genre, passage_type, body, title, content, translation_ja, vocabulary_notes")
+    .eq("id", passageId)
+    .maybeSingle();
+
+  if (error || !data) return null;
+
+  const body = data.body ?? data.content ?? "";
+  return {
+    id: data.id as number,
+    level: (data.level as string) ?? "",
+    genre: (data.genre as string) ?? null,
+    passage_type: data.passage_type as "long_fill" | "long_content",
+    body: body || null,
+    title: data.title as string | undefined,
+    content: data.content as string | undefined,
+    translation_ja: (data.translation_ja as string) ?? null,
+    vocabulary_notes: (data.vocabulary_notes as string) ?? null,
   };
 }
 

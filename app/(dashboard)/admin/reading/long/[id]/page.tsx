@@ -40,6 +40,8 @@ export default function AdminReadingLongEditPage() {
   const [passageType, setPassageType] = useState<"long_content" | "long_fill">("long_content");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [translationJa, setTranslationJa] = useState("");
+  const [vocabularyNotes, setVocabularyNotes] = useState("");
   const [questions, setQuestions] = useState<AdminReadingPassageQuestionInput[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -58,6 +60,8 @@ export default function AdminReadingLongEditPage() {
         setPassageType((data.passage_type as "long_content" | "long_fill") ?? "long_content");
         setTitle(data.title ?? "");
         setBody(data.body ?? "");
+        setTranslationJa(data.translation_ja ?? "");
+        setVocabularyNotes(data.vocabulary_notes ?? "");
         if (data.questions.length > 0) {
           setQuestions(
             data.questions.map((q) => {
@@ -131,6 +135,8 @@ export default function AdminReadingLongEditPage() {
         passage_type: passageType,
         title: title.trim() || null,
         body: body.trim() || null,
+        translation_ja: translationJa.trim() || null,
+        vocabulary_notes: vocabularyNotes.trim() || null,
         questions: trimmedQuestions
       });
       router.push("/admin/reading");
@@ -237,6 +243,28 @@ export default function AdminReadingLongEditPage() {
             onChange={(e) => setBody(e.target.value)}
             required
             rows={14}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">長文の訳（解説ページ用）</label>
+          <textarea
+            value={translationJa}
+            onChange={(e) => setTranslationJa(e.target.value)}
+            placeholder="長文の日本語訳を入力"
+            rows={10}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">ポイント・単語の説明（解説ページ用）</label>
+          <textarea
+            value={vocabularyNotes}
+            onChange={(e) => setVocabularyNotes(e.target.value)}
+            placeholder="重要語・表現の解説（改行で区切って複数可）"
+            rows={8}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-brand-500"
           />
         </div>

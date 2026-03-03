@@ -3,7 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { canAccessAdmin } from "@/lib/data/admin-db";
+import { canAccessAdmin } from "@/lib/data/admin-auth";
 
 const ADMIN_NAV = [
   { href: "/admin", label: "管理トップ" },
