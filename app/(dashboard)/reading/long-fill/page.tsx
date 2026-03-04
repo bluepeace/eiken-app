@@ -14,6 +14,7 @@ import { getProfileId } from "@/lib/data/vocabulary-db";
 import { logStudyActivity } from "@/lib/data/study-activity";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
+import { normalizeLineBreaks } from "@/lib/utils/reading";
 
 const BLANK = "__BLANK__";
 
@@ -124,7 +125,7 @@ export default function ReadingLongFillPage() {
 
   if (!passage) return null;
 
-  const body = passage.body ?? "";
+  const body = normalizeLineBreaks(passage.body ?? "");
   const parts = body.split(BLANK);
 
   return (
@@ -206,7 +207,7 @@ export default function ReadingLongFillPage() {
               {passage.title && <h3 className="mb-2 text-sm font-medium text-slate-700">{passage.title}</h3>}
               <div className="mb-4 rounded-lg bg-slate-50 p-4">
                 <p className="mb-1 text-xs font-medium text-slate-500">本文（正解入り）</p>
-                <div className="text-sm text-slate-800">
+                <div className="whitespace-pre-wrap text-sm text-slate-800">
                   {body.split(BLANK).map((text, i) => (
                     <span key={i}>
                       {text}
@@ -222,13 +223,13 @@ export default function ReadingLongFillPage() {
               {passage.translation_ja?.trim() && (
                 <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                   <p className="mb-1 text-xs font-medium text-slate-500">訳</p>
-                  <p className="whitespace-pre-wrap text-sm text-slate-700">{passage.translation_ja}</p>
+                  <p className="whitespace-pre-wrap text-sm text-slate-700">{normalizeLineBreaks(passage.translation_ja)}</p>
                 </div>
               )}
               {passage.vocabulary_notes?.trim() && (
                 <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                   <p className="mb-1 text-xs font-medium text-slate-500">ポイント・単語</p>
-                  <p className="whitespace-pre-wrap text-sm text-slate-700">{passage.vocabulary_notes}</p>
+                  <p className="whitespace-pre-wrap text-sm text-slate-700">{normalizeLineBreaks(passage.vocabulary_notes)}</p>
                 </div>
               )}
               {!passage.translation_ja?.trim() && !passage.vocabulary_notes?.trim() && (

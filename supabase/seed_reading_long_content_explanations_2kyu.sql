@@ -295,3 +295,18 @@ FROM reading_passages p
 WHERE q.passage_id = p.id AND p.level = '2級' AND p.passage_type = 'long_content'
   AND p.title = 'History of the Bicycle'
   AND q.question_text = 'What do we learn from the passage?';
+
+-- ========== サンプル（seed_reading_sample.sql 用）Summer Reading Campaign ==========
+UPDATE reading_passage_questions q
+SET explanation = 'メールの "We are happy to announce our summer reading campaign" および "you can get 20% off all English learning books" から、割引期間の告知が目的だとわかります。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '2級' AND p.passage_type = 'long_content'
+  AND p.title = 'Summer Reading Campaign'
+  AND q.question_text = 'What is the main purpose of this email?';
+
+UPDATE reading_passage_questions q
+SET explanation = '本文の "From July 1st to August 31st" から、7月1日から8月31日までで2か月間であることがわかります。'
+FROM reading_passages p
+WHERE q.passage_id = p.id AND p.level = '2級' AND p.passage_type = 'long_content'
+  AND p.title = 'Summer Reading Campaign'
+  AND q.question_text = 'How long does the campaign last?';

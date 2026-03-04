@@ -12,6 +12,7 @@ import {
   type ReadingPassageBlank,
 } from "@/lib/data/reading-db";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
+import { normalizeLineBreaks } from "@/lib/utils/reading";
 
 const BLANK = "__BLANK__";
 
@@ -81,7 +82,7 @@ export default function ReadingExplanationPage() {
     );
   }
 
-  const body = passage.body ?? "";
+  const body = normalizeLineBreaks(passage.body ?? "");
   const hasExplanation = !!(passage.translation_ja?.trim() || passage.vocabulary_notes?.trim());
 
   return (
@@ -120,7 +121,7 @@ export default function ReadingExplanationPage() {
           <section>
             <h3 className="mb-2 text-sm font-medium text-slate-600">訳</h3>
             <div className="whitespace-pre-wrap rounded-lg border border-slate-200 bg-slate-50/50 p-4 text-slate-700 text-sm">
-              {passage.translation_ja}
+              {normalizeLineBreaks(passage.translation_ja)}
             </div>
           </section>
         )}
@@ -129,7 +130,7 @@ export default function ReadingExplanationPage() {
           <section>
             <h3 className="mb-2 text-sm font-medium text-slate-600">ポイント・単語</h3>
             <div className="whitespace-pre-wrap rounded-lg border border-slate-200 bg-slate-50/50 p-4 text-slate-700 text-sm">
-              {passage.vocabulary_notes}
+              {normalizeLineBreaks(passage.vocabulary_notes)}
             </div>
           </section>
         )}

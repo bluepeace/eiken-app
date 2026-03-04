@@ -263,3 +263,19 @@ assist the rider: 乗り手を補助する
 commute: 通勤する
 sustainable mobility: 持続可能な移動'
 WHERE level = '2級' AND passage_type = 'long_content' AND title = 'History of the Bicycle';
+
+-- ========== サンプル（seed_reading_sample.sql 用）==========
+UPDATE reading_passages SET
+  translation_ja = '差出人：sales@bookstore.com
+宛先：お客様
+件名：サマー・リーディング・キャンペーン
+
+サマー・リーディング・キャンペーンのお知らせをいたします。7月1日から8月31日まで、英語学習書が全点20％オフです。試験対策用の新刊も追加しました。詳しくは当社ウェブサイトまたは最寄りの店舗まで。いつもご愛顧いただきありがとうございます。',
+  vocabulary_notes = 'announce: 発表する、お知らせする
+campaign: キャンペーン
+20% off: 20％オフ
+titles: 書名、新刊
+preparing for exams: 試験対策をしている
+your nearest store: 最寄りの店舗
+continued support: いつものご愛顧、継続的なご支援'
+WHERE level = '2級' AND passage_type = 'long_content' AND title = 'Summer Reading Campaign';

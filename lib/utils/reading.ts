@@ -1,4 +1,13 @@
 /**
+ * DBなどにリテラル "\n"（バックスラッシュ+n）で保存されている文字列を、
+ * 実際の改行に変換する。whitespace-pre-wrap で正しく改行表示するために使用。
+ */
+export function normalizeLineBreaks(text: string): string {
+  if (!text) return text;
+  return text.replace(/\\n/g, "\n");
+}
+
+/**
  * 会話文で話者（A:, B:, Teacher:, Student:, Woman:, Man: など）の前に改行を入れ、見やすくする
  */
 export function formatConversationLines(text: string): string {

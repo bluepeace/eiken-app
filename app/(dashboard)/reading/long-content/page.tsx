@@ -14,6 +14,7 @@ import { getProfileId } from "@/lib/data/vocabulary-db";
 import { logStudyActivity } from "@/lib/data/study-activity";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
+import { normalizeLineBreaks } from "@/lib/utils/reading";
 
 export default function ReadingLongContentPage() {
   const router = useRouter();
@@ -155,18 +156,18 @@ export default function ReadingLongContentPage() {
             {passage.title && <h3 className="mb-2 text-sm font-medium text-slate-700">{passage.title}</h3>}
             <div className="mb-4 rounded-lg bg-slate-50 p-4">
               <p className="mb-1 text-xs font-medium text-slate-500">本文</p>
-              <p className="whitespace-pre-wrap text-sm text-slate-800">{passage.body}</p>
+              <p className="whitespace-pre-wrap text-sm text-slate-800">{normalizeLineBreaks(passage.body ?? "")}</p>
             </div>
             {passage.translation_ja?.trim() && (
               <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                 <p className="mb-1 text-xs font-medium text-slate-500">訳</p>
-                <p className="whitespace-pre-wrap text-sm text-slate-700">{passage.translation_ja}</p>
+                <p className="whitespace-pre-wrap text-sm text-slate-700">{normalizeLineBreaks(passage.translation_ja)}</p>
               </div>
             )}
             {passage.vocabulary_notes?.trim() && (
               <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
                 <p className="mb-1 text-xs font-medium text-slate-500">ポイント・単語</p>
-                <p className="whitespace-pre-wrap text-sm text-slate-700">{passage.vocabulary_notes}</p>
+                <p className="whitespace-pre-wrap text-sm text-slate-700">{normalizeLineBreaks(passage.vocabulary_notes)}</p>
               </div>
             )}
             {!hasTranslationOrVocab && (
@@ -221,7 +222,7 @@ export default function ReadingLongContentPage() {
         </div>
 
         {passage.title && <h2 className="text-lg font-medium text-slate-800">{passage.title}</h2>}
-        <div className="whitespace-pre-wrap rounded-lg bg-slate-50 p-4 text-slate-800 text-sm">{passage.body}</div>
+        <div className="whitespace-pre-wrap rounded-lg bg-slate-50 p-4 text-slate-800 text-sm">{normalizeLineBreaks(passage.body ?? "")}</div>
 
         <p className="font-medium text-slate-800">{question.question_text}</p>
 
