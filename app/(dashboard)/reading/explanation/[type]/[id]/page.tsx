@@ -13,6 +13,9 @@ import {
 } from "@/lib/data/reading-db";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { normalizeLineBreaks } from "@/lib/utils/reading";
+import { ReadAloudButton } from "@/components/features/writing/ReadAloudButton";
+import { getProfileId } from "@/lib/data/vocabulary-db";
+import { logReadingAloudActivity } from "@/lib/data/study-activity";
 
 const BLANK = "__BLANK__";
 
@@ -100,7 +103,24 @@ export default function ReadingExplanationPage() {
         )}
 
         <section>
-          <h3 className="mb-2 text-sm font-medium text-slate-600">本文</h3>
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            <h3 className="text-sm font-medium text-slate-600">本文</h3>
+            <ReadAloudButton
+              text={type === "long_fill" && blanks.length > 0
+                ? body.split(BLANK).map((part, i) => part + (blanks[i] ? blanks[i].choices[blanks[i].correct_index] : "")).join("")
+                : body}
+              label="音声で聞く"
+              className="rounded border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
+              onSpeakStart={() => {
+                getProfileId().then((pid) => {
+                  if (pid) void logReadingAloudActivity(pid);
+                });
+              }}
+            />
+          </div>
+          <p className="mb-2 text-xs text-amber-700">
+            長文を音読してみよう！聞いてから声に出して読むと学習効果が上がります。
+          </p>
           <div className="whitespace-pre-wrap rounded-lg bg-slate-50 p-4 text-slate-800 text-sm">
             {type === "long_fill" && blanks.length > 0
               ? body.split(BLANK).map((text, i) => (

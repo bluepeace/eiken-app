@@ -11,7 +11,8 @@ import {
   type ReadingPassageQuestion,
 } from "@/lib/data/reading-db";
 import { getProfileId } from "@/lib/data/vocabulary-db";
-import { logStudyActivity } from "@/lib/data/study-activity";
+import { logStudyActivity, logReadingAloudActivity } from "@/lib/data/study-activity";
+import { ReadAloudButton } from "@/components/features/writing/ReadAloudButton";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { isProblemTypeEnabledForLevel } from "@/lib/constants/reading";
 import { normalizeLineBreaks } from "@/lib/utils/reading";
@@ -155,7 +156,22 @@ export default function ReadingLongContentPage() {
             <h2 className="mb-4 text-base font-semibold text-slate-800">解説</h2>
             {passage.title && <h3 className="mb-2 text-sm font-medium text-slate-700">{passage.title}</h3>}
             <div className="mb-4 rounded-lg bg-slate-50 p-4">
-              <p className="mb-1 text-xs font-medium text-slate-500">本文</p>
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <p className="text-xs font-medium text-slate-500">本文</p>
+                <ReadAloudButton
+                  text={normalizeLineBreaks(passage.body ?? "")}
+                  label="音声で聞く"
+                  className="rounded border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 hover:bg-slate-50"
+                  onSpeakStart={() => {
+                    getProfileId().then((pid) => {
+                      if (pid) void logReadingAloudActivity(pid);
+                    });
+                  }}
+                />
+              </div>
+              <p className="mb-2 text-xs text-amber-700">
+                長文を音読してみよう！聞いてから声に出して読むと学習効果が上がります。
+              </p>
               <p className="whitespace-pre-wrap text-sm text-slate-800">{normalizeLineBreaks(passage.body ?? "")}</p>
             </div>
             {passage.translation_ja?.trim() && (
