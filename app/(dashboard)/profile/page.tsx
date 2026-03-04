@@ -39,6 +39,7 @@ import {
   type UserBadge
 } from "@/lib/data/badges";
 import { invalidateProfileCache } from "@/lib/data/vocabulary-db";
+import { setCachedProfile } from "@/lib/data/profile-cache";
 import { BadgePopup } from "@/components/features/badges/BadgePopup";
 
 export default function ProfilePage() {
@@ -303,7 +304,17 @@ export default function ProfilePage() {
         }
       }
 
-      invalidateProfileCache(); // 保存後はキャッシュを無効化し、次回取得で最新の級が反映される
+      invalidateProfileCache(); // メモリキャッシュを無効化
+      setCachedProfile(user.id, {
+        display_name: displayName || null,
+        target_level: targetLevel,
+        avatar_url: avatarUrl,
+        avatar_style: avatarStyle,
+        target_exam_year: targetExamYear,
+        target_exam_round: targetExamRound,
+        target_exam_primary_date: targetPrimary,
+        target_exam_secondary_date: targetSecondary
+      }); // localStorage キャッシュを即更新（ダッシュボード等で即時反映）
       setMessage("プロフィールを保存しました。");
 
       if (effectiveProfileId) {

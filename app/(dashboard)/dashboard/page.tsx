@@ -8,6 +8,11 @@ import { LearningModulesGrid } from "@/components/features/dashboard/LearningMod
 import { BadgePopup } from "@/components/features/badges/BadgePopup";
 import { supabase } from "@/lib/supabase/client";
 import {
+  getCachedProfileForInitial,
+  getCachedProfile,
+  setCachedProfile
+} from "@/lib/data/profile-cache";
+import {
   getProfileId,
   getProfileTargetLevel,
   getVocabularyProficiency,
@@ -48,8 +53,24 @@ interface ProfileState {
   target_exam_secondary_date: string | null;
 }
 
+/** キャッシュから初期表示用プロフィールを取得（同期的に即表示） */
+function getInitialProfile(): ProfileState | null {
+  const cached = getCachedProfileForInitial();
+  if (!cached) return null;
+  return {
+    display_name: cached.display_name,
+    target_level: cached.target_level,
+    avatar_url: cached.avatar_url,
+    avatar_style: cached.avatar_style,
+    target_exam_year: cached.target_exam_year,
+    target_exam_round: cached.target_exam_round,
+    target_exam_primary_date: cached.target_exam_primary_date,
+    target_exam_secondary_date: cached.target_exam_secondary_date
+  };
+}
+
 export default function DashboardPage() {
-  const [profile, setProfile] = useState<ProfileState | null>(null);
+  const [profile, setProfile] = useState<ProfileState | null>(() => getInitialProfile());
   const [todayStudyMinutes, setTodayStudyMinutes] = useState(0);
   const [totalStudyMinutes, setTotalStudyMinutes] = useState(0);
   const [streakDays, setStreakDays] = useState(0);
@@ -72,24 +93,30 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const loadProfile = async () => {
+      // getSession() は localStorage から読むため getUser() より高速
       const {
-        data: { user }
-      } = await supabase.auth.getUser();
+        data: { session }
+      } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!user) return;
 
-      // 先にキャッシュから級だけ取得して即反映（2級→3級のチラつき防止）
-      const cachedLevel = await getProfileTargetLevel();
-      if (cachedLevel !== null) {
-        setProfile((prev) => ({
-          display_name: prev?.display_name ?? null,
-          target_level: cachedLevel,
-          avatar_url: prev?.avatar_url ?? null,
-          avatar_style: prev?.avatar_style ?? null,
-          target_exam_year: prev?.target_exam_year ?? null,
-          target_exam_round: prev?.target_exam_round ?? null,
-          target_exam_primary_date: prev?.target_exam_primary_date ?? null,
-          target_exam_secondary_date: prev?.target_exam_secondary_date ?? null
-        }));
+      // キャッシュが userId と一致する場合、既に getInitialProfile で表示済み。DB 取得のみ実行
+      const cached = getCachedProfile(user.id);
+      if (!cached) {
+        // キャッシュなし: メモリキャッシュ（級のみ）で即反映
+        const cachedLevel = await getProfileTargetLevel();
+        if (cachedLevel !== null) {
+          setProfile((prev) => ({
+            display_name: prev?.display_name ?? null,
+            target_level: cachedLevel,
+            avatar_url: prev?.avatar_url ?? null,
+            avatar_style: prev?.avatar_style ?? null,
+            target_exam_year: prev?.target_exam_year ?? null,
+            target_exam_round: prev?.target_exam_round ?? null,
+            target_exam_primary_date: prev?.target_exam_primary_date ?? null,
+            target_exam_secondary_date: prev?.target_exam_secondary_date ?? null
+          }));
+        }
       }
 
       const { data } = await supabase
@@ -101,7 +128,7 @@ export default function DashboardPage() {
         .maybeSingle();
 
       if (data) {
-        setProfile({
+        const next: ProfileState = {
           display_name: data.display_name,
           target_level: data.target_level,
           avatar_url: data.avatar_url,
@@ -110,7 +137,9 @@ export default function DashboardPage() {
           target_exam_round: data.target_exam_round ?? null,
           target_exam_primary_date: data.target_exam_primary_date ?? null,
           target_exam_secondary_date: data.target_exam_secondary_date ?? null
-        });
+        };
+        setProfile(next);
+        setCachedProfile(user.id, next);
       }
     };
 

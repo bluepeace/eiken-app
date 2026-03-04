@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { checkIsAdmin, canAccessAdmin } from "@/lib/data/admin-db";
 import { preloadProfileCache, invalidateProfileCache } from "@/lib/data/vocabulary-db";
+import { setCachedProfile, clearProfileCache } from "@/lib/data/profile-cache";
 import { getMonthlyBackgroundUrl } from "@/lib/data/monthly-backgrounds";
 import { MODULE_COLORS } from "@/lib/constants/module-colors";
 import { BuddyWidget } from "@/components/features/buddy/BuddyWidget";
@@ -177,7 +178,7 @@ export function AppShell({ children }: AppShellProps) {
             canAccessAdmin(),
             supabase
               .from("user_profiles")
-              .select("organization_id")
+              .select("organization_id, display_name, target_level, avatar_url, avatar_style, target_exam_year, target_exam_round, target_exam_primary_date, target_exam_secondary_date")
               .eq("auth_user_id", user.id)
               .limit(1)
               .maybeSingle()
@@ -201,6 +202,20 @@ export function AppShell({ children }: AppShellProps) {
             setOrganizationFaviconUrl(faviconUrl);
             setLogoResolved(true);
             setCachedOrgLogo(user.id, logoUrl, faviconUrl);
+            // プロフィール表示用キャッシュを温める（ダッシュボード等で即時表示）
+            const p = profileRes.data;
+            if (p) {
+              setCachedProfile(user.id, {
+                display_name: p.display_name ?? null,
+                target_level: p.target_level ?? null,
+                avatar_url: p.avatar_url ?? null,
+                avatar_style: p.avatar_style ?? null,
+                target_exam_year: p.target_exam_year ?? null,
+                target_exam_round: p.target_exam_round ?? null,
+                target_exam_primary_date: p.target_exam_primary_date ?? null,
+                target_exam_secondary_date: p.target_exam_secondary_date ?? null
+              });
+            }
           }
         } else {
           setIsAdmin(false);
@@ -238,6 +253,7 @@ export function AppShell({ children }: AppShellProps) {
 
   const handleLogout = async () => {
     invalidateProfileCache();
+    clearProfileCache();
     clearCachedOrgLogo();
     await supabase.auth.signOut();
     setDrawerOpen(false);
