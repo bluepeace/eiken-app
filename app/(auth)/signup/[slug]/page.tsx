@@ -1,13 +1,12 @@
 "use client";
 
-import { use } from "react";
 import { SignupForm } from "@/components/SignupForm";
 
 export default function SignupSlugPage({
   params
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = use(params);
+  const { slug } = params;
   return <SignupForm slug={slug} />;
 }

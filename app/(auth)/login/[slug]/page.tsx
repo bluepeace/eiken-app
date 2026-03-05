@@ -1,13 +1,12 @@
 "use client";
 
-import { use } from "react";
 import { LoginForm } from "@/components/LoginForm";
 
 export default function LoginSlugPage({
   params
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = use(params);
+  const { slug } = params;
   return <LoginForm slug={slug} />;
 }

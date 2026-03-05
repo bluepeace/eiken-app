@@ -68,6 +68,25 @@ export function LoginForm({ slug }: { slug: string | null | undefined }) {
     }
   };
 
+  const handleKiriharaSignIn = () => {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_KIRIHARA_OAUTH_AUTHORIZE_URL ??
+      "https://academy.kirihara.co.jp/WTE/oauth/oauth_authorize.pl";
+    const redirectUri = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback/kirihara`;
+    const state = typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2);
+    sessionStorage.setItem("kirihara_oauth_state", state);
+    const params = new URLSearchParams({
+      client_id: "eiken-app",
+      redirect_uri: redirectUri,
+      response_type: "code",
+      scope: "openid email profile",
+      state
+    });
+    window.location.href = `${baseUrl}?${params.toString()}`;
+  };
+
   const handleGoogleSignIn = async () => {
     setError(null);
     setIsLoading(true);
@@ -177,6 +196,17 @@ export function LoginForm({ slug }: { slug: string | null | undefined }) {
           <span>または</span>
           <div className="h-px flex-1 bg-slate-200" />
         </div>
+
+        {slugNorm === "kirihara" && (
+          <button
+            type="button"
+            onClick={handleKiriharaSignIn}
+            disabled={isLoading}
+            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
+          >
+            <span>Kirihara Academy でログイン</span>
+          </button>
+        )}
 
         <button
           type="button"

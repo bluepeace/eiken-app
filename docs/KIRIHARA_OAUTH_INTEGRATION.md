@@ -66,12 +66,22 @@ http://localhost:3001/oauth/authorize?client_id=eiken-app&redirect_uri=http://lo
 
 本番では `state` に CSRF 対策用のランダム値を入れ、コールバックで検証します。
 
-### 4. Supabase の設定
+### 4. eiken-app の環境変数（.env.local）
 
-- **Redirect URLs**: `http://localhost:3000/auth/callback/kirihara` を追加
-- **環境変数**: `KIRIHARA_IDP_URL`, `EIKEN_APP_CLIENT_SECRET` を設定
+```env
+# Kirihara Academy OAuth（slug=kirihara のログインで使用）
+NEXT_PUBLIC_KIRIHARA_OAUTH_AUTHORIZE_URL=https://academy.kirihara.co.jp/WTE/oauth/oauth_authorize.pl
+KIRIHARA_OAUTH_TOKEN_URL=https://academy.kirihara.co.jp/WTE/oauth/oauth_token.pl
+KIRIHARA_OAUTH_USERINFO_URL=https://academy.kirihara.co.jp/WTE/oauth/oauth_userinfo.pl
+KIRIHARA_OAUTH_CLIENT_SECRET=eiken-app-secret-change-me
+```
 
-### 5. Supabase サードパーティ認証（オプション）
+### 5. Supabase の設定
+
+- **Redirect URLs**: Supabase ダッシュボードの Auth > URL Configuration に `http://localhost:3000/auth/callback/kirihara` および本番 URL を追加
+- **Academy 側**: `oauth_clients` の `redirect_uris` に eiken-app のコールバック URL を登録
+
+### 6. Supabase サードパーティ認証（オプション）
 
 Supabase の Third-Party Auth を使う場合、Kirihara IdP の OIDC Issuer URL を登録します。  
 現時点では Supabase が Kirihara をビルトインでサポートしていないため、**magic link パターン**（上記 2）を推奨します。
