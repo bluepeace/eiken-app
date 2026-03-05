@@ -1,1 +1,0 @@
-2024-09-16 10:26:39 14.12.146.32 [error] failed to insert a record to msgs table. : DBD::mysql::db do failed: Incorrect string value: '\xF0\x9F\x99\x87' for column 'msg_content' at row 1 at /var/www/WTE/lib/FCC/Class/Msg.pm line 145. : INSERT INTO msgs (msg_direction,msg_content,member_id,lsn_id,prof_id,msg_cdate) VALUES ('1','よろしくお願いします🙇','1336','3760','147','1726449999')

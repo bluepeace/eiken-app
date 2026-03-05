@@ -1,1 +1,0 @@
-2025-12-19 17:42:27 66.249.66.192 [error] failed to connect to the db. : DBI connect('database=wte;host=localhost;port=3306','wte',...) failed: Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (111) at /var/www/WTE/lib/FCC/Class/DB.pm line 34.

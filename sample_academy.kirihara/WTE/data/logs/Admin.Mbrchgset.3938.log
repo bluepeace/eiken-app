@@ -1,3 +1,0 @@
-[2024-11-21 15:40:22][sql1] UPDATE members SET member_point=member_point-3750 WHERE member_id=1532
-[2024-11-21 15:40:22][sql2] INSERT INTO mbracts (mbract_cdate,mbract_type,mbract_price,mbract_reason,member_id,seller_id) VALUES (1732171222,2,-3750,52,1532,1)
-[2024-11-21 15:40:22][slq3] 

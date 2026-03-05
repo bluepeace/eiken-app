@@ -1,1 +1,0 @@
-2023-11-29 17:21:08 39.110.212.70 [error] failed to insert a record to plans table. : DBD::mysql::db do failed: Field 'pln_no' doesn't have a default value at /var/www/WTE/lib/FCC/Class/Plan.pm line 205. : INSERT INTO plans (pln_point,pln_price,pln_title,pln_sort,pln_status,pln_subscription,pln_id) VALUES ('30000','33000','TOEIC® L&R テスト500~600点突破コース','10','1','0','Toeic500')

@@ -1,3 +1,0 @@
-[2024-08-01 15:09:21][sql1] UPDATE members SET member_point=member_point+45840 WHERE member_id=2
-[2024-08-01 15:09:21][sql2] INSERT INTO mbracts (mbract_cdate,mbract_type,mbract_price,mbract_reason,member_id,seller_id) VALUES (1722492561,1,45840,6,2,10)
-[2024-08-01 15:09:21][slq3] UPDATE members SET member_point_expire='2024-10-30' WHERE member_id=2
