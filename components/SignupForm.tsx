@@ -77,6 +77,25 @@ export function SignupForm({ slug }: { slug: string | null | undefined }) {
     }
   };
 
+  const handleKiriharaSignIn = () => {
+    const baseUrl =
+      process.env.NEXT_PUBLIC_KIRIHARA_OAUTH_AUTHORIZE_URL ??
+      "https://academy.kirihara.co.jp/WTE/oauth/oauth_authorize.pl";
+    const redirectUri = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback/kirihara`;
+    const state = typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : Math.random().toString(36).slice(2);
+    sessionStorage.setItem("kirihara_oauth_state", state);
+    const params = new URLSearchParams({
+      client_id: "eiken-app",
+      redirect_uri: redirectUri,
+      response_type: "code",
+      scope: "openid email profile",
+      state
+    });
+    window.location.href = `${baseUrl}?${params.toString()}`;
+  };
+
   return (
     <main className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 bg-slate-50">
       <div className="w-full max-w-md space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
@@ -87,7 +106,9 @@ export function SignupForm({ slug }: { slug: string | null | undefined }) {
               新規登録
             </h1>
             <p className="text-sm text-slate-600">
-              メールアドレスとパスワード、または Google アカウントで登録して、英検対策ダッシュボードを利用開始しましょう。
+              {slugNorm === "kirihara"
+                ? "メールアドレスとパスワード、または KIRIHARA Online Academyのアカウントで登録して、英検対策ダッシュボードを利用開始しましょう。"
+                : "メールアドレスとパスワード、または Google アカウントで登録して、英検対策ダッシュボードを利用開始しましょう。"}
             </p>
           </div>
         </div>
@@ -185,15 +206,33 @@ export function SignupForm({ slug }: { slug: string | null | undefined }) {
           <div className="h-px flex-1 bg-slate-200" />
         </div>
 
-        <button
-          type="button"
-          onClick={handleGoogleSignUp}
-          disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60"
-        >
-          <FcGoogle className="h-5 w-5" />
-          <span>Google アカウントで登録</span>
-        </button>
+        {slugNorm === "kirihara" && (
+          <button
+            type="button"
+            onClick={handleKiriharaSignIn}
+            disabled={isLoading}
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 disabled:opacity-60"
+          >
+            <img
+              src="https://academy.kirihara.co.jp/blog/wp-content/uploads/2021/08/favicon.png"
+              alt=""
+              className="h-5 w-5 object-contain"
+            />
+            <span>KIRIHARA Online Academyで登録</span>
+          </button>
+        )}
+
+        {slugNorm !== "kirihara" && (
+          <button
+            type="button"
+            onClick={handleGoogleSignUp}
+            disabled={isLoading}
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60"
+          >
+            <FcGoogle className="h-5 w-5" />
+            <span>Google アカウントで登録</span>
+          </button>
+        )}
 
         <p className="text-xs text-slate-600">
           すでにアカウントをお持ちの方は{" "}

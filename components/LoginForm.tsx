@@ -202,21 +202,28 @@ export function LoginForm({ slug }: { slug: string | null | undefined }) {
             type="button"
             onClick={handleKiriharaSignIn}
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#009DC9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0087A8] disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 disabled:opacity-60"
           >
-            <span>Kirihara Academy でログイン</span>
+            <img
+              src="https://academy.kirihara.co.jp/blog/wp-content/uploads/2021/08/favicon.png"
+              alt=""
+              className="h-5 w-5 object-contain"
+            />
+            <span>KIRIHARA Online Academyでログイン</span>
           </button>
         )}
 
-        <button
-          type="button"
-          onClick={handleGoogleSignIn}
-          disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60"
-        >
-          <FcGoogle className="h-5 w-5" />
-          <span>Google でサインイン</span>
-        </button>
+        {slugNorm !== "kirihara" && (
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+            className="flex w-full items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60"
+          >
+            <FcGoogle className="h-5 w-5" />
+            <span>Google でサインイン</span>
+          </button>
+        )}
 
         <div className="space-y-2">
           <p className="text-[11px] leading-snug text-slate-500">
