@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>%product_name%</title>
+<link href="%static_url%/css/admin/common.css" type="text/css" rel="stylesheet" />
+<link href="%static_url%/js/dialog/dialog.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="%static_url%/js/dom.js"></script>
+<script type="text/javascript" src="%static_url%/js/dialog/dialog.js"></script>
+<script type="text/javascript" src="%static_url%/js/admin/seldelfrm.js"></script>
+</head>
+<body>
+<h1><a href="%CGI_URL%?m=sellstfrm"><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>管理</a> - 削除</h1>
+<div id="main">
+<p>以下の<span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>情報を削除します。内容を確認の上、「削除」ボタンを押してください。</p>
+<TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+<form method="post" action="%CGI_URL%">
+	<input type="hidden" name="m" value="seldelset" />
+	<input type="hidden" name="pkey" value="%pkey%" />
+	<fieldset>
+		<legend>基礎情報</legend>
+		<dl>
+			<dt><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>識別ID</dt>
+			<dd>%seller_id%</dd>
+		</dl>
+		<dl>
+			<dt><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>コード</dt>
+			<dd>%seller_code%</dd>
+		</dl>
+		<dl>
+			<dt>表示名</dt>
+			<dd>%seller_name%</dd>
+		</dl>
+		<dl class="last">
+			<dt>ログイン用メールアドレス</dt>
+			<dd>%seller_email%</dd>
+		</dl>
+	</fieldset>
+	<fieldset>
+		<legend>連絡先情報</legend>
+		<dl>
+			<dt>会社名</dt>
+			<dd>%seller_company%&nbsp;</dd>
+		</dl>
+		<dl>
+			<dt>部署名</dt>
+			<dd>%seller_dept%&nbsp;</dd>
+		</dl>
+		<dl>
+			<dt>役職</dt>
+			<dd>%seller_title%&nbsp;</dd>
+		</dl>
+		<dl>
+			<dt>担当者氏名</dt>
+			<dd>%seller_lastname% %seller_firstname%&nbsp;</dd>
+		</dl>
+		<dl>
+			<dt>住所</dt>
+			<dd>
+				<table class="noborder">
+					<tr>
+						<td>郵便番号</td>
+						<td>：</td>
+						<td><TMPL_IF NAME="seller_zip1">%seller_zip1%-%seller_zip2%<TMPL_ELSE>&nbsp;</TMPL_IF></td>
+					</tr>
+					<tr>
+						<td>都道府県</td>
+						<td>：</td>
+						<td>%seller_addr1%&nbsp;</td>
+					</tr>
+					<tr>
+						<td>市区町村</td>
+						<td>：</td>
+						<td>%seller_addr2%&nbsp;</td>
+					</tr>
+					<tr>
+						<td>町名/番地</td>
+						<td>：</td>
+						<td>%seller_addr3%&nbsp;</td>
+					</tr>
+					<tr>
+						<td>ビル/部屋番号</td>
+						<td>：</td>
+						<td>%seller_addr4%&nbsp;</td>
+					</tr>
+				</table>
+			</dd>
+		</dl>
+		<dl>
+			<dt>電話番号</dt>
+			<dd><TMPL_IF NAME="seller_tel1">%seller_tel1%-%seller_tel2%%seller_tel3%<TMPL_ELSE>&nbsp;</TMPL_IF></dd>
+		</dl>
+		<dl class="last">
+			<dt>ホームページURL</dt>
+			<dd>%seller_url%&nbsp;</dd>
+		</dl>
+	</fieldset>
+	<!--
+	<fieldset>
+		<legend>マージン比率</legend>
+		<dl class="last">
+			<dt>コンテンツ販売の粗利マージン</dt>
+			<dd>%seller_margin_ratio% ％</dd>
+		</dl>
+	</fieldset>
+	-->
+	<fieldset>
+		<legend>その他</legend>
+		<dl>
+			<dt>ステータス</dt>
+			<dd>
+				<TMPL_IF NAME="seller_status_0">無効</TMPL_IF>
+				<TMPL_IF NAME="seller_status_1">有効</TMPL_IF>
+			</dd>
+		</dl>
+		<dl>
+			<dt>備考</dt>
+			<dd>%seller_memo%</dd>
+		</dl>
+		<dl>
+			<dt>運営側メモ</dt>
+			<dd>%seller_memo2%</dd>
+		</dl>
+		<dl>
+			<dt><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>側メモ</dt>
+			<dd>%seller_note%</dd>
+		</dl>
+		<dl>
+			<dt>登録会員数</dt>
+			<dd>%member_num% 社 [<a href="%CGI_URL%?m=mbrlstfrm&amp;s_seller_id=%seller_id%">一覧</a>]</dd>
+		</dl>
+		<dl>
+			<dt>登録日時</dt>
+			<dd>%seller_cdate_0%-%seller_cdate_1%-%seller_cdate_2% %seller_cdate_3%:%seller_cdate_4%:%seller_cdate_5%  %seller_cdate_8%<TMPL_IF NAME="seller_cdate_9"> %seller_cdate_9%</TMPL_IF><TMPL_IF NAME="seller_cdate_7">（夏時間）</TMPL_IF></dd>
+		</dl>
+		<dl class="last">
+			<dt>最終更新日時</dt>
+			<dd>%seller_mdate_0%-%seller_mdate_1%-%seller_mdate_2% %seller_mdate_3%:%seller_mdate_4%:%seller_mdate_5%  %seller_mdate_8%<TMPL_IF NAME="seller_mdate_9"> %seller_mdate_9%</TMPL_IF><TMPL_IF NAME="seller_mdate_7">（夏時間）</TMPL_IF></dd>
+		</dl>
+	</fieldset>
+	<div><input type="submit" value="削除" name="setBtn" class="submit" /></div>
+</form>
+</div>
+</body>
+</html>

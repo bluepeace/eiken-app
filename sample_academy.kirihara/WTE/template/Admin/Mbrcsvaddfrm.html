@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>%member_caption%情報登録｜会員一括登録｜%product_name%</title>
+  <TMPL_INCLUDE NAME="include_head.html">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <TMPL_INCLUDE NAME="include_header.html">
+      <TMPL_INCLUDE NAME="include_menu.html">
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 class="m-0"><i class="fas fa-user text-primary"></i> 会員一括登録</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="%CGI_URL%">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/WTE/admin.cgi?m=mbrlstfrm">%member_caption%管理</a></li>
+                    <li class="breadcrumb-item active">会員一括登録</li>
+                  </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content-header -->
+          <!-- Main content -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-info text-primary"></i> アップロードについて</h3>
+                        <div class="card-tools pull-right">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                      </div>
+                      <div class="card-body text-sm">
+                        <div class="row">
+                          <div class="col-12 col-md-6">
+                            <TMPL_IF NAME="errs">
+                              <div class="text-danger">%errs%</div>
+                            </TMPL_IF>
+                          </div>
+                        </div>
+                        <p>CSV ファイルから「%seller_company%」に会員を一括で登録します。CSV は以下の条件を守ってください。</p>
+                        <ul>
+                            <li>Excel で CSV を保存する際に「CSV (コンマ区切り) (*.csv)」を選択してください (CSV の文字コードは Shift_JIS としてください)。「CSV UTF-8 (コンマ区切り) (*.csv)」を選択しないでください。</li>
+                            <li>CSV ファイルの拡張子は .csv としてください。</li>
+                            <li>ヘッダー行を最初の行に入れないでください。</li>
+                        </ul>
+                        <p>CSV のカラム定義は以下の通りとしてください。</p>
+                        <ol class="note">
+                            <li>姓 (必須)</li>
+                            <li>名 (必須)</li>
+                            <li>メールアドレス (必須)</li>
+                            <li>パスワード (必須)</li>
+                            <li>属性１</li>
+                            <li>属性２</li>
+                            <li>属性３</li>
+                            <li>要望</li>
+                            <li>運営側メモ</li>
+                        </ol>
+                        <p>CSV データの例：</p>
+                        <pre>山田,太郎,taroya@example.jp,b9EYWt6N,太郎の属性１,太郎の属性２,太郎の属性３,太郎の要望,太郎のメモ
+佐藤,花子,hanako@example.jp,d3NSAFEX,花子の属性１,花子の属性２,花子の属性３,太郎の要望,太郎のメモ</pre>
+
+                        <TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+
+                        <form method="post" action="%CGI_URL%" enctype="multipart/form-data">
+                            <input type="hidden" name="m" value="mbrcsvaddcfm" />
+                            <input type="hidden" name="pkey" value="%pkey%" />
+                            <fieldset>
+                                <dl class="last">
+                                    <dt><label for="csv" class="required %csv_err%">CSV ファイル</label></dt>
+                                    <dd>
+                                        <input id="csv" type="file" name="csv" />
+                                    </dd>
+                                </dl>
+                            </fieldset>
+                            <div><input type="submit" id="setBtn" name="setBtn" value="アップロード" class="btn btn-info" /></div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+        </div>
+        <TMPL_INCLUDE NAME="include_footer.html">
+    </div>
+    <TMPL_INCLUDE NAME="include_foot.html">
+
+
+</body>
+</html>

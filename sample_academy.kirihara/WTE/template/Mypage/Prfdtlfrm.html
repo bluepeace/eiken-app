@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>%prof_handle%先生のプロフィール｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="%prof_handle%先生のプロフィール｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="%prof_associate1%" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/wte/prfdtlfrm/%prof_id%" />
+  <meta property="og:image" content="%prof_logo_3_url%?%epoch%" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/wte/prfdtlfrm/%prof_id%" />
+  <meta name="twitter:title" content="%prof_handle%先生のプロフィール｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="%prof_associate1%" />
+  <meta name="twitter:image" content="%prof_logo_3_url%?%epoch%" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+  <style>
+    .wt_tag_check_c4,
+    .wt_tag_check_c8,
+    .wt_tag_check_c9,
+    .wt_tag_check_c10,
+    .wt_tag_check_c11,
+    .wt_tag_check_c12,
+    .wt_tag_check_c16,
+    .wt_tag_check_c20,
+    .wt_tag_check_c21,
+    .wt_tag_check_c22{
+      display:none!important;
+    }
+  </style>
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+  <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="text-center">%prof_caption%から予約</h2>
+                <div class="row mb-5">
+                    <div class="col-12">
+                      <div class="wt_teacherbox p-5">
+                          <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-md-4 col-lg-3">
+                                  <TMPL_IF NAME="prof_logo">
+                                  <img src="%prof_logo_3_url%?%epoch%" alt="%prof_handle%先生" class="w-100 rounded-circle mb-4">
+                                  <TMPL_ELSE>
+                                  <img src="%static_url%/imgs/profile_blank.png" alt="%prof_handle%先生" class="w-75 rounded-circle mb-4">
+                                  </TMPL_IF>
+                                  <TMPL_IF NAME="is_fav">
+                                    <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favon" data-caption0="お気に入りに追加" data-caption1="登録済み">登録済み</a>
+                                  <TMPL_ELSE>
+                                    <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favoff" data-caption0="お気に入りに追加" data-caption1="登録済み">お気に入りに追加</a>
+                                  </TMPL_IF>
+                                </div>
+                                <div class="col-12 col-md-8 col-md-9">
+                                  <h3 class="mb-4">%prof_handle%先生</h3>
+                                  <ul class="wt_teacherdetail">
+                                      <li>出身国:<span class="flag-icon flag-icon-%prof_country%"></span><span>%prof_country_name%</span></li>
+                                      <li>居住国:<span class="flag-icon flag-icon-%prof_residence%"></span><span>%prof_residence_name%</span></li>
+                                      <li>性別:<span><TMPL_IF NAME="prof_gender_1">男性</TMPL_IF><TMPL_IF NAME="prof_gender_2">女性</TMPL_IF></span></li>
+                                  </ul>
+                                  <ul class="wt_teacherdetail d-none d-md-block">
+                                      <li>%prof_character_caption%:<br>
+                                        <TMPL_LOOP NAME="prof_character_loop">
+                                          <span class="wt_tag_1 wt_tag_check_c%id%"><a href="/WTE/site.cgi?m=prflstfrm&amp;s_prof_character=%id%">%title%</a></span>
+                                        </TMPL_LOOP>
+                                      </li>
+                                  </ul>
+                                  <!--<ul class="wt_teacherdetail">
+                                      <li>%prof_interest_caption%:<br>
+                                        <TMPL_LOOP NAME="prof_interest_loop">
+                                          <span class="wt_tag_2"><a href="/WTE/site.cgi?m=prflstfrm&amp;s_prof_interest=%id%">%title%</a></span>
+                                        </TMPL_LOOP>
+                                      </li>
+                                  </ul>-->
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                
+                <div class="row wt_teacherbox m-0">
+                    <input type="radio" id="tab_profile" name="wt_tab_item" checked>
+                  <label class="wt_tab_item col-3" for="tab_profile"><span class="far fa-user-circle"></span><i class="d-none d-md-inline">プロフィール</i></label>
+                    <input type="radio" id="tab_voice" name="wt_tab_item">
+                    <label class="wt_tab_item col-3" for="tab_voice"><span class="far fa-comment-dots"></span><i class="d-none d-md-inline">受講者の声</i></label>
+                    <!--<input type="radio" id="tab_schedule" name="wt_tab_item">
+                    <label class="wt_tab_item col-3" for="tab_schedule"><span class="far fa-calendar-alt"></span><i class="d-none d-md-inline">スケジュール</i></label>
+                    <input type="radio" id="tab_course" name="wt_tab_item">
+                    <label class="wt_tab_item col-3" for="tab_course"><span class="fas fa-chalkboard-teacher"></span><i class="d-none d-md-inline">担当コース</i></label>-->
+                  
+                    <div class="col-12 p-0 wt_tab_content" id="wt_profile_content">
+                      <div class="p-5">
+                      <TMPL_IF NAME="prof_audio_url">
+                         <h3 class="text-center">%prof_handle%先生の%prof_audio_url_caption%</h3>
+                         <div class="wt_profile_cont">
+                               <div class="w-75 mx-auto">
+                                <div class="youtubecont">
+                                  <iframe width="853" height="480" src="//www.youtube.com/embed/%prof_audio_url%" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                </div>
+                        </div>
+                         <hr class="mb-5">
+                      </TMPL_IF>
+                      <TMPL_IF NAME="prof_video_url">
+                         <h3 class="text-center">%prof_handle%先生の%prof_video_url_caption%</h3>
+                         <div class="wt_profile_cont">
+                                <div class="youtubecont">
+                                  <iframe width="853" height="480" src="//www.youtube.com/embed/%prof_video_url%" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                        </div>
+                         <hr class="mb-5">
+                      </TMPL_IF>
+                         <h3 class="text-center">%prof_handle%先生の%prof_intro_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_intro%
+                         </div>
+                      <TMPL_IF NAME="prof_intro2">
+                         <hr class="mb-5">
+                         <h3 class="text-center">%prof_handle%先生の%prof_intro2_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_intro2%
+                         </div>
+                      </TMPL_IF>
+                      <TMPL_IF NAME="prof_associate1">
+                         <hr class="mb-5">
+                         <h3 class="text-center">%prof_associate1_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_associate1%
+                         </div>
+                      </TMPL_IF>
+                      <TMPL_IF NAME="prof_associate2">
+                         <hr class="mb-5">
+                         <h3 class="text-center">%prof_associate2_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_associate2%
+                         </div>
+                      </TMPL_IF>
+                      </div>
+                    </div>
+                    <div class="col-12 p-0 wt_tab_content" id="wt_voice_content">
+                      <div class="p-5">
+                        <h3 class="text-center">%prof_handle%先生へのレッスン受講者の声</h3>
+                        
+            
+                        <ul class="buzz">
+                          <TMPL_LOOP NAME="buz_loop">
+                            <li>%buz_content%</li>
+                          </TMPL_LOOP>
+                          <TMPL_IF NAME="buz_loop">
+                          <TMPL_ELSE>
+                            <p>%prof_handle% 先生のクチコミはまだありません</p>
+                          </TMPL_IF>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-12 wt_tab_content" id="wt_schedule_content">
+                      <div class="p-3 pb-5 p-md-5">
+                        <h3 class="text-center">%prof_handle%先生のスケジュール</h3>
+                        <div id="calendar" class="wt_calendar" data-url="%CGI_URL%?m=prfschajx&amp;prof_id=%prof_id%">
+                          <p>now loading ...</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 p-0 wt_tab_content" id="wt_course_content">
+                      <div class="p-5">
+                        <h3 class="text-center">%prof_handle%先生の担当コース</h3>
+                        
+                      <TMPL_LOOP NAME="course_loop" COURSE_INTRO_CHARS="150">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-4 col-md-2 pl-0">
+                              <img src="/assets/img/course/%course_ccate_id_1%.png" alt="%prof_handle%先生" class="w-100 h-auto rounded-circle" />
+                          </div>
+                          <div class="col-8 col-md-10">
+                            <h2>%course_name%</h2>
+                            <!--<ul class="wt_teacherdetail">
+                                <li>Category:<span>%ccate_name_1%<TMPL_IF NAME="ccate_name_2"> &gt; %ccate_name_2%</TMPL_IF></span></li>
+                            </ul>-->
+                            <h4>%course_copy%</h4>
+                            <p class="wt_teacherintro mb-0">%course_intro% <a href="%CGI_URL%?m=coudtlfrm&amp;course_id=%course_id%">続きを見る &raquo;</a></p>
+                          </div>
+                        </div>
+                      </div>
+                      </TMPL_LOOP>
+          
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="wt_sec_bg_1">
+        <ul class="wt_breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+          <li><a href="/" itemprop="url" content="https://academy.kirihara.co.jp/"><span class="wt_crumb" itemprop="title">ホーム</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=parent" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=parent"><span itemprop="title">マイページ</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=prflstfrm" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=prflstfrm"><span itemprop="title">講師一覧</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=parent" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=prflstfrm"><span itemprop="title">講師一覧</span></a></li>
+        </ul>
+        </div>
+        
+      </main>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+                
+        <script src="%static_url%/js/mypage/prfdtlfrm.js"></script>
+        <script src="%static_url%/js/mypage/favset.js"></script>
+        <script>
+          $(function () {
+            $('.limitunit').each(function () {
+              var txt1 = $(this).html();
+              $(this).html(
+                txt1.replace('d', '日')
+              );
+            });
+            $('.limitunit').each(function () {
+              var txt2 = $(this).html();
+              $(this).html(
+                txt2.replace('h', '時間')
+              );
+            });
+            $('.limitunit').each(function () {
+              var txt3 = $(this).html();
+              $(this).html(
+                txt3.replace('m', '分')
+              );
+            });
+          });
+        </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+<meta charset=utf-8>
+<meta content="IE=edge" http-equiv=X-UA-Compatible>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<title>%prof_caption%から予約 - <TMPL_INCLUDE NAME="../include/title.html"></title>
+<TMPL_INCLUDE NAME="../include/head.html">
+</head>
+<body id="user">
+
+<TMPL_INCLUDE NAME="../include/header.html">
+  <div id="sb-site">
+
+    <!-- content section -->
+    <section class="search bgblock">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>%prof_caption%から予約</h1>
+            <p class="text-center">レッスンを受けたい%prof_caption%を検索し、%prof_caption%の名前や写真をクリックしてください。%prof_caption%の予約を確認することが出来ます。</p>
+            
+            [<a href="%CGI_URL%?m=favlstfrm">お気に入り一覧</a>]
+            [<a href="%CGI_URL%?m=prflstfrm&amp;s_prof_reco=1">おすすめ一覧</a>]
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+          <form action="%CGI_URL%" method="post">
+            <input type="hidden" name="m" value="prflstfrm" />
+              <div class="form-group row">
+                <div class="col-xs-12 col-sm-6">
+                  <label for="s_prof_handle" class="">%prof_caption%名で検索</label>
+                  <div class="clearfix">
+                    <input type="text" id="s_prof_handle" name="s_prof_handle" value="%s_prof_handle%" class="form-control w80 pull-left" />
+                    <div class="w20 pull-right">　先生</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <label for="s_prof_fulltext">フリーワード検索</label>
+                  <div class="clearfix">
+                    <input type="text" id="s_prof_fulltext" name="s_prof_fulltext" value="%s_prof_fulltext%" class="form-control w100" />
+                  </div>
+                </div>
+              </div>
+              <fieldset class="form-group">
+                <legend class="col-form-legend">%prof_character_caption%</legend>
+                <div class="form-check">
+                  <TMPL_LOOP NAME="s_prof_character_loop">
+                  <input type="checkbox" id="s_prof_character_%id%" name="s_prof_character" value="%id%" class="checkinp" %checked% /><label class="check check1" for="s_prof_character_%id%">%title%</label>
+                  </TMPL_LOOP>
+                </div>
+              </fieldset>
+              <fieldset class="form-group">
+                <legend class="col-form-legend">%prof_interest_caption%</legend>
+                <div class="form-check">
+                  <TMPL_LOOP NAME="s_prof_interest_loop">
+                  <input type="checkbox" id="s_prof_interest_%id%" name="s_prof_interest" value="%id%" class="checkinp" %checked% /><label class="check check2" for="s_prof_interest_%id%">%title%</label>
+                  </TMPL_LOOP>
+                </div>
+              </fieldset>
+              <div class="searchdet"><span class="fa fa-search-plus"></span> 詳細検索項目を表示する</div>
+              <div class="toggle">
+                
+              <fieldset class="form-group row">
+                <div class="col-xs-12 col-sm-6">
+                  <legend class="col-form-legend">%prof_country_caption%</legend>
+                  <div class="form-group">
+                    <select name="s_prof_country" class="form-control" id="s_prof_country">
+                      <option value="">----</option>
+                      <TMPL_LOOP NAME="s_prof_country_loop">
+                      <option value="%country_code%" %selected%>%country_name%</option>
+                      </TMPL_LOOP>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <legend class="col-form-legend">%prof_residence_caption%</legend>
+                  <div class="form-group">
+                    <select name="s_prof_residence" class="form-control" id="s_prof_residence">
+                      <option value="">----</option>
+                      <TMPL_LOOP NAME="s_prof_residence_loop">
+                      <option value="%country_code%" %selected%>%country_name%</option>
+                      </TMPL_LOOP>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="form-group row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                  <legend class="col-form-legend">%prof_gender_caption%</legend>
+                  <div class="form-group">
+                    <select id="s_prof_gender" class="form-control" name="s_prof_gender">
+                      <option value="">----</option>
+                      <option value="1" %s_prof_gender_1_selected%>男性</option>
+                      <option value="2" %s_prof_gender_2_selected%>女性</option>
+                    </select>
+                  </div>
+                </div>
+                <!--<div class="col-xs-12 col-sm-6 col-md-3">
+                  <legend class="col-form-legend">%prof_rank_caption%</legend>
+                  <div class="form-group">
+                    <select name="s_prof_rank" class="form-control" id="s_prof_rank">
+                      <option value="">----</option>
+                      <TMPL_LOOP NAME="s_prof_rank_loop">
+                      <option value="%id%" %selected%>%title%</option>
+                      </TMPL_LOOP>
+                    </select>
+                  </div>
+                </div>-->
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                  <legend class="col-form-legend">%prof_reco_caption%</legend>
+                  <div class="form-group">
+                    <TMPL_IF NAME="s_prof_reco">
+                    <input type="checkbox" name="s_prof_reco" id="s_prof_reco" value="1" checked="checked" /><label for="s_prof_reco" class="checknor"> オススメにチェック</label>
+                    <TMPL_ELSE>
+                    <input type="checkbox" name="s_prof_reco" id="s_prof_reco" value="1" /><label for="s_prof_reco" class="checknor"> オススメにチェック</label>
+                    </TMPL_IF>
+                  </div>
+                </div>
+              </fieldset>
+                
+              </div>
+            <div class="text-center"><input type="submit" value="　%prof_caption%を検索　" class="btn btn-primary" /></div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- content section -->
+    <section class="search bggrey">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; 前へ</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">次へ &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+            
+            <p class="text-center">%hit_with_comma%件中、%start_with_comma%件目から%end_with_comma%件目までの%fetch_with_comma%件を表示しています。</p>
+            <div class="sort">
+              <ul>
+                <li>
+                  <TMPL_IF NAME="sort_key_score_selected">
+                  <span>人気順<u class="hideii">に並べる</u></span>
+                  <TMPL_ELSE>
+                  <a href="%search_base_url%&amp;sort_key=score">人気順<u class="hideii">に並べる</u></a>
+                  </TMPL_IF>
+                </li>
+                <!--<li>
+                  <TMPL_IF NAME="sort_key_rank_selected">
+                  <span>ランク順<u class="hideii">に並べる</u></span>
+                  <TMPL_ELSE>
+                  <a href="%search_base_url%&amp;sort_key=rank">ランク順<u class="hideii">に並べる</u></a>
+                  </TMPL_IF>
+                </li>-->
+                <li>
+                  <TMPL_IF NAME="sort_key_new_selected">
+                  <span>新着順<u class="hideii">に並べる</u></span>
+                  <TMPL_ELSE>
+                  <a href="%search_base_url%&amp;sort_key=new">新着順<u class="hideii">に並べる</u></a>
+                  </TMPL_IF>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <TMPL_LOOP NAME="list_loop" PROF_INTRO_CHARS="200">
+        <div class="row profbox">
+          <div class="col-xs-4 col-md-2 profface">
+            <a href="/wte/prfdtlfrm/%prof_id%">
+            <TMPL_IF NAME="prof_logo">
+              <img src="%prof_logo_2_url%?%epoch%" width="%prof_logo_2_w%" height="%prof_logo_2_h%" alt="%prof_handle%先生" />
+            <TMPL_ELSE>
+              <img src="%static_url%/imgs/profile_blank.png" width="%prof_logo_2_w%" height="%prof_logo_2_h%" alt="%prof_handle%先生" />
+            </TMPL_IF>
+            </a>
+            <TMPL_IF NAME="is_fav">
+              <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favon" data-caption0="お気に入りに追加" data-caption1="登録済み">登録済み</a>
+            <TMPL_ELSE>
+              <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favoff" data-caption0="お気に入りに追加" data-caption1="登録済み">お気に入りに追加</a>
+            </TMPL_IF>
+            
+          </div>
+          <div class="col-xs-8 col-md-10">
+            <h2 class="profname"><a href="/wte/prfdtlfrm/%prof_id%">%prof_handle% 先生</a></h2>
+            <ul class="profinfo">
+              <li>出身国<span class="flag-icon flag-icon-%prof_country%">%prof_country_name%</span></li>
+              <li>居住国<span class="flag-icon flag-icon-%prof_residence%">%prof_residence_name%</span></li>
+              <!--<li>Rank<span>%prof_rank_title%</span></li>
+              <li>クーポン<span><TMPL_IF NAME="prof_coupon_ok">利用可<TMPL_ELSE>利用不可</TMPL_IF></span></li>-->
+            </ul>
+            <p>%prof_intro% <a href="/wte/prfdtlfrm/%prof_id%">続きを見る &raquo;</a></p>
+            <ul class="tag">
+            <TMPL_LOOP NAME="prof_character_loop">
+              <li class="tag1"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_character=%id%">%title%</a></li>
+            </TMPL_LOOP>
+            </ul>
+            <ul class="tag">
+            <TMPL_LOOP NAME="prof_interest_loop">
+              <li class="tag2"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_interest=%id%">%title%</a></li>
+            </TMPL_LOOP>
+            </ul>
+          </div>
+        </div>
+      </TMPL_LOOP>
+        
+        <div class="row">
+          <nav aria-label="..." class="text-center">
+            <ul class="pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <span class="page-link"> &laquo; 前へ</span>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link">次へ &raquo; </a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <span class="page-link">次へ &raquo; </span>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<TMPL_INCLUDE NAME="../include/analysis.html">
+  <script src="%static_url%/js/mypage/favset.js"></script>
+</body>
+</html>

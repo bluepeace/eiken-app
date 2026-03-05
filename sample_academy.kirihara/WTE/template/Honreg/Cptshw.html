@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>登録完了｜マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="会員マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta name="twitter:title" content="会員マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+    <link rel="stylesheet" href="/assets/css/lp.css?3">
+<style>
+    .wt_footer_banner{
+        display: none;
+    }
+</style>        
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+  <TMPL_INCLUDE NAME="../include/header.html">
+
+  <main role="main" class="wt_main">
+
+    <section class="wt_headvis wt_head_contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1>体験レッスンのお申込み</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="register">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 wt_form">
+                        <h2 class="text-center">体験レッスンの<strong class="txt_kiri">ご予約</strong>はこちら</h2>
+                        <p class="mb-5 text-lg-center">マイページの開設が完了いたしました。<br>ログインし、体験レッスンのご予約をお願いいたします。</p>
+                        <p class="mb-5 text-lg-center">※初回ログイン時に、1分で終わる簡単なアンケートがあります。</p>
+                        <form action="%ssl_host_url%/WTE/mypage.cgi" method="post">
+                          <input type="hidden" name="m" value="athlinsmt" />
+                          <input type="hidden" name="s" value="%session_seller_id%" />
+                          <input type="hidden" name="target" value="%target%" />
+                          <input type="hidden" name="redirect" value="%redirect%" />
+                          <TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+
+                          <div class="form-group">
+                            <label for="member_email" class="%member_email_err% required">メールアドレス</label>
+                            <input type="email" id="member_email" name="member_email" value="%member_email%" class="form-control inputlimit_ascii %member_email_err%" placeholder="（例）kirihara@example.com" />
+                          </div>
+                               
+                          <div class="form-group mb-5">
+                            <label for="member_pass" class="%member_pass_err% required">パスワード</label>
+                            <input type="password" id="member_pass" name="member_pass" value="%member_pass%" class="form-control %member_pass_err%" placeholder="パスワードを入力してください" />
+                          </div>
+
+                          <fieldset class="form-group">
+                            <div class="form-check">
+                              <label for="auto_login_enable"><input type="checkbox" id="auto_login_enable" name="auto_login_enable" value="1" />次回から自動でログイン</label>
+                            </div>
+                          </fieldset>
+
+                          <div class="text-center mb-5">
+                            <input type="submit" value="ログイン" class="btn btn-secondary wt_btn rounded-pill" />
+                          </div>
+                          
+                        </form>
+                         
+                          <p class="mb-5 text-center"><a href="%ssl_host_url%/WTE/pwdrst.cgi"><span class="fas fa-caret-right"></span>パスワードを忘れた方はこちら</a></p>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+  <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+</body>
+</html>

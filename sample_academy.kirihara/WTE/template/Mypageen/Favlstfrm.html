@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+<meta charset=utf-8>
+<meta content="IE=edge" http-equiv=X-UA-Compatible>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<title>お気に入り%prof_caption%一覧 - <TMPL_INCLUDE NAME="../include/title.html"></title>
+<TMPL_INCLUDE NAME="../include/head.html">
+</head>
+<body id="user">
+
+<TMPL_INCLUDE NAME="../include/header.html">
+  <div id="sb-site">
+
+    <!-- content section -->
+    <section class="search bgblock">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>お気に入り%prof_caption%</h1>
+            <p class="text-center">お気に入りに追加した%prof_caption%一覧です。%prof_caption%の名前や写真をクリックすると、%prof_caption%の予約を確認することが出来ます。</p>
+            <p>[<a href="%CGI_URL%?m=prflstfrm">%prof_caption%一覧に戻る</a>]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- content section -->
+    <section class="search bggrey">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; 前へ</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">次へ &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+            
+            <p class="text-center">%hit_with_comma%件中、%start_with_comma%件目から%end_with_comma%件目までの%fetch_with_comma%件を表示しています。</p>
+            
+          </div>
+        </div>
+            
+
+        <TMPL_LOOP NAME="list_loop" PROF_INTRO_CHARS="200">
+        <div class="row profbox">
+          <div class="col-xs-4 col-md-2 profface">
+            <a href="/wte/prfdtlfrm/%prof_id%">
+            <TMPL_IF NAME="prof_logo">
+              <img src="%prof_logo_2_url%?%epoch%" width="%prof_logo_2_w%" height="%prof_logo_2_h%" alt="%prof_handle%先生" />
+            <TMPL_ELSE>
+              <img src="%static_url%/imgs/profile_blank.png" width="%prof_logo_2_w%" height="%prof_logo_2_h%" alt="%prof_handle%先生" />
+            </TMPL_IF>
+            </a>
+            <TMPL_IF NAME="is_fav">
+              <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favon" data-caption0="お気に入りに追加" data-caption1="登録済み">登録済み</a>
+            <TMPL_ELSE>
+              <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favoff" data-caption0="お気に入りに追加" data-caption1="登録済み">お気に入りに追加</a>
+            </TMPL_IF>
+            
+          </div>
+          <div class="col-xs-8 col-md-10">
+            <h2 class="profname"><a href="/wte/prfdtlfrm/%prof_id%">%prof_handle% 先生</a></h2>
+            <ul class="profinfo">
+              <li>出身国<span class="flag-icon flag-icon-%prof_country%">%prof_country_name%</span></li>
+              <li>居住国<span class="flag-icon flag-icon-%prof_residence%">%prof_residence_name%</span></li>
+              <!--<li>Rank<span>%prof_rank_title%</span></li>
+              <li>クーポン<span><TMPL_IF NAME="prof_coupon_ok">利用可<TMPL_ELSE>利用不可</TMPL_IF></span></li>-->
+            </ul>
+            <p>%prof_intro% <a href="/wte/prfdtlfrm/%prof_id%">続きを見る &raquo;</a></p>
+            <ul class="tag">
+            <TMPL_LOOP NAME="prof_character_loop">
+              <li class="tag1"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_character=%id%">%title%</a></li>
+            </TMPL_LOOP>
+            </ul>
+            <ul class="tag">
+            <TMPL_LOOP NAME="prof_interest_loop">
+              <li class="tag2"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_interest=%id%">%title%</a></li>
+            </TMPL_LOOP>
+            </ul>
+          </div>
+        </div>
+        </TMPL_LOOP>
+        
+        <div class="row">
+          <div class="col-xs-12">
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; 前へ</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">次へ &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        
+        
+        
+      </div>
+    </section>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<TMPL_INCLUDE NAME="../include/analysis.html">
+  <script src="%static_url%/js/mypage/favset.js"></script>
+</body>
+</html>

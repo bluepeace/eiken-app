@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>クーポン新規登録｜クーポン管理｜%product_name%</title>
+  <TMPL_INCLUDE NAME="include_head.html">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <TMPL_INCLUDE NAME="include_header.html">
+      <TMPL_INCLUDE NAME="include_menu.html">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1 class="m-0"><i class="fas fa-money-bill text-primary"></i> クーポン新規登録</h1>
+                  </div><!-- /.col -->
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="%CGI_URL%">Home</a></li>
+                      <li class="breadcrumb-item"><a href="/WTE/admin.cgi?m=cpnlstfrm">クーポン管理</a></li>
+                      <li class="breadcrumb-item active">クーポン新規登録</li>
+                    </ol>
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+            </div>
+          <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <p>クーポンの新規登録が完了しました。</p>
+                <a href="%CGI_URL%?m=cpnlstfrm" class="btn btn-info mb-5">クーポン管理へ</a>
+
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-money-bill text-primary"></i> クーポン情報</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body text-sm">
+                  <div class="card-body table-responsive p-0">
+                    
+                    <form method="post" action="#">
+                    <table class="table table-hover text-nowrap">
+                    <tbody>
+                      <tr>
+                        <th>クーポンコード</th>
+                        <td><span id="coupon_code" class="big">%coupon_code%</span></td>
+                      </tr>
+                      <tr>
+                        <th>代理店</th>
+                        <td>[%seller_id%] %seller_company%</td>
+                      </tr>
+                      <tr>
+                        <th>タイトル</th>
+                        <td>%coupon_title%</td>
+                      </tr>
+                      <tr>
+                        <th>金額</th>
+                        <td>%coupon_price_with_comma% 円</td>
+                      </tr>
+                      <tr>
+                        <th>クーポン登録会員上限</th>
+                        <td>先着 %coupon_max_with_comma% 会員まで</td>
+                      </tr>
+                      <tr>
+                        <th>クーポン有効期限</th>
+                        <td>%coupon_expire% まで有効</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </form>
+                  </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </section>
+        </div>
+			
+		<TMPL_INCLUDE NAME="include_footer.html">
+	</div>
+	<TMPL_INCLUDE NAME="include_foot.html">
+  </body>
+			
+  </html>

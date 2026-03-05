@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>%member_caption%情報登録｜会員一括登録｜%product_name%</title>
+  <TMPL_INCLUDE NAME="include_head.html">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <TMPL_INCLUDE NAME="include_header.html">
+      <TMPL_INCLUDE NAME="include_menu.html">
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 class="m-0"><i class="fas fa-user text-primary"></i> 会員一括登録</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="%CGI_URL%">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/WTE/admin.cgi?m=mbrlstfrm">%member_caption%管理</a></li>
+                    <li class="breadcrumb-item active">会員一括登録</li>
+                  </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content-header -->
+          <!-- Main content -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-info text-primary"></i> アップロードについて</h3>
+                        <div class="card-tools pull-right">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                      </div>
+                      <div class="card-body text-sm">
+                        <p>以下の%member_caption%情報を一括登録してもよろしいですか？よろしければ「登録」ボタンを押してください。</p>
+                        <TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+                            <form method="post" action="%CGI_URL%">
+                                <input type="hidden" name="m" value="mbrcsvaddset" />
+                                <input type="hidden" name="pkey" value="%pkey%" />
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>%member_lastname_caption%</th>
+                                            <th>%member_firstname_caption%</th>
+                                            <th>%member_email_caption%</th>
+                                            <th>%member_pass_caption%</th>
+                                            <th>%member_company_caption%</th>
+                                            <th>%member_dept_caption%</th>
+                                            <th>%member_title_caption%</th>
+                                            <th>%member_comment_caption%</th>
+                                            <th>%member_memo2_caption%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <TMPL_LOOP NAME="list">
+                                            <tr>
+                                                <td>%member_lastname%</td>
+                                                <td>%member_firstname%</td>
+                                                <td>%member_email%</td>
+                                                <td>%member_pass%</td>
+                                                <td>%member_company%</td>
+                                                <td>%member_dept%</td>
+                                                <td>%member_title%</td>
+                                                <td>%member_comment%</td>
+                                                <td>%member_memo2%</td>
+                                            </tr>
+                                        </TMPL_LOOP>
+                                    </tbody>
+                                </table>
+    							<div><input type="submit" id="setBtn" name="setBtn" value="登録" class="btn btn-info" /></div>
+</form>
+</div>
+
+</body>
+</html>

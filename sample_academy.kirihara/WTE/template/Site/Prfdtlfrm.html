@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>%prof_handle%先生のプロフィール｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="%prof_handle%先生のプロフィール｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="%prof_associate1%" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/wte/prfdtlfrm/%prof_id%" />
+  <meta property="og:image" content="%prof_logo_3_url%?%epoch%" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/wte/prfdtlfrm/%prof_id%" />
+  <meta name="twitter:title" content="%prof_handle%先生のプロフィール｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="%prof_associate1%" />
+  <meta name="twitter:image" content="%prof_logo_3_url%?%epoch%" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+  <style>
+    .wt_tag_check_c4,
+    .wt_tag_check_c8,
+    .wt_tag_check_c9,
+    .wt_tag_check_c10,
+    .wt_tag_check_c11,
+    .wt_tag_check_c12,
+    .wt_tag_check_c16,
+    .wt_tag_check_c20,
+    .wt_tag_check_c21,
+    .wt_tag_check_c22{
+      display:none!important;
+    }
+  </style>
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+  <TMPL_INCLUDE NAME="../include/header.html">
+
+  <main role="main" class="wt_main">
+       
+        <section class="wt_headvis wt_head_prof">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>%prof_caption%紹介</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+        <section class="wt_sec_bg_1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="text-center">%prof_handle%先生のプロフィール</h2>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-12">
+                      <div class="wt_teacherbox p-5">
+                          <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-md-4 col-lg-3">
+                                  <TMPL_IF NAME="prof_logo">
+                                  <img src="%prof_logo_3_url%?%epoch%" alt="%prof_handle%先生" class="w-100 rounded-circle mb-4">
+                                  <TMPL_ELSE>
+                                  <img src="%static_url%/imgs/profile_blank.png" alt="%prof_handle%先生" class="w-75 rounded-circle mb-4">
+                                  </TMPL_IF>
+                                </div>
+                                <div class="col-12 col-md-8 col-md-9">
+                                  <h3 class="mb-4">%prof_handle%先生</h3>
+                                  <ul class="wt_teacherdetail">
+                                      <li>出身国:<span class="flag-icon flag-icon-%prof_country%"></span><span>%prof_country_name%</span></li>
+                                      <li>居住国:<span class="flag-icon flag-icon-%prof_residence%"></span><span>%prof_residence_name%</span></li>
+                                      <li>性別:<span><TMPL_IF NAME="prof_gender_1">男性</TMPL_IF><TMPL_IF NAME="prof_gender_2">女性</TMPL_IF></span></li>
+                                  </ul>
+                                  <ul class="wt_teacherdetail">
+                                      <li>%prof_character_caption%:<br>
+                                        <TMPL_LOOP NAME="prof_character_loop">
+                                          <span class="wt_tag_1 wt_tag_check_c%id%"><a href="/WTE/site.cgi?m=prflstfrm&amp;s_prof_character=%id%">%title%</a></span>
+                                        </TMPL_LOOP>
+                                      </li>
+                                  </ul>
+                                  <!--<ul class="wt_teacherdetail">
+                                      <li>%prof_interest_caption%:<br>
+                                        <TMPL_LOOP NAME="prof_interest_loop">
+                                          <span class="wt_tag_2"><a href="/WTE/site.cgi?m=prflstfrm&amp;s_prof_interest=%id%">%title%</a></span>
+                                        </TMPL_LOOP>
+                                      </li>
+                                  </ul>-->
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                
+                <div class="row wt_teacherbox m-0">
+                    <input type="radio" id="tab_profile" name="wt_tab_item" checked>
+                    <label class="wt_tab_item col-4" for="tab_profile"><span class="far fa-user-circle"></span><i class="d-none d-md-inline">プロフィール</i></label>
+                    <input type="radio" id="tab_voice" name="wt_tab_item">
+                    <label class="wt_tab_item col-4" for="tab_voice"><span class="far fa-comment-dots"></span><i class="d-none d-md-inline">受講者の声</i></label>
+                    <input type="radio" id="tab_schedule" name="wt_tab_item">
+                    <label class="wt_tab_item col-4" for="tab_schedule"><span class="far fa-calendar-alt"></span><i class="d-none d-md-inline">スケジュール</i></label>
+                  
+                    <div class="col-12 p-0 wt_tab_content" id="wt_profile_content">
+                      <div class="p-5">
+                      <TMPL_IF NAME="prof_audio_url">
+                         <h3 class="text-center">%prof_handle%先生の%prof_audio_url_caption%</h3>
+                         <div class="wt_profile_cont">
+                               <div class="w-75 mx-auto">
+                                <div class="youtubecont">
+                                  <iframe width="853" height="480" src="//www.youtube.com/embed/%prof_audio_url%" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                </div>
+                        </div>
+                         <hr class="mb-5">
+                      </TMPL_IF>
+                      <TMPL_IF NAME="prof_video_url">
+                         <h3 class="text-center">%prof_handle%先生の%prof_video_url_caption%</h3>
+                         <div class="wt_profile_cont">
+                                <div class="youtubecont">
+                                  <iframe width="853" height="480" src="//www.youtube.com/embed/%prof_video_url%" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                        </div>
+                         <hr class="mb-5">
+                      </TMPL_IF>
+                         <h3 class="text-center">%prof_handle%先生の%prof_intro_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_intro%
+                         </div>
+                      <TMPL_IF NAME="prof_intro2">
+                         <hr class="mb-5">
+                         <h3 class="text-center">%prof_handle%先生の%prof_intro2_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_intro2%
+                         </div>
+                      </TMPL_IF>
+                      <TMPL_IF NAME="prof_associate1">
+                         <hr class="mb-5">
+                         <h3 class="text-center">%prof_associate1_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_associate1%
+                         </div>
+                      </TMPL_IF>
+                      <TMPL_IF NAME="prof_associate2">
+                         <!--<hr class="mb-5">
+                         <h3 class="text-center">%prof_associate2_caption%</h3>
+                         <div class="wt_profile_cont">
+                           %prof_associate2%
+                         </div>-->
+                      </TMPL_IF>
+                      </div>
+                    </div>
+                    <div class="col-12 p-0 wt_tab_content" id="wt_voice_content">
+                      <div class="p-5">
+                        <h3 class="text-center">%prof_handle%先生へのレッスン受講者の声</h3>
+                        
+            
+                        <ul class="buzz">
+                          <TMPL_LOOP NAME="buz_loop">
+                            <li>%buz_content%</li>
+                          </TMPL_LOOP>
+                          <TMPL_IF NAME="buz_loop">
+                          <TMPL_ELSE>
+                            <p>%prof_handle% 先生のクチコミはまだありません</p>
+                          </TMPL_IF>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-12 wt_tab_content" id="wt_schedule_content">
+                      <div class="p-3 pb-5 p-md-5">
+                        <h3 class="text-center">%prof_handle%先生のスケジュール</h3>
+                        <div id="calendar" class="wt_calendar" data-url="/WTE/site.cgi?m=prfschajx&amp;prof_id=%prof_id%">
+                          <p>now loading ...</p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<TMPL_INCLUDE NAME="../include/analysis.html">
+
+  <script src="/WTE/static/js/site/prfdtlfrm.js"></script>
+</body>
+</html>

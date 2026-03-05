@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>売上管理（議事録用） | %product_name%</title>
+  <TMPL_INCLUDE NAME="include_head.html">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <TMPL_INCLUDE NAME="include_header.html">
+      <TMPL_INCLUDE NAME="include_menu.html">
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 class="m-0"><i class="fas fa-chart-line text-primary"></i> 売上管理（議事録用）</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="%CGI_URL%">Home</a></li>
+                    <li class="breadcrumb-item active">売上管理（議事録用）</li>
+                  </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content-header -->
+          <!-- Main content -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title"><i class="fas fa-search text-primary"></i> 絞り込み検索</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body text-sm">
+                      <label for="s_sdate">集計期間</label>
+                      <form method="post" action="%CGI_URL%">
+                        <input type="hidden" name="m" value="slscntfrm2" />
+                        <div class="row">
+                          <div class="col-9 col-md-3">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">開始</span>
+                              </div>
+                              <input type="date" name="s_sdate" value="%s_sdate%" class="form-control" id="s_sdate">
+                            </div>
+                          </div>
+                          <div class="col-9 col-md-3">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">終了</span>
+                              </div>
+                              <input type="date" name="s_edate" value="%s_edate%" class="form-control" id="s_edate">
+                            </div>
+                          </div>
+                          <div class="col-3 col-md-1">
+                            <button type="submit" id="setBtn" class="btn btn-info" name="setBtn">検索</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">
+                      <h3 class="card-title"><i class="fas fa-list text-primary"></i> 検索結果</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body text-sm">
+                      <table id="example2" class="table table-hover">
+                        <tbody>
+                          <tr>
+                            <td>会員登録数</td>
+                            <td class="price">
+                              %sum_19% 名（通常 <script>
+                                var total19 = %sum_19% - %sum_20% ;
+                                document.write(total19.toLocaleString())
+                              </script> 名、学校 %sum_20% 名）
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>アクティブ会員</td>
+                            <td class="price">
+                              %sum_21% 名
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>レッスン数（体験数）</td>
+                            <td class="price">
+                              %sum_14% 件（%sum_15% 件）
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>有料購入数</td>
+                            <td class="price">
+                              <script>
+                                var total15 = %sum_16% + %sum_17% ;
+                                document.write(total15.toLocaleString())
+                              </script> 件（カード %sum_16% 件、銀行 %sum_17% 件）
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>講師応募数</td>
+                            <td class="price">
+                              %sum_18% 名
+                            </td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td>アクティブ講師</td>
+                            <td class="price">
+                              %sum_22% 名
+                            </td>
+                          </tr>
+                          <!--<tr>
+                    <td>④ 合計</td>
+                    <td class="price">
+                        <script>
+                            var total100 = %sum_5% + %sum_7% + %sum_4% + %sum_2% - %sum_1% - %sum_6% - %sum_3% - %sum_11%;
+                            document.write(total100.toLocaleString())
+                        </script> 円
+                    </td>
+                    <td></td>
+                </tr>-->
+                          <tr>
+                            <td>体験レッスン率</td>
+                            <td class="price">
+                              <script>
+                                var total20 = Math.round( %sum_15% / ( %sum_19% - %sum_20% ) * 100 * 10 ) /
+                                    10; document.write(total20.toLocaleString())
+                              </script> %
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>体験からの有料化率</td>
+                            <td class="price">
+                              <script>
+                                var total21 = Math.round(( %sum_16% + %sum_17% ) / %sum_15% * 100 * 10) / 10;
+                                document.write(total21.toLocaleString())
+                              </script> %
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>登録からの有料化率</td>
+                            <td class="price">
+                              <script>
+                                var total21 = Math.round(( %sum_16% + %sum_17% ) / ( %sum_19% - %sum_20% ) * 100 * 10) / 10;
+                                document.write(total21.toLocaleString())
+                              </script> %
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>カード決済
+                              <!--カード決済管理 card の各レコード合算ポイント-->
+                            </td>
+                            <td><script>
+                              var total4 = %sum_23% / 1.1;
+                              document.write(total4.toLocaleString())
+                            </script> 円（税込：
+                              %sum_23_with_comma% 円）</td>
+                          </tr>
+                          <tr>
+                            <td>銀行振込
+                              <!--ポイント管理 mbract の「入金（銀行振込単発チケット購入）」の各レコード合算金額-->
+                            </td>
+                            <td>%sum_8_with_comma% 円（税込：
+                              <script>
+                                var total3 = %sum_8% * 1.1;
+                                document.write(total3.toLocaleString())
+                              </script> 円）</td>
+                          </tr>
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <TMPL_INCLUDE NAME="include_footer.html">
+  </div>
+
+  <TMPL_INCLUDE NAME="include_foot.html">
+</body>
+
+</html>

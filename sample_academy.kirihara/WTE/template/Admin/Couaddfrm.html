@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>%product_name%</title>
+  <link href="%static_url%/css/admin/common.css" type="text/css" rel="stylesheet">
+  <style>
+    #course_name {
+      width: 30em;
+    }
+
+    #course_youtube_id {
+      width: 30em;
+    }
+
+    #course_logo_box img {
+      vertical-align: top;
+      border: 1px solid #cccccc;
+    }
+
+    #course_fee {
+      width: 6em;
+    }
+
+    #course_order_weight {
+      width: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1><a href="%CGI_URL%?m=coulstfrm">%prof_caption%授業管理</a> - 新規登録</h1>
+  <div id="main">
+    <p>%prof_caption%授業を新規に登録します。必要事項を入力の上、「登録」ボタンを押してください。</p>
+    <TMPL_IF NAME="errs">
+      <div class="errs">%errs%</div>
+    </TMPL_IF>
+    <form method="post" action="%CGI_URL%" enctype="multipart/form-data">
+      <input type="hidden" name="m" value="couaddset">
+      <input type="hidden" name="pkey" value="%pkey%">
+
+      <fieldset>
+        <legend>基本情報</legend>
+        <dl>
+          <dt>%prof_caption%</dt>
+          <dd>
+            [%prof_id%] %prof_lastname% %prof_firstname% (%prof_handle%)
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_select" class="required %course_select_err%">授業選択</label></dt>
+          <dd>
+            <select id="course_select" name="course_select" value="%course_select%">
+              <option value="">-</option>
+              <!--<option value="ToeicBridge" %course_select_ToeicBridge_selected%>ToeicBridge</option>-->
+              <option value="Toeic500" %course_select_Toeic500_selected%>Toeic500</option>
+              <option value="Toeic650" %course_select_Toeic650_selected%>Toeic730</option>
+              <!--<option value="Eiken1" %course_select_Eiken1_selected%>Eiken1</option>-->
+              <option value="EikenJ1" %course_select_EikenJ1_selected%>EikenJ1</option>
+              <option value="Eiken2" %course_select_Eiken2_selected%>Eiken2</option>
+              <option value="EikenJ2" %course_select_EikenJ2_selected%>EikenJ2</option>
+              <!--<option value="Eiken3" %course_select_Eiken3_selected%>Eiken3</option>
+              <option value="Eiken4" %course_select_Eiken4_selected%>Eiken4</option>
+              <option value="Eiken5" %course_select_Eiken5_selected%>Eiken5</option>
+              <option value="EikenWri1" %course_select_EikenWri1_selected%>EikenWri1</option>
+              <option value="EikenWriJ1" %course_select_EikenWriJ1_selected%>EikenWriJ1</option>
+              <option value="EikenWri2" %course_select_EikenWri2_selected%>EikenWri2</option>
+              <option value="EikenWriJ2" %course_select_EikenWriJ2_selected%>EikenWriJ2</option>
+              <option value="EikenWri3" %course_select_EikenWri3_selected%>EikenWri3</option>
+              <option value="EikenMen1" %course_select_EikenMen1_selected%>EikenMen1</option>-->
+              <option value="EikenMenJ1" %course_select_EikenMenJ1_selected%>EikenMenJ1</option>
+              <option value="EikenMen2" %course_select_EikenMen2_selected%>EikenMen2</option>
+              <option value="EikenMenJ2" %course_select_EikenMenJ2_selected%>EikenMenJ2</option>
+              <option value="Toefl" %course_select_Toefl_selected%>Toefl</option>
+              <!--<option value="EikenMen3" %course_select_EikenMen3_selected%>EikenMen3</option>
+              <option value="StepByStep" %course_select_StepByStep_selected%>StepByStep</option>-->
+              <!--<option value="ToeicBridgeTaiken" %course_select_ToeicBridgeTaiken_selected%>(Taiken)ToeicBridge</option>-->
+              <option value="Toeic500Taiken" %course_select_Toeic500Taiken_selected%>(Taiken)Toeic500</option>
+              <option value="Toeic650Taiken" %course_select_Toeic650Taiken_selected%>(Taiken)Toeic730</option>
+              <!--<option value="Eiken1Taiken" %course_select_Eiken1Taiken_selected%>(Taiken)Eiken1</option>-->
+              <option value="EikenJ1Taiken" %course_select_EikenJ1Taiken_selected%>(Taiken)EikenJ1</option>
+              <option value="Eiken2Taiken" %course_select_Eiken2Taiken_selected%>(Taiken)Eiken2</option>
+              <option value="EikenJ2Taiken" %course_select_EikenJ2Taiken_selected%>(Taiken)EikenJ2</option>
+              <!--<option value="Eiken3Taiken" %course_select_Eiken3Taiken_selected%>(Taiken)Eiken3</option>
+              <option value="Eiken4Taiken" %course_select_Eiken4Taiken_selected%>(Taiken)Eiken4</option>
+              <option value="Eiken5Taiken" %course_select_Eiken5Taiken_selected%>(Taiken)Eiken5</option>
+              <option value="EikenWri1Taiken" %course_select_EikenWri1Taiken_selected%>(Taiken)EikenWri1</option>
+              <option value="EikenWriJ1Taiken" %course_select_EikenWriJ1Taiken_selected%>(Taiken)EikenWriJ1</option>
+              <option value="EikenWri2Taiken" %course_select_EikenWri2Taiken_selected%>(Taiken)EikenWri2</option>
+              <option value="EikenWriJ2Taiken" %course_select_EikenWriJ2Taiken_selected%>(Taiken)EikenWriJ2</option>
+              <option value="EikenWri3Taiken" %course_select_EikenWri3Taiken_selected%>(Taiken)EikenWri3</option>
+              <option value="EikenMen1Taiken" %course_select_EikenMen1Taiken_selected%>(Taiken)EikenMen1</option>-->
+              <option value="EikenMenJ1Taiken" %course_select_EikenMenJ1Taiken_selected%>(Taiken)EikenMenJ1</option>
+              <option value="EikenMen2Taiken" %course_select_EikenMen2Taiken_selected%>(Taiken)EikenMen2</option>
+              <option value="EikenMenJ2Taiken" %course_select_EikenMenJ2Taiken_selected%>(Taiken)EikenMenJ2</option>
+              <!--<option value="EikenMen3Taiken" %course_select_EikenMen3Taiken_selected%>(Taiken)EikenMen3</option>
+              <option value="StepByStepTaiken" %course_select_StepByStepTaiken_selected%>(Taiken)StepByStep</option>-->
+              <option value="ToeflTaiken" %course_select_ToeflTaiken_selected%>(Taiken)Toefl</option>
+              <option value="ToeflTensaku" %course_select_ToeflTensaku_selected%>(Taiken)Tensaku</option>
+              <option value="Toeic500Subsc" %course_select_Toeic500Subsc_selected%>（Subsc）Toeic500</option>
+              <option value="Toeic730Subsc" %course_select_Toeic730Subsc_selected%>（Subsc）Toeic730</option>
+              <option value="Eiken1j1Subsc" %course_select_Eiken1J1Subsc_selected%>（Subsc）Eiken1J1</option>
+              <option value="Eiken1j2Subsc" %course_select_Eiken1J2Subsc_selected%>（Subsc）Eiken1G2-J2</option>
+              <option value="Eiken2j1Subsc" %course_select_Eiken2J1Subsc_selected%>（Subsc）Eiken2J1</option>
+              <option value="Eiken2j2Subsc" %course_select_Eiken2J2Subsc_selected%>（Subsc）Eiken2G2-J2</option>
+              <option value="Meeting" %course_select_Meeting_selected%>Meeting</option>
+              <option value="Enquete" %course_select_Enquete_selected%>Enquete</option>
+            </select>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_name" class="required %course_name_err%">授業名</label></dt>
+          <dd>
+            <input type="text" id="course_name" name="course_name" value="%course_name%" class="text %course_name_err%">
+            <ul class="note">
+              <li>
+                <span id="course_name_max_char_num">30</span>文字以内で入力してください。
+                （現在の入力文字数：<span id="course_name_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        
+        <dl style="display:none;">
+          <dt><label for="course_copy" class="%course_copy_err%">キャッチコピー</label></dt>
+          <dd>
+            <input type="text" id="course_copy" name="course_copy" value="%course_copy%" class="text %course_copy_err%">
+            <ul class="note">
+              <li>
+                <span id="course_copy_max_char_num">255</span>文字以内で入力してください。
+                （現在の入力文字数：<span id="course_copy_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_fee" class="required %course_fee_err%">必要チケット</label></dt>
+          <dd>
+            <input type="text" id="course_fee" name="course_fee" value="%course_fee%"
+              class="text inputlimit_num %course_fee_err%">回
+            <ul class="note">
+              <li>0～999999の金額を半角数値で入力してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl style="display:none;">
+          <dt><label for="course_logo_up" class="%course_logo_up_err%">アイキャッチ写真</label></dt>
+          <dd>
+            <input type="file" id="course_logo_up" name="course_logo_up" class="text %course_logo_up_err%" />
+            <ul class="note">
+              <li>GIF/JPEG/PNG形式のいずれかの画像ファイルを指定してください。</li>
+            </ul>
+            <TMPL_IF NAME="course_logo_up">
+              <div id="course_logo_box">
+                <img src="%course_logo_1_tmp_url%?%epoch%" width="%course_logo_1_w%" height="%course_logo_1_h%" alt="小">
+                <img src="%course_logo_2_tmp_url%?%epoch%" width="%course_logo_2_w%" height="%course_logo_2_h%" alt="中">
+                <img src="%course_logo_3_tmp_url%?%epoch%" width="%course_logo_3_w%" height="%course_logo_3_h%" alt="大">
+              </div>
+              <div>
+                <input type="checkbox" id="course_logo_del" name="course_logo_del" value="1">
+                <label for="course_logo_del">登録した画像を取り消す</label>
+              </div>
+            </TMPL_IF>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_ccate_id_1"
+              class="required %course_ccate_id_1_err% %course_ccate_id_2_err%">カテゴリー</label></dt>
+          <dd>
+            大：
+            <select id="course_ccate_id_1" name="course_ccate_id_1" class="%course_ccate_id_1_err%">
+              <option value=""></option>
+              <TMPL_LOOP NAME="ccate_1_loop">
+                <option value="%ccate_id%" %selected%>%ccate_name%</option>
+              </TMPL_LOOP>
+            </select>
+            ／
+            小：
+            <select id="course_ccate_id_2" name="course_ccate_id_2" class="%course_ccate_id_2_err%">
+              <option value=""></option>
+              <TMPL_LOOP NAME="ccate_2_loop">
+                <option value="%ccate_id%" data-pid="%ccate_pid%" %selected% hidden>%ccate_name%</option>
+              </TMPL_LOOP>
+            </select>
+            <ul class="note">
+              <li>大カテゴリーは必須ですが、小カテゴリーは必須ではありません。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required">レッスンの単位時間（分）</label></dt>
+          <dd>
+            <select name="course_step" id="course_step">
+              <option value="">-</option>
+              <option value="30" %course_step_30_selected%>30分</option>
+              <option value="60" %course_step_60_selected%>60分</option>
+              <option value="90" %course_step_90_selected%>90分</option>
+              <option value="120" %course_step_120_selected%>120分</option>
+            </select>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_intro" class="required %course_intro_err%">内容詳細</label></dt>
+          <dd>
+            <textarea name="course_intro" id="course_intro" rows="5" cols="80"
+              class="%course_intro_err%">%course_intro%</textarea>
+            <ul class="note">
+              <li>
+                <span id="course_intro_max_char_num">3000</span>文字以内で入力してください。
+                （現在の入力文字数：<span id="course_intro_char_num">0</span>文字）
+              </li>
+              <li>HTMLタグは有効になりません。</li>
+            </ul>
+          </dd>
+        </dl>
+        
+
+        <dl>
+          <dt><label for="course_youtube_id" class="%course_youtube_id_err%">Youtube ID</label>
+          </dt>
+          <dd>
+            <input type="text" id="course_youtube_id" name="course_youtube_id" value="%course_youtube_id%"
+              class="text inputlimit_ascii %course_youtube_id_err%">
+            <ul class="note">
+              <li>
+                <span id="course_youtube_id_max_char_num">255</span>文字で入力してください。
+                （現在の入力文字数：<span id="course_youtube_id_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_youtube_id2" class="%course_youtube_id2_err%">教材2</label>
+          </dt>
+          <dd>
+            <input type="text" id="course_youtube_id2" name="course_youtube_id2" value="%course_youtube_id2%"
+              class="text inputlimit_ascii %course_youtube_id2_err%">
+            <ul class="note">
+              <li>
+                <span id="course_youtube_id2_max_char_num">255</span>文字で入力してください。
+                （現在の入力文字数：<span id="course_youtube_id2_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_syllabus_member" class="%course_syllabus_member_err%">教材1</label>
+          </dt>
+          <dd>
+            <input type="text" id="course_syllabus_member" name="course_syllabus_member" value="%course_syllabus_member%"
+              class="text inputlimit_ascii %course_syllabus_member_err%">
+            <ul class="note">
+              <li>
+                <span id="course_syllabus_member_max_char_num">255</span>文字で入力してください。
+                （現在の入力文字数：<span id="course_syllabus_member_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="course_syllabus_prof" class="%course_syllabus_prof_err%">Youtube ID</label>
+          </dt>
+          <dd>
+            <input type="text" id="course_syllabus_prof" name="course_syllabus_prof" value="%course_syllabus_prof%"
+              class="text inputlimit_ascii %course_syllabus_prof_err%">
+            <ul class="note">
+              <li>
+                <span id="course_syllabus_prof_max_char_num">255</span>文字で入力してください。
+                （現在の入力文字数：<span id="course_syllabus_prof_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>表示順</legend>
+        <dl>
+          <dt><label for="course_order_weight" class="required %course_order_weight_err%">順位係数</label></dt>
+          <dd>
+            <input type="text" id="course_order_weight" name="course_order_weight" value="%course_order_weight%"
+              class="text inputlimit_num %course_order_weight_err%">
+            <ul class="note">
+              <li>0～255までの値を半角数字で指定してください。</li>
+              <li>0より大きい数字がセットされれば、人気順表示の際に優先的にトップに表示されます。また、大きい数字ほどトップに表示されます。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="%course_reco_err%">オススメ</label></dt>
+          <dd>
+            <label><input type="checkbox" id="course_reco" name="course_reco" value="1" %course_reco_1_checked% />
+              オススメにする</label>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>その他</legend>
+        <dl>
+          <dt><label for="course_status" class="required %course_status_err%">ステータス</label></dt>
+          <dd>
+            <select name="course_status" id="course_status" class="select %course_status_err%">
+              <option value="0" %course_status_0_selected%>無効</option>
+              <option value="1" %course_status_1_selected%>有効</option>
+            </select>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label for="course_memo" class="%course_memo_err%">運営側メモ</label></dt>
+          <dd>
+            <textarea id="course_memo" name="course_memo" rows="3" cols="80"
+              class="%course_memo_err%">%course_memo%</textarea>
+            <ul class="note">
+              <li>
+                <span id="course_memo_max_char_num">1000</span>文字以内で入力してください。
+                （現在の入力文字数：<span id="course_memo_char_num">0</span>文字）
+              </li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <div><input type="submit" value="登録" name="setBtn" class="submit" /></div>
+    </form>
+  </div>
+
+  <!-- カテゴリー選択処理 -->
+  <script>
+    (function() {
+      let cate1_el = document.querySelector('#course_ccate_id_1');
+      let cate2_el = document.querySelector('#course_ccate_id_2');
+
+      initCate2Select();
+
+      cate1_el.addEventListener('change', function() {
+        cate2_el.value = '';
+        initCate2Select();
+      }, false);
+
+      function initCate2Select() {
+        let c1_id = cate1_el.value;
+        let c2_opt_el_list = cate2_el.querySelectorAll('option[data-pid]');
+        for (let i = 0, len = c2_opt_el_list.length; i < len; i++) {
+          let opt_el = c2_opt_el_list.item(i);
+          let pid = opt_el.getAttribute('data-pid');
+          if (pid === c1_id) {
+            opt_el.hidden = false;
+          } else {
+            opt_el.hidden = true;
+          }
+        }
+      }
+    })();
+  </script>
+  
+
+  <script>
+    document.getElementById("course_select").onchange = function(){
+      var courseselect = document.getElementById("course_select");
+      var coursename = '';
+      var coursefee = '';
+      var courseccateid1 = '';
+      var courseccateid2 = '';
+      var coursestep = '';
+      var courseintro = '';
+      var courseyoutubeid = '';
+      var courseyoutubeid2 = '';
+      var coursesyllabusmember = '';
+      var coursesyllabusprof = '';
+      
+      switch(courseselect.value){
+        case 'Toeic500':
+          coursename = 'TOEIC L&R テスト500~600点突破コース';
+          coursefee = 4375;
+          courseccateid1 = 1;
+          courseccateid2 = 38;
+          coursestep = 60;
+          courseintro = '▼対象：中学生・高校生・大人\n\n▼使用教材：TOEICR L&Rテスト書き込みドリル 全パート入門編（スコア500）（桐原書店）\nDataBase TOEICR L&Rテスト最強 単語＆フレーズ（桐原書店）\n※教材はコース料金の中に含まれます。\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/1IOL-NBbKmDrmrwUapqCI_dWJXClcCoRI?usp=drive_link';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_500.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_500_for_guide.pdf';
+          break;
+        case 'Toeic650':
+          coursename = 'TOEIC L&R テスト730点突破コース';
+          coursefee = 4375;
+          courseccateid1 = 1;
+          courseccateid2 = 39;
+          coursestep = 60;
+          courseintro = '▼対象：中学生・高校生・大人\n\n▼使用教材：TOEICR L&Rテスト書き込みドリル 全パート入門編（スコア650）（桐原書店）\nDataBase TOEICR L&Rテスト最強 単語＆フレーズ（桐原書店）\n※教材はコース料金の中に含まれます。\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/1ug-8W7c7TEiCdb3FJIaobVGQIbf99Sd5?usp=drive_link';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_730.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_730_for_guide.pdf';
+          break;
+    /*		case 'ToeicBridge':
+          coursename = 'TOEIC Bridge L&R テスト対策コース';
+          coursefee = 4375;
+          courseccateid1 = 1;
+          courseccateid2 = 40;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：はじめてでも80点突破（ナツメ社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'Eiken1':
+          coursename = '英検1級一次試験　単語＆ライティング増強コース';
+          coursefee = 5625;
+          courseccateid1 = 2;
+          courseccateid2 = 7;
+          coursestep = 60;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：英検1級総合対策教本（旺文社）\n※教材は別途購入をお願いしています。\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;*/
+        case 'EikenJ1':
+          coursename = '英検準1級一次試験対策コース';
+          coursefee = 5625;
+          courseccateid1 = 2;
+          courseccateid2 = 8;
+          coursestep = 60;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：英検準1級総合対策教本（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/133Up1Dcbb_BiTeLyCfs7eNM3S6erD01Z?usp=drive_link';
+          courseyoutubeid2 = 'https://academy.kirihara.co.jp/assets/pdf/test/j1_test.html';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J1_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J1_v2_for_guide.pdf';
+          break;
+        case 'Eiken2':
+          coursename = '英検2級一次試験対策コース';
+          coursefee = 4375;
+          courseccateid1 = 2;
+          courseccateid2 = 35;
+          coursestep = 60;
+          courseintro = '▼対象：中学生・高校生・大学生\n\n▼使用教材：英検2級総合対策教本（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/1GqDMd5N8wHM8K_Wfv7TC7ZIsIwT2UGRc?usp=drive_link';
+          courseyoutubeid2 = 'https://academy.kirihara.co.jp/assets/pdf/test/2_test.html';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_2_v2_for_guide.pdf';
+          break;
+        case 'EikenJ2':
+          coursename = '英検準2級一次試験対策コース';
+          coursefee = 4375;
+          courseccateid1 = 2;
+          courseccateid2 = 36;
+          coursestep = 60;
+          courseintro = '▼対象：中学生・高校生・大学生\n\n▼使用教材：英検準2級総合対策教本（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/1SMqoZoqyFQmn56k62H4SiZH9U-aBdUZw?usp=drive_link';
+          courseyoutubeid2 = 'https://academy.kirihara.co.jp/assets/pdf/test/j2_test.html';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J2_v2_for_guide.pdf';
+          break;
+    /*		case 'Eiken3':
+          coursename = '英検3級一次試験対策コース';
+          coursefee = 4375;
+          courseccateid1 = 2;
+          courseccateid2 = 37;
+          coursestep = 60;
+          courseintro = '▼対象：小学生・中学生・高校生\n\n▼使用教材：英検3級総合対策教本[改訂増補版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'Eiken4':
+          coursename = '英検4級対策コース';
+          coursefee = 4375;
+          courseccateid1 = 2;
+          courseccateid2 = 41;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・小学生\n\n▼使用教材：英検4級総合対策教本[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'Eiken5':
+          coursename = '英検5級対策コース';
+          coursefee = 4375;
+          courseccateid1 = 2;
+          courseccateid2 = 42;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検5級総合対策教本[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWri1':
+          coursename = '英検1級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 9;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検1級英作文問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWriJ1':
+          coursename = '英検準1級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 10;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準1級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWri2':
+          coursename = '英検2級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 32;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検2級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWriJ2':
+          coursename = '英検準2級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 33;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準2級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWri3':
+          coursename = '英検3級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 34;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検3級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenMen1':
+          coursename = '英検1級二次試験合格コース';
+          coursefee = 5625;
+          courseccateid1 = 4;
+          courseccateid2 = 11;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検1級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;*/
+        case 'EikenMenJ1':
+          coursename = '英検準1級二次試験合格コース';
+          coursefee = 5625;
+          courseccateid1 = 4;
+          courseccateid2 = 31;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準1級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = '';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J1_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J1_v2_for_guide.pdf';
+          break;
+        case 'EikenMen2':
+          coursename = '英検2級二次試験合格コース';
+          coursefee = 4375;
+          courseccateid1 = 4;
+          courseccateid2 = 12;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検2級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = '';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_2_v2_for_guide.pdf';
+          break;
+        case 'EikenMenJ2':
+          coursename = '英検準2級二次試験合格コース';
+          coursefee = 4375;
+          courseccateid1 = 4;
+          courseccateid2 = 13;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準2級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = '';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J2_v2_for_guide.pdf';
+          break;
+    /*		case 'EikenMen3':
+          coursename = '英検3級二次試験合格コース';
+          coursefee = 4375;
+          courseccateid1 = 4;
+          courseccateid2 = 14;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検3級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'StepByStep':
+          coursename = 'Step by Step 文法・単語 基礎コース';
+          coursefee = 4375;
+          courseccateid1 = 15;
+          coursestep = 60;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：桐原書店オリジナル基礎英文法テキスト\nデータベース1700 使える英単語・熟語[3rd Edition]\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;*/
+        case 'Toefl':
+          coursename = 'TOEFL iBT Starterコース';
+          coursefee = 5625;
+          courseccateid1 = 76;
+          courseccateid2 = 77;
+          coursestep = 60;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：The Official Guide to the TOEFL iBT® Test 7th EDITION（ETS）\n英語4技能ハイパートレーニング 長文読解3~5\nDataBase AVAIL 4技能 英単語・熟語\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/19JUyu1Vq48EHxlQ7vhbo8uSv9vmjERNY?usp=sharing';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_toefl_starter.pdf';
+          break;
+        case 'Toeic500Taiken':
+          coursename = '（体験レッスン）TOEIC L&R テスト500~600点突破コース';
+          coursefee = 2187;
+          courseccateid1 = 43;
+          courseccateid2 = 44;
+          coursestep = 30;
+          courseintro = '※こちらはTOEIC®L&Rテスト500~600点突破コースの体験レッスン専用の予約となります。\nTOEIC®L&Rテストを初めて受験される方、英語初級者向けのコースです。\n体験レッスンでは、実際のコースで利用する教材を利用して、TOEIC®L&Rテストの概要と簡単なトレーニングをさせていただきます。\n体験レッスンで使用する教材は講師の方で準備いたします。\n是非、お気軽にご予約ください！';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/taiken/toeic500_taiken.html';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_500.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_500_for_guide.pdf';
+          break;
+        case 'Toeic650Taiken':
+          coursename = '（体験レッスン）TOEIC L&R テスト730点突破コース';
+          coursefee = 2187;
+          courseccateid1 = 43;
+          courseccateid2 = 45;
+          coursestep = 30;
+          courseintro = '※こちらはTOEIC®L&Rテスト730点突破コースの体験レッスン専用の予約となります。\nTOEIC®L&Rテストを過去に受験されたことがある方、英語中級者向けのコースです。\n体験レッスンでは、実際のコースで利用する教材を利用した、リスニング学習、リーディング学習を体験いただきます。\n体験レッスンで使用する教材は講師の方で準備いたします。\n是非、お気軽にご予約ください！';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/taiken/toeic730_taiken.html';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_730.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_toeic_730_for_guide.pdf';
+          break;
+    /*		case 'ToeicBridgeTaiken':
+          coursename = '（体験レッスン）TOEICR Bridge L&R テスト対策コース';
+          coursefee = 2187;
+          courseccateid1 = 1;
+          courseccateid2 = 40;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：はじめてでも80点突破（ナツメ社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'Eiken1Taiken':
+          coursename = '（体験レッスン）英検1級一次試験　単語＆ライティング増強コース';
+          coursefee = 2812;
+          courseccateid1 = 47;
+          courseccateid2 = 48;
+          coursestep = 30;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：英検1級総合対策教本（旺文社）\n※教材は別途購入をお願いしています。\n\n▼授業時間数：50分×8コマ（2ヶ月）';*/
+          break;
+        case 'EikenJ1Taiken':
+          coursename = '（体験レッスン）英検準1級一次試験対策コース';
+          coursefee = 2812;
+          courseccateid1 = 47;
+          courseccateid2 = 49;
+          coursestep = 30;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：英検準1級総合対策教本（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/eiken_taiken.pdf';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J1_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J1_v2_for_guide.pdf';
+          break;
+        case 'Eiken2Taiken':
+          coursename = '（体験レッスン）英検2級一次試験対策コース';
+          coursefee = 2187;
+          courseccateid1 = 47;
+          courseccateid2 = 50;
+          coursestep = 30;
+          courseintro = '▼対象：中学生・高校生・大学生\n\n▼使用教材：英検2級総合対策教本（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/eiken_taiken.pdf';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_2_v2_for_guide.pdf';
+          break;
+        case 'EikenJ2Taiken':
+          coursename = '（体験レッスン）英検準2級一次試験対策コース';
+          coursefee = 2187;
+          courseccateid1 = 47;
+          courseccateid2 = 51;
+          coursestep = 30;
+          courseintro = '▼対象：中学生・高校生・大学生\n\n▼使用教材：英検準2級総合対策教本（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/eiken_taiken.pdf';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_J2_v2_for_guide.pdf';
+          break;
+    /*		case 'Eiken3Taiken':
+          coursename = '（体験レッスン）英検3級一次試験対策コース';
+          coursefee = 2187;
+          courseccateid1 = 47;
+          courseccateid2 = 52;
+          coursestep = 30;
+          courseintro = '▼対象：小学生・中学生・高校生\n\n▼使用教材：英検3級総合対策教本[改訂増補版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'Eiken4Taiken':
+          coursename = '（体験レッスン）英検4級対策コース';
+          coursefee = 2187;
+          courseccateid1 = 47;
+          courseccateid2 = 54;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・小学生\n\n▼使用教材：英検4級総合対策教本[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'Eiken5Taiken':
+          coursename = '（体験レッスン）英検5級対策コース';
+          coursefee = 2187;
+          courseccateid1 = 47;
+          courseccateid2 = 55;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検5級総合対策教本[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWri1Taiken':
+          coursename = '（体験レッスン）英検1級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 9;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検1級英作文問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWriJ1Taiken':
+          coursename = '（体験レッスン）英検準1級ライティング対策コース';
+          coursefee = 5625;
+          courseccateid1 = 3;
+          courseccateid2 = 10;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準1級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWri2Taiken':
+          coursename = '（体験レッスン）英検2級ライティング対策コース';
+          coursefee = 2812;
+          courseccateid1 = 3;
+          courseccateid2 = 32;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検2級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWriJ2Taiken':
+          coursename = '（体験レッスン）英検準2級ライティング対策コース';
+          coursefee = 2812;
+          courseccateid1 = 3;
+          courseccateid2 = 33;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準2級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenWri3Taiken':
+          coursename = '（体験レッスン）英検3級ライティング対策コース';
+          coursefee = 2812;
+          courseccateid1 = 3;
+          courseccateid2 = 34;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検3級ライティング問題（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'EikenMen1Taiken':
+          coursename = '（体験レッスン）英検1級二次試験合格コース';
+          coursefee = 2812;
+          courseccateid1 = 61;
+          courseccateid2 = 62;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検1級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;*/
+        case 'EikenMenJ1Taiken':
+          coursename = '（体験レッスン）英検準1級二次試験合格コース';
+          coursefee = 2812;
+          courseccateid1 = 61;
+          courseccateid2 = 63;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準1級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/eiken_men_taiken.pdf';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J1_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J1_v2_for_guide.pdf';
+          break;
+        case 'EikenMen2Taiken':
+          coursename = '（体験レッスン）英検2級二次試験合格コース';
+          coursefee = 2187;
+          courseccateid1 = 61;
+          courseccateid2 = 64;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検2級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/eiken_men_taiken.pdf';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_2_v2_for_guide.pdf';
+          break;
+        case 'EikenMenJ2Taiken':
+          coursename = '（体験レッスン）英検準2級二次試験合格コース';
+          coursefee = 2187;
+          courseccateid1 = 61;
+          courseccateid2 = 65;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検準2級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://academy.kirihara.co.jp/assets/pdf/eiken_men_taiken.pdf';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J2_v2.pdf';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_eiken_men_J2_v2_for_guide.pdf';
+          break;
+    /*		case 'EikenMen3Taiken':
+          coursename = '（体験レッスン）英検3級二次試験合格コース';
+          coursefee = 2187;
+          courseccateid1 = 61;
+          courseccateid2 = 66;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：英検3級二次試験・面接完全予想問題[改訂版]（旺文社）\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;
+        case 'StepByStepTaiken':
+          coursename = '（体験レッスン）Step by Step 文法・単語 基礎コース';
+          coursefee = 2187;
+          courseccateid1 = 15;
+          coursestep = 30;
+          courseintro = '▼対象：英会話初心者・中学生・高校生\n\n▼使用教材：桐原書店オリジナル基礎英文法テキスト\nデータベース1700 使える英単語・熟語[3rd Edition]\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          break;*/
+        case 'ToeflTaiken':
+          coursename = '（体験レッスン）TOEFL iBT Starterコース';
+          coursefee = 2812;
+          courseccateid1 = 78;
+          courseccateid2 = 79;
+          coursestep = 30;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：The Official Guide to the TOEFL iBT® Test 7th EDITION（ETS）\n英語4技能ハイパートレーニング 長文読解3~5\nDataBase AVAIL 4技能 英単語・熟語\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/19JUyu1Vq48EHxlQ7vhbo8uSv9vmjERNY?usp=sharing';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/ca_toefl_starter.pdf';
+          break;
+        case 'ToeflTensaku':
+          coursename = '（体験レッスン）TOEFL iBT ライティング添削';
+          coursefee = 2812;
+          courseccateid1 = 78;
+          courseccateid2 = 81;
+          coursestep = 30;
+          courseintro = '▼対象：高校生・大学生・大人\n\n▼使用教材：The Official Guide to the TOEFL iBT® Test 7th EDITION（ETS）\n英語4技能ハイパートレーニング 長文読解3~5\nDataBase AVAIL 4技能 英単語・熟語\n※教材は別途購入をお願いしています\n\n▼授業時間数：50分×8コマ（2ヶ月）';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/19JUyu1Vq48EHxlQ7vhbo8uSv9vmjERNY?usp=sharing';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = 'https://academy.kirihara.co.jp/assets/pdf/toeflseminar-guide.pdf';
+          break;
+        case 'Toeic500Subsc':
+          coursename = 'TOEIC500～600点コース修了者向け定期コース';
+          coursefee = 4500;
+          courseccateid1 = 68;
+          courseccateid2 = 69;
+          coursestep = 60;
+          courseintro = '※このコースはTOEIC L&Rテスト500～600点突破コース修了者に限ります\n\n▼対象：中学生・高校生・大人\n\n▼提供教材：TOEICR L&Rテスト書き込みドリル 【フレーズ言いまわし編】（桐原書店）\nDataBase TOEICR L&Rテスト最強 単語＆フレーズ（桐原書店）\n※教材はコース料金の中に含まれます。\n\n▼授業時間数：50分';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/1IOL-NBbKmDrmrwUapqCI_dWJXClcCoRI?usp=drive_link';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = '';
+          break;
+        case 'Toeic730Subsc':
+          coursename = 'TOEIC730点コース修了者向け定期コース';
+          coursefee = 4500;
+          courseccateid1 = 68;
+          courseccateid2 = 70;
+          coursestep = 60;
+          courseintro = '※このコースはTOEIC L&Rテスト730点突破コース修了者に限ります\n\n▼対象：中学生・高校生・大人\n\n▼提供教材：TOEICR L&Rテスト書き込みドリル 【フレーズ言いまわし編】（桐原書店）\n※教材はコース料金の中に含まれます。\n\n▼授業時間数：50分';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/1ug-8W7c7TEiCdb3FJIaobVGQIbf99Sd5?usp=drive_link';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = '';
+          break;
+        case 'Eiken1j1Subsc':
+          coursename = '英検一次試験対策修了者向け定期コース（準1）';
+          coursefee = 6000;
+          courseccateid1 = 71;
+          courseccateid2 = 73;
+          coursestep = 60;
+          courseintro = '※このコースは英検一次試験対策コース、もしくは英検二次試験対策コース修了者に限ります\n\n▼対象：中学生・高校生・大人\n\n▼授業時間数：50分';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/133Up1Dcbb_BiTeLyCfs7eNM3S6erD01Z?usp=drive_link';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = '';
+          break;
+        case 'Eiken1j2Subsc':
+          coursename = '英検一次試験対策修了者向け定期コース（2、準2）';
+          coursefee = 4500;
+          courseccateid1 = 71;
+          courseccateid2 = 80;
+          coursestep = 60;
+          courseintro = '※このコースは英検一次試験対策コース、もしくは英検二次試験対策コース修了者に限ります\n\n▼対象：中学生・高校生・大人\n\n▼授業時間数：50分';
+          courseyoutubeid = 'https://drive.google.com/drive/folders/13OTHDbx1Uhxbw3fErQbWJVwxAE7w_1wF?usp=drive_link';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = '';
+          break;
+        case 'Eiken2j1Subsc':
+          coursename = '英検二次試験対策修了者向け定期コース（準1）';
+          coursefee = 6000;
+          courseccateid1 = 72;
+          courseccateid2 = 74;
+          coursestep = 60;
+          courseintro = '※このコースは英検一次試験対策コース、もしくは英検二次試験対策コース修了者に限ります\n\n▼対象：中学生・高校生・大人\n\n▼授業時間数：50分';
+          courseyoutubeid = '';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = '';
+          break;
+        case 'Eiken2j2Subsc':
+          coursename = '英検二次試験対策修了者向け定期コース（2、準2）';
+          coursefee = 4500;
+          courseccateid1 = 72;
+          courseccateid2 = 81;
+          coursestep = 60;
+          courseintro = '※このコースは英検一次試験対策コース、もしくは英検二次試験対策コース修了者に限ります\n\n▼対象：中学生・高校生・大人\n\n▼授業時間数：50分';
+          courseyoutubeid = '';
+          courseyoutubeid2 = '';
+          coursesyllabusmember = '';
+          coursesyllabusprof = '';
+          break;
+      }
+      
+      document.getElementById("course_name").value = coursename;
+      document.getElementById("course_fee").value = coursefee;
+      document.getElementById("course_ccate_id_1").value = courseccateid1;
+      document.getElementById("course_ccate_id_2").value = courseccateid2;
+      document.getElementById("course_step").value = coursestep;
+      document.getElementById("course_intro").value = courseintro;
+      document.getElementById("course_youtube_id").value = courseyoutubeid;
+      document.getElementById("course_youtube_id2").value = courseyoutubeid2;
+      document.getElementById("course_syllabus_member").value = coursesyllabusmember;
+      document.getElementById("course_syllabus_prof").value = coursesyllabusprof;
+    };
+    </script>
+  
+
+  <!-- 入力文字数カウント -->
+  <script src="%static_url%/js/input-count.js"></script>
+  <!-- フォーム二重投稿禁止 -->
+  <script src="%static_url%/js/form-guard.js"></script>
+  <!-- 入力値半角変換 -->
+  <script src="%static_url%/js/input-limit.js"></script>
+
+</body>
+
+</html>

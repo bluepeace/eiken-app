@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>%product_name%</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Oswald|Material+Icons|Noto+Sans+JP:300,400,500,700|Open+Sans:700&display=swap&subset=japanese" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&display=swap" rel="stylesheet">
+
+  <script type="text/javascript">
+    <!--
+    calc();
+
+    function calc() {
+      var wt_fee = document.getElementById("wt_fee").value;
+      var result = wt_fee.match(/[^0-9]/);
+      if (!wt_fee || result) {
+        wt_fee = 0;
+      } else {
+        wt_fee = parseFloat(document.getElementById("wt_fee").value);
+      }
+      var wt_fee_zeinuki = Math.floor(wt_fee / 1.1);
+
+
+      var tableElem = document.getElementById('total');
+      var rowElems = tableElem.rows;
+      var fee = 210000;
+
+      var wt = wt_fee; //★毎月のワールドトークのレッスン費をこちらに入力★
+      document.getElementById('wt').innerText = wt;
+
+      var koa = Math.floor(fee - wt);
+      document.getElementById('koa').innerText = koa;
+
+      var price = 210000;
+      document.getElementById('sum').innerText = price.toLocaleString();
+
+      var zei = Math.floor(price * 1.1);
+      document.getElementById('zei').innerText = zei.toLocaleString();
+
+      var czei = Math.floor(price * 0.1);
+      document.getElementById('czei').innerText = czei.toLocaleString();
+
+      var gensen = Math.floor(price * 0.1021);
+      document.getElementById('gensen').innerText = gensen.toLocaleString();
+
+      var pay = Math.floor(zei - gensen);
+      document.getElementById('pay').innerText = pay.toLocaleString();
+
+      document.getElementById('shiharai').innerText = pay.toLocaleString();
+    }
+    //
+    -->
+  </script>
+  <script type="text/javascript">
+    window.onload = function () {
+
+    }
+  </script>
+  <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      font-size: 16px;
+      font-size: 1.6rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans JP", "Yu Gothic", YuGothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Verdana, "ＭＳ Ｐゴシック", sans-serif;
+      color: #000;
+      line-height: 2;
+      font-weight: 400;
+      -webkit-text-size-adjust: 100%;
+      -webkit-print-color-adjust: exact;
+    }
+
+    input[type=text] {
+      font-size: 16px;
+      font-size: 1.6rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans JP", "Yu Gothic", YuGothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Verdana, "ＭＳ Ｐゴシック", sans-serif;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 30px;
+      font-weight: 500;
+      border-bottom: 3px solid #000;
+      padding-bottom: .2em;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .sbox {
+      border: 1px solid #000;
+      border-bottom: 0;
+      line-height: 1;
+    }
+
+    .sbox .sbig {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.4
+    }
+
+    .sbox.sbottom {
+      border-bottom: 1px solid #000;
+    }
+
+    .nbox h3 {
+      margin: 0;
+    }
+
+    .nbox {
+      border: 2px solid #000;
+      line-height: 1;
+    }
+
+    .nbox div,
+    .sbox div {
+      padding: 0.4em;
+    }
+
+    .nbox h3 {
+      margin: 0;
+    }
+
+    .nbox .nbig {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    p.naddress {
+      line-height: 1.2;
+    }
+
+    table {
+      counter-reset: lesson;
+    }
+
+    table tbody th:before {
+      counter-increment: lesson;
+      content: counter(lesson);
+    }
+
+    th {
+      background: #ccc;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    td {
+      padding: 0 0.5em;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border-collapse: collapse;
+      border: 1px solid #000;
+    }
+
+    table h3 {
+      margin: 0;
+    }
+
+    table h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    @media print {
+      .noprint {
+        display: none;
+      }
+    }
+  </style>
+  <script>
+    var dt = new Date(); //現在日時のDateオブジェクトを生成
+    var ldt = new Date(dt.getFullYear(), dt.getMonth() + 1, 0); //今月末日を取得
+    var sldt = new Date(dt.getFullYear(), dt.getMonth() + 0, 0); //先月末日を取得
+
+    //フォーマット整形
+    var y = ldt.getFullYear();
+    var m = ("00" + (ldt.getMonth() + 1)).slice(-2);
+    var d = ("00" + ldt.getDate()).slice(-2);
+    var sy = sldt.getFullYear();
+    var sm = ("00" + (sldt.getMonth() + 1)).slice(-2);
+    var sd = ("00" + sldt.getDate()).slice(-2);
+    var result = y + "/" + m + "/" + d;
+    var result1 = y + "年" + m + "月" + d + "日";
+    var result4 = y + "年" + m + "月";
+    var result5 = sy + "年" + sm + "月" + sd + "日";
+    var result6 = sy + "年" + sm + "月";
+    var result7 = sy + "年" + sm + "月01日";
+  </script>
+</head>
+
+<body>
+  <section id="page" class="container-fluid p-5">
+    <div class="row noprint">
+      <div class="col-3 form-group">
+        <input type="text" class="form-control w-100 p-4" id="wt_fee" name="wt_fee" value="" placeholder="ワールドトークのレッスン費を入力" onkeyup="calc();">
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h1 class="mt-4">ご請求書</h1>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-7">
+        <h2 class="text-center mb-5">株式会社ライトアップ 御中</h2>
+        <div class="container-fluid">
+          <div class="row mb-3">
+            <div class="col-12">
+              <p>下記のとおり、御請求申し上げます。</p>
+            </div>
+          </div>
+          <div class="sbox row">
+            <div class="col-4 text-center" style="background:#000;color:#fff;">
+              <p class="sbig">件名</p>
+            </div>
+            <div class="col-8 text-center">
+              <p class="sbig">
+                <script>
+                  document.write(result6)
+                </script>度ワールドトーク・KOA運営業務
+              </p>
+            </div>
+          </div>
+          <div class="sbox row">
+            <div class="col-4 text-center" style="background:#000;color:#fff;border-top:1px solid #fff;">
+              <p class="sbig">お支払期限</p>
+            </div>
+            <div class="col-8 text-center">
+              <p class="sbig">
+                <script>
+                  document.write(result)
+                </script>
+              </p>
+            </div>
+          </div>
+          <div class="sbox row mb-3 sbottom">
+            <div class="col-4 text-center" style="background:#000;color:#fff;border-top:1px solid #fff;">
+              <p class="sbig">お振込先</p>
+            </div>
+            <div class="col-8 text-center">
+              <p class="sbig">福岡銀行　荒江支店<br>普通　1432101<br>ミズハヤアカネ</p>
+            </div>
+          </div>
+          <div class="nbox row mb-3">
+            <div class="col-4 text-center" style="background:#000;color:#fff;">
+              <h3>合計金額</h3>
+            </div>
+            <div class="col-8 text-center">
+              <p class="nbig">¥ 209,559</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-5 mb-3">
+        <h3 class="text-center mb-5">
+          <script>
+            var fdt = new Date(); //現在日時のDateオブジェクトを生成
+            fdt.setDate(1);
+
+            //フォーマット整形
+            var y = dt.getFullYear();
+            var m = ("00" + (fdt.getMonth() + 1)).slice(-2);
+            var d = ("00" + fdt.getDate()).slice(-2);
+            var result2 = y + "/" + m + "/" + d;
+            var result3 = y + "年" + m + "月" + d + "日";
+            document.write(result2)
+          </script>
+        </h3>
+        <p class="text-right naddress">〒816-0972<br>福岡県大野城市平野台<br>3丁目17-6<br>水早　紅子<br>登録番号：<span class="d-inline-block" style="min-width: 100px;"></span></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table id="total" class="w-100">
+          <thead>
+            <tr>
+              <th>no</th>
+              <th>レッスン名</th>
+              <th>実施日</th>
+              <th>報酬（税抜）</th>
+              <!--<th>報酬（税込）</th>-->
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th></th>
+              <td>ワールドトークレッスン料</td>
+              <td>
+                <script>
+                  document.write(result7)
+                </script>～<script>
+                  document.write(result5)
+                </script>
+              </td>
+              <td class="text-right"><span id="wt"></span></td>
+              <!--<td class="text-right">150150<script>
+            var total1 = Math.floor(%lsn_prof_price%*1.1);
+            document.write(total1)
+          </script></td>-->
+            </tr>
+            <tr>
+              <th></th>
+              <td>ワールドトーク・KOA運営業務</td>
+              <td>
+                <script>
+                  document.write(result7)
+                </script>～<script>
+                  document.write(result5)
+                </script>
+              </td>
+              <td class="text-right"><span id="koa"></span></td>
+              <!--<td class="text-right">69850<script>
+            var total1 = Math.floor(%lsn_prof_price%*1.1);
+            document.write(total1)
+          </script></td>-->
+            <!--<tr>
+              <th></th>
+              <td>グループレッスン講師料</td>
+              <td>2023年08月01日～2023年10月31日</td>
+              <td class="text-right"><span>123750</span></td>
+            </tr>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 offset-6">
+        <table class="w-100">
+          <thead>
+            <tr>
+              <th>小計（10％対象）</th>
+              <td class="text-right">
+                <h4><span id="sum"></span> 円</h4>
+              </td>
+            </tr>
+            <tr>
+              <th>消費税（10％）</th>
+              <td class="text-right">
+                <h4><span id="czei"></span> 円</h4>
+              </td>
+            </tr>
+            <tr>
+              <th>合計</th>
+              <td class="text-right">
+                <h4><span id="zei"></span> 円</h4>
+              </td>
+            </tr>
+            <tr>
+              <th>源泉徴収税　10.21%</th>
+              <td class="text-right">
+                <h4><span id="gensen"></span> 円</h4>
+              </td>
+            </tr>
+            <tr>
+              <th>ご請求金額</th>
+              <td class="text-right">
+                <h3><span id="pay"></span> 円</h3>
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="%static_url%/js/jquery.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+
+      var processing = false;
+
+      $(document).ready(function () {
+        var pdm_status_toggle = $('#pdm_status_toggle');
+        // clickイベントリスナー
+        pdm_status_toggle.click(function (event) {
+          event.preventDefault();
+          if (processing === true) {
+            return;
+          }
+          reqPdmTglSet($(this));
+        });
+      });
+
+      function reqPdmTglSet(tgl) {
+        var url = tgl.attr('href');
+        if (!url) {
+          return;
+        }
+        var res = window.confirm("本当にステータスを変更しても良いですか？");
+        if (res === false) {
+          return;
+        }
+        //
+        tgl.text('処理中...');
+        $.ajax({
+          url: url,
+          type: 'GET',
+          cache: false,
+          dataType: 'text',
+          success: function (data) {
+            if (data.match(/^1/)) {
+              $('#pdm_status_caption').text('支払中');
+              $('#pdm_status_toggle').text('支払済にする');
+            } else if (data.match(/^2/)) {
+              $('#pdm_status_caption').text('支払済');
+              $('#pdm_status_toggle').text('支払中に戻す');
+            } else {
+              tgl.text('処理エラー');
+            }
+            processing = false;
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            tgl.text('処理エラー');
+            processing = false;
+          }
+        });
+      }
+
+    })();
+  </script>
+  <script type="text/javascript">
+    calc();
+  </script>
+</body>
+
+</html>

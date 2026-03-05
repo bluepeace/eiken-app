@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>請求履歴｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta name="robots" content="noindex,nofollow" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+      
+<body id="instructor" class="instructor">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header_prof.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-8 offset-md-2">
+                <h2 class="text-center">請求履歴</h2>
+
+            <p>これまでに請求を行った履歴を確認できます。支払が完了したものは「支払済み」と表記されています。</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-8 offset-md-2">
+            <div class="wform">
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; 前へ</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">次へ &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+            
+            
+            <table class="table">
+              <tr>
+                <th class="">請求ID</th>
+                <th class="">状態</th>
+                <th class="">請求日時</th>
+                <th class="">チケット</th>
+              </tr>
+              <TMPL_LOOP NAME="list_loop">
+              <tr>
+                <td>%pdm_id%</td>
+                <td>
+                  <TMPL_IF NAME="pdm_status_0">未請求</TMPL_IF>
+                  <TMPL_IF NAME="pdm_status_1">支払中</TMPL_IF>
+                  <TMPL_IF NAME="pdm_status_2">支払済み</TMPL_IF>
+                </td>
+                <td>%pdm_cdate_Y%年%pdm_cdate_n%月%pdm_cdate_j%日（%pdm_cdate_wj%）%pdm_cdate_G%:%pdm_cdate_i%</td>
+                <td>%pdm_price_with_comma%回</td>
+              </tr>
+              </TMPL_LOOP>
+            </table>
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; 前へ</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">次へ &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </main>            
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer_prof.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot_prof.html">
+  
+</body>
+</html>
+

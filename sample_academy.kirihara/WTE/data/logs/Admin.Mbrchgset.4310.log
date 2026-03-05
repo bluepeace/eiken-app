@@ -1,0 +1,3 @@
+[2025-01-06 16:49:44][sql1] UPDATE members SET member_point=member_point+500 WHERE member_id=212
+[2025-01-06 16:49:44][sql2] INSERT INTO mbracts (mbract_cdate,mbract_type,mbract_price,mbract_reason,member_id,seller_id) VALUES (1736149784,1,500,12,212,1)
+[2025-01-06 16:49:44][slq3] 

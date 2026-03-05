@@ -1,0 +1,1 @@
+2025-03-10 18:04:12 27.253.251.211 [error] failed to update a lesson record in lessons table. : DBD::mysql::db do failed: Incorrect string value: '\xF0\x9F\x99\x87\xE2\x80...' for column 'lsn_cancel_reason' at row 1 at /var/www/WTE/lib/FCC/Class/Lesson.pm line 381. : UPDATE lessons SET lsn_cancel=1, lsn_cancel_date=1741597452, lsn_cancel_reason='おやすみします🙇‍♀️' WHERE lsn_id=5046

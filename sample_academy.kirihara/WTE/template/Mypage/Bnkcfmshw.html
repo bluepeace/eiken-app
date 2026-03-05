@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>銀行口座振込｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/" />
+  <meta name="twitter:title" content="お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+  <TMPL_INCLUDE NAME="../include/analysis.html">
+</head>
+      
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-8 offset-md-2">
+                <h2 class="text-center">銀行口座振込</h2>
+                  
+                <div class="wt_form wt_form_layer mb-5">
+            <p>以下の内容でよろしいですか。問題なければ「送信」ボタンを押してください。</p>
+            <form method="post" action="%CGI_URL%">
+              <input type="hidden" name="m" value="bnkcptset" />
+              <input type="hidden" name="pkey" value="%pkey%" />
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th class="w30">プラン</th>
+                    <td>%pln_title%</td>
+                  </tr>
+                  <tr>
+                    <th>お振込名（カナ）</th>
+                    <td>%kana%</td>
+                  </tr>
+                  <tr>
+                    <th>お振込予定日</th>
+                    <td>%date%</td>
+                  </tr>
+                  <tr>
+                    <th>備考</th>
+                    <td>%note%</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <input type="submit" name="setBtn" value="送信する" class="btn btn-primary rounded-pill wt_btn" />
+              </div>
+              <div class="text-center">
+                <input type="button" name="backBtn" value="&laquo; 入力内容を修正する" onclick="javascript:document.location.href='%CGI_URL%?m=bnkfrmshw&amp;pkey=%pkey%'" class="btn btn-link" />
+              </div>
+            </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+<TMPL_INCLUDE NAME="../include/foot.html">
+</body>
+</html>

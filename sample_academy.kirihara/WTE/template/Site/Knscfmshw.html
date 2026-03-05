@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>法人研修の資料ダウンロード・ご相談｜<TMPL_INCLUDE NAME="../include/title.html">
+  </title>
+  <meta name="description" content="お問い合わせ確認画面｜ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="法人研修の資料ダウンロード・ご相談｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=knsfrmshw" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=knsfrmshw" />
+  <meta name="twitter:title" content="法人研修の資料ダウンロード・ご相談｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+
+        <section class="wt_headvis wt_head_contact">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h1>法人研修の資料ダウンロード・ご相談</h1>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-8 offset-md-2 wt_form">
+
+                <p>以下のお問い合わせ内容でよろしいですか。問題なければ「送信する」ボタンを押してください。</p>
+                <form method="post" action="%CGI_URL%">
+                  <input type="hidden" name="m" value="knscptset" />
+                  <input type="hidden" name="pkey" value="%pkey%" />
+                  <table class="table mb-5">
+                    <tr>
+                      <th>御社名</th>
+                      <td>%kns_company%</td>
+                    </tr>
+                    <tr>
+                      <th>ご担当者様ご氏名</th>
+                      <td>%kns_name% 様</td>
+                    </tr>
+                    <tr>
+                      <th>メールアドレス</th>
+                      <td>%kns_email%</td>
+                    </tr>
+                    <tr>
+                      <th>電話番号</th>
+                      <td>%kns_tel%</td>
+                    </tr>
+                    <tr>
+                      <th>ご希望をお聞かせください</th>
+                      <td>%kns_mtype_caption%</td>
+                    </tr>
+                    <tr>
+                      <th>その他質問があれば入力ください</th>
+                      <td>%kns_cont%</td>
+                    </tr>
+                  </table>
+
+                  <div class="text-center mb-5">
+                    <input type="submit" name="setBtn" value="送信する" class="btn btn-primary rounded-pill wt_btn" />
+                  </div>
+                  <div class="text-center mb-5">
+                    <input type="button" name="backBtn" value="&laquo; 入力内容を修正する" onclick="document.location.href='%CGI_URL%?m=knsfrmshw&amp;pkey=%pkey%'" class="btn btn-link" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <ul class="wt_breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+          <li><a href="/" itemprop="url" content="https://academy.kirihara.co.jp/"><span class="wt_crumb" itemprop="title">ホーム</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/site.cgi?m=knsfrmshw" itemprop="url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=knsfrmshw"><span itemprop="title">法人研修の資料ダウンロード・ご相談</span></a></li>
+        </ul>
+      </main>
+
+
+      <!-- foot section -->
+      <TMPL_INCLUDE NAME="../include/footer.html">
+        <TMPL_INCLUDE NAME="../include/foot.html">
+          <script src="/WTE/static/js/dom.js"></script>
+          <script src="/WTE/static/js/form.js"></script>
+</body>
+
+</html>

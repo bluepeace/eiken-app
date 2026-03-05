@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+<meta charset=utf-8>
+<meta content="IE=edge" http-equiv=X-UA-Compatible>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<title>%product_name%</title>
+<meta name="robots" content="noindex,nofollow" />
+<TMPL_INCLUDE NAME="./include/head_prof.html">
+</head>
+<body id="instructor" class="instructor">
+
+<TMPL_INCLUDE NAME="./include/header_prof.html">
+  <div id="sb-site">
+
+    <!-- schedule section -->
+    <section class="page bggrey">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>Comments</h1>
+            <p>This is the list of the comments of your studetns.You can chose Display/Hidden.<br />The date is displayed as 【 YYYY/MM/DD 】.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="wform">
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; Pre</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; Pre</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">Next &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">Next &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+            
+            <table class="table buztbl">
+              <tr>
+                <th class="w20">Date of comments</th>
+                <th class="w20">Your student</th>
+                <th class="">Comments</th>
+                <th class="w20">Switch the display</th>
+              </tr>
+              <TMPL_LOOP NAME="list_loop">
+              <tr>
+                <td>%buz_cdate_Y%/%buz_cdate_n%/%buz_cdate_j%（%buz_cdate_wj%）%buz_cdate_G%:%buz_cdate_i%</td>
+                <td>
+                  <TMPL_IF NAME="member_logo">
+                    <img src="%member_logo_1_url%?%epoch%" width="%member_logo_1_w%" height="%member_logo_1_h%" alt="%member_handle%" />
+                  <TMPL_ELSE>
+                    <img src="%static_url%/imgs/profile_blank.png" width="%member_logo_1_w%" height="%member_logo_1_h%" alt="%member_handle%" />
+                  </TMPL_IF>
+                  %member_handle%
+                </td>
+                <td>%buz_content%</td>
+                <td>
+                    <ul class="list-inline">
+                      <li><span <TMPL_IF NAME="buz_show">class="statusok"<TMPL_ELSE>class="statusng"</TMPL_IF> data-class-0="statusng" data-class-1="statusok" data-caption-0="Hidden" data-caption-1="Display" id="buz_%buz_id%">
+                      <TMPL_IF NAME="buz_show">Display<TMPL_ELSE>Hidden</TMPL_IF></span></li>
+                      <li><a href="%CGI_URL%?m=buztglajx&amp;buz_id=%buz_id%" data-id="%buz_id%" data-caption-0="Display" data-caption-1="Hidden" class="buztgl"><TMPL_IF NAME="buz_show">Hidden<TMPL_ELSE>Display</TMPL_IF></a></li>
+                    </ul>
+                </td>
+              </tr>
+              </TMPL_LOOP>
+            </table>
+
+            <nav aria-label="..." class="text-center">
+              <ul class="pagination">
+                <TMPL_IF NAME="prev_url">
+                <li class="page-item">
+                  <a href="%prev_url%" class="page-link"> &laquo; Pre</a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link"> &laquo; Pre</span>
+                </li>
+                </TMPL_IF>
+                <TMPL_LOOP NAME="page_loop">
+                <TMPL_IF NAME="current">
+                <li class="page-item active">
+                  <span class="page-link">%page%</span>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item">
+                  <a href="%url%" class="page-link">%page%</a>
+                </li>
+                </TMPL_IF>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="next_url">
+                <li class="page-item">
+                  <a href="%next_url%" class="page-link">Next &raquo; </a>
+                </li>
+                <TMPL_ELSE>
+                <li class="page-item disabled">
+                  <span class="page-link">Next &raquo; </span>
+                </li>
+                </TMPL_IF>
+              </ul>
+            </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="./include/footer_prof.html">
+  </div>
+<TMPL_INCLUDE NAME="./include/foot_prof.html">
+  
+<script src="%static_url%/js/prof/buztgl.js"></script>
+</body>
+</html>

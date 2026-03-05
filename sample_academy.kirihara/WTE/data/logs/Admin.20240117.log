@@ -1,0 +1,1 @@
+2024-01-17 10:19:50 39.110.212.70 [error] failed to insert a record to plans table. : DBD::mysql::db do failed: Column 'pln_no' cannot be null at /var/www/WTE/lib/FCC/Class/Plan.pm line 205. : INSERT INTO plans (pln_price,pln_sort,pln_id,pln_point,pln_title,pln_status,pln_no,pln_subscription) VALUES ('17600','190','EikenMenTeiki4','16000','英検二次試験修了者向け定期コース月4回','1',NULL,'1')

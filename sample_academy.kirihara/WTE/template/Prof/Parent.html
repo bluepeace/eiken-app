@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>%prof_caption%ダッシュボード｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta name="robots" content="noindex,nofollow" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="instructor" class="instructor">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header_prof.html">
+
+      <main role="main" class="wt_main">
+          
+         
+        <section class="wt_sec_bg_1">
+            
+            <!--<div class="container mb-5">
+              <div class="row">
+                <div class="col-12 col-md-8 offset-md-2">           
+                  <div class="row">
+                    <div class="col-12 wt_headline" style="background-color: #fff;">
+                      <h3>お知らせ</h3>
+                      <ul class="m-0 pl-3 pl-lg-5">
+                        <li><a href="https://academy.kirihara.co.jp/WTE/prof.cgi?m=plan2025">12/6（金）【重要】料金プラン変更による報酬改定についてのお知らせ</a></li>
+                        <li><a href="https://academy.kirihara.co.jp/WTE/prof.cgi?m=toefl2025">12/6（金）【新プラン】TOEFLコース追加についてのお知らせ</a></li>
+                      </ul>
+                    </div>
+                  </div>
+               </div>
+              </div>                    
+            </div>              -->
+          <div class="container">
+          <TMPL_IF NAME="prof_status">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="text-center">%session_prof_handle%先生、いつもありがとうございます</h2>
+              </div>
+            </div>
+          <TMPL_ELSE>
+            <div class="row">
+              <div class="col-12 mb-5">
+                <div class="col-12 wt_headline" style="background-color: #fff;">
+                  <h3 class="text-danger">ご確認願い</h3>
+                  <p class="text-danger mb-0"><strong>スケジュールに2ヶ月間登録がなかったため、現在サイトの表示を停止しています。<br>新しい予約枠を追加すると、再度サイトへ表示されますのでスケジュール登録をお願いします。<br>(※毎晩、夜3時に公開処理が行われます)</strong></p>
+                </div>
+              </div>
+            </div>
+          </TMPL_IF>
+            <div class="row mb-4 wt_tools">
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=schlstfrm"><span class="far fa-calendar-alt"></span>スケジュール登録</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=lsnlstfrm"><span class="fas fa-chalkboard-teacher"></span>レッスン確認</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=course"><span class="far fa-folder-open"></span>コース一覧</a>
+              </div>
+            </div>
+            <div class="row mb-4 wt_tools">
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=billstfrm"><span class="fas fa-cash-register"></span>請求確認</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=prfmodfrm"><span class="far fa-id-card"></span>プロフィール編集</a>
+              </div>
+              <div class="col-4">
+                <a href="https://academy.kirihara.co.jp/assets/pdf/kiyaku.pdf" target="_blank"><span class="fas fa-file-contract"></span>利用規約確認</a>
+              </div>
+            </div>
+            <div class="row mb-4 wt_tools">
+              <div class="col-4">
+                <a href="https://academy.kirihara.co.jp/assets/pdf/manual.pdf" target="_blank"><span class="fas fa-tools"></span>マニュアル確認</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=movie"><span class="fab fa-youtube"></span>レッスン動画</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=sns"><span class="fab fa-twitter-square"></span>各種SNSツール</a>
+              </div>
+            </div>
+            <div class="row mb-5 wt_tools">
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=buzlstfrm"><span class="fas fa-comment-dots"></span>口コミ管理</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=ntemodfrm"><span class="fas fa-pencil-alt"></span>講師用メモ</a>
+              </div>
+              <div class="col-4">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=letter"><span class="fas fa-envelope-open-text"></span>事務局レター</a>
+              </div>
+            </div>              
+            
+            <div class="row">
+              <div class="col-12">
+
+              <div class="wt_form wt_form_layer mb-5">
+                <h3 class="text-center">運営事務局からのお知らせ</h3>
+                
+                
+                <div class="ibox">
+                  <TMPL_LOOP NAME="ann_loop">
+                    <h4>%ann_title%</h4>
+                    <div class="idate">%ann_cdate_0%/%ann_cdate_1%/%ann_cdate_2% 投稿</div>
+                    <p>%ann_content%</p>
+                  </TMPL_LOOP>
+                </div>
+                
+              </div>
+              
+              
+              <div class="wt_form wt_form_layer mb-5">
+                <h3 class="text-center">レッスン予約確認・履歴</h3>
+                <h4>本日のレッスン</h4>
+                <table class="table mb-5">
+                  <tr>
+                    <th>日時/授業名</th>
+                    <th>メンバー名</th>
+                    <th>メッセージ</th>
+                  </tr>
+                  <TMPL_LOOP NAME="lsn_today_loop">
+                    <tr>
+                      <td>
+                        <div><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%stime%～%etime%</a></div>
+                        <div>%course_name%</div>
+                      </td>
+                      <td><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%member_handle%さん</a></td>
+                      <td>%lsn_latest_msg_1%</td>
+                    </tr>
+                  </TMPL_LOOP>
+                </table>
+
+
+                <h4>明日以降のレッスン</h4>
+                <table class="table mb-5">
+                  <tr>
+                    <th class="w20">日時/授業名</th>
+                    <th class="w40">メンバー名</th>
+                    <th class="w40">メッセージ</th>
+                  </tr>
+                  <TMPL_LOOP NAME="lsn_tomorrow_loop">
+                    <tr>
+                      <td>
+                        <div><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%lsn_stime_Y%/%lsn_stime_m%/%lsn_stime_d% %stime%～%etime%</a></div>
+                        <div>%course_name%</div>
+                      </td>
+                      <td><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%member_handle%さん</a></td>
+                      <td>%lsn_latest_msg_1%</td>
+                    </tr>
+                  </TMPL_LOOP>
+                </table>
+
+
+                <h4>終了したレッスン</h4>
+                <table class="table mb-5">
+                  <tr>
+                    <th class="w20">日時/授業名</th>
+                    <th class="w40">メンバー名</th>
+                    <th class="w20">結果（%prof_caption%）</th>
+                    <th class="w20">結果（生徒）</th>
+                  </tr>
+                  <TMPL_LOOP NAME="lsn_finished_loop">
+                    <tr>
+                      <td>
+                        <div><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%lsn_stime_Y%/%lsn_stime_m%/%lsn_stime_d% %stime%～%etime%</a></div>
+                        <div>%course_name%</div>
+                      </td>
+                      <td><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%member_handle%さん</a></td>
+                      <td>
+                        <TMPL_IF NAME="lsn_prof_repo_0">
+                          <div>未報告</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_prof_repo_1">
+                          <div class="statusok">完了</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_prof_repo_2">
+                          <div class="statusng">未実施</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_prof_repo_3">
+                          <div class="statusng">トラブル</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_prof_repo_9">
+                          <div class="statusng">その他</div>
+                        </TMPL_IF>
+                      </td>
+                      <td>
+                        <TMPL_IF NAME="lsn_member_repo_0">
+                          <div>未報告</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_member_repo_1">
+                          <div class="statusok">完了</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_member_repo_2">
+                          <div class="statusng">未実施</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_member_repo_3">
+                          <div class="statusng">トラブル</div>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_member_repo_9">
+                          <div class="statusng">その他</div>
+                        </TMPL_IF>
+                      </td>
+                    </tr>
+                  </TMPL_LOOP>
+                </table>
+                <div class="text-center">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=lsnlstfrm" class="btn wt_btn_sm btn-primary rounded-pill wt_btn">レッスン一覧・完了報告</a>
+                </div>
+              </div>
+
+              <div class="wt_form wt_form_layer mb-5">
+                <h3 class="text-center">レッスン方法</h3>
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="youtubecont">
+                      <iframe width="853" height="480" src="//www.youtube.com/embed/Ynm4Srm7zjE" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    ※レッスン開始までの流れ
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="youtubecont">
+                      <iframe width="853" height="480" src="//www.youtube.com/embed/ATYWaaigAbE" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    ※レッスン中の操作
+                  </div>
+                </div>
+              </div>
+
+              <div class="wt_form wt_form_layer mb-5" style="display:hidden;">
+                <h3 class="text-center">クチコミ管理</h3>
+                <table class="table buztbl mb-5">
+                  <tr>
+                    <th class="w65">クチコミ</th>
+                    <th class="w35">操作</th>
+                  </tr>
+                  <TMPL_LOOP NAME="buz_loop">
+                    <tr>
+                      <td>%buz_content%</td>
+                      <td>
+                        <ul class="list-inline">
+                          <li><span <TMPL_IF NAME="buz_show">class="statusok"<TMPL_ELSE>class="statusng"</TMPL_IF>
+                                data-class-0="statusng" data-class-1="statusok" data-caption-0="非表示"
+                                data-caption-1="表示中" id="buz_%buz_id%"><TMPL_IF NAME="buz_show">表示中<TMPL_ELSE>非表示
+                                </TMPL_IF></span></li>
+                          <li><a href="%CGI_URL%?m=buztglajx&amp;buz_id=%buz_id%" data-id="%buz_id%"
+                              data-caption-0="表示させる" data-caption-1="非表示にする" class="buztgl">
+                              <TMPL_IF NAME="buz_show">非表示にする<TMPL_ELSE>表示させる</TMPL_IF>
+                            </a></li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </TMPL_LOOP>
+                </table>
+                <div class="text-center">
+                <a href="%ssl_host_url%/WTE/prof.cgi?m=buzlstfrm" class="btn btn-primary wt_btn_sm rounded-pill wt_btn">クチコミ一覧を見る</a>
+                </div>
+              </div>
+
+              <div class="wt_form wt_form_layer mb-5">
+                <h3 class="text-center">%prof_caption%用メモ</h3>
+
+                <div class="mb-5">
+                  <h4>%prof_caption%様用メモ帳</h4>
+                  <TMPL_IF NAME="session_prof_note">
+                    <div class="imemo">
+                      <p>%session_prof_note%</p>
+                      <!--<p class="mgb0"><a href="%CGI_URL%?m=ntemodfrm">&raquo; メモ編集</a></p>-->
+                    </div>
+                    <TMPL_ELSE>
+                      <div class="imemo">
+                        <p class="nomemo">自由に記入いただけるメモ帳です。記入した方のみ、確認することが出来ます。レッスンで教えたことや、何かメモを残したいことがあればご記入ください。</p>
+                        <!--<p class="mgb0"><a href="%CGI_URL%?m=ntemodfrm">&raquo; メモを追加・編集する</a></p>-->
+                      </div>
+                  </TMPL_IF>
+                </div>
+                  <div class="text-center"><a href="%CGI_URL%?m=ntemodfrm" class="btn btn-primary wt_btn_sm rounded-pill wt_btn">メモを追加する</a></div>
+              </div>
+              
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer_prof.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot_prof.html">
+
+      <script src="%static_url%/js/prof/buztgl.js"></script>
+</body>
+
+</html>

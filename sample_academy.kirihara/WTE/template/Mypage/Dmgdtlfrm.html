@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <title>ダイレクトメッセージ履歴 - %product_name%</title>
+  <TMPL_INCLUDE NAME="../include/heads.html">
+</head>
+
+<body id="user" class="">
+  <TMPL_INCLUDE NAME="../include/headers.html">
+
+  <div id="sb-site" class="bg-light">
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+
+            <div class="card mb-5">
+
+              <div class="card-header">
+                <div class="text-center"><img src="/assets/img/icons/mail.png" alt="" class="wte_img_icons">
+                </div>
+                <h3 class="text-center">ダイレクトメッセージ履歴</h3>
+              </div>
+
+              <div class="card-body">
+                <p class="text-center">%prof_handle%先生とのメッセージ履歴です。</p>
+                <div class="row mgb30">
+                  <div class="col-xs-12">
+                    <h4>メッセージ履歴</h4>
+
+                    <nav aria-label="..." class="text-center">
+                      <ul class="pagination">
+                        <TMPL_IF NAME="prev_url">
+                          <li class="page-item">
+                            <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                          </li>
+                        <TMPL_ELSE>
+                          <li class="page-item disabled">
+                            <span class="page-link"> &laquo; 前へ</span>
+                          </li>
+                        </TMPL_IF>
+                        <TMPL_LOOP NAME="page_loop">
+                          <TMPL_IF NAME="current">
+                            <li class="page-item active">
+                              <span class="page-link">%page%</span>
+                            </li>
+                          <TMPL_ELSE>
+                            <li class="page-item">
+                              <a href="%url%" class="page-link">%page%</a>
+                            </li>
+                          </TMPL_IF>
+                        </TMPL_LOOP>
+                        <TMPL_IF NAME="next_url">
+                          <li class="page-item">
+                            <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                          </li>
+                        <TMPL_ELSE>
+                          <li class="page-item disabled">
+                            <span class="page-link">次へ &raquo; </span>
+                          </li>
+                        </TMPL_IF>
+                      </ul>
+                    </nav>
+
+                    <p class="text-center">%hit_with_comma%件中、%start_with_comma%件目から%end_with_comma%件目までの%fetch_with_comma%件を表示しています。</p>
+
+                    <table class="table">
+                      <tr>
+                        <th colspan="2">投稿者</th>
+                        <th>投稿日時</th>
+                        <th>本文</th>
+                        <th>添付ファイル</th>
+                      </tr>
+                      <TMPL_LOOP NAME="list_loop">
+                        <tr>
+                          <td>
+                            <TMPL_IF NAME="dmsg_direction_2">
+                              <TMPL_IF NAME="prof_logo">
+                                <img src="%prof_logo_1_url%?%epoch%" width="%prof_logo_1_w%" height="%prof_logo_1_h%"
+                                alt="" />
+                              <TMPL_ELSE>
+                                  &nbsp;
+                              </TMPL_IF>
+                            </TMPL_IF>
+                            <TMPL_IF NAME="dmsg_direction_1">
+                              <TMPL_IF NAME="member_logo">
+                                <img src="%member_logo_1_url%?%epoch%" width="%member_logo_1_w%"
+                                  height="%member_logo_1_h%" alt="" />
+                                <TMPL_ELSE>
+                                  &nbsp;
+                              </TMPL_IF>
+                            </TMPL_IF>
+                          </td>
+                          <td>
+                            <TMPL_IF NAME="dmsg_direction_2">
+                              %prof_handle%
+                            </TMPL_IF>
+                            <TMPL_IF NAME="dmsg_direction_1">
+                              %member_handle%
+                            </TMPL_IF>
+                          </td>
+                          <td>%dmsg_cdate_Y%/%dmsg_cdate_n%/%dmsg_cdate_j%（%dmsg_cdate_wj%）%dmsg_cdate_G%:%dmsg_cdate_i%
+                          </td>
+                          <td style="word-break: break-all;">%dmsg_content%</td>
+                          <td>
+                            <TMPL_IF NAME="dmsg_file">
+
+                              <TMPL_UNLESS NAME="dmsg_file_deleted">
+                                <a href="%CGI_URL%?m=dmgfledwn&amp;dmsg_id=%dmsg_id%"
+                                  download="%dmsg_file%">%dmsg_file%</a>
+                                <br>
+                                有効期限：%dmsg_file_etime_Y%/%dmsg_file_etime_n%/%dmsg_file_etime_j%（%dmsg_file_etime_wj%）
+                              </TMPL_UNLESS>
+
+                              <TMPL_IF NAME="dmsg_file_deleted">
+                                %dmsg_file% (有効期限切れのため削除済み)
+                              </TMPL_IF>
+
+                            </TMPL_IF>
+                          </td>
+                        </tr>
+                      </TMPL_LOOP>
+                    </table>
+
+                    <nav aria-label="..." class="text-center">
+                      <ul class="pagination">
+                        <TMPL_IF NAME="prev_url">
+                          <li class="page-item">
+                            <a href="%prev_url%" class="page-link"> &laquo; 前へ</a>
+                          </li>
+                        <TMPL_ELSE>
+                          <li class="page-item disabled">
+                            <span class="page-link"> &laquo; 前へ</span>
+                          </li>
+                        </TMPL_IF>
+                        <TMPL_LOOP NAME="page_loop">
+                          <TMPL_IF NAME="current">
+                            <li class="page-item active">
+                              <span class="page-link">%page%</span>
+                            </li>
+                          <TMPL_ELSE>
+                            <li class="page-item">
+                              <a href="%url%" class="page-link">%page%</a>
+                            </li>
+                          </TMPL_IF>
+                        </TMPL_LOOP>
+                        <TMPL_IF NAME="next_url">
+                          <li class="page-item">
+                            <a href="%next_url%" class="page-link">次へ &raquo; </a>
+                          </li>
+                        <TMPL_ELSE>
+                          <li class="page-item disabled">
+                            <span class="page-link">次へ &raquo; </span>
+                          </li>
+                        </TMPL_IF>
+                      </ul>
+                    </nav>
+
+                  </div>
+                </div>
+
+                <div class="row mgb30">
+                  <div class="col-xs-12">
+                    <form method="post" action="%CGI_URL%" enctype="multipart/form-data">
+                      <input type="hidden" name="m" value="dmgsndset">
+                      <input type="hidden" name="pkey" value="%pkey%">
+                      <input type="hidden" name="prof_id" value="%prof_id%">
+
+                      <h4>%prof_handle%先生へメッセージ</h4>
+                      <div>
+                        <textarea id="dmsg_content" name="dmsg_content" class="form-control" placeholder="絵文字は使用できません。メッセージを3000文字以内でご記入下さい"
+                          style="width:100%;"></textarea>
+                      </div>
+                      <div class="mt-4">
+                        <input type="file" name="dmsg_file" id="dmsg_file" class="form-control">
+                      </div>
+
+                      <div class="mt-4 text-center">
+                        <input type="submit" value="&raquo; メッセージを送信" name="setBtn" class="btn btn-success rounded-pill">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- foot section -->
+    <TMPL_INCLUDE NAME="../include/footers.html">
+  </div>
+  <TMPL_INCLUDE NAME="../include/foots.html">
+</body>
+
+</html>

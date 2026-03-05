@@ -1,0 +1,67 @@
+          <nav aria-label="..." class="text-center mb-5">
+            <ul class="wt_pagination_sch">
+                <TMPL_IF NAME="last_month_disabled">
+                  <li class="page-item disabled"><span class="page-link"><i class="fas fa-chevron-left"></i> %last_month_Y%年%last_month_n%月</span></li>
+                <TMPL_ELSE>
+                  <li class="page-item"><span class="page-link"><a href="%CGI_URL%?m=prfschajx&amp;prof_id=%prof_id%&amp;course_id=%course_id%&amp;ym=%last_month_Y%%last_month_m%" id="last_month_link"><i class="fas fa-chevron-left"></i>%last_month_Y%年%last_month_n%月</a></span></li>
+                </TMPL_IF>
+              <li class="page-item active">
+                <span class="page-link"> %this_month_Y%年%this_month_n%月 </span>
+              </li>
+                <TMPL_IF NAME="next_month_disabled">
+                  <li class="page-item disabled"><span class="page-link">%next_month_Y%年%next_month_n%月 
+                <i class="fas fa-chevron-right"></i></span></li>
+                <TMPL_ELSE>
+                    <li class="page-item"><span class="page-link"><a href="%CGI_URL%?m=prfschajx&amp;prof_id=%prof_id%&amp;course_id=%course_id%&amp;ym=%next_month_Y%%next_month_m%" id="next_month_link">%next_month_Y%年%next_month_n%月 <i class="fas fa-chevron-right"></i></a></span></li>
+                </TMPL_IF>
+            </ul>
+          </nav>
+            
+            
+        <div class="row">
+          <div class="col-12">
+            
+            
+          <div class="wt_pscroll">
+            <table>
+             <thead>
+              <tr>
+                <th class="sun"><span>日</span></th>
+                <th><span>月</span></th>
+                <th><span>火</span></th>
+                <th><span>水</span></th>
+                <th><span>木</span></th>
+                <th><span>金</span></th>
+                <th class="sat"><span>土</span></th>
+              </tr>
+              </thead>
+              <tbody>
+              <TMPL_LOOP NAME="week_loop">
+              <tr>
+                <TMPL_LOOP NAME="day_loop">
+                <td class="%othermonth% %today%">
+                  %j%
+                  <TMPL_IF NAME="sch_num">
+                  <ul>
+                    <TMPL_LOOP NAME="sch_loop">
+                      <TMPL_IF NAME="disabled">
+                        <li class="finished"><span>%stime% 終了</span></li>
+                      <TMPL_ELSE>
+                        <TMPL_IF NAME="lsn_id">
+                          <li class="reserved"><span>%stime% 予約あり</span></li>
+                        <TMPL_ELSE>
+                          <li class="vacant"><a href="%CGI_URL%?m=lsnrsvcfm&amp;sch_id=%sch_id%&amp;course_id=%course_id%">%stime% 空き</a></li>
+                        </TMPL_IF>
+                      </TMPL_IF>
+                    </TMPL_LOOP>
+                  </ul>
+                  </TMPL_IF>
+                </td>
+                </TMPL_LOOP>
+              </tr>
+              </TMPL_LOOP>
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>お気に入り%prof_caption%一覧｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="お気に入りに追加した%prof_caption%一覧です。%prof_caption%の名前や写真をクリックすると、%prof_caption%の予約を確認することが出来ます。" />
+  <meta property="og:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta name="twitter:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-8 offset-md-2">
+                <h2 class="text-center">お気に入り%prof_caption%</h2>
+                  
+
+            <p class="text-center">お気に入りに追加した%prof_caption%一覧です。%prof_caption%の名前や写真をクリックすると、%prof_caption%のレッスンスケジュールを確認することが出来ます。</p>
+            <p>[<a href="%CGI_URL%?m=prflstfrm">%prof_caption%一覧に戻る</a>]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- content section -->
+    <section class="search bggrey">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+            
+            <p class="text-center">%hit_with_comma%件中、%start_with_comma%件目から%end_with_comma%件目までの%fetch_with_comma%件を表示しています。</p>
+            
+          </div>
+        </div>
+            
+        <div class="wt_teacherbox p-0">
+
+        <TMPL_LOOP NAME="list_loop" PROF_INTRO_CHARS="150">
+          <div class="p-4 p-lg-5">
+            <a href="/WTE/mypage.cgi?m=prfdtlfrm&prof_id=%prof_id%" class="wt_teachlink"></a>
+            <div class="clearfix">
+                <div class="wt_teacherbox_l mb-3">
+                <a href="/WTE/mypage.cgi?m=prfdtlfrm&prof_id=%prof_id%">    
+                  <TMPL_IF NAME="prof_logo">
+                    <img src="%prof_logo_2_url%?%epoch%" alt="%prof_handle%先生" class="w-100 h-auto rounded-circle" />
+                  <TMPL_ELSE>
+                    <img src="%static_url%/imgs/profile_blank.png" alt="%prof_handle%先生" class="w-100 h-auto rounded-circle" />
+                  </TMPL_IF>
+                </a>      
+                  <!--<TMPL_IF NAME="is_fav">
+                    <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favon" data-caption0="お気に入りに追加" data-caption1="登録済み">登録済み</a>
+                  <TMPL_ELSE>
+                    <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favoff" data-caption0="お気に入りに追加" data-caption1="登録済み">お気に入りに追加</a>
+                  </TMPL_IF>-->
+                </div>
+                <div class="wt_teacherbox_r">
+                  <h2>%prof_handle% 先生</h2>
+                  <ul class="wt_teacherdetail">
+                      <li>出身国:<span class="flag-icon flag-icon-%prof_country%"></span></li>
+                      <li>居住国:<span class="flag-icon flag-icon-%prof_residence%"></span></li>
+                      <li>性別:<span><TMPL_IF NAME="prof_gender_1">男性</TMPL_IF><TMPL_IF NAME="prof_gender_2">女性</TMPL_IF></span></li>
+                  </ul>
+                </div>
+                <div class="wt_teacherbox_b">
+                  <p class="wt_teacherintro mb-0">%prof_intro% <a href="/wte/prfdtlfrm/%prof_id%">続きを見る &raquo;</a></p>
+                </div>
+            </div>
+          </div>
+          <div class="p-4 wt_sec_grey wt_teacherborder">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <ul class="wt_teacherdetail">
+                    <li><i class="d-block d-lg-inline">提供コース:</i>
+                      <TMPL_LOOP NAME="prof_character_loop">
+                        <span class="wt_tag_1 wt_tag_check_c%id%"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_character=%id%" class="wt_tag_text" data-content="%title%">%title%</a></span>
+                      </TMPL_LOOP>
+                    </li>
+                  </ul>
+                  <ul class="wt_teacherdetail mb-0 d-none">
+                    <li><i class="d-block d-lg-inline">レッスン可能時間:</i>
+            <TMPL_LOOP NAME="prof_interest_loop">
+              <span class="wt_tag_2"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_interest=%id%" class="wt_tag_text" data-content="%title%">%title%</a></span>
+            </TMPL_LOOP>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+            </div>
+        </TMPL_LOOP>
+        </div>
+        
+        <div class="row">
+          <div class="col-12">
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+          </div>
+        </div>
+        
+        
+        
+      </div>
+    </section>
+
+        <div class="wt_sec_bg_1">
+        <ul class="wt_breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+          <li><a href="/" itemprop="url" content="https://academy.kirihara.co.jp/"><span class="wt_crumb" itemprop="title">ホーム</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=parent" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=parent"><span itemprop="title">マイページ</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=favlstfrm" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=favlstfrm"><span itemprop="title">お気に入り%prof_caption%一覧</span></a></li>
+        </ul>
+        </div>
+    </main>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+ 
+  <script src="%static_url%/js/mypage/favset.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>%product_name%</title>
+<link href="%static_url%/css/admin/common.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+a.link_button {
+	border-top: 1px solid #eeeeee;
+	border-left: 1px solid #eeeeee;
+	border-bottom: 1px solid #666666;
+	border-right: 1px solid #666666;
+	background-color: #dddddd;
+	padding: 3px 5px 3px 5px;
+	margin-left: 1em;
+	border-radius: 5px;
+}
+</style>
+</head>
+<body>
+<h1><a href="%CGI_URL%?m=sdmlstfrm">代理店請求管理</a> - 詳細</h1>
+<div id="main">
+<form method="post" action="#">
+	<fieldset>
+		<dl>
+			<dt>請求識別ID</dt>
+			<dd>%sdm_id%</dd>
+		</dl>
+		<dl>
+			<dt>請求日時</dt>
+			<dd>%sdm_cdate_0%-%sdm_cdate_1%-%sdm_cdate_2% %sdm_cdate_3%:%sdm_cdate_4%:%sdm_cdate_5%  %sdm_cdate_8%<TMPL_IF NAME="sdm_cdate_9"> %sdm_cdate_9%</TMPL_IF><TMPL_IF NAME="sdm_cdate_7">（夏時間）</TMPL_IF></dd>
+		</dl>
+		<dl>
+			<dt>代理店</dt>
+			<dd>[%seller_id%] %seller_company%</dd>
+		</dl>
+		<dl>
+			<dt>請求金額</dt>
+			<dd>%sdm_price_with_comma% 円</dd>
+		</dl>
+		<dl>
+			<dt>ステータス</dt>
+			<dd>
+				<span id="sdm_status_caption"><TMPL_IF NAME="sdm_status_1">支払中<TMPL_ELSE>支払済</TMPL_IF></span>
+				<a id="sdm_status_toggle" href="%CGI_URL%?m=sdmtglajx&amp;sdm_id=%sdm_id%" class="link_button">
+					<TMPL_IF NAME="sdm_status_1">支払済にする<TMPL_ELSE>支払中に戻す</TMPL_IF>
+				</a>
+			</dd>
+		</dl>
+		<dl class="last">
+			<dt>レッスン内訳</dt>
+			<dd>
+				<p><a href="%CGI_URL%?m=sdmlsndwn&amp;sdm_id=%sdm_id%" class="link_button">CSVダウンロード</a></p>
+				<table class="list">
+					<thead>
+						<tr>
+							<td>ID</td>
+							<td colspan="2">%prof_caption%</td>
+							<td colspan="2">%member_caption%</td>
+							<td>日時</td>
+							<td>代理店配分</td>
+						</tr>
+					</thead>
+					<tbody>
+						<TMPL_LOOP NAME="lsn_loop">
+						<tr>
+							<td>%lsn_id%</td>
+							<td>
+								<TMPL_IF NAME="prof_logo">
+									<img src="%prof_logo_1_url%?%epoch%" width="%prof_logo_1_w%" height="%prof_logo_1_h%" alt="" />
+								<TMPL_ELSE>
+									<div style="width:%prof_logo_1_w%px; height:%prof_logo_1_h%px; background-color:#cccccc;"></div>
+								</TMPL_IF>
+							</td>
+							<td>[%prof_id%] %prof_handle%</td>
+							<td>
+								<TMPL_IF NAME="member_logo">
+									<img src="%member_logo_1_url%?%epoch%" width="%member_logo_1_w%" height="%member_logo_1_h%" alt="" />
+								<TMPL_ELSE>
+									<div style="width:%member_logo_1_w%px; height:%member_logo_1_h%px; background-color:#cccccc;"></div>
+								</TMPL_IF>
+							</td>
+							<td>[%member_id%] %member_handle%</td>
+							<td>%lsn_stime_Y%年%lsn_stime_n%月%lsn_stime_j%日（%lsn_stime_wj%）%lsn_stime_G%:%lsn_stime_i%～%lsn_etime_G%:%lsn_etime_i%</td>
+							<td>%lsn_seller_price_with_comma% 円</td>
+						</tr>
+						</TMPL_LOOP>
+					</tbody>
+				</table>
+			</dd>
+		</dl>
+	</fieldset>
+</form>
+</div>
+
+<script src="%static_url%/js/jquery.min.js"></script>
+<script type="text/javascript">
+(function () {
+
+var processing = false;
+
+$(document).ready(function(){
+	var sdm_status_toggle = $('#sdm_status_toggle');
+	// clickイベントリスナー
+	sdm_status_toggle.click( function(event) {
+		event.preventDefault();
+		if( processing === true ) { return; }
+		reqSdmTglSet($(this));
+	});
+});
+
+function reqSdmTglSet(tgl) {
+	var url = tgl.attr('href');
+	if( ! url ) { return; }
+	var res = window.confirm("本当にステータスを変更しても良いですか？");
+	if( res === false ) { return; }
+	//
+	tgl.text('処理中...');
+	$.ajax({
+		url: url,
+		type: 'GET',
+		cache: false,
+		dataType: 'text',
+		success: function(data) {
+			if( data.match(/^1/) ) {
+				$('#sdm_status_caption').text('支払中');
+				$('#sdm_status_toggle').text('支払済にする');
+			} else if( data.match(/^2/) ) {
+				$('#sdm_status_caption').text('支払済');
+				$('#sdm_status_toggle').text('支払中に戻す');
+			} else {
+				tgl.text('処理エラー');
+			}
+			processing = false;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			tgl.text('処理エラー');
+			processing = false;
+		}
+	});
+}
+
+})();
+
+</script>
+
+</body>
+</html>

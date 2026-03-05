@@ -1,0 +1,64 @@
+/* フレーム */
+#dialog_frame {
+	position: fixed;
+	/* IE6 */
+	_position: absolute;
+	_top: expression(eval(document.documentElement.scrollTop+0));
+	/* -- */
+	width: 300px;
+	border-top: 1px solid #eeeeee;
+	border-left: 1px solid #eeeeee;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	padding: 0px 0px 0px 0px;
+}
+
+/* タイトルバー */
+#dialog_titlebar {
+	border-top: 5px solid #00ada9;
+	background-color: #ffffff;
+	margin: 0px;
+	padding: 0.75rem 1.25rem;
+	cursor: move;
+}
+
+/* メッセージ領域 */
+#dialog_msgarea {
+	font-size: small;
+	background-color: #ffffff;
+	margin: 0px;
+	padding: 0.75rem 1.25rem;
+}
+
+/* ボタン領域 */
+#dialog_btnarea {
+	background-color: #f8f9fa;
+	margin: 0px;
+	padding: 0.75rem 1.25rem;
+	text-align: center;
+}
+
+/* ボタン */
+#dialog_btnarea .btn {
+	margin-left: 6px;
+	margin-right: 6px;
+}
+
+/* シャドー・マスク */
+#dialog_shadow {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	/* IE6 */
+	_position: absolute;
+	_top: expression(eval(document.documentElement.scrollTop+0));
+	/* -- */
+	background-color: #000000;
+	cursor: wait;
+	filter: alpha(opacity=60);
+	/* Internet Explorer用 */
+	-moz-opacity: 0.6;
+	/* FireFox用 */
+	opacity: 0.6;
+	/* Safari用 */
+}

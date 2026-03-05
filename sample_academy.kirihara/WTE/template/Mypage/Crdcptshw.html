@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>カード決済｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/" />
+  <meta name="twitter:title" content="お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+  <TMPL_INCLUDE NAME="../include/analysis.html">
+    <meta http-equiv="refresh" content="2;URL=%CGI_URL%?m=parent" />
+</head>
+      
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-8 offset-md-2">
+                <h2 class="text-center">カード決済</h2>
+                  
+
+            <div class="wt_form wt_form_layer mb-5">
+              <p>以下のご注文を承りました。ご注文の反映にはしばらく時間がかかりますのでご了承ください。<br><b class="text-danger">※3秒後にマイページにリダイレクトいたします。</b></p>
+              <fieldset>
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <th class="w30">プラン名</th>
+                      <td>%pln_title%</td>
+                    </tr>
+                    <!--<tr>
+                      <th>チケット</th>
+                      <td>%pln_point_with_comma%回</td>
+                    </tr>-->
+                    <tr>
+                      <th>料金</th>
+                      <td>
+                        <TMPL_IF NAME="pln_subscription">月額 </TMPL_IF>
+                        %pln_price_with_comma% 円
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </fieldset>
+              <div>[<a href="%CGI_URL%?m=parent" target="_top">マイページTOPへ</a>]</div>
+          </div>
+                  
+                  
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+<TMPL_INCLUDE NAME="../include/foot.html">
+<script src="https://r.moshimo.com/af/r/result.js?p_id=3688&pc_id=9008&m_v=%crd_id%&p=%pln_price%" id="msmaf"></script>
+<noscript><img src="https://r.moshimo.com/af/r/result?p_id=3688&pc_id=9008&m_v=%crd_id%&p=%pln_price%" width="1" height="1" alt=""></noscript>
+</body>
+</html>

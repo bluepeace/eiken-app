@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>%prof_caption%から予約(%prof_handle% 先生) - <TMPL_INCLUDE NAME="../include/title.html">
+  </title>
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user">
+
+  <TMPL_INCLUDE NAME="../include/header.html">
+    <div id="sb-site">
+
+      <!-- content section -->
+      <section>
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <h1>%prof_caption%から予約</h1>
+              <h2>%prof_handle% 先生のプロフィール</h2>
+            </div>
+            <div class="col-xs-12 col-sm-3">
+              <div class="profface">
+                <TMPL_IF NAME="prof_logo">
+                  <img src="%prof_logo_3_url%?%epoch%" alt="%prof_handle% 先生" class="img-thumbnail" />
+                  <TMPL_ELSE>
+                    <img src="%static_url%/imgs/profile_blank.png" alt="%prof_handle% 先生" class="img-thumbnail" />
+                </TMPL_IF>
+              </div>
+                  <div>
+                  <TMPL_IF NAME="is_fav">
+                    <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favon" data-caption0="お気に入りに追加" data-caption1="登録済み">登録済み</a>
+                  <TMPL_ELSE>
+                    <a href="%CGI_URL%?m=favsetajx&amp;prof_id=%prof_id%" class="fav_set favoff" data-caption0="お気に入りに追加" data-caption1="登録済み">お気に入りに追加</a>
+                  </TMPL_IF>
+                  </div>
+              
+              <ul class="profinfodet">
+                <li>出身国<span class="flag-icon flag-icon-%prof_country%"></span><span>%prof_country_name%</span></li>
+                <li>居住国<span class="flag-icon flag-icon-%prof_residence%"></span><span>%prof_residence_name%</span></li>
+                <!--<li>Rank<span>%prof_rank_title%</span></li>-->
+                <li>クーポン<span>
+                    <TMPL_IF NAME="prof_coupon_ok">利用可<TMPL_ELSE>利用不可</TMPL_IF>
+                  </span></li>
+              </ul>
+            </div>
+            <div class="col-xs-12 col-sm-9">
+              <table class="table">
+                <tr>
+                  <th class="w20">%prof_caption%名</th>
+                  <td>%prof_handle% 先生</td>
+                </tr>
+                <TMPL_IF NAME="prof_company">
+                  <tr>
+                    <th>%prof_company_caption%</th>
+                    <td>%prof_company%</td>
+                  </tr>
+                </TMPL_IF>
+                <tr>
+                  <th>%prof_gender_caption%</th>
+                  <td>
+                    <TMPL_IF NAME="prof_gender_1">男性</TMPL_IF>
+                    <TMPL_IF NAME="prof_gender_2">女性</TMPL_IF>
+                  </td>
+                </tr>
+                <tr>
+                  <th>%prof_character_caption%</th>
+                  <td>
+                    <ul class="tag">
+                      <TMPL_LOOP NAME="prof_character_loop">
+                        <li class="tag1"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_character=%id%">%title%</a>
+                        </li>
+                      </TMPL_LOOP>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>%prof_interest_caption%</th>
+                  <td>
+                    <ul class="tag">
+                      <TMPL_LOOP NAME="prof_interest_loop">
+                        <li class="tag2"><a href="/WTE/mypage.cgi?m=prflstfrm&amp;s_prof_interest=%id%">%title%</a></li>
+                      </TMPL_LOOP>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>%prof_intro_caption%</th>
+                  <td>%prof_intro%</td>
+                </tr>
+                <TMPL_IF NAME="prof_intro2">
+                  <tr>
+                    <th>%prof_intro2_caption%</th>
+                    <td>%prof_intro2%</td>
+                  </tr>
+                </TMPL_IF>
+                <TMPL_IF NAME="prof_associate1">
+                  <tr>
+                    <th>%prof_associate1_caption%</th>
+                    <td>%prof_associate1%</td>
+                  </tr>
+                </TMPL_IF>
+                <TMPL_IF NAME="prof_associate2">
+                  <!--どこから-->
+                  <tr style="display:none;">
+                    <th>%prof_associate2_caption%</th>
+                    <td>%prof_associate2%</td>
+                  </tr>
+                </TMPL_IF>
+                <TMPL_IF NAME="prof_video_url">
+                  <tr>
+                    <th>%prof_caption%ビデオ</th>
+                    <td>
+                    <div class="youtubecont">
+                      <iframe width="853" height="480" src="//www.youtube.com/embed/%prof_video_url%" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    </td>
+                  </tr>
+                </TMPL_IF>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Course -->
+      <section class="page bggrey">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>%prof_handle% 先生の提供サービス</h2>
+            </div>
+          </div>
+          <p>%course_num% 件のサービスが見つかりました。</p>
+          
+          <TMPL_LOOP NAME="course_loop" COURSE_INTRO_CHARS="150">
+          <div class="row profbox">
+            <div class="col-xs-4 col-md-2 profface">
+              <a href="%CGI_URL%?m=coudtlfrm&amp;course_id=%course_id%">
+              <TMPL_IF NAME="course_logo">
+                <img src="%course_logo_2_url%?%epoch%" width="%course_logo_2_w%" height="%course_logo_2_h%" alt="">
+              <TMPL_ELSE>
+                <img src="%static_url%/imgs/profile_blank.png" width="%course_logo_2_w%" height="%course_logo_2_h%" alt="" />
+              </TMPL_IF>
+              </a>
+            </div>
+            <div class="col-xs-8 col-md-10">
+              <h2 class="profname"><a href="%CGI_URL%?m=coudtlfrm&amp;course_id=%course_id%">%course_name%</a></h2>
+              <ul class="profinfo">
+                <li>Point<span>%course_fee_with_comma%</span></li>
+                <li>Category<span>%ccate_name_1%<TMPL_IF NAME="ccate_name_2"> &gt; %ccate_name_2%</TMPL_IF></span></li>
+              </ul>
+              <h4>%course_copy%</h4>
+              <p>%course_intro% <a href="%CGI_URL%?m=coudtlfrm&amp;course_id=%course_id%">続きを見る &raquo;</a></p>
+            </div>
+          </div>
+          </TMPL_LOOP>
+            
+        </div>
+      </section>
+
+      <!-- schedule section -->
+      <section class="page">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>%prof_handle% 先生のスケジュール</h2>
+            </div>
+          </div>
+
+          <div class="gbox">
+            <ul class="noteb">
+              <li>予約はレッスン開始<strong>%lesson_reservation_limit%<span
+                    class="limitunit">%lesson_reservation_limit_unit%</span>前</strong>までであれば受け付け可能です。</li>
+              <li>またキャンセルは<strong>%cancelable_hours%時間前</strong>まで受け付け可能です。</li>
+              <li>時刻はすべて<strong>日本の現地時間</strong>で表示しています。海外在住の方はご注意ください</li>
+            </ul>
+          </div>
+
+          <div id="calendar" class="calendar" data-url="%CGI_URL%?m=prfschajx&amp;prof_id=%prof_id%">
+            <p>now loading ...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- buzz section -->
+      <section class="page bggrey">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>%prof_handle% 先生のクチコミ</h2>
+
+              <ul class="buzz">
+                <TMPL_LOOP NAME="buz_loop">
+                  <li>%buz_content%</li>
+                </TMPL_LOOP>
+                <TMPL_IF NAME="buz_loop">
+                  <TMPL_ELSE>
+                    <p>%prof_handle% 先生のクチコミはまだありません</p>
+                </TMPL_IF>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- foot section -->
+      <TMPL_INCLUDE NAME="../include/footer.html">
+    </div>
+    <TMPL_INCLUDE NAME="../include/foot.html">
+      <TMPL_INCLUDE NAME="../include/analysis.html">
+        <script src="%static_url%/js/mypage/prfdtlfrm.js"></script>
+        <script src="%static_url%/js/mypage/favset.js"></script>
+        <script>
+          $(function () {
+            $('.limitunit').each(function () {
+              var txt1 = $(this).html();
+              $(this).html(
+                txt1.replace('d', '日')
+              );
+            });
+            $('.limitunit').each(function () {
+              var txt2 = $(this).html();
+              $(this).html(
+                txt2.replace('h', '時間')
+              );
+            });
+            $('.limitunit').each(function () {
+              var txt3 = $(this).html();
+              $(this).html(
+                txt3.replace('m', '分')
+              );
+            });
+          });
+        </script>
+</body>
+
+</html>

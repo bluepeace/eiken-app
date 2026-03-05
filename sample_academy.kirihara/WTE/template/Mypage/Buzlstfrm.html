@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>クチコミ投稿一覧｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="これまであなたが投稿した%prof_caption%クチコミの一覧です。" />
+  <meta property="og:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta name="twitter:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+      
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-8 offset-md-2">
+                <h2 class="text-center">クチコミ投稿一覧</h2>
+
+            <p class="text-center">これまであなたが投稿した%prof_caption%クチコミの一覧です。</p>
+            <div class="wform">
+            
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+
+
+            <table class="table">
+              <tr>
+                <th class="w25">投稿日時</th>
+                <th class="w25">%prof_caption%</th>
+                <th class="w40">クチコミ</th>
+                <th class="w10">表示</th>
+              </tr>
+
+              <TMPL_LOOP NAME="list_loop">
+              <tr>
+                <td>%buz_cdate_Y%年%buz_cdate_n%月%buz_cdate_j%日(%buz_cdate_wj%)<span class="hiddeni">%buz_cdate_G%:%buz_cdate_i%</span></td>
+                <td>
+                  <TMPL_IF NAME="prof_logo">
+                    <img src="%prof_logo_1_url%?%epoch%" width="%prof_logo_1_w%" height="%prof_logo_1_h%" alt="%prof_handle%" />
+                  <TMPL_ELSE>
+                    <img src="%static_url%/imgs/profile_blank.png" width="%prof_logo_1_w%" height="%prof_logo_1_h%" alt="%prof_handle%" />
+                  </TMPL_IF>
+                  %prof_handle%先生
+                </td>
+                <td>%buz_content%</td>
+                <td class="text-center">
+                  <TMPL_IF NAME="buz_show">表示中<TMPL_ELSE>非表示</TMPL_IF>
+                </td>
+              </tr>
+              </TMPL_LOOP>
+
+            </table>
+
+            
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+
+          </div>
+                  
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+</body>
+</html>

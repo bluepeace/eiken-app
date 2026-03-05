@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>登録講師のご紹介｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="登録講師のご紹介｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="%prof_associate1%" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/wte/prflstfrm" />
+  <meta property="og:image" content="%prof_logo_3_url%?%epoch%" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/wte/prflstfrm" />
+  <meta name="twitter:title" content="登録講師のご紹介｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="%prof_associate1%" />
+  <meta name="twitter:image" content="%prof_logo_3_url%?%epoch%" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+  <style>
+    .wt_tag_check_c4,
+    .wt_tag_check_c8,
+    .wt_tag_check_c9,
+    .wt_tag_check_c10,
+    .wt_tag_check_c11,
+    .wt_tag_check_c12,
+    .wt_tag_check_c16,
+    .wt_tag_check_c20,
+    .wt_tag_check_c21,
+    .wt_tag_check_c22{
+      /*display:none!important;*/
+    }
+  </style>
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+  <TMPL_INCLUDE NAME="../include/header.html">
+
+  <main role="main" class="wt_main">
+       
+        <section class="wt_headvis wt_head_prof">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>登録講師のご紹介</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    <!-- content section -->
+    <section>
+      <div class="container">
+
+        <div class="row">
+          <div class="col-12">
+            <p class="text-left text-md-center">%product_name%では、英検を取得済み・TOEICの高スコアを持つ日本人講師を集めています。<br>英語の実力があるのはもちろん、資格対策にも長けていますのでご安心ください。</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="wt_search">
+              <h3 class="wt_searchtitle"><span class="fas fa-search"></span>講師検索</h3>
+          <form action="%CGI_URL%" method="post">
+            <input type="hidden" name="m" value="prflstfrm" />
+              <div class="form-group row">
+                <div class="col-xs-12 col-sm-6">
+                  <label for="s_prof_handle" class="">%prof_caption%名で検索</label>
+                  <div class="clearfix">
+                    <input type="text" id="s_prof_handle" name="s_prof_handle" value="%s_prof_handle%" class="form-control w-75 float-left" />
+                    <div class="w-25 float-right">　先生</div>
+                  </div>
+                </div>
+              </div>
+              <fieldset class="form-group">
+                <legend class="col-form-legend">%prof_character_caption%</legend>
+                <div class="form-check wt_tag wt_tag1">
+                  <TMPL_LOOP NAME="s_prof_character_loop">
+                  <input type="checkbox" id="s_prof_character_%id%" name="s_prof_character" value="%id%" class="wt_tag_input" %checked% /><label class="wt_tag_check wt_tag_check_c%id%" for="s_prof_character_%id%">%title%</label>
+                  </TMPL_LOOP>
+                </div>
+              </fieldset>
+              <fieldset class="form-group" style="display: none;">
+                <legend class="col-form-legend">%prof_interest_caption%</legend>
+                <div class="form-check wt_tag wt_tag2">
+                  <TMPL_LOOP NAME="s_prof_interest_loop">
+                  <input type="checkbox" id="s_prof_interest_%id%" name="s_prof_interest" value="%id%" class="wt_tag_input" %checked% /><label class="wt_tag_check" for="s_prof_interest_%id%">%title%</label>
+                  </TMPL_LOOP>
+                </div>
+              </fieldset>
+              <div class="searchdet"><span class="fa fa-search-plus"></span> 詳細検索項目を表示する</div>
+              <div class="toggle">
+                <div class="col-xs-12 col-sm-6">
+                  <label for="s_prof_fulltext">フリーワード検索</label>
+                  <div class="clearfix">
+                    <input type="text" id="s_prof_fulltext" name="s_prof_fulltext" value="%s_prof_fulltext%" class="form-control w100" />
+                  </div>
+                </div>
+                
+              <fieldset class="form-group row">
+                <div class="col-xs-12 col-sm-6">
+                  <legend class="col-form-legend">%prof_country_caption%</legend>
+                  <div class="form-group">
+                    <select name="s_prof_country" class="form-control" id="s_prof_country">
+                      <option value="">----</option>
+                      <TMPL_LOOP NAME="s_prof_country_loop">
+                      <option value="%country_code%" %selected%>%country_name%</option>
+                      </TMPL_LOOP>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <legend class="col-form-legend">%prof_residence_caption%</legend>
+                  <div class="form-group">
+                    <select name="s_prof_residence" class="form-control" id="s_prof_residence">
+                      <option value="">----</option>
+                      <TMPL_LOOP NAME="s_prof_residence_loop">
+                      <option value="%country_code%" %selected%>%country_name%</option>
+                      </TMPL_LOOP>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="form-group row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                  <legend class="col-form-legend">%prof_gender_caption%</legend>
+                  <div class="form-group">
+                    <select id="s_prof_gender" class="form-control" name="s_prof_gender">
+                      <option value="">----</option>
+                      <option value="1" %s_prof_gender_1_selected%>男性</option>
+                      <option value="2" %s_prof_gender_2_selected%>女性</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                  <legend class="col-form-legend">%prof_reco_caption%</legend>
+                  <div class="form-group">
+                    <TMPL_IF NAME="s_prof_reco">
+                    <input type="checkbox" name="s_prof_reco" id="s_prof_reco" value="1" checked="checked" /><label for="s_prof_reco" class="checknor"> オススメにチェック</label>
+                    <TMPL_ELSE>
+                    <input type="checkbox" name="s_prof_reco" id="s_prof_reco" value="1" /><label for="s_prof_reco" class="checknor"> オススメにチェック</label>
+                    </TMPL_IF>
+                  </div>
+                </div>
+              </fieldset>
+                
+              </div>
+            <div class="text-center"><input type="submit" value="　%prof_caption%を検索　" class="btn btn-secondary rounded-pill wt_btn" /></div>
+          </form>
+        </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- content section -->
+    <section class="page wt_sec_bg_1">
+      <div class="container">
+
+        <div class="row">
+        <div class="col-12">
+          <p class="text-center">%hit_with_comma%件中、%start_with_comma%件目から%end_with_comma%件目までの%fetch_with_comma%件を表示しています。</p>
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+          </div>
+        </div>
+
+       
+       <div class="wt_teacherbox p-0">
+          <div class="row" style="display:none">
+            <ul class="wt_teachersort col-12 container">
+              <div class="row">
+              <li class="col-6 pr-0">
+                <TMPL_IF NAME="sort_key_score_selected">
+                <span><i class="fas fa-sort-down"></i>人気順に並べる</span>
+                <TMPL_ELSE>
+                <a href="%search_base_url%&amp;sort_key=score"><i class="fas fa-sort"></i>人気順に並べる</a>
+                </TMPL_IF>
+              </li>
+              <li class="col-6 pl-0">
+                <TMPL_IF NAME="sort_key_new_selected">
+                <span><i class="fas fa-sort-down"></i>新着順に並べる</span>
+                <TMPL_ELSE>
+                <a href="%search_base_url%&amp;sort_key=new"><i class="fas fa-sort"></i>新着順に並べる</a>
+                </TMPL_IF>
+              </li>
+              </div>
+            </ul>
+          </div>
+       
+        <TMPL_LOOP NAME="list_loop" PROF_INTRO_CHARS="150">
+         <div class="wt_teachercont">
+          <div class="p-4 p-lg-5">
+            <a href="/wte/prfdtlfrm/%prof_id%" class="wt_teachlink"></a>
+            <div class="clearfix">
+              <div class="wt_teacherbox_l mb-3">
+                  <TMPL_IF NAME="prof_logo">
+                    <img src="%prof_logo_3_url%?%epoch%" alt="%prof_handle%先生" class="w-100 h-auto rounded-circle" />
+                  <TMPL_ELSE>
+                    <img src="%static_url%/imgs/profile_blank.png" alt="%prof_handle%先生" class="w-100 h-auto rounded-circle" />
+                  </TMPL_IF>
+                </div>
+                <div class="wt_teacherbox_r">
+                  <h2>%prof_handle% 先生</h2>
+                  <ul class="wt_teacherdetail">
+                      <li>出身国:<span class="flag-icon flag-icon-%prof_country%"></span></li>
+                      <li>居住国:<span class="flag-icon flag-icon-%prof_residence%"></span></li>
+                      <li>性別:<span><TMPL_IF NAME="prof_gender_1">男性</TMPL_IF><TMPL_IF NAME="prof_gender_2">女性</TMPL_IF></span></li>
+                  </ul>
+                </div>
+                <div class="wt_teacherbox_b">
+                  <p class="wt_teacherintro mb-0">%prof_intro% <a href="/wte/prfdtlfrm/%prof_id%">続きを見る &raquo;</a></p>
+                </div>
+            </div>
+          </div>
+          <div class="p-4 wt_sec_grey wt_teacherborder">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <ul class="wt_teacherdetail">
+                    <li><i class="d-block d-lg-inline">提供コース:</i>
+                      <TMPL_LOOP NAME="prof_character_loop">
+                        <span class="wt_tag_1 wt_tag_check_c%id%"><a href="/WTE/site.cgi?m=prflstfrm&amp;s_prof_character=%id%" class="wt_tag_text" data-content="%title%">%title%</a></span>
+                      </TMPL_LOOP>
+                    </li>
+                  </ul>
+                  <ul class="wt_teacherdetail mb-0 d-none">
+                    <li><i class="d-block d-lg-inline">レッスン可能時間:</i>
+                      <TMPL_LOOP NAME="prof_interest_loop">
+                        <span class="wt_tag_2"><a href="/WTE/site.cgi?m=prflstfrm&amp;s_prof_interest=%id%">%title%</a></span>
+                      </TMPL_LOOP>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </TMPL_LOOP>
+      </div>
+
+        <div class="row">
+        <div class="col-12">
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"> &laquo; 前へ</a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+              </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<TMPL_INCLUDE NAME="../include/analysis.html">
+  <script>
+  (function($){$(document).ready(function(){
+    $(".srchopn").click(function(){$(".srchcls").slideToggle("slow");});
+  });})(jQuery);
+  </script>
+</body>
+</html>

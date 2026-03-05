@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>%product_name%</title>
+<link href="%static_url%/css/admin/common.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+label.radio { margin-right: 1.5em; }
+</style>
+<script type="text/javascript" src="%static_url%/js/dom.js"></script>
+<script type="text/javascript" src="%static_url%/js/form.js"></script>
+<script type="text/javascript" src="%static_url%/js/inputlimit.js"></script>
+<script type="text/javascript" src="%static_url%/js/admin/annaddfrm.js"></script>
+</head>
+<body>
+<h1><a href="%CGI_URL%?m=annlstfrm">お知らせ管理</a> - 編集</h1>
+<div id="main">
+<p>お知らせを編集します。必要事項を修正の上、「編集」ボタンを押してください。</p>
+<TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+<form method="post" action="%CGI_URL%">
+	<input type="hidden" name="m" value="annmodset" />
+	<input type="hidden" name="pkey" value="%pkey%" />
+	<fieldset>
+		<legend>お知らせ情報</legend>
+		<dl>
+			<dt>識別ID</dt>
+			<dd>%ann_id%</dd>
+		</dl>
+		<dl>
+			<dt><label for="ann_target" class="required %ann_target_err%">配信先</label></dt>
+			<dd>
+				<label class="radio seller_switch"><input type="radio" name="ann_target" id="ann_target_1" value="1" %ann_target_1_checked% /> 代理店</label>
+				<label class="radio"><input type="radio" name="ann_target" id="ann_target_2" value="2" %ann_target_2_checked% /> %member_caption%</label>
+				<label class="radio"><input type="radio" name="ann_target" id="ann_target_3" value="3" %ann_target_3_checked% /> %prof_caption%</label>
+				<label class="radio"><input type="radio" name="ann_target" id="ann_target_4" value="4" %ann_target_4_checked% /> サイト</label>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ann_title" class="required %ann_title_err%">タイトル</label></dt>
+			<dd>
+				<input type="text" id="ann_title" name="ann_title" value="%ann_title%" class="text %ann_title_err%" />
+				<ul class="note">
+					<li><span id="ann_title_max_char_num">20</span>文字以内で入力してください。（現在の入力文字数：<span id="ann_title_char_num">0</span>文字）</li>
+				</ul>
+			</dd>
+		</dl>
+		<dl>
+			<dt><label for="ann_content" class="required %ann_content_err%">本文</label></dt>
+			<dd>
+				<textarea id="ann_content" name="ann_content" class="text %ann_content_err%" rows="5" cols="80">%ann_content%</textarea>
+				<ul class="note">
+					<li><span id="ann_content_max_char_num">1000</span>文字以内で入力してください。（現在の入力文字数：<span id="ann_content_char_num">0</span>文字）</li>
+					<li><code>http://</code> から始まる URL を入れると、サイトに表示される際にハイパーリンクになります。URL を入れる場合は、URL 判定精度を上げるためにも、URL の前後に半角スペースか改行を入れることをお勧めします。</li>
+				</ul>
+			</dd>
+		</dl>
+		<dl class="last">
+			<dt>登録日時</dt>
+			<dd>%ann_cdate_0%-%ann_cdate_1%-%ann_cdate_2% %ann_cdate_3%:%ann_cdate_4%:%ann_cdate_5%  %ann_cdate_8%<TMPL_IF NAME="coupon_cdate_9"> %ann_cdate_9%</TMPL_IF><TMPL_IF NAME="coupon_cdate_7">（夏時間）</TMPL_IF></dd>
+		</dl>
+	</fieldset>
+	<div><input type="submit" value="編集" name="setBtn" class="submit" /></div>
+</form>
+</div>
+</body>
+</html>

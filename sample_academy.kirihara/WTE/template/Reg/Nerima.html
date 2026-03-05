@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>TOEFLチラシ専用特典フォーム｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+      <style>
+      
+        .wt_logo_lp {
+            height: 45px;
+        }          
+        .wt_logo_lpft a {
+            padding-top: 55px;
+            background: url("/assets/img/common/logo_w.svg") center center no-repeat;
+            background-size: contain;
+            overflow: hidden;
+            display: block;
+            font-size: 0;
+        }
+        .wt_footer_cont_lp .wt_logo {
+            height: 55px;
+        }          
+        @media (min-width: 992px){
+           .wt_logo_lp {
+                height: 74px;
+            }          
+           .wt_logo_lp a {
+                padding-top: 74px;
+            }
+        }           
+        .wt_footer_cont_lp {
+            background: #00ada9;
+            padding: 3rem 0;
+            margin-bottom: 0rem;
+        } 
+            section.wt_bg_lp_miorin h3 {
+                font-size: 20px;
+                font-size: 2.0rem;
+            }          
+        @media (min-width:992px){
+            section.wt_bg_lp_miorin h3 {
+                font-size: 30px;
+                font-size: 3.0rem;
+            }  
+        }          
+     
+        .wt_bg_lp_miorin {
+            background: #f5f5f5 url("/assets/img/lp/bg_lp_miorin.png") center top;
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+          @media (max-width:767px){
+            .wt_bg_lp_miorin {
+                padding-top: 30px;
+            }  
+              .wt_bg_lp_miorin p.leftleft{
+                  text-align: left;
+              }  
+          }
+
+          @media (min-width:1600px){
+          .lp_cont{
+              padding-right:3%;
+              padding-left: 3%;
+          }
+          }
+          
+          .lp_circle{
+               height: 80px;
+               z-index: 1001;
+          }
+          .lp_circle h5{
+              color: #fff;
+              height: 66px;
+              width: 66px;
+              padding-top: 9px;
+              background: #00ada9;
+              border-radius: 50%;
+              transform: rotate(-20deg);
+              font-size: 14px;
+              text-align: center;
+          }           
+          @media (min-width:992px){
+              .lp_circle{
+                  height: 45px;
+                  position: relative;
+                  bottom: 70px;
+                  z-index: 1001;
+              }              
+              .lp_circle h5{
+                height: 120px;
+                width: 120px;
+                padding-top: 20px;
+                font-size: 22px;
+              } 
+          }
+          @media (min-width:1480px){
+          .lp_circle{
+              height: 15px;
+              position: relative;
+              bottom: 70px;
+          }
+          } 
+          
+          .course_pic .course_text{
+                position: absolute;
+                top: 8%;
+                left: 0;
+                right: 0;
+                margin: 0;
+                padding: 0;
+                color: #fff;
+                width: 100%;             
+            } 
+          @media (max-width:767px){
+          .course_pic .course_text p{
+                font-size: 13px !important;              
+          }  
+          }      
+          @media (min-width:1300px){
+            .course_pic .course_text{
+                top: 10%;
+            }              
+          }
+          p.purple{
+              color: #fff;
+              background: #c8a8d5;
+          }
+          h3.wt_lp_featttl:before{
+              content: "";
+              display: inline-block;
+              width: 130px;
+              height: 40px;
+              background: url(/assets/img/common/logo.svg) no-repeat;
+              background-size: contain;
+              margin-bottom: -10px;
+          }
+          @media (max-width:767px){
+              .wt_lp_feat p{
+                  font-size: 12px; 
+              }
+              .wt_lp_feat img{
+                  width: 100% !important;
+              }
+          }              
+          .wt_termsbox_lp{
+              height: 12rem;
+          }
+          .wt_termsbox_lp p{
+              font-size: 12px;              
+          }
+          .wt_footer_banner {display:none}
+      </style>      
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+  <TMPL_INCLUDE NAME="../include/header_lp.html">
+
+  <main role="main" class="wt_main">
+
+        <section class="wt_bgimg wt_bg_lp_miorin">
+            <div class="container-fluid">
+                <div class="row">
+                   
+                    
+                    <div class="col-12 col-md-6 offset-md-3 lp_cont ">
+                      <div class="row position-relative">
+                          <div class="position-absolute lp_circle">
+                            <h5>専用<br>フォーム</h5>
+                          </div>
+                          <div class="col-12 text-center">                        
+                              <h3 class="text-primary mb-1">練馬区ひとり親家庭向け<br>学習支援事業フォーム</h3>
+                          </div>
+                      </div>
+                       
+                        <div class="wt_form wt_form_layer">
+                        <h3 class="mb-5 text-center wt_lp_featttl">の特徴</h3>
+                        <div class="row wt_lp_feat">
+                            <div class="col-4 text-center">
+                              <p class="mb-1">日本人講師が<br>マンツーマン指導</p>
+                              <img src="/assets/img/lp/lp_feat_01.png" class="w-50">    
+                            </div>
+                            <div class="col-4 text-center">
+                              <p class="mb-1 text-center">全8回コースを<br>リーズナブルな価格で</p>
+                              <img src="/assets/img/lp/lp_feat_02.png" class="w-50">    
+                            </div>
+                            <div class="col-4 text-center">
+                              <p class="mb-1">短期集中で<br>目標スコアを達成</p>
+                              <img src="/assets/img/lp/lp_feat_04.png?v2" class="w-50">    
+                            </div>                            
+                                
+                        </div>                            
+                        <h4 class="text-center mt-5">クーポンご利用の方はこちらのフォームから<br>会員登録をお願いいたします。</h4>
+                            
+                        <p class="text-center">以下より、会員登録をお願いします</p>
+
+                        <form method="post" action="%CGI_URL%">
+                          <input type="hidden" name="m" value="cfmset" />
+                          <input type="hidden" name="pkey" value="%pkey%" />
+                          <TMPL_IF NAME="errs"><p class="errs">%errs%</p></TMPL_IF>
+
+                          <div class="form-group" style="display: none">
+                            <label class="required %member_lastname_err% %member_firstname_err%">お名前</label>
+                            <div class="row">
+                              <div class="col-2 col-sm-1">
+                                <label for="member_lastname" class=" %member_lastname_err% %member_firstname_err%">%member_lastname_caption%：</label>
+                              </div>
+                              <div class="col-10 col-sm-5" style="line-height:1">
+                                <input type="text" id="member_lastname" name="member_lastname" value="%member_lastname%" placeholder="（例）山田" class="form-control %member_lastname_err%" />
+                              </div>
+                              <div class="col-2 col-sm-1">
+                                <label for="member_firstname" class="%member_lastname_err% %member_firstname_err%">%member_firstname_caption%：</label>
+                              </div>
+                              <div class="col-10 col-sm-5" style="line-height:1">
+                                <input type="text" id="member_firstname" name="member_firstname" value="%member_firstname%" placeholder="（例）太郎" class="form-control %member_firstname_err%" />
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <div class="row">
+                                 <div class="col-12 col-xl-4">  
+                                    <label for="member_handle" class="required %member_handle_err%">%member_handle_caption%</label>
+                                 </div>
+                                 <div class="col-12 col-xl-8">                                
+                                    <input type="text" id="member_handle" name="member_handle" value="%member_handle%" placeholder="（例）桐原一郎" class="form-control %member_handle_err%" />
+                                </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <div class="row">
+                                 <div class="col-12 col-xl-4">                                
+                                    <label for="member_email" class="required %member_email_err%">%member_email_caption%</label>
+                                 </div>
+                                 <div class="col-12 col-xl-8">                                         
+                                    <input type="text" id="member_email" name="member_email" value="%member_email%" placeholder="（例）yamada@example.com" class="form-control %member_email_err%" />
+                                </div>                                     
+                            </div>
+                           </div>                              
+
+                          <div class="form-group">
+                            <div class="row">
+                                 <div class="col-12 col-xl-4">                               
+                                    <label for="member_pass" class="required %member_pass_err%">%member_pass_caption%</label>
+                                 </div>
+                                 <div class="col-12 col-xl-8">       
+                                    <input type="password" id="member_pass" name="member_pass" value="%member_pass%" placeholder="%member_pass_caption%を入力してください（8～12文字）" class="form-control %member_pass_err%" />                       
+                                    <div class="form-group">
+                                    <input type="password" id="member_pass2" name="member_pass2" value="%member_pass2%" placeholder="確認の為、再度%member_pass_caption%を入力してください"  class="form-control %member_pass2_err%" />
+                                     </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                          <div class="form-group d-none">
+                            <div class="row">
+                                 <div class="col-12 col-xl-4">                                 
+                                    <label for="coupon_code" class="%coupon_code_err%">%coupon_code_caption%</label>
+                                 </div>
+                                 <div class="col-12 col-xl-8">                                       
+                                    <input type="text" id="coupon_code" name="coupon_code" value="yykr0gqb" class="form-control %coupon_code_err%" />
+                                </div>
+                                <ul class="note">
+                                  <li>%coupon_code_caption%をお持ちの方は、ここに8桁の半角英数字で入力してください</li>
+                                </ul>
+                              </div>
+                          </div>
+
+                          <div class="form-group">
+                            <div class="row">
+                                 <div class="col-12 col-xl-4">                               
+                                    <label for="agree">利用規約</label>
+                                 </div>
+                                 <div class="col-12 col-xl-8">                                       
+                                    <div class="wt_termsbox wt_termsbox_lp">
+                                      <div><TMPL_INCLUDE NAME="../include/agreement.html"></div>
+                                      <div><TMPL_INCLUDE NAME="../include/privacypolicy.html"></div>
+                                    </div>
+                                　</div>     
+                                 <div class="col-12 text-cener">                                        
+                                    <h5 class="text-center">規約に同意いただいた方は、「次へすすむ」ボタンを押してください</li></h5>
+                                 </div>
+                             </div>
+
+                          <div class="text-center mb-5">
+                            <input type="submit" value="次へすすむ" class="btn btn-primary rounded-pill wt_btn" />
+                          </div>
+                                
+                        </div>
+                         </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+  <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer_lp.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<script src="%static_url%/js/dom.js"></script>
+<script src="%static_url%/js/inputlimit.js"></script>
+<style>#coupon_code{width:8em;}</style>
+</body>
+</html>

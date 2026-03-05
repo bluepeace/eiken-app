@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>レッスン確認 - <TMPL_INCLUDE NAME="../include/title.html">
+  </title>
+  <meta name="description" content="" />
+  <meta property="og:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta name="twitter:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="text-center">レッスン詳細</h2>
+                <div class="row mb-5">
+                  <div class="col-12">
+                    <div class="wt_teacherbox p-5 mb-5">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-12 col-md-4 col-lg-3">
+                            <TMPL_IF NAME="prof_logo">
+                              <img src="%prof_logo_3_url%?%epoch%" alt="%prof_handle%先生" class="w-100 rounded-circle mb-4">
+                              <TMPL_ELSE>
+                                <img src="%static_url%/imgs/profile_blank.png" alt="%prof_handle%先生" class="w-75 rounded-circle mb-4">
+                            </TMPL_IF>
+                          </div>
+                          <div class="col-12 col-md-8 col-md-9">
+                            <h3 class="mb-4">レッスン詳細 - %prof_handle% 先生</h3>
+                            <TMPL_IF NAME="lsn_cancel">
+                              <h3 class="lmessage">キャンセルされました</h3>
+                              <TMPL_ELSE>
+                                <TMPL_IF NAME="lsn_today">
+                                  <h3 class="lmessage">本日がレッスン日です</h3>
+                                </TMPL_IF>
+                                <TMPL_IF NAME="lsn_during">
+                                  <h3 class="lmessage">只今レッスン中です</h3>
+                                </TMPL_IF>
+                                <TMPL_IF NAME="lsn_finished">
+                                  <h3 class="lmessage">このレッスンは終了しています</h3>
+                                </TMPL_IF>
+                                <TMPL_IF NAME="lsn_report_available">
+                                  <TMPL_IF NAME="lsn_member_repo_0">
+                                    <TMPL_IF NAME="lsn_status_0">
+                                      <p>お早めにレッスン完了報告をお願いいたします。</p>
+                                      <p>報告の期限は%lsn_report_limit_Y%年%lsn_report_limit_n%月%lsn_report_limit_j%日（%lsn_report_limit_wj%）%lsn_report_limit_G%:%lsn_report_limit_i%までです。</p>
+                                    </TMPL_IF>
+                                  </TMPL_IF>
+                                </TMPL_IF>
+                            </TMPL_IF>
+                            <ul class="wt_teacherdetail">
+                              <li>コース:<span id="selected_course_name">%course_name%</span></li>
+                            </ul>
+                            <ul class="wt_teacherdetail">
+                              <li>スケジュール:<span>%lsn_stime_Y%年%lsn_stime_n%月%lsn_stime_j%日（%lsn_stime_wj%）%lsn_stime_G%:%lsn_stime_i%～%lsn_etime_G%:%lsn_etime_i%</span>
+                              </li>
+                              <li>
+                                <ul class="note">
+                                  <li>60分のスケジュールを抑えた場合、レッスン実施時間は50分間です。<br>30分のスケジュールを抑えたレッスンは、25分が実施時間です。</li>
+                                  <!--<li>最後の5分間は%prof_caption%が次のレッスンに移動するための時間となります。</li>-->
+                                </ul>
+                              </li>
+                            </ul>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-12 text-center">
+                                <TMPL_IF NAME="member_st_flag_3">
+                                  <a href="%prof_hp%" class="btn btn-zoom rounded-pill wt_btn" target="_blank"><span class="fa fa-video"></span> Zoomを起動する</a>
+                                <TMPL_ELSE>
+                                  <TMPL_IF NAME="prof_dept">
+                                  <a href="%prof_dept%" target="_blank" class="btn btn-zoom rounded-pill wt_btn"><span class="fa fa-video"></span> Meetを利用する</a>
+                                  </TMPL_IF>
+                                </TMPL_IF>
+                                <TMPL_IF NAME="prof_skype_id">
+                                  <!--<h5 class="mt-5">※通話システムに関するお知らせ</h5>
+                                  <p class="mb-2">4月15日より、通話システムがGoogle Meetに移行しました。</p>
+                                  <p>4月中はSkypeも併用してレッスンを行います。<br>引き続きSkypeでのレッスンを希望される方は<br>講師にメッセージでSkypeでのレッスンを希望の旨連絡ください。</p>
+                                  <a href="skype:%prof_skype_id%?call" class="btn btn-skype rounded-pill wt_btn_sm mb-5" target="_blank"><span class="fa fa-skype"></span> Skypeでコールする</a>-->
+                                <TMPL_ELSE>
+                                  <!--<h5 class="mt-4">※通話システムに関するお知らせ</h5>
+                                  <p>4月30日までSkypeも併用できますので<br>引き続きSkypeでのレッスンを希望される方は<br>講師にメッセージでSkypeでのレッスンを希望の旨連絡ください。</p>-->
+                                </TMPL_IF>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <TMPL_UNLESS NAME="lsn_cancel">
+                      <TMPL_IF NAME="lsn_report_available">
+                        <TMPL_IF NAME="lsn_member_repo_0">
+                          <TMPL_IF NAME="lsn_status_0">
+                            <form action="%CGI_URL%" method="post" id="repo_form">
+                              <input type="hidden" name="m" value="lsnrposet" />
+                              <input type="hidden" name="pkey" value="%pkey%" />
+                              <input type="hidden" name="lsn_id" value="%lsn_id%" />
+                              <div class="wt_form wt_form_layer mb-5">
+                                <h3 class="text-center">レッスン完了報告</h3>
+                                <p>レッスンの完了状況を選択してください。</p>
+
+                                <fieldset class="form-group">
+                                  <legend class="col-form-legend">レッスン状況報告</legend>
+                                  <div class="form-check repo_rating_field">
+                                    <label class="form-check-label"><input type="radio" name="lsn_member_repo" value="1" /> 完了</label>
+                                    <label class="form-check-label"><input type="radio" name="lsn_member_repo" value="2" /> 未実施（%prof_caption%が来なかった）</label>
+                                    <label class="form-check-label"><input type="radio" name="lsn_member_repo" value="3" /> トラブル（自分）</label>
+                                  </div>
+                                  <ul class="note">
+                                    <li>未実施またはトラブルの場合は簡潔に説明を入力してください。</li>
+                                  </ul>
+                                  <textarea name="lsn_member_repo_note" id="lsn_member_repo_note" maxlength="140" class="form-control"></textarea>
+                                  <ul class="note">
+                                    <li>140文字まで</li>
+                                  </ul>
+                                </fieldset>
+
+                                <fieldset class="form-group">
+                                  <legend class="col-form-legend">レッスン評価</legend>
+                                  <div class="form-check repo_rating_field">
+                                    悪い
+                                    <input type="radio" name="lsn_member_repo_rating" value="1" />
+                                    <input type="radio" name="lsn_member_repo_rating" value="2" />
+                                    <input type="radio" name="lsn_member_repo_rating" value="3" checked="checked" />
+                                    <input type="radio" name="lsn_member_repo_rating" value="4" />
+                                    <input type="radio" name="lsn_member_repo_rating" value="5" />
+                                    良い
+                                  </div>
+                                </fieldset>
+
+                                <fieldset class="form-group">
+                                  <legend class="col-form-legend">レッスン感想</legend>
+                                  <textarea name="lsn_review" id="lsn_review" maxlength="140" class="form-control"></textarea>
+                                  <ul class="note">
+                                    <li>レッスンの感想をご入力下さい。この投稿は%prof_caption%にも届きます。</li>
+                                    <li>140文字まで</li>
+                                  </ul>
+                                </fieldset>
+                                <div class="text-center"><input type="submit" value="報告する" id="repo_btn" class="btn btn-primary rounded-pill wt_btn" /></div>
+                              </div>
+                            </form>
+                          </TMPL_IF>
+                        </TMPL_IF>
+                      </TMPL_IF>
+                      <TMPL_UNLESS NAME="lsn_member_repo_0">
+                        <div class="wt_form wt_form_layer mb-5">
+                          <h3 class="text-center">レッスンの評価と感想</h3>
+                          <h4>報告:
+                            <TMPL_IF NAME="lsn_member_repo_1">完了</TMPL_IF>
+                            <TMPL_IF NAME="lsn_member_repo_2">未実施（相手が来ない）</TMPL_IF>
+                            <TMPL_IF NAME="lsn_member_repo_3">トラブル（自分）</TMPL_IF>
+                            <TMPL_IF NAME="lsn_member_repo_9">その他</TMPL_IF>
+                          </h4>
+                          <TMPL_IF NAME="lsn_member_repo_note">
+                            <p>%lsn_member_repo_note%</p>
+                          </TMPL_IF>
+                          <h4>評価:
+                            <span class="value%lsn_member_repo_rating%">%lsn_member_repo_rating%</span>
+                          </h4>
+                          <TMPL_IF NAME="lsn_review">
+                            <p>%lsn_review%</p>
+                          </TMPL_IF>
+                        </div>
+                      </TMPL_UNLESS>
+                    </TMPL_UNLESS>
+
+                    <div class="wt_form wt_form_layer mb-5">
+                      <h3 class="text-center">メッセージ機能</h3>
+                      <p class="text-center">%prof_caption%にメッセージを送信することが可能です。事前のレッスン確認にご利用くださいませ。</p>
+
+                      <TMPL_IF NAME="msg_num">
+                        <div class="ibox mgb30">
+                          <TMPL_LOOP NAME="msg_loop">
+                            <h4>
+                              <TMPL_IF NAME="msg_direction_1">%member_handle%さん から %prof_handle% 先生へ<TMPL_ELSE>%prof_handle% 先生から %member_handle% さんへ</TMPL_IF>
+                            </h4>
+                            <div class="idate">%msg_cdate_Y%/%msg_cdate_n%/%msg_cdate_j%（%msg_cdate_wj%）%msg_cdate_G%:%msg_cdate_i% 送信</div>
+                            <p>%msg_content%</p>
+                          </TMPL_LOOP>
+                        </div>
+                      </TMPL_IF>
+
+                      <form action="%CGI_URL%" method="post" id="msg_form">
+                        <input type="hidden" name="m" value="msgaddset" />
+                        <input type="hidden" name="pkey" value="%pkey%" />
+                        <input type="hidden" name="lsn_id" value="%lsn_id%" />
+
+                        <fieldset class="form-group">
+                          <legend class="col-form-legend">%prof_handle%先生にメッセージを送る</legend>
+                          <textarea name="msg_content" id="msg_content" class="form-control" maxlength="1000"></textarea>
+                          <ul class="note">
+                            <li>1000文字まで</li>
+                          </ul>
+                        </fieldset>
+                        <div class="text-center"><input type="submit" value="送信する" id="msg_btn" class="btn btn-primary rounded-pill wt_btn" /></div>
+                      </form>
+                    </div>
+
+                    <TMPL_IF NAME="lsn_cancel">
+                      <div class="wt_form wt_form_layer mb-5">
+                        <h3 class="text-center">キャンセル機能</h3>
+                        <TMPL_IF NAME="lsn_cancel_1">
+                          <p>キャンセルを受け付けました。</p>
+                        </TMPL_IF>
+                        <TMPL_IF NAME="lsn_cancel_2">
+                          <p>%prof_caption%　先生によってキャンセルされました。</p>
+                        </TMPL_IF>
+                        <p>キャンセル理由：%lsn_cancel_reason%</p>
+                      </div>
+                      <TMPL_ELSE>
+                        <TMPL_IF NAME="lsn_cancelable">
+                          <div class="wt_form wt_form_layer mb-5">
+                            <h3 class="text-center">キャンセル機能</h3>
+                            <p class="text-center">レッスンのキャンセルを行う方はこちらよりキャンセルが可能です。キャンセル理由をご記入の上、ご送信ください。</p>
+                            <TMPL_IF NAME="lsn_base_price">
+                              <p><strong style="color:red">%lsn_pay_fee_rate%％キャンセル料が発生します。キャンセルするとお持ちの<TMPL_IF NAME="lsn_pay_type_1">チケット<TMPL_ELSE>クーポン</TMPL_IF>からキャンセル料が差し引かれます。</strong></p>
+                            </TMPL_IF>
+                            <form action="%CGI_URL%" method="post" id="cancel_form">
+                              <input type="hidden" name="m" value="lsncclset" />
+                              <input type="hidden" name="pkey" value="%pkey%" />
+                              <input type="hidden" name="lsn_id" value="%lsn_id%" />
+
+                              <fieldset class="form-group">
+                                <legend class="col-form-legend">キャンセル理由</legend>
+                                <textarea name="lsn_cancel_reason" id="lsn_cancel_reason" class="form-control" maxlength="140"></textarea>
+                                <ul class="note">
+                                  <li>レッスンをキャンセルした場合、キャンセルしたタイミングにてチケットが返還されます。（レッスン開始時間から%cancelable_hours%時間前までにキャンセル処理を行った場合）</li>
+                                  <li>レッスン開始時間の%cancelable_hours%時間前を過ぎた場合、キャンセル料としてチケットが消費されますので、ご注意ください。</li>
+                                  <li>140文字まで</li>
+                                </ul>
+                                <div class="text-center"><input type="submit" value="キャンセル" id="cancel_btn" class="btn btn-primary rounded-pill wt_btn" /></div>
+                              </fieldset>
+
+                            </form>
+                          </div>
+                        </TMPL_IF>
+                    </TMPL_IF>
+
+                    <div class="wt_form wt_form_layer mb-5" style="display:none;">
+                      <h3 class="text-center">決済状況確認</h3>
+                      <div class="gbox mgb10">
+                        <ul class="linfo text-center">
+                          <li>
+                            レッスンステータス
+                            <TMPL_IF NAME="lsn_status_0"><span>未確定</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_1"><span>完了</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_11"><span>通常キャンセル</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_12"><span>緊急キャンセル</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_13"><span>欠席キャンセル</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_21"><span>%prof_caption%による通常キャンセル</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_22"><span>%prof_caption%による緊急キャンセル</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_23"><span>%prof_caption%による欠席キャンセル</span></TMPL_IF>
+                            <TMPL_IF NAME="lsn_status_29"><span>その他の理由による非課金</span></TMPL_IF>
+                          </li>
+                          <TMPL_UNLESS NAME="lsn_status_0">
+                            <TMPL_UNLESS NAME="lsn_status_21">
+                              <TMPL_UNLESS NAME="lsn_status_22">
+                                <li>
+                                  <TMPL_IF NAME="lsn_pay_type_1">消費チケット</TMPL_IF>
+                                  <TMPL_IF NAME="lsn_pay_type_2">消費クーポン</TMPL_IF> <span>%lsn_base_price_with_comma%</span>回
+                                </li>
+                              </TMPL_UNLESS>
+                            </TMPL_UNLESS>
+                          </TMPL_UNLESS>
+                        </ul>
+                      </div>
+                    </div>
+
+
+            <div class="card mb-5" id="dmsg" style="display: none;">
+              <div class="card-header">
+                <div class="text-center"><img src="/assets/img/icons/mail.png" alt="" class="wte_img_icons"></div>
+                <h3 class="text-center">ダイレクトメッセージ</h3>
+              </div>
+              <div class="card-body">
+                <p class="text-center">%prof_handle%先生に直接メッセージを送信することができます。レッスン前の連絡などにご利用ください。</p>
+                <p class="text-end"><a href="%CGI_URL%?m=dmglstfrm">他講師とのメッセージ一覧を見る &raquo;</a></p>                
+                <TMPL_IF NAME="dmsg_num">
+                  <div class="ibox mgb30">
+                    <TMPL_LOOP NAME="dmsg_loop">
+                      <div style="border-bottom: 1px solid #ebebeb;padding-bottom: 10px;">    
+                        <h5 class="fs-4"><TMPL_IF NAME="dmsg_direction_1"><strong>%member_handle%</strong><TMPL_ELSE><strong>%prof_handle%</strong> 先生</TMPL_IF></h5>
+                        <div class="idate" style="">　%dmsg_cdate_Y%/%dmsg_cdate_n%/%dmsg_cdate_j%（%dmsg_cdate_wj%）%dmsg_cdate_G%:%dmsg_cdate_i% 送信</div>
+                        <p style="border-bottom: none;margin-bottom: 0;padding-bottom: 0;">%dmsg_content%</p>                      
+                        <TMPL_IF NAME="dmsg_file">
+                          <div style="border: 1px solid #ebebeb;padding: 0 5px;word-break: break-all;">
+                            <TMPL_UNLESS NAME="dmsg_file_deleted">
+                              <p class="mgb0 pdb0"><a href="%CGI_URL%?m=dmgfledwn&amp;dmsg_id=%dmsg_id%" download="%dmsg_file%">%dmsg_file%</a>
+                              （有効期限：%dmsg_file_etime_Y%/%dmsg_file_etime_n%/%dmsg_file_etime_j%（%dmsg_file_etime_wj%））</p>
+                            </TMPL_UNLESS>
+
+                            <TMPL_IF NAME="dmsg_file_deleted">
+                              <p class="mgb0 pdb0">%dmsg_file% (有効期限切れのため削除済み)</p>
+                            </TMPL_IF>
+                          </div>
+                        </TMPL_IF>
+                      </div>
+                    </TMPL_LOOP>
+                  </div>
+                </TMPL_IF>
+
+                <form action="%CGI_URL%" method="post" id="dmsg_form" enctype="multipart/form-data" class="mt-5">
+                  <input type="hidden" name="m" value="dmgaddset" />
+                  <input type="hidden" name="pkey" value="%pkey%" />
+                  <input type="hidden" name="prof_id" value="%prof_id%" />
+                  <input type="hidden" name="lsn_id" value="%lsn_id%" />
+                  <fieldset class="form-group">                    
+                    <legend class="col-form-legend">%prof_handle%先生にダイレクトメッセージを送る</legend>                    
+                    <textarea name="dmsg_content" id="dmsg_content" class="form-control" maxlength="600" placeholder=""></textarea>
+                  </fieldset>                    
+                  <ul class="note">
+                    <li>文字数：600文字まで。絵文字は使用しないでください。</li>
+                  </ul>
+                  <div>
+                    <input type="file" name="dmsg_file" id="dmsg_file" class="form-control-file">    
+                  </div>
+                  <div style="margin-top:10px;text-align: center">
+                    <input type="submit" value="&raquo; メッセージを送信" id="dmsg_btn" class="btn btn-success rounded-pill">
+                  </div>
+                </form>
+              </div>
+
+              <div class="card-footer"></div>
+            </div>
+
+                    <div class="wt_form wt_form_layer mb-5">
+                      <h3 class="text-center">クチコミ機能</h3>
+                      <p class="text-center">%prof_caption%にクチコミを送ることが可能です。送ったクチコミは%prof_caption%の詳細ページに掲載されることがございます。<br>※個人情報のご入力は控えていただくようお願いいたします。</p>
+                      <TMPL_IF NAME="buz_num">
+                        <div class="ibox mgb30">
+                          <TMPL_LOOP NAME="buz_loop">
+                            <div class="idate">%buz_cdate_Y%/%buz_cdate_n%/%buz_cdate_j%（%buz_cdate_wj%）%buz_cdate_G%:%buz_cdate_i% 送信</div>
+                            <p>%buz_content%</p>
+                          </TMPL_LOOP>
+                        </div>
+                      </TMPL_IF>
+
+                      <form action="%CGI_URL%" method="post" id="buz_form">
+                        <input type="hidden" name="m" value="buzaddset" />
+                        <input type="hidden" name="pkey" value="%pkey%" />
+                        <input type="hidden" name="lsn_id" value="%lsn_id%" />
+
+                        <fieldset class="form-group">
+                          <legend class="col-form-legend">%prof_handle%先生のクチコミを投稿</legend>
+                          <textarea name="buz_content" id="buz_content" class="form-control" maxlength="300"></textarea>
+                          <ul class="note">
+                            <li>300文字まで</li>
+                          </ul>
+                        </fieldset>
+                        <div class="text-center"><input type="submit" value="送信する" id="buz_btn" class="btn btn-primary rounded-pill wt_btn" /></div>
+                      </form>
+                    </div>
+
+                    <!--<TMPL_IF NAME="lsn_extendable">-->
+                    <!--<div class="block t17 alignCenter">
+            <form action="%CGI_URL%" method="post" class="lsn_etd_form">
+              <p>現在実施中のレッスンを延長する際には、こちらを押してください。</p>
+              <p>延長は（%prof_step%分）となります。</p>
+              <input type="hidden" name="m" value="lsnetdset" />
+              <input type="hidden" name="pkey" value="%pkey%" />
+              <input type="hidden" name="lsn_id" value="%lsn_id%" />
+              <input type="submit" value="延長申請する" class="lsn_etd_btn" />
+            </form>
+          </div>-->
+                    <!--</TMPL_IF>-->
+
+
+                  </div>
+                </div>
+              </div>
+        </section>
+      </main>
+
+
+      <!-- foot section -->
+      <TMPL_INCLUDE NAME="../include/footer.html">
+        </div>
+        <TMPL_INCLUDE NAME="../include/foot.html">
+          <script src="%static_url%/js/mypage/lsndtlfrm.js"></script>
+          <script src="%static_url%/js/mypage/favset.js"></script>
+          <script src="%static_url%/js/mypage/lsnetdset.js"></script>
+          <style>
+            #main div.block p {
+              margin-bottom: 0.2em;
+            }
+
+            #main div.block p.repo_rating_field {
+              background-color: white;
+              font-weight: bold;
+              padding: 0.5em;
+              1em;
+              0.5em;
+              1em;
+            }
+
+          </style>
+</body>
+
+</html>

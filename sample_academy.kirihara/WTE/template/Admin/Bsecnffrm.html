@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>%product_name%</title>
+  <link href="%static_url%/css/admin/common.css" type="text/css" rel="stylesheet">
+  <style>
+    table.margin_tbl input.margins {
+      width: 3em;
+    }
+
+    table.margin_tbl td {
+      border-bottom: 1px dotted #cccccc;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    table.margin_tbl th {
+      border-bottom: 1px dotted #cccccc;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    #product_name {
+      width: 20em;
+    }
+
+    #member_caption {
+      width: 10em;
+    }
+
+    #prof_caption {
+      width: 10em;
+    }
+
+    #schedule_months {
+      width: 3em;
+    }
+
+    #cancelable_hours {
+      width: 3em;
+    }
+
+    #lesson_report_limit {
+      width: 6em;
+    }
+
+    #lesson_bill_limit {
+      width: 6em;
+    }
+
+    #pdm_min_price {
+      width: 7em;
+    }
+
+    #pdm_limit {
+      width: 5em;
+    }
+
+    #sdm_min_price {
+      width: 7em;
+    }
+
+    #sdm_limit {
+      width: 5em;
+    }
+
+    #lsn_reminder_timing {
+      width: 4em;
+    }
+
+    #card_min_charge {
+      width: 6em;
+    }
+
+    #point_expire_days {
+      width: 3em;
+    }
+
+    #coupon_price_default {
+      width: 6em;
+    }
+
+    #coupon_expire_days {
+      width: 3em;
+    }
+
+    #point_auto_min_month {
+      width: 3em;
+    }
+
+    #point_expire_notice_days {
+      width: 3em;
+    }
+
+    #coupon_max {
+      width: 6em;
+    }
+
+    #reg_interim_expire {
+      width: 3em;
+    }
+
+    #hon_point_add {
+      width: 8em;
+    }
+
+    #member_purpose_min {
+      width: 2em;
+    }
+
+    #member_purpose_max {
+      width: 2em;
+    }
+
+    #member_demand_min {
+      width: 2em;
+    }
+
+    #member_demand_max {
+      width: 2em;
+    }
+
+    #member_interest_min {
+      width: 2em;
+    }
+
+    #member_interest_max {
+      width: 2em;
+    }
+
+    #member_level_min {
+      width: 2em;
+    }
+
+    #member_level_max {
+      width: 2em;
+    }
+
+    #prof_character_min {
+      width: 2em;
+    }
+
+    #prof_character_max {
+      width: 2em;
+    }
+
+    #prof_interest_min {
+      width: 2em;
+    }
+
+    #prof_interest_max {
+      width: 2em;
+    }
+
+    .prof_rank {
+      width: 20em;
+    }
+
+    #ann_list_limit_1 {
+      width: 3em;
+    }
+
+    #ann_list_limit_2 {
+      width: 3em;
+    }
+
+    #ann_list_limit_3 {
+      width: 3em;
+    }
+
+    #lesson_reservation_limit {
+      width: 5em;
+    }
+
+    #paypal_id {
+      width: 20em;
+    }
+
+    #paypal_nvp_username {
+      width: 30em;
+    }
+
+    #paypal_nvp_password {
+      width: 15em;
+    }
+
+    #tax_rate {
+      width: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>基本設定</h1>
+  <div id="main">
+    <p>本システムの基本設定を行います。設定入力後、画面下の「設定」ボタンを押してください。 </p>
+    <TMPL_IF NAME="errs">
+      <div class="errs">%errs%</div>
+    </TMPL_IF>
+    <form method="post" action="%CGI_URL%">
+      <input type="hidden" name="m" value="bsecnfset">
+      <input type="hidden" name="pkey" value="%pkey%">
+      <fieldset>
+        <legend>名称</legend>
+        <dl>
+          <dt><label class="required %product_name_err%">システム名称</label></dt>
+          <dd>
+            <input type="text" id="product_name" name="product_name" value="%product_name%"
+              class="text %product_name_err%" />
+            <small>※ 最大20文字まで。</small>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %member_caption_err%">会員名称</label></dt>
+          <dd>
+            <input type="text" id="member_caption" name="member_caption" value="%member_caption%"
+              class="text %member_caption_err%" />
+            <small>※ 最大10文字まで。</small>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="required %prof_caption_err%">講師名称</label></dt>
+          <dd>
+            <input type="text" id="prof_caption" name="prof_caption" value="%prof_caption%"
+              class="text %prof_caption_err%" />
+            <small>※ 最大10文字まで。</small>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>課金比率と売上配分</legend>
+        <dl class="last">
+          <dt><label class="required">チケット利用時</label></dt>
+          <dd>
+            <table class="margin_tbl">
+              <tr>
+                <th></th>
+                <th>課金比率</th>
+                <th>%prof_caption%の配分</th>
+                <th>代理店の配分</th>
+              </tr>
+              <tr>
+                <td>通常完了</td>
+                <td><input type="text" id="normal_point_fee_rate" name="normal_point_fee_rate"
+                    value="%normal_point_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %normal_point_fee_rate_err%" /> ％
+                <td><input type="text" id="normal_point_prof_margin" name="normal_point_prof_margin"
+                    value="%normal_point_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %normal_point_prof_margin_err%" /> ％
+                <td><input type="text" id="normal_point_seller_margin" name="normal_point_seller_margin"
+                    value="%normal_point_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %normal_point_seller_margin_err%" /> ％
+              </tr>
+              <tr>
+                <td>%member_caption%通常キャンセル</td>
+                <td><input type="text" id="cancel1_point_fee_rate" name="cancel1_point_fee_rate"
+                    value="%cancel1_point_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %cancel1_point_fee_rate_err%" /> ％
+                <td><input type="text" id="cancel1_point_prof_margin" name="cancel1_point_prof_margin"
+                    value="%cancel1_point_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel1_point_prof_margin_err%" /> ％
+                <td><input type="text" id="cancel1_point_seller_margin" name="cancel1_point_seller_margin"
+                    value="%cancel1_point_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel1_point_seller_margin_err%" /> ％
+              </tr>
+              <tr>
+                <td>%member_caption%緊急キャンセル</td>
+                <td><input type="text" id="cancel2_point_fee_rate" name="cancel2_point_fee_rate"
+                    value="%cancel2_point_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %cancel2_point_fee_rate_err%" /> ％
+                <td><input type="text" id="cancel2_point_prof_margin" name="cancel2_point_prof_margin"
+                    value="%cancel2_point_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel2_point_prof_margin_err%" /> ％
+                <td><input type="text" id="cancel2_point_seller_margin" name="cancel2_point_seller_margin"
+                    value="%cancel2_point_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel2_point_seller_margin_err%" /> ％
+              </tr>
+              <tr>
+                <td>%member_caption%欠席キャンセル</td>
+                <td><input type="text" id="cancel3_point_fee_rate" name="cancel3_point_fee_rate"
+                    value="%cancel3_point_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %cancel3_point_fee_rate_err%" /> ％
+                <td><input type="text" id="cancel3_point_prof_margin" name="cancel3_point_prof_margin"
+                    value="%cancel3_point_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel3_point_prof_margin_err%" /> ％
+                <td><input type="text" id="cancel3_point_seller_margin" name="cancel3_point_seller_margin"
+                    value="%cancel3_point_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel3_point_seller_margin_err%" /> ％
+              </tr>
+            </table>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="required">クーポン利用時</label></dt>
+          <dd>
+            <table class="margin_tbl">
+              <tr>
+                <th></th>
+                <th>課金比率</th>
+                <th>%prof_caption%の配分</th>
+                <th>代理店の配分</th>
+              </tr>
+              <tr>
+                <td>通常完了</td>
+                <td><input type="text" id="normal_coupon_fee_rate" name="normal_coupon_fee_rate"
+                    value="%normal_coupon_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %normal_coupon_fee_rate_err%" /> ％
+                <td><input type="text" id="normal_coupon_prof_margin" name="normal_coupon_prof_margin"
+                    value="%normal_coupon_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %normal_coupon_prof_margin_err%" /> ％
+                <td><input type="text" id="normal_coupon_seller_margin" name="normal_coupon_seller_margin"
+                    value="%normal_coupon_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %normal_coupon_seller_margin_err%" /> ％
+              </tr>
+              <tr>
+                <td>%member_caption%通常キャンセル</td>
+                <td><input type="text" id="cancel1_coupon_fee_rate" name="cancel1_coupon_fee_rate"
+                    value="%cancel1_coupon_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %cancel1_coupon_fee_rate_err%" /> ％
+                <td><input type="text" id="cancel1_coupon_prof_margin" name="cancel1_coupon_prof_margin"
+                    value="%cancel1_coupon_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel1_coupon_prof_margin_err%" /> ％
+                <td><input type="text" id="cancel1_coupon_seller_margin" name="cancel1_coupon_seller_margin"
+                    value="%cancel1_coupon_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel1_coupon_seller_margin_err%" /> ％
+              </tr>
+              <tr>
+                <td>%member_caption%緊急キャンセル</td>
+                <td><input type="text" id="cancel2_coupon_fee_rate" name="cancel2_coupon_fee_rate"
+                    value="%cancel2_coupon_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %cancel2_coupon_fee_rate_err%" /> ％
+                <td><input type="text" id="cancel2_coupon_prof_margin" name="cancel2_coupon_prof_margin"
+                    value="%cancel2_coupon_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel2_coupon_prof_margin_err%" /> ％
+                <td><input type="text" id="cancel2_coupon_seller_margin" name="cancel2_coupon_seller_margin"
+                    value="%cancel2_coupon_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel2_coupon_seller_margin_err%" /> ％
+              </tr>
+              <tr>
+                <td>%member_caption%欠席キャンセル</td>
+                <td><input type="text" id="cancel3_coupon_fee_rate" name="cancel3_coupon_fee_rate"
+                    value="%cancel3_coupon_fee_rate%" maxlength="3"
+                    class="text inputlimit_num margins %cancel3_coupon_fee_rate_err%" /> ％
+                <td><input type="text" id="cancel3_coupon_prof_margin" name="cancel3_coupon_prof_margin"
+                    value="%cancel3_coupon_prof_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel3_coupon_prof_margin_err%" /> ％
+                <td><input type="text" id="cancel3_coupon_seller_margin" name="cancel3_coupon_seller_margin"
+                    value="%cancel3_coupon_seller_margin%" maxlength="3"
+                    class="text inputlimit_num margins %cancel3_coupon_seller_margin_err%" /> ％
+              </tr>
+            </table>
+            <ul class="note">
+              <li>
+                課金比率は、%member_caption%への課金額を算出するための比率になります。また、この比率から算出された金額は、%prof_caption%と代理店へ売上を配分する際の基となる金額にもなります。例えば課金比率を50%とすると、1000円のレッスンに対して500円が%member_caption%に課金され、この500円を所定の比率で%prof_caption%と代理店へ配分することになります。通常、通常完了の課金比率は100%とします。キャンセルの場合は、いわゆるキャンセル料を算出するための比率になります。
+              </li>
+              <li>
+                課金比率により算出された課金額は、配分比率によって、%prof_caption%と代理店に配分されることになります。%prof_caption%と代理店の配分比率の和が100を超えることがないよう注意してください。
+              </li>
+              <li>上記の比率や配分の単位はすべてパーセントです。0～100の数値を指定してください。</li>
+              <li>欠席キャンセルとは、%member_caption%がレッスンを予約したにもかかわらず受講せずにほったらかされた場合を指します。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>レッスン</legend>
+        <dl style="display:none">
+          <dt><label class="required %schedule_months_err%">レッスン登録可能月数</label></dt>
+          <dd>
+            <input type="text" id="schedule_months" name="schedule_months" value="%schedule_months%"
+              class="text inputlimit_num %schedule_months_err%" /> ヶ月先まで登録可能
+            <ul class="note">
+              <li>ここで指定した月数だけ%prof_caption%は受入可能なスケジュールを登録することができ、また、%member_caption%も予約することができます。</li>
+              <li>1～12までの月数を半角数字で指定してください。</li>
+              <li>1を指定すると翌月末日まで登録可能です。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label
+              class="required %lesson_reservation_limit_err% %lesson_reservation_limit_unit_err%">レッスン予約期限</label>
+          </dt>
+          <dd>
+            %member_caption%はレッスン開始より
+            <input type="text" id="lesson_reservation_limit" name="lesson_reservation_limit"
+              value="%lesson_reservation_limit%" class="text inputlimit_num %lesson_reservation_limit_err%" />
+            <select name="lesson_reservation_limit_unit" id="lesson_reservation_limit_unit">
+              <option value="d" %lesson_reservation_limit_unit_d_selected%>日</option>
+              <option value="h" %lesson_reservation_limit_unit_h_selected%>時間</option>
+              <option value="m" %lesson_reservation_limit_unit_m_selected%>分</option>
+            </select>
+            前まで予約可能
+            <ul class="note">
+              <li>単位に日を指定した場合、レッスンの開始日時ではなく 00:00 が基準になります。1 日を指定した場合は、レッスン当日の前日の 00:00
+                になった時点で予約できなくなります。0 日を指定した場合は、レッスン当日の 00:00 になった時点で予約ができなくなります。</li>
+              <li>単位に時間を指定した場合、レッスンの開始分ではなく 0 分が基準になります。1 時間を指定した場合は、レッスン開始時分の前の時間の 0
+                分になった時点で予約ができなくなります。例えば、レッスン開始時分が 13:30 なら 12:00 になった時点で予約ができなくなります。0
+                時間を指定した場合は、レッスン開始時の 0 分をもって予約ができなくなります。</li>
+              <li>レッスン開始時分直前まで予約を受け付けたい場合は、0 分を指定ください。
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %cancelable_hours_err%">通常キャンセル可能時間</label></dt>
+          <dd>
+            %member_caption%は <input type="text" id="cancelable_hours" name="cancelable_hours"
+              value="%cancelable_hours%" class="text inputlimit_num %cancelable_hours_err%" />
+            時間前まで通常キャンセル可能
+            <ul class="note">
+              <li>0～168までの時間を半角数字で指定してください。</li>
+              <li>通常キャンセル可能な時間より直近にキャンセルした場合は、緊急キャンセル扱いとなり、%member_caption%から緊急キャンセル料に相当する割合を正規料金から徴収します。
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %lesson_report_limit_err%">レッスン報告有効期間</label></dt>
+          <dd>
+            レッスン終了時刻から <input type="text" id="lesson_report_limit" name="lesson_report_limit"
+              value="%lesson_report_limit%" class="text inputlimit_num %lesson_report_limit_err%" /> 分以内
+            <ul class="note">
+              <li>レッスンが終了してからここで指定した期間内に、%member_caption%と%prof_caption%はレッスン報告を行う必要があります。</li>
+              <li>この期間内にレッスン報告がない場合は、自動的にレッスンを受講したとして報告が記録され、それ以降は報告内容を変更することはできません。</li>
+              <li>1～99999までの数値を半角で指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %lesson_bill_limit_err%">売上確定期間</label></dt>
+          <dd>
+            レッスン終了時刻から <input type="text" id="lesson_bill_limit" name="lesson_bill_limit" value="%lesson_bill_limit%"
+              class="text inputlimit_num %lesson_bill_limit_err%" /> 分後に売上確定
+            <ul class="note">
+              <li>レッスンが終了してからここで指定した期間を過ぎると売上が確定します。上記のレッスン報告有効期間より長い期間を指定してください。</li>
+              <li>
+                %member_caption%と%prof_caption%のレッスン報告内容が不一致となった場合、または、いずれか一方が未報告だった場合、レッスン報告有効期間から、ここで指定する売上確定期間の間に、管理者はレッスン・ステータスを確定することになります。
+              </li>
+              <li>もしレッスン・ステータスが未確定のまま、ここで指定する売上確定期間を過ぎると、自動的に所定のレッスン・ステータスがセットされ、売上が確定します。</li>
+              <li>1～99999までの数値を半角で指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl style="display:none;">
+          <dt><label class="required %pdm_min_price_err%">%prof_caption%配分の最低請求金額</label></dt>
+          <dd>
+            <input type="text" id="pdm_min_price" name="pdm_min_price" value="%pdm_min_price%"
+              class="text inputlimit_num %pdm_min_price_err%" /> 円（チケット）
+            <ul class="note">
+              <li>%prof_caption%配分の合計額がここで指定した金額に満たない場合は、請求をすることができません。</li>
+              <li>0～100000までの数値を半角で指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl style="display:none;">
+          <dt><label class="required %pdm_limit_err%">%prof_caption%配分失効期間</label></dt>
+          <dd>
+            レッスン終了日から <input type="text" id="pdm_limit" name="pdm_limit" value="%pdm_limit%"
+              class="text inputlimit_num %pdm_limit_err%" /> 日後まで
+            <ul class="note">
+              <li>レッスンが終了してからここで指定した期間を過ぎると、%prof_caption%は配分を請求できなくなり、その配分は失効します。</li>
+              <li>1～9999までの数値を半角で指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl style="display:none;">
+          <dt><label class="required %sdm_min_price_err%">代理店配分の最低請求金額</label></dt>
+          <dd>
+            <input type="text" id="sdm_min_price" name="sdm_min_price" value="%sdm_min_price%"
+              class="text inputlimit_num %sdm_min_price_err%" /> 円（チケット）
+            <ul class="note">
+              <li>代理店配分の合計額がここで指定した金額に満たない場合は、請求をすることができません。</li>
+              <li>0～100000までの数値を半角で指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl style="display:none;">
+          <dt><label class="required %sdm_limit_err%">代理店配分失効期間</label></dt>
+          <dd>
+            レッスン終了日から <input type="text" id="sdm_limit" name="sdm_limit" value="%sdm_limit%"
+              class="text inputlimit_num %sdm_limit_err%" /> 日後まで
+            <ul class="note">
+              <li>レッスンが終了してからここで指定した期間を過ぎると、代理店は配分を請求できなくなり、その配分は失効します。</li>
+              <li>1～9999までの数値を半角で指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="required %lsn_reminder_timing_err%">レッスン開始通知の送信タイミング</label></dt>
+          <dd>
+            レッスン開始の <input type="text" id="lsn_reminder_timing" name="lsn_reminder_timing" value="%lsn_reminder_timing%"
+              class="text inputlimit_num %lsn_reminder_timing_err%" /> 時間前
+            <ul class="note">
+              <li>レッスン開始通知は、%member_caption%と%prof_caption%のいずれにも送信されます。</li>
+              <li>指定の時間通りに送信されるわけではありません。多少のずれは生じますのでご了承ください。</li>
+              <li>0～168までの数値を半角で指定してください。0 を指定するとレッスン開始通知機能は無効になります。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>チケット購入</legend>
+        <!--
+		<dl>
+			<dt><label class="required %card_min_charge_err%">最低購入金額</label></dt>
+			<dd>
+				<input type="text" id="card_min_charge" name="card_min_charge" value="%card_min_charge%" maxlength="6" class="text inputlimit_num %card_min_charge_err%" /> 円
+				<ul class="note">
+					<li>100～100000までの金額を指定してください。</li>
+				</ul>
+			</dd>
+		</dl>
+		-->
+
+        <dl style="display:none;">
+          <dt><label class="required %tax_rate_err%">消費税率</label></dt>
+          <dd>
+            <input type="text" id="tax_rate" name="tax_rate" value="%tax_rate%"
+              class="text inputlimit_num %tax_rate_err%" /> ％
+
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %point_expire_days_err%">保持チケット有効日数</label></dt>
+          <dd>
+            チケット最終購入日から <input type="text" id="point_expire_days" name="point_expire_days" value="%point_expire_days%"
+              class="text inputlimit_num %point_expire_days_err%" /> 日後まで
+            <ul class="note">
+              <li>0～9999までの日数を指定してください。</li>
+              <li>
+                例えば、この有効日数が7日で、直近のチケット購入日が8月1日だったとすると、該当の%member_caption%の保持チケットは8月8日まで有効となり、8月9日には該当の%member_caption%の保持チケットは0円になります。
+              </li>
+              <li>この日数は、スポット購入および自動課金のいずれにも適用されます。</li>
+              <li>0を指定すると、自動的に最大値である9999日が適用されます。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl style="display:none;">
+          <dt><label class="required %point_auto_min_month_err%">自動課金最低利用月数</label></dt>
+          <dd>
+            最低 <input type="text" id="point_auto_min_month" name="point_auto_min_month" value="%point_auto_min_month%"
+              maxlength="3" class="text inputlimit_num %point_auto_min_month_err%" /> ヶ月
+            <ul class="note">
+              <li>1～12までの月数を指定してください。</li>
+              <li>
+                最低2ヶ月と設定すると、少なくとも、2ヶ月分の料金が課金されるまで自動課金を解約することができません。自動課金申込時に初月の課金が行われ、翌月の同日に2回目の課金が発生します。そのため、実質的に自動課金を申し込んだ日の翌月の同日を過ぎたら解約することができます。
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="required %point_expire_notice_days_err%">チケット失効リマインダーメール送信タイミング</label></dt>
+          <dd>
+            チケット失効日の <input type="text" id="point_expire_notice_days" name="point_expire_notice_days"
+              value="%point_expire_notice_days%" maxlength="3"
+              class="text inputlimit_num %point_expire_notice_days_err%" /> 日前
+            <ul class="note">
+              <li>0～999までの日数を指定してください。</li>
+              <li>0 を指定するとリマインダーメールは送信されません。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset style="display:none;">
+        <legend>クーポン</legend>
+        <dl>
+          <dt><label class="required %coupon_price_default_err%">デフォルトの金額</label></dt>
+          <dd>
+            <input type="text" id="coupon_price_default" name="coupon_price_default" value="%coupon_price_default%"
+              maxlength="6" class="text inputlimit_num %coupon_price_default_err%" /> 円
+            <ul class="note">
+              <li>100～100000までの金額を指定してください。</li>
+              <li>この値は、代理店がクーポンを発行する際にデフォルトで表示される値です。代理店が登録した値が優先されます。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %coupon_expire_days_err%">有効日数</label></dt>
+          <dd>
+            クーポン登録日から <input type="text" id="coupon_expire_days" name="coupon_expire_days" value="%coupon_expire_days%"
+              maxlength="3" class="text inputlimit_num %coupon_expire_days_err%" /> 日後まで
+            <ul class="note">
+              <li>1～365までの日数を指定してください。</li>
+              <li>
+                例えば、この有効日数が7日で、代理店のクーポン登録日が8月1日だったとすると、該当のクーポンは8月8日まで有効になります。たとえ、%member_caption%が8月8日に%member_caption%登録したとしても、そのクーポンの有効期限は8月8日です。8月8日を過ぎると、該当のクーポンは無効になります。
+              </li>
+              <li>この値は、代理店がクーポンを発行する際にデフォルトで表示される値です。代理店が登録した値が優先されます。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="required %coupon_max_err%">クーポン登録%member_caption%上限</label></dt>
+          <dd>
+            先着 <input type="text" id="coupon_max" name="coupon_max" value="%coupon_max%" maxlength="6"
+              class="text inputlimit_num %coupon_max_err%" /> %member_caption%まで
+            <ul class="note">
+              <li>1～100000までの数値を指定してください。</li>
+              <li>この値は、代理店がクーポンを発行する際にデフォルトで表示される値です。代理店が登録した値が優先されます。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>通知メール</legend>
+        <dl>
+          <dt><label for="pub_sender" class="required %pub_sender_err%">通知メールの差出人名</label></dt>
+          <dd>
+            <input type="text" id="pub_sender" name="pub_sender" value="%pub_sender%" class="text %pub_sender_err%" />
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="pub_from" class="required %pub_from_err%">通知メールの差出人メールアドレス</label></dt>
+          <dd>
+            <input type="text" id="pub_from" name="pub_from" value="%pub_from%"
+              class="text inputlimit_ascii %pub_from_err%" />
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label for="pub_common_mail_footer" class="%pub_common_mail_footer_err%">通知メールの署名</label></dt>
+          <dd>
+            <textarea id="pub_common_mail_footer" name="pub_common_mail_footer" rows="5" cols="80"
+              class="text %pub_common_mail_footer_err%">%pub_common_mail_footer%</textarea>
+            <ul class="note">
+              <li>通知メール本文に差し込む共通フッターの文言を入力してください。<a href="%CGI_URL%?m=tpllstfrm">メールテンプレート</a>に
+                &#37;pub_common_mail_footer&#37; を記述すると、その部分が共通フッターに差し替わります。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>%member_caption%登録</legend>
+        <dl style="display:none;">
+          <dt><label class="required %reg_interim_expire_err%">%member_caption%仮登録有効日数</label></dt>
+          <dd>
+            <input type="text" id="reg_interim_expire" name="reg_interim_expire" value="%reg_interim_expire%"
+              maxlength="3" class="text inputlimit_num %reg_interim_expire_err%" /> 日
+            <ul class="note">
+              <li>%member_caption%登録を受け付けて仮登録状態となってから本登録を受け付けるまでの有効日数（1～255）を指定してください。</li>
+              <li>有効日数を過ぎると、自動的に仮登録状態の%member_caption%レコードは削除されます。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label class="required %hon_point_add_err%">本登録時のチケット付与</label></dt>
+          <dd>
+            <input type="text" id="hon_point_add" name="hon_point_add" value="%hon_point_add%"
+              class="text inputlimit_num %hon_point_add_err%" /> チケット
+            <ul class="note">
+              <li>本登録が完了した時点でチケットを付与することができます。付与するチケット数（0～10000000）を定義してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt>%member_purpose_caption%の選択項目</dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="member_purpose_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="member_purpose%id%_title" name="member_purpose%id%_title" value="%title%"
+                      maxlength="100" class="text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%member_purpose_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label
+              class="required %member_purpose_min_err% %member_purpose_max_err%">%member_purpose_caption%の選択項目の選択数</label>
+          </dt>
+          <dd>
+            <input type="text" id="member_purpose_min" name="member_purpose_min" value="%member_purpose_min%"
+              class="text inputlimit_num %member_purpose_min_err%" /> 個 ～
+            <input type="text" id="member_purpose_max" name="member_purpose_max" value="%member_purpose_max%"
+              class="text inputlimit_num %member_purpose_max_err%" /> 個 まで
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt>%member_demand_caption%の選択項目</dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="member_demand_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="member_demand%id%_title" name="member_demand%id%_title" value="%title%"
+                      maxlength="100" class="text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%member_interest_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label
+              class="required %member_demand_min_err% %member_demand_max_err%">%member_demand_caption%の選択項目の選択数</label>
+          </dt>
+          <dd>
+            <input type="text" id="member_demand_min" name="member_demand_min" value="%member_demand_min%"
+              class="text inputlimit_num %member_demand_min_err%" /> 個 ～
+            <input type="text" id="member_demand_max" name="member_demand_max" value="%member_demand_max%"
+              class="text inputlimit_num %member_demand_max_err%" /> 個 まで
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt>%member_interest_caption%の選択項目</dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="member_interest_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="member_interest%id%_title" name="member_interest%id%_title" value="%title%"
+                      maxlength="100" class="text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%member_interest_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label
+              class="required %member_interest_min_err% %member_interest_max_err%">%member_interest_caption%の選択項目の選択数</label>
+          </dt>
+          <dd>
+            <input type="text" id="member_interest_min" name="member_interest_min" value="%member_interest_min%"
+              class="text inputlimit_num %member_interest_min_err%" /> 個 ～
+            <input type="text" id="member_interest_max" name="member_interest_max" value="%member_interest_max%"
+              class="text inputlimit_num %member_interest_max_err%" /> 個 まで
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt>%member_level_caption%の選択項目</dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="member_level_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="member_level%id%_title" name="member_level%id%_title" value="%title%"
+                      maxlength="100" class="text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%member_level_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label
+              class="required %member_level_min_err% %member_level_max_err%">%member_level_caption%の選択項目の選択数</label>
+          </dt>
+          <dd>
+            <input type="text" id="member_level_min" name="member_level_min" value="%member_level_min%"
+              class="text inputlimit_num %member_level_min_err%" /> 個 ～
+            <input type="text" id="member_level_max" name="member_level_max" value="%member_level_max%"
+              class="text inputlimit_num %member_level_max_err%" /> 個 まで
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>講師登録</legend>
+        <dl class="last">
+          <dt>%prof_character_caption%の選択項目</dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="prof_character_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="prof_character%id%_title" name="prof_character%id%_title" value="%title%"
+                      maxlength="100" class="text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%prof_character_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label
+              class="required %prof_character_min_err% %prof_character_max_err%">%prof_character_caption%の選択項目の選択数</label>
+          </dt>
+          <dd>
+            <input type="text" id="prof_character_min" name="prof_character_min" value="%prof_character_min%"
+              class="text inputlimit_num %prof_character_min_err%" /> 個 ～
+            <input type="text" id="prof_character_max" name="prof_character_max" value="%prof_character_max%"
+              class="text inputlimit_num %prof_character_max_err%" /> 個 まで
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt>%prof_interest_caption%の選択項目</dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="prof_interest_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="prof_interest%id%_title" name="prof_interest%id%_title" value="%title%"
+                      maxlength="100" class="text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%prof_interest_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label
+              class="required %prof_interest_min_err% %prof_interest_max_err%">%prof_interest_caption%の選択項目の選択数</label>
+          </dt>
+          <dd>
+            <input type="text" id="prof_interest_min" name="prof_interest_min" value="%prof_interest_min%"
+              class="text inputlimit_num %prof_interest_min_err%" /> 個 ～
+            <input type="text" id="prof_interest_max" name="prof_interest_max" value="%prof_interest_max%"
+              class="text inputlimit_num %prof_interest_max_err%" /> 個 まで
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label class="required %prof_countries_err%">出身国／居住国の選択肢</label></dt>
+          <dd>
+            <textarea id="prof_countries" name="prof_countries" rows="10" cols="80"
+              class="text %prof_countries_err%">%prof_countries%</textarea>
+            <ul class="note">
+              <li><a href="http://ja.wikipedia.org/wiki/CcTLD"
+                  target="_blank">ドメインに使われるccTLD（半角アルファベット2桁）</a>と国名を半角スペースで区切って登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl class="last" style="display:none;">
+          <dt><label class="required">%prof_rank_caption%の表記</label></dt>
+          <dd>
+            <table>
+              <TMPL_LOOP NAME="prof_rank_loop">
+                <tr>
+                  <td>%id%</td>
+                  <td>：</td>
+                  <td><input type="text" id="prof_rank%id%_title" name="prof_rank%id%_title" value="%title%"
+                      maxlength="100" class="prof_rank text %err%" /></td>
+                </tr>
+              </TMPL_LOOP>
+            </table>
+            <ul class="note">
+              <li>最大%prof_rank_num%項目まで登録することができます。最低1個以上登録してください。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset style="display:none;">
+        <legend>お知らせ</legend>
+        <dl class="last">
+          <dt><label
+              class="required %ann_list_limit_1_err% %ann_list_limit_2_err% %ann_list_limit_3_err%">ダッシュボードに表示するお知らせ件数</label>
+          </dt>
+          <dd>
+            <table>
+              <tr>
+                <td>代理店</td>
+                <td>：</td>
+                <td><input type="text" id="ann_list_limit_1" name="ann_list_limit_1" value="%ann_list_limit_1%"
+                    class="text inputlimit_num %ann_list_limit_1_err%" />
+                  件</td>
+              </tr>
+              <tr>
+                <td>%member_caption%</td>
+                <td>：</td>
+                <td><input type="text" id="ann_list_limit_2" name="ann_list_limit_2" value="%ann_list_limit_2%"
+                    class="text inputlimit_num %ann_list_limit_2_err%" />
+                  件</td>
+              </tr>
+              <tr>
+                <td>%prof_caption%</td>
+                <td>：</td>
+                <td><input type="text" id="ann_list_limit_3" name="ann_list_limit_3" value="%ann_list_limit_3%"
+                    class="text inputlimit_num %ann_list_limit_3_err%" />
+                  件</td>
+              </tr>
+            </table>
+            <ul class="note">
+              <li>1～100の数値を半角で指定してください。</li>
+              <li><a href="%CGI_URL%?m=annlstfrm">お知らせ管理</a>にて編集が行われない限り、この設定を変更してもすぐに反映されませんので、注意してください。
+              </li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset>
+        <legend>PayPal ウェブペーメントプラス</legend>
+        <dl>
+          <dt><label for="paypal_id" class="required %paypal_id_err%">PayPal ID（セキュアなマーチャントID）</label></dt>
+          <dd>
+            <input type="text" id="paypal_id" name="paypal_id" value="%paypal_id%"
+              class="text inputlimit_ascii %paypal_id_err%" />
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="paypal_post_url" class="required %paypal_post_url_err%">初期購入時のPOST先URL</label></dt>
+          <dd>
+            <input type="text" id="paypal_post_url" name="paypal_post_url" value="%paypal_post_url%"
+              class="text inputlimit_ascii %paypal_post_url_err%" />
+            <ul class="note">
+              <li>https:// から指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="paypal_ipn_url" class="required %paypal_ipn_url_err%">IPN確認URL</label></dt>
+          <dd>
+            <input type="text" id="paypal_ipn_url" name="paypal_ipn_url" value="%paypal_ipn_url%"
+              class="text inputlimit_ascii %paypal_ipn_url_err%" />
+            <ul class="note">
+              <li>https:// から指定してください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <!--
+		<dl>
+			<dt>IPN通知URL</dt>
+			<dd>
+				<div style="border:1px solid #888888;background-color:#eeeeee;padding:0.5em 1em;">%CGI_DIR_URL%/paypalipn.cgi</div>
+				<ul class="note">
+					<li>
+						PayPalの管理メニューにて登録して頂くURLです。以下の手順で登録してください。
+						<ol style="margin-left: 2em;">
+							<li>Paypal管理メニューにログイン</li>
+							<li>「マイ アカウント（My Account）」タブの「個人設定（Profile）」をクリック</li>
+							<li>「販売の設定（Selling Preferences）」カラムにある「即時支払い通知の設定（Instant Payment Notification Preferences）」をクリック</li>
+							<li>「IPNの設定の選択（Choose IPN Settings）」をクリック</li>
+							<li>「通知URL（Notification URL）」欄に上記IPN通知URLを入力</li>
+							<li>「IPNメッセージ（IPN messages）」欄では「IPNメッセージを受信する(有効)（Receive IPN messages (Enabled)）」にチェックを入れ、「保存（Save）」ボタンをクリック</li>
+						</ol>
+					</li>
+				</ul>
+			</dd>
+		</dl>
+		-->
+        <dl>
+          <dt><label for="paypal_nvp_url" class="required %paypal_nvp_url_err%">NVP API URL</label></dt>
+          <dd>
+            <input type="text" id="paypal_nvp_url" name="paypal_nvp_url" value="%paypal_nvp_url%"
+              class="text inputlimit_ascii %paypal_nvp_url_err%" />
+            <ul class="note">
+              <li>API署名（API signature）用のURLを https:// から指定してください。</li>
+              <li>API認証（API certificate）には対応していませんので、間違いの無いようご注意ください。</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="paypal_nvp_username" class="required %paypal_nvp_username_err%">NVP API
+              ユーザー名</label></dt>
+          <dd>
+            <input type="text" id="paypal_nvp_username" name="paypal_nvp_username" value="%paypal_nvp_username%"
+              class="text inputlimit_ascii %paypal_nvp_username_err%" />
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="paypal_nvp_password" class="required %paypal_nvp_password_err%">NVP API
+              パスワード</label></dt>
+          <dd>
+            <input type="text" id="paypal_nvp_password" name="paypal_nvp_password" value="%paypal_nvp_password%"
+              class="text inputlimit_ascii %paypal_nvp_password_err%" />
+          </dd>
+        </dl>
+        <dl class="last">
+          <dt><label for="paypal_nvp_signature" class="required %paypal_nvp_signature_err%">NVP API
+              シグナチャー</label></dt>
+          <dd>
+            <input type="text" id="paypal_nvp_signature" name="paypal_nvp_signature" value="%paypal_nvp_signature%"
+              class="text inputlimit_ascii %paypal_nvp_signature_err%" />
+          </dd>
+        </dl>
+      </fieldset>
+
+      <fieldset>
+        <legend>Stripe API 設定</legend>
+        <dl>
+          <dt><label for="stripe_public_key" class="required %stripe_public_key_err%">公開可能キー</label></dt>
+          <dd>
+            <input type="text" id="stripe_public_key" name="stripe_public_key" value="%stripe_public_key%"
+              class="text inputlimit_ascii %stripe_public_key_err%" />
+          </dd>
+        </dl>
+        <dl>
+          <dt><label for="stripe_secret_key" class="required %stripe_secret_key_err%">シークレットキー</label></dt>
+          <dd>
+            <input type="text" id="stripe_secret_key" name="stripe_secret_key" value="%stripe_secret_key%"
+              class="text inputlimit_ascii %stripe_secret_key_err%" />
+          </dd>
+        </dl>
+      </fieldset>
+      
+      <fieldset style="display:none;">
+        <legend>フォローメール</legend>
+        <dl class="last">
+          <dt><label for="fml_content_default" class="required %fml_content_default_err%">テンプレート</label></dt>
+          <dd>
+            <textarea id="fml_content_default" name="fml_content_default" class="text %fml_content_default_err%"
+              cols="80" rows="10">%fml_content_default%</textarea>
+            <ul class="note">
+              <li>フォローメールを登録する際に、ここで指定したテンプレートをプリセットします。</li>
+            </ul>
+          </dd>
+        </dl>
+      </fieldset>
+      <div><input type="submit" value="設定" name="setBtn" class="submit" /></div>
+    </form>
+  </div>
+
+  <!-- 入力文字数カウント -->
+  <script src="%static_url%/js/input-count.js"></script>
+  <!-- フォーム二重投稿禁止 -->
+  <script src="%static_url%/js/form-guard.js"></script>
+  <!-- 入力値半角変換 -->
+  <script src="%static_url%/js/input-limit.js"></script>
+
+</body>
+
+</html>

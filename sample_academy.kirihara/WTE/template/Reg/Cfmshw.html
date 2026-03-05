@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>無料体験レッスン・会員登録｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="無料体験レッスン・会員登録｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/reg.cgi" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_register.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/reg.cgi" />
+  <meta name="twitter:title" content="無料体験レッスン・会員登録｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_register.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+    <link rel="stylesheet" href="/assets/css/lp.css?3">
+<style>
+    .wt_footer_banner{
+        display: none;
+    }
+</style>      
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+  <TMPL_INCLUDE NAME="../include/header.html">
+
+  <main role="main" class="wt_main">
+
+    <section class="wt_headvis wt_head_contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1>体験レッスンのお申込み</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="register">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 wt_form">
+                        <h2 class="text-center">目標達成の<strong class="txt_kiri">第一歩</strong>はこちらから</h2>
+                        <p class="mb-5 text-lg-center">本人確認メールを送りますので、メールアドレスに間違いがないかをご確認ください。<br>問題なければ「送信する」をクリック！</p>
+                        
+                        <form method="post" action="%CGI_URL%">
+                          <input type="hidden" name="m" value="cptset" />
+                          <input type="hidden" name="pkey" value="%pkey%" />
+                          <TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+                          <table class="table">
+                            <tbody>
+                              <tr style="display:none;">
+                                <th>お名前</th>
+                                <td>%member_lastname% %member_firstname%</td>
+                              </tr>
+                              <tr>
+                                <th>%member_handle_caption%</th>
+                                <td>%member_handle%</td>
+                              </tr>
+                              <tr>
+                                <th>%member_email_caption%</th>
+                                <td>%member_email%</td>
+                              </tr>
+                              <tr>
+                                <th>%member_pass_caption%</th>
+                                <td>%member_pass_mask%</td>
+                              </tr>
+                              <tr style="display:none;">
+                                <th>%coupon_code_caption%</th>
+                                <td>
+                                <TMPL_IF NAME="coupon_price">
+                                %coupon_price_with_comma% チケット分
+                                <TMPL_ELSE>
+                                -
+                                </TMPL_IF>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div class="text-center">
+                            <input type="submit" value="送信する" name="setBtn" class="btn btn-danger rounded-pill wt_btn" />
+                          </div>
+                          <div class="text-center">
+                            <input type="button" value="&laquo; 入力内容を修正する" name="backBtn" class="btn btn-link" onclick="javascript:document.location.href='%CGI_URL%?m=frmshw&amp;pkey=%pkey%'" />
+                          </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+  <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<style>#coupon_code{width:8em;}</style>
+</body>
+</html>
+

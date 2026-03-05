@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>%product_name%</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Oswald|Material+Icons|Noto+Sans+JP:300,400,500,700|Open+Sans:700&display=swap&subset=japanese" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&display=swap" rel="stylesheet">
+  <style>
+    html {
+      font-size: 62.5%;
+    }
+
+    body {
+      font-size: 16px;
+      font-size: 1.6rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans JP", "Yu Gothic", YuGothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Verdana, "ＭＳ Ｐゴシック", sans-serif;
+      color: #000;
+      line-height: 2;
+      font-weight: 400;
+      -webkit-text-size-adjust: 100%;
+      -webkit-print-color-adjust: exact;
+    }
+
+    input[type=text] {
+      font-size: 16px;
+      font-size: 1.6rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans JP", "Yu Gothic", YuGothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Verdana, "ＭＳ Ｐゴシック", sans-serif;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 30px;
+      font-weight: 500;
+      border-bottom: 3px solid #000;
+      padding-bottom: .2em;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .sbox {
+      border: 1px solid #000;
+      border-bottom: 0;
+      line-height: 1;
+    }
+
+    .sbox .sbig {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.4
+    }
+
+    .sbox.sbottom {
+      border-bottom: 1px solid #000;
+    }
+
+    .nbox h3 {
+      margin: 0;
+    }
+
+    .nbox {
+      border: 2px solid #000;
+      line-height: 1;
+    }
+
+    .nbox div,
+    .sbox div {
+      padding: 0.4em;
+    }
+
+    .nbox h3 {
+      margin: 0;
+    }
+
+    .nbox .nbig {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    p.naddress {
+      line-height: 1.2;
+    }
+
+    table {
+      counter-reset: lesson;
+    }
+
+    table tbody th:before {
+      counter-increment: lesson;
+      content: counter(lesson);
+    }
+
+    th {
+      background: #ccc;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    td {
+      padding: 0 0.5em;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border-collapse: collapse;
+      border: 1px solid #000;
+    }
+
+    table h3 {
+      margin: 0;
+    }
+
+    table h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    @media print {
+      .noprint {
+        display: none;
+      }
+    }
+  </style>
+  <script>
+    var dt = new Date(); //現在日時のDateオブジェクトを生成
+    var ldt = new Date(dt.getFullYear(), dt.getMonth() + 1, 0); //今月末日を取得
+    var sldt = new Date(dt.getFullYear(), dt.getMonth() + 0, 0); //先月末日を取得
+
+    //フォーマット整形
+    var y = ldt.getFullYear();
+    var m = ("00" + (ldt.getMonth() + 1)).slice(-2);
+    var d = ("00" + ldt.getDate()).slice(-2);
+    var sy = sldt.getFullYear();
+    var sm = ("00" + (sldt.getMonth() + 1)).slice(-2);
+    var sd = ("00" + sldt.getDate()).slice(-2);
+    var result = y + "/" + m + "/" + d;
+    var result1 = y + "年" + m + "月" + d + "日";
+    var result4 = y + "年" + m + "月";
+    var result5 = sy + "年" + sm + "月" + sd + "日";
+    var result6 = sy + "年" + sm + "月";
+    var result7 = sy + "年" + sm + "月01日";
+  </script>
+</head>
+
+<body>
+  <section id="page" class="container-fluid p-5">
+    <div class="row mb-4">
+      <div class="col-12 text-center">
+        <h1 class="mt-4">ご請求書</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-7">
+        <h2 class="text-center mb-5">株式会社ライトアップ 御中</h2>
+        <div class="container-fluid">
+          <div class="row mb-3">
+            <div class="col-12">
+              <p>下記のとおり、御請求申し上げます。</p>
+            </div>
+          </div>
+          <div class="sbox row">
+            <div class="col-4 text-center" style="background:#000;color:#fff;">
+              <p class="sbig">件名</p>
+            </div>
+            <div class="col-8 text-center">
+              <p class="sbig">KIRIHARA Online Academy<br>
+                <script>
+                  document.write(result6)
+                </script>度レッスン講師料
+              </p>
+            </div>
+          </div>
+          <div class="sbox row">
+            <div class="col-4 text-center" style="background:#000;color:#fff;border-top:1px solid #fff;">
+              <p class="sbig">お支払期限</p>
+            </div>
+            <div class="col-8 text-center">
+              <p class="sbig">
+                <script>
+                  document.write(result)
+                </script>
+              </p>
+            </div>
+          </div>
+          <div class="sbox row mb-3 sbottom">
+            <div class="col-4 text-center" style="background:#000;color:#fff;border-top:1px solid #fff;">
+              <p class="sbig">お振込先</p>
+            </div>
+            <div class="col-8 text-center">
+              <p class="sbig">%prof_bank_name%　%prof_bank_branch_name%<br>普通　%prof_bank_account_number%<br>%prof_bank_account_name%</p>
+            </div>
+          </div>
+          <div class="nbox row mb-3">
+            <div class="col-4 text-center" style="background:#000;color:#fff;">
+              <h3>請求金額</h3>
+            </div>
+            <TMPL_IF NAME="prof_deduction">
+              <div class="col-8 text-center">
+                <p class="nbig">¥ %pdm_price_fix_with_comma%</p>
+              </div>
+            <TMPL_ELSE>
+              <div class="col-8 text-center">
+                <p class="nbig">¥ %pdm_price_zei_with_comma%</p>
+              </div>
+            </TMPL_IF>
+          </div>
+        </div>
+      </div>
+      <div class="col-5 mb-3">
+        <h3 class="text-center mb-5">%pdm_cdate_0%/%pdm_cdate_1%/%pdm_cdate_2%</h3>
+        <p class="text-right naddress">〒%prof_zip1%-%prof_zip2%<br>%prof_addr1%%prof_addr2%%prof_addr3%<br>%prof_addr4%<br><TMPL_IF NAME="prof_company">%prof_company%<TMPL_ELSE>%prof_lastname% %prof_firstname%</TMPL_IF><br>登録番号：<span class="d-inline-block" style="min-width: 100px;">%prof_invoice_registration%</span></p>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <script type="text/javascript">
+          window.onload = function () {
+            var tableElem = document.getElementById('total');
+            var rowElems = tableElem.rows;
+            var price = 0;
+            for (i = 1, len = rowElems.length; i < len; i++) {
+              price += parseInt(rowElems[i].cells[3].innerText);
+            }
+            document.getElementById('sum').innerText = price.toLocaleString();
+            document.getElementById('sum2').innerText = price.toLocaleString();
+
+            var zei = Math.floor(price * 1.1)
+            document.getElementById('zei').innerText = zei.toLocaleString();
+
+            var czei = Math.floor(price * 0.1)
+            document.getElementById('czei').innerText = czei.toLocaleString();
+            document.getElementById('czei2').innerText = czei.toLocaleString();
+
+            //var gensen = Math.floor(price * 1.1 * 0.1021)
+            var gensen = Math.floor(price * 0.1021)
+            document.getElementById('gensen').innerText = gensen.toLocaleString();
+
+            var pay = Math.floor(zei - gensen)
+            document.getElementById('pay').innerText = pay.toLocaleString();
+
+            document.getElementById('shiharai').innerText = pay.toLocaleString();
+          }
+        </script>
+        <table id="total" class="w-100">
+          <thead>
+            <tr>
+              <th>no</th>
+              <th>レッスン名</th>
+              <th>実施日</th>
+              <th>報酬（税抜）</th>
+              <!--<th>報酬（税込）</th>-->
+            </tr>
+          </thead>
+          <tbody>
+            <TMPL_LOOP NAME="lsn_loop">
+              <tr>
+                <th></th>
+                <td>%course_name%</td>
+                <td>%lsn_stime_Y%年%lsn_stime_n%月%lsn_stime_j%日（%lsn_stime_wj%）%lsn_stime_G%:%lsn_stime_i%～%lsn_etime_G%:%lsn_etime_i%</td>
+                <td class="text-right">%lsn_prof_price%</td>
+                <!--<td class="text-right">%lsn_prof_price_zei%<script>
+            var total1 = Math.floor(%lsn_prof_price%*1.1);
+            document.write(total1)
+          </script></td>-->
+              </tr>
+            </TMPL_LOOP>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 offset-2">
+        <table class="w-100">
+          <thead>
+            <tr>
+              <td class="text-center"><small>税率別内訳</small></td>
+              <td class="text-center"><small>税抜金額</small></td>
+              <td class="text-center"><small>消費税額</small></td>
+            </tr>
+            <tr>
+              <td class="text-right"><small>10%対象</small></td>
+              <td class="text-right">
+                <small><span id="sum2"></span> 円</small>
+              </td>
+              <td class="text-right">
+                <small><span id="czei2"></span> 円</small>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right"><small>軽減8%対象</small></td>
+              <td class="text-right">
+                <small>0 円</small>
+              </td>
+              <td class="text-right">
+                <small>0 円</small>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right"><small>0%対象</small></td>
+              <td class="text-right">
+                <small>0 円</small>
+              </td>
+              <td class="text-right">
+                <small>0 円</small>
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="col-6">
+        <table class="w-100">
+          <thead>
+            <tr>
+              <th>小計</th>
+              <td class="text-right">
+                <h4><span id="sum"></span> 円</h4>
+              </td>
+            </tr>
+            <tr>
+              <th>消費税</th>
+              <td class="text-right">
+                <h4><span id="czei"></span> 円</h4>
+              </td>
+            </tr>
+
+            <TMPL_IF NAME="prof_deduction">
+              <tr>
+                <th>合計</th>
+                <td class="text-right">
+                  <h4><span id="zei"></span> 円</h4>
+                </td>
+              </tr>
+              <tr>
+                <th>源泉徴収（10.21%）</th>
+                <td class="text-right">
+                  <h4><span id="gensen"></span> 円</h4>
+                </td>
+              </tr>
+              <tr>
+                <th>請求金額合計</th>
+                <td class="text-right">
+                  <h3><span id="pay"></span> 円</h3>
+                </td>
+              </tr>
+            <TMPL_ELSE>
+              <tr>
+                <th>請求金額合計</th>
+                <td class="text-right">
+                  <h4><span id="zei"></span> 円</h4>
+                </td>
+              </tr>
+            </TMPL_IF>
+
+
+          </thead>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <script src="%static_url%/js/jquery.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+
+      var processing = false;
+
+      $(document).ready(function () {
+        var pdm_status_toggle = $('#pdm_status_toggle');
+        // clickイベントリスナー
+        pdm_status_toggle.click(function (event) {
+          event.preventDefault();
+          if (processing === true) {
+            return;
+          }
+          reqPdmTglSet($(this));
+        });
+      });
+
+      function reqPdmTglSet(tgl) {
+        var url = tgl.attr('href');
+        if (!url) {
+          return;
+        }
+        var res = window.confirm("本当にステータスを変更しても良いですか？");
+        if (res === false) {
+          return;
+        }
+        //
+        tgl.text('処理中...');
+        $.ajax({
+          url: url,
+          type: 'GET',
+          cache: false,
+          dataType: 'text',
+          success: function (data) {
+            if (data.match(/^1/)) {
+              $('#pdm_status_caption').text('支払中');
+              $('#pdm_status_toggle').text('支払済にする');
+            } else if (data.match(/^2/)) {
+              $('#pdm_status_caption').text('支払済');
+              $('#pdm_status_toggle').text('支払中に戻す');
+            } else {
+              tgl.text('処理エラー');
+            }
+            processing = false;
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            tgl.text('処理エラー');
+            processing = false;
+          }
+        });
+      }
+
+    })();
+  </script>
+
+</body>
+
+</html>

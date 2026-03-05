@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>請求集計｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta name="robots" content="noindex,nofollow" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+      
+<body id="instructor" class="instructor">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header_prof.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="text-center">請求集計</h2>
+                  
+
+            <p>請求可能なレッスン一覧を表示しています。「集計する」ボタンをクリックすると支払対象となるレッスンの集計を開始し、合計金額を表示します。レッスン完了から%pdm_limit%日経過したものは表示されなくなりますので、予めCSVファイルをダウンロードすることをお勧めします。</p>
+            <ul class="list-inline">
+              <li><a href="%CGI_URL%?m=bilcsvdwn"><span class="fa fa-file-excel-o"></span> CSVファイルをダウンロードする</a></li>
+              <li><a href="%CGI_URL%?m=pdmlstfrm"><span class="fa fa-history"></span> 過去の請求履歴を見る</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+              <div class="wt_form wt_form_layer mb-5">
+
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+            
+            <table class="table">
+              <tr>
+                <th class="">ID</th>
+                <th class="">状態</th>
+                <th class="">日時/授業名</th>
+                <th class="">メンバー名</th>
+                <!--<th class="">スカイプID</th>-->
+                <th class="">ステータス</th>
+                <th class="">報酬</th>
+              </tr>
+              <TMPL_LOOP NAME="list_loop">
+              <tr>
+                <td>%lsn_id%</td>
+                <td>
+                  <TMPL_IF NAME="lsn_pdm_status_0">未請求</TMPL_IF>
+                  <TMPL_IF NAME="lsn_pdm_status_1">支払中</TMPL_IF>
+                  <TMPL_IF NAME="lsn_pdm_status_2">支払済み</TMPL_IF>
+                </td>
+                <td>
+                  <div><a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%">%lsn_stime_Y%年%lsn_stime_n%月%lsn_stime_j%日（%lsn_stime_wj%）%lsn_stime_G%:%lsn_stime_i%～%lsn_etime_G%:%lsn_etime_i%</a></div>
+                  <div>%course_name%</div>
+                </td>
+                <td>%member_handle% さん</td>
+                <!--<td>%member_skype_id%</td>-->
+                <td>
+                  <TMPL_IF NAME="lsn_status_1">完了</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_11">%member_caption%通常キャンセル</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_12">%member_caption%緊急キャンセル</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_13">%member_caption%欠席キャンセル</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_21">%prof_caption%通常キャンセル</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_22">%prof_caption%緊急キャンセル</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_23">%prof_caption%欠席キャンセル</TMPL_IF>
+                  <TMPL_IF NAME="lsn_status_29">その他理由による非課金</TMPL_IF>
+                </td>
+                <td>%lsn_prof_price_with_comma% 円</td>
+              </tr>
+              </TMPL_LOOP>
+            </table>
+            
+            <form action="%CGI_URL%" method="get">
+              <input type="hidden" name="m" value="bilpdmfrm" />
+              <div class="text-center"><input type="submit" value="　集計する　" class="m1 btn btn-primary rounded-pill wt_btn" /></div>
+            </form>
+           
+
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+                    
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+   </main>                
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer_prof.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot_prof.html">
+  
+</body>
+</html>

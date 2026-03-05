@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>レッスン履歴・予約確認｜<TMPL_INCLUDE NAME="../include/title.html"></title>
+  <meta name="description" content="これまで受講したレッスンの一覧です。レッスン完了しましたら、「完了報告する」ボタンをクリックし、評価とレビューをご入力ください。" />
+  <meta property="og:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@WT_Kirihara" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=athlinfrm" />
+  <meta name="twitter:title" content="マイページログイン｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="レッスンのご予約はマイページから。様々なカリキュラムから受講いただけます。あなたの目標に最短距離で近づけるよう、サポートさせていただきます。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp_login.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+        <section class="wt_sec_bg_1">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="text-center">レッスン履歴・予約確認</h2>
+              <p class="text-center">これまで受講したレッスンの一覧です。レッスンが完了しましたら、「完了報告する」ボタンをクリックし、評価とレビューをご入力ください。</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <div class="wt_form wt_form_layer mb-5">
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+
+                <table class="table">
+                  <tr>
+                    <th class="w10"><span class="hiddeni">ステータス</span></th>
+                    <th class="w30">授業名</th>
+                    <th class="w30">レッスン日時</th>
+                    <th class="w20">%prof_caption%</th>
+                    <th class="w20">操作</th>
+                  </tr>
+                  <TMPL_LOOP NAME="list_loop" LSN_PROF_REPO_NOTE_CHARS="17" LSN_MEMBER_REPO_NOTE_CHARS="17"
+                    LSN_REVIEW_CHARS="17">
+                    <tr>
+                      <td class="w10">
+                        <TMPL_IF NAME="lsn_cancel">
+                            <span class="text-danger">キャンセル</span>
+                          <TMPL_ELSE>
+                            <TMPL_IF NAME="lsn_finished">
+                              <TMPL_IF NAME="lsn_status_0">未確定</TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_1">完了</TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_11"><span class="hiddeni">%member_caption%通常キャンセル</span><span
+                                  class="viewi">キャンセル</span></TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_12"><span class="hiddeni">%member_caption%緊急キャンセル</span><span
+                                  class="viewi">キャンセル</span></TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_13"><span class="hiddeni">%member_caption%欠席キャンセル</span><span
+                                  class="viewi">キャンセル</span></TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_21"><span class="hiddeni">%prof_caption%通常キャンセル</span><span
+                                  class="viewi">キャンセル</span></TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_22"><span class="hiddeni">%prof_caption%緊急キャンセル</span><span
+                                  class="viewi">キャンセル</span></TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_23"><span class="hiddeni">%prof_caption%欠席キャンセル</span><span
+                                  class="viewi">キャンセル</span></TMPL_IF>
+                              <TMPL_IF NAME="lsn_status_29"><span class="hiddeni">その他理由による非課金</span><span
+                                  class="viewi">その他</span></TMPL_IF>
+                              <TMPL_ELSE>
+                                <TMPL_IF NAME="lsn_during">授業中<TMPL_ELSE>予約中</TMPL_IF>
+                            </TMPL_IF>
+                        </TMPL_IF>
+                      </td>
+                      <td class="w30">
+                        %course_name%
+                      </td>
+                      <td class="w30">
+                        <a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%"><span
+                            class="hiddeni">%lsn_stime_Y%年</span>%lsn_stime_n%月%lsn_stime_j%日(%lsn_stime_wj%)%lsn_stime_G%:%lsn_stime_i%～%lsn_etime_G%:%lsn_etime_i%</a>
+                      </td>
+                      <td class="w20">
+                        %prof_handle%<span class="hiddeni">
+                            先生</span>
+                      </td>
+                      <td class="w20">
+                        <TMPL_UNLESS NAME="lsn_cancel">
+                          <TMPL_IF NAME="lsn_finished">
+                            <TMPL_ELSE>
+                              <a href="%CGI_URL%?m=lsndtlfrm&amp;lsn_id=%lsn_id%"  class="btn btn-primary wt_btn_xs rounded-pill wt_btn">予約確認</a>
+                          </TMPL_IF>
+                        </TMPL_UNLESS>
+                      </td>
+                    </tr>
+                  </TMPL_LOOP>
+                </table>
+
+          <nav aria-label="..." class="text-center">
+            <ul class="wt_pagination">
+              <TMPL_IF NAME="prev_url">
+              <li class="page-item">
+                <a href="%prev_url%" class="page-link fas fa-chevron-left"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-left"></i>
+              </li>
+              </TMPL_IF>
+              <TMPL_LOOP NAME="page_loop">
+              <TMPL_IF NAME="current">
+              <li class="page-item active">
+                <span class="page-link">%page%</span>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item">
+                <a href="%url%" class="page-link">%page%</a>
+              </li>
+              </TMPL_IF>
+              </TMPL_LOOP>
+              <TMPL_IF NAME="next_url">
+              <li class="page-item">
+                <a href="%next_url%" class="page-link fas fa-chevron-right"></a>
+              </li>
+              <TMPL_ELSE>
+              <li class="page-item disabled">
+                <i class="page-link fas fa-chevron-right"></i>
+              </li>
+              </TMPL_IF>
+            </ul>
+          </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        <div class="wt_sec_bg_1">
+        <ul class="wt_breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+          <li><a href="/" itemprop="url" content="https://academy.kirihara.co.jp/"><span class="wt_crumb" itemprop="title">ホーム</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=parent" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=parent"><span itemprop="title">マイページ</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/mypage.cgi?m=lsnlstfrm" itemprop="url" content="https://academy.kirihara.co.jp/WTE/mypage.cgi?m=lsnlstfrm"><span itemprop="title">レッスン履歴・予約確認</span></a></li>
+        </ul>
+        </div>
+      </main>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+</body>
+</html>

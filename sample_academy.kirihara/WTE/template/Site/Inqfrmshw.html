@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">
+  </title>
+  <meta name="description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=inqfrmshw" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=inqfrmshw" />
+  <meta name="twitter:title" content="お問い合わせ｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+
+        <section class="wt_headvis wt_head_contact">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h1>お問い合わせ</h1>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="container">
+            <div class="row">
+
+                
+              <div class="col-12 col-md-8 offset-md-2 wt_form">
+                <p class="text-center">お問い合わせ内容をご記入の上「確認画面へ」ボタンを押してください。</p>
+                <form method="post" action="%CGI_URL%" id="contactForm">
+                  <input type="hidden" name="m" value="inqcfmset" />
+                  <input type="hidden" name="pkey" value="%pkey%" />
+                  <input type="hidden" name="inq_mtype_caption_1" value="%member_caption%" />
+                  <input type="hidden" name="inq_mtype_caption_2" value="%member_caption%希望" />
+                  <input type="hidden" name="inq_mtype_caption_3" value="非%member_caption%" />
+                  <input type="hidden" name="inq_title_caption_8" value="無料体験について" />
+                  <input type="hidden" name="inq_title_caption_7" value="モニターについて" />
+                  <input type="hidden" name="inq_title_caption_1" value="入会・%member_caption%登録について" />
+                  <input type="hidden" name="inq_title_caption_2" value="料金・お支払方法について" />
+                  <input type="hidden" name="inq_title_caption_3" value="レッスンについて" />
+                  <input type="hidden" name="inq_title_caption_4" value="キャンペーンについて" />
+                  <input type="hidden" name="inq_title_caption_5" value="ご要望・ご意見" />
+                  <input type="hidden" name="inq_title_caption_6" value="その他のご質問、ご意見" />
+                  <TMPL_IF NAME="errs">
+                    <p class="errs">%errs%</p>
+                  </TMPL_IF>
+
+                  <div class="form-group">
+                    <label for="inq_name" class="required %inq_name_err%">お名前</label>
+                    <input type="text" id="inq_name" name="inq_name" value="%inq_name%" placeholder="（例）山田太郎" class="form-control %inq_name_err%" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inq_email" class="required %inq_email_err%">メールアドレス</label>
+                    <input type="email" id="inq_email" name="inq_email" value="%inq_email%" placeholder="（例）yamada@example.com" class="form-control %inq_email_err%" />
+                    <div id="emailError" style="color: red; display: none;"></div>
+                  </div>
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %inq_mtype_err%">登録状況</legend>
+                    <div class="form-check">
+                      <label class="form-check-label"><input type="radio" id="inq_mtype_1" name="inq_mtype" value="1" class="%inq_mtype_err%" %inq_mtype_checked_1% />%member_caption%</label>
+                      <label class="form-check-label"><input type="radio" id="inq_mtype_2" name="inq_mtype" value="2" class="%inq_mtype_err%" %inq_mtype_checked_2% />%member_caption%希望</label>
+                      <label class="form-check-label"><input type="radio" id="inq_mtype_3" name="inq_mtype" value="3" class="%inq_mtype_err%" %inq_mtype_checked_3% />非%member_caption%</label>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %inq_title_err%">お問い合わせ項目</legend>
+                    <div class="form-group">
+                      <select id="inq_title" name="inq_title" class="form-control %inq_title_err%">
+                        <option value="">---お問い合わせ項目をお選び下さい---</option>
+                        <option value="8" %inq_title_selected_8%>無料体験について</option>
+                        <option value="7" %inq_title_selected_7%>モニターについて</option>
+                        <option value="1" %inq_title_selected_1%>入会・%member_caption%登録について</option>
+                        <option value="2" %inq_title_selected_2%>料金・お支払方法について</option>
+                        <option value="3" %inq_title_selected_3%>レッスンについて</option>
+                        <option value="4" %inq_title_selected_4%>キャンペーンについて</option>
+                        <option value="5" %inq_title_selected_5%>ご要望・ご意見</option>
+                        <option value="6" %inq_title_selected_6%>その他のご質問、ご意見</option>
+                      </select>
+                    </div>
+                  </fieldset>
+
+                  <div class="form-group">
+                    <label for="contact" class="required %inq_cont_err%">お問い合わせ内容</label>
+                    <textarea id="inq_cont" name="inq_cont" class="form-control %inq_cont_err%" style="height:150px;" placeholder="お問い合わせ内容をご記入下さい">%inq_cont%</textarea>
+                    <ul class="note">
+                      <li>お問い合わせ内容は<span id="inq_cont_max_char_num">3000</span>文字以内で入力してください。（現在の入力文字数：<span id="inq_cont_char_num">0</span>文字）</li>
+                    </ul>
+                  </div>
+
+                  <div class="text-center mb-5">
+                    <input type="submit" value="確認画面へ" name="setBtn" class="btn btn-primary rounded-pill wt_btn" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <ul class="wt_breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+          <li><a href="/" itemprop="url" content="https://academy.kirihara.co.jp/"><span class="wt_crumb" itemprop="title">ホーム</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/site.cgi?m=inqfrmshw" itemprop="url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=inqfrmshw"><span itemprop="title">お問い合わせ</span></a></li>
+        </ul>
+      </main>
+
+      <!-- foot section -->
+      <TMPL_INCLUDE NAME="../include/footer.html">
+        <TMPL_INCLUDE NAME="../include/foot.html">
+          <script src="/WTE/static/js/dom.js"></script>
+          <script src="/WTE/static/js/inputlimit.js"></script>
+          <script>
+            (function() {
+
+              dom.event.addEventListener(window, "load", init);
+
+              var names = [
+                'inq_cont'
+              ];
+
+              function init() {
+                for (var i = 0; i < names.length; i++) {
+                  var elm = document.getElementById(names[i]);
+                  dom.event.addEventListener(elm, "keyup", count_char_num);
+                  dom.event.addEventListener(elm, "focus", count_char_num);
+                  dom.event.addEventListener(elm, "blur", count_char_num);
+                }
+                count_char_num();
+              }
+
+              function count_char_num() {
+                for (var i = 0; i < names.length; i++) {
+                  var elm = document.getElementById(names[i]);
+                  var char_num = document.getElementById(names[i] + "_char_num");
+                  if (!char_num) {
+                    continue;
+                  }
+                  var max_char_num = document.getElementById(names[i] + "_max_char_num");
+                  if (!max_char_num) {
+                    continue;
+                  }
+                  var n = elm.value.length;
+                  var max = parseInt(max_char_num.innerHTML);
+                  if (n > max) {
+                    n = '<span class="caution">' + n + '</span>';
+                  }
+                  char_num.innerHTML = n;
+                }
+              }
+
+            })();
+
+          </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const emailInput = document.getElementById('inq_email');
+      const emailError = document.getElementById('emailError');
+      const forbiddenStrings = ["-Administrator-", "Mastercard-", "Amazon-", "Nta-", "Eki-"];
+
+      emailInput.addEventListener('input', function () {
+          const value = emailInput.value;
+          const hasForbiddenString = forbiddenStrings.some(str => value.includes(str));
+          
+          if (hasForbiddenString) {
+              emailError.textContent = "メールアドレスに不適切な単語が含まれています。";
+              emailInput.setCustomValidity("不適切な単語が含まれています。");
+          } else {
+              emailError.textContent = "";
+              emailInput.setCustomValidity("");
+          }
+      });
+
+      const form = document.getElementById('contactForm');
+      form.addEventListener('submit', function (e) {
+          if (!emailInput.checkValidity()) {
+              e.preventDefault();
+          }
+      });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>メールテンプレート編集 | %product_name%</title>
+  <TMPL_INCLUDE NAME="include_head.html">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <TMPL_INCLUDE NAME="include_header.html">
+      <TMPL_INCLUDE NAME="include_menu.html">
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 class="m-0"><i class="fas fa-envelope text-primary"></i> メールテンプレート編集</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="%CGI_URL%">Home</a></li>
+                    <li class="breadcrumb-item active">メールテンプレート編集</li>
+                  </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content-header -->
+          <!-- Main content -->
+          <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+
+                    <div class="card card-primary card-outline">
+                      <div class="card-header">
+                        <h3 class="card-title"><i class="fas fa-envelope text-primary"></i> メールテンプレート一覧</h3>
+                        <div class="card-tools pull-right">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                      </div>
+                      <div class="card-body text-sm">
+                        <ul>
+                          <li>システムから送信される各種通知メールのテンプレートを編集します。</li>
+                          <li><a href="/file/wte_mailtemplate.ppt">こちら</a>から説明資料をダウンロードすることが出来ます。</li>
+                        </ul>
+                        <ul class="list-group">
+                          <TMPL_LOOP NAME="tmpl_loop">
+                            <li class="list-group-item">
+                              <a href="%CGI_URL%?m=tplmodfrm&amp;tmpl_id=%tmpl_id%">[<code>%tmpl_id%</code>] %tmpl_title%</a>
+                              <TMPL_UNLESS NAME="tmpl_registered"><span class="caution">[未登録]</span></TMPL_UNLESS>
+                            </li>
+                          </TMPL_LOOP>
+                        </ul>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                </div>
+                
+              </section>
+            </div>
+  
+            <TMPL_INCLUDE NAME="include_footer.html">
+      </div>
+      <TMPL_INCLUDE NAME="include_foot.html">
+    </body>
+    
+    </html>

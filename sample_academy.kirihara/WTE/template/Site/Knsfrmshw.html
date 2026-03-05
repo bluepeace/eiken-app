@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang=ja>
+
+<head>
+  <meta charset=utf-8>
+  <meta content="IE=edge" http-equiv=X-UA-Compatible>
+  <meta content="width=device-width,initial-scale=1" name=viewport>
+  <title>法人研修の資料ダウンロード・ご相談｜<TMPL_INCLUDE NAME="../include/title.html">
+  </title>
+  <meta name="description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta name="keywords" content="オンライン英会話,スカイプ英会話,日本人講師,日本語対応可,日本語OK,初心者向け,マンツーマン,World Talk,ワールドトーク,桐原書店,TOEIC,英検" />
+  <meta property="og:title" content="法人研修の資料ダウンロード・ご相談｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:type" content="product" />
+  <meta property="og:description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta property="og:url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=knsfrmshw" />
+  <meta property="og:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <meta property="og:site_name" content="<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@KIRIHARA_WT" />
+  <meta name="twitter:url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=knsfrmshw" />
+  <meta name="twitter:title" content="法人研修の資料ダウンロード・ご相談｜<TMPL_INCLUDE NAME="../include/title.html">" />
+  <meta name="twitter:description" content="ワールドトーク×桐原書店のサービスに関するお問い合わせはこちらから。会員様も入会希望の方もどんなご質問でも構いませんので、フォームよりお送りください。英検やTOEICの受講を控えている方も何か不安をお持ちでしたら是非お声がけください。" />
+  <meta name="twitter:image" content="https://academy.kirihara.co.jp/assets/img/ogp/ogp.jpg" />
+  <TMPL_INCLUDE NAME="../include/head.html">
+</head>
+
+<body id="user" class="drawer drawer--right">
+  <TMPL_INCLUDE NAME="../include/body.html">
+    <TMPL_INCLUDE NAME="../include/header.html">
+
+      <main role="main" class="wt_main">
+
+        <section class="wt_headvis wt_head_contact">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h1>法人研修の資料ダウンロード・ご相談</h1>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="container">
+            <div class="row">
+
+                
+              <div class="col-12 col-md-8 offset-md-2 wt_form">
+                <p class="text-center">お問い合わせ内容をご記入の上「確認画面へ」ボタンを押してください。</p>
+                <form method="post" action="%CGI_URL%">
+                  <input type="hidden" name="m" value="knscfmset" />
+                  <input type="hidden" name="pkey" value="%pkey%" />
+                  <input type="hidden" name="kns_mtype_caption_1" value="打ち合わせを希望" />
+                  <input type="hidden" name="kns_mtype_caption_2" value="メールで連絡が欲しい" />
+                  <input type="hidden" name="kns_mtype_caption_3" value="資料ダウンロードする" />
+                  <TMPL_IF NAME="errs">
+                    <p class="errs">%errs%</p>
+                  </TMPL_IF>
+
+                  <div class="form-group">
+                    <label for="kns_company" class="required %kns_company_err%">御社名</label>
+                    <input type="text" id="kns_company" name="kns_company" value="%kns_company%" placeholder="（例）株式会社桐原書店" class="form-control %kns_company_err%" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="kns_name" class="required %kns_name_err%">ご担当者様ご氏名</label>
+                    <input type="text" id="kns_name" name="kns_name" value="%kns_name%" placeholder="（例）桐原花子" class="form-control %kns_name_err%" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="kns_email" class="required %kns_email_err%">メールアドレス</label>
+                    <input type="email" id="kns_email" name="kns_email" value="%kns_email%" placeholder="（例）kirihara@example.com" class="form-control %kns_email_err%" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="kns_tel" class="required %kns_tel_err%">お電話番号</label>
+                    <input type="text" id="kns_tel" name="kns_tel" value="%kns_tel%" placeholder="01-2345-6789" class="form-control %kns_tel_err%" />
+                  </div>
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %kns_mtype_err%">ご希望をお聞かせください</legend>
+                    <div class="form-check">
+                      <label class="form-check-label"><input type="radio" id="kns_mtype_1" name="kns_mtype" value="1" class="%kns_mtype_err%" %kns_mtype_checked_1% />打ち合わせを希望</label>
+                      <label class="form-check-label"><input type="radio" id="kns_mtype_2" name="kns_mtype" value="2" class="%kns_mtype_err%" %kns_mtype_checked_2% />メールで連絡が欲しい</label>
+                      <label class="form-check-label"><input type="radio" id="kns_mtype_3" name="kns_mtype" value="3" class="%kns_mtype_err%" %kns_mtype_checked_3% />資料ダウンロードする</label>
+                    </div>
+                  </fieldset>
+
+                  <div class="form-group">
+                    <label for="contact" class="%kns_cont_err%">その他質問があれば入力ください</label>
+                    <textarea id="kns_cont" name="kns_cont" class="form-control %kns_cont_err%" style="height:150px;" placeholder="お問い合わせ内容をご記入下さい">%kns_cont%</textarea>
+                    <ul class="note">
+                      <li>その他質問は<span id="kns_cont_max_char_num">3000</span>文字以内で入力してください。（現在の入力文字数：<span id="kns_cont_char_num">0</span>文字）</li>
+                    </ul>
+                  </div>
+
+                  <div class="text-center mb-5">
+                    <input type="submit" value="確認画面へ" name="setBtn" class="btn btn-primary rounded-pill wt_btn" />
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        <ul class="wt_breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+          <li><a href="/" itemprop="url" content="https://academy.kirihara.co.jp/"><span class="wt_crumb" itemprop="title">ホーム</span></a></li>
+          <li><a href="%ssl_host_url%/WTE/site.cgi?m=knsfrmshw" itemprop="url" content="https://academy.kirihara.co.jp/WTE/site.cgi?m=knsfrmshw"><span itemprop="title">法人研修の資料ダウンロード・ご相談</span></a></li>
+        </ul>
+      </main>
+
+      <!-- foot section -->
+      <TMPL_INCLUDE NAME="../include/footer.html">
+        <TMPL_INCLUDE NAME="../include/foot.html">
+          <script src="/WTE/static/js/dom.js"></script>
+          <script src="/WTE/static/js/inputlimit.js"></script>
+          <script>
+            (function() {
+
+              dom.event.addEventListener(window, "load", init);
+
+              var names = [
+                'kns_cont'
+              ];
+
+              function init() {
+                for (var i = 0; i < names.length; i++) {
+                  var elm = document.getElementById(names[i]);
+                  dom.event.addEventListener(elm, "keyup", count_char_num);
+                  dom.event.addEventListener(elm, "focus", count_char_num);
+                  dom.event.addEventListener(elm, "blur", count_char_num);
+                }
+                count_char_num();
+              }
+
+              function count_char_num() {
+                for (var i = 0; i < names.length; i++) {
+                  var elm = document.getElementById(names[i]);
+                  var char_num = document.getElementById(names[i] + "_char_num");
+                  if (!char_num) {
+                    continue;
+                  }
+                  var max_char_num = document.getElementById(names[i] + "_max_char_num");
+                  if (!max_char_num) {
+                    continue;
+                  }
+                  var n = elm.value.length;
+                  var max = parseInt(max_char_num.innerHTML);
+                  if (n > max) {
+                    n = '<span class="caution">' + n + '</span>';
+                  }
+                  char_num.innerHTML = n;
+                }
+              }
+
+            })();
+
+          </script>
+</body>
+</html>

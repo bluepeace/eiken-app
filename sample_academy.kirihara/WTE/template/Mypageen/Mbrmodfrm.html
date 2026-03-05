@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+<meta charset=utf-8>
+<meta content="IE=edge" http-equiv=X-UA-Compatible>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<title>プロフィール編集 - <TMPL_INCLUDE NAME="../include/title.html"></title>
+<TMPL_INCLUDE NAME="../include/head.html">
+</head>
+<body id="user">
+
+<TMPL_INCLUDE NAME="../include/header.html">
+  <div id="sb-site">
+
+    <!-- content section -->
+    <section class="page bggrey">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-8 col-md-offset-2">
+
+            <section class="review box clearfix">
+
+              <!--セクション見出し-->
+              <h1>プロフィール<TMPL_IF NAME="member_purpose">編集<TMPL_ELSE>登録</TMPL_IF></h1>
+              <TMPL_IF NAME="member_purpose"><p class="text-center">%member_caption%データを修正します。必要事項を変更の上、「編集」ボタンを押してください。</p><TMPL_ELSE><p class="text-center">まずは、%session_member_handle%さんのプロフィール情報を教えてください</p></TMPL_IF>
+              <TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+              
+              <form method="post" action="%CGI_URL%" enctype="multipart/form-data" class="">
+                <input type="hidden" name="m" value="mbrmodset" />
+                <input type="hidden" name="pkey" value="%pkey%" />
+                <fieldset class="wform mgb40">
+                <TMPL_IF NAME="member_purpose"><TMPL_ELSE>
+                  <div class="progresscont">
+                    <div class="progresstxt">
+                      <div class="row">
+                        <div class="col-xs-4 text-center">
+                          アカウント<span class="hideii">情報</span>
+                          <div class="progressnum on">1</div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                          住所・連絡先<span class="hideii">情報</span>
+                          <div class="progressnum off">2</div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                          プロフィール<span class="hideii">情報</span>
+                          <div class="progressnum off">3</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width:33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  </TMPL_IF>
+                    <!--<div class="form-group"><label for="member_company" class="%member_company_err%">%member_company_caption%</label>
+
+                      <input type="text" id="member_company" name="member_company" value="%member_company%" class="form-control %member_company_err% xlarge" />
+                      <ul class="note">
+                        <li><span id="member_company_max_char_num">100</span>文字以内で入力してください。（現在の入力文字数：<span id="member_company_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>
+                    <div class="form-group"><label for="member_dept" class="%member_dept_err%">%member_dept_caption%</label>
+
+                      <input type="text" id="member_dept" name="member_dept" value="%member_dept%" class="form-control text %member_dept_err% large" />
+                      <ul class="note">
+                        <li><span id="member_dept_max_char_num">100</span>文字以内で入力してください。（現在の入力文字数：<span id="member_dept_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>
+                    <div class="form-group"><label for="member_title" class="%member_title_err%">%member_title_caption%</label>
+
+                      <input type="text" id="member_title" name="member_title" value="%member_title%" class="form-control text %member_title_err% large" />
+                      <ul class="note">
+                        <li><span id="member_title_max_char_num">20</span>文字以内で入力してください。（現在の入力文字数：<span id="member_title_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>-->
+                    <div class="form-group">
+                      <label class="required %member_lastname_err% %member_firstname_err%">%member_lastname_caption%%member_firstname_caption%</label>
+                      <div class="row">
+                        <div class="col-xs-2 col-sm-1">
+                          <label for="member_lastname" class="%member_lastname_err% %member_firstname_err%">%member_lastname_caption%：</label>
+                        </div>
+                        <div class="col-xs-10 col-sm-5" style="line-height:1">
+                          <input type="text" id="member_lastname" name="member_lastname" value="%member_lastname%" placeholder="（例）山田" class="form-control %member_lastname_err%" />
+                        </div>
+                        <div class="col-xs-2 col-sm-1">
+                          <label for="member_firstname" class="%member_lastname_err% %member_firstname_err%">%member_firstname_caption%：</label>
+                        </div>
+                        <div class="col-xs-10 col-sm-5" style="line-height:1">
+                          <input type="text" id="member_firstname" name="member_firstname" value="%member_firstname%" placeholder="（例）太郎" class="form-control %member_firstname_err%" />
+                        </div>
+                      </div>
+                      <ul class="note">
+                        <li>%member_lastname_caption%は<span id="member_lastname_max_char_num">100</span>文字以内で入力してください。（現在の入力文字数：<span id="member_lastname_char_num">0</span>文字）</li>
+                        <li>名は<span id="member_firstname_max_char_num">100</span>文字以内で入力してください。（現在の入力文字数：<span id="member_firstname_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>
+                    <div class="form-group">
+                      <label for="member_handle" class="required %member_handle_err%">%member_handle_caption%</label>
+                      <input type="text" id="member_handle" name="member_handle" value="%member_handle%" class="form-control text %member_handle_err% large" />
+                      <ul class="note">
+                        <li>%member_handle_caption%は<span id="member_handle_max_char_num">30</span>文字以内で入力してください。（現在の入力文字数：<span id="member_handle_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>
+                    <div class="form-group">
+                      <label for="member_email" class="required %member_email_err%">%member_email_caption%</label>
+                      <input type="text" id="member_email" name="member_email" value="%member_email%" class="form-control text %member_email_err% xlarge" />
+                      <ul class="note">
+                        <li><span id="member_email_max_char_num">255</span>文字以内で入力してください。（現在の入力文字数：<span id="member_email_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>
+                    <div class="form-group">
+                      <label for="member_skype_id" class="%member_skype_id_err%">%member_skype_id_caption%</label>
+                      <input type="text" id="member_skype_id" name="member_skype_id" value="%member_skype_id%" class="form-control text inputlimit_ascii %member_skype_id_err% xlarge" />
+                      <ul class="note">
+                        <li><span id="member_skype_id_max_char_num">32</span>文字以内で入力してください。（現在の入力文字数：<span id="member_skype_id_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>
+                    <div class="form-group">
+                      <label for="member_logo_up" class="%member_logo_up_err%">プロフィール写真</label>
+                      <div style="vertical-align:middle">
+                        <input type="file" id="member_logo_up" name="member_logo_up" class="text %member_logo_up_err%" />
+                      </div>
+                      <ul class="note">
+                        <li>GIF/JPEG/PNG形式のいずれかの画像ファイルを指定してください。</li>
+                        <li>サイズは1MB以内の画像ファイルをご登録ください。</li>
+                      </ul>
+                      <TMPL_IF NAME="member_logo_up">
+                        <div id="member_logo_box">
+                          <img src="%member_logo_2_tmp_url%?%epoch%" width="%member_logo_2_w%" height="%member_logo_2_h%" alt="プロフィール写真（中）" />
+                        </div>
+                        <div><input type="checkbox" id="member_logo_del" name="member_logo_del" value="1" /> <label for="member_logo_del">登録した画像を取り消す</label></div>
+                      <TMPL_ELSE>
+                        <TMPL_IF NAME="member_logo">
+                          <div id="member_logo_box">
+                            <img src="%member_logo_2_url%?%epoch%" width="%member_logo_2_w%" height="%member_logo_2_h%" alt="プロフィール写真（中）" />
+                          </div>
+                          <div><input type="checkbox" id="member_logo_del" name="member_logo_del" value="1" /> <label for="member_logo_del">登録した画像を取り消す</label></div>
+                        </TMPL_IF>
+                      </TMPL_IF>
+                    </div>
+                </fieldset>
+                
+                <fieldset class="wform mgb40">
+                  <TMPL_IF NAME="member_purpose"><TMPL_ELSE>
+                  <div class="progresscont">
+                    <div class="progresstxt">
+                      <div class="row">
+                        <div class="col-xs-4 text-center">
+                          アカウント<span class="hideii">情報</span>
+                          <div class="progressnum on">1</div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                          住所・連絡先<span class="hideii">情報</span>
+                          <div class="progressnum on">2</div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                          プロフィール<span class="hideii">情報</span>
+                          <div class="progressnum off">3</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width:66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  </TMPL_IF>
+                  
+                  <div class="form-group">
+                    <label class="%member_zip1_err% %member_zip2_err% %member_addr1_err% %member_addr2_err% %member_addr3_err% %member_addr4_err%">住所</label>
+                    <div class="row">
+                      <div class="col-xs-3 col-sm-3"><label for="member_zip1">郵便番号</label></div>
+                      <div class="col-xs-3 col-sm-2"><input type="text" id="member_zip1" name="member_zip1" value="%member_zip1%" maxlength="3" class="form-control inputlimit_num %member_zip1_err%" /></div>
+                      <div class="pull-left"><label>-</label></div>
+                      <div class="col-xs-3 col-sm-2"><input type="text" id="member_zip2" name="member_zip2" value="%member_zip2%" maxlength="4" class="form-control inputlimit_num %member_zip2_err%" /></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-3 col-sm-3"><label for="member_addr1">%member_addr1_caption%</label></div>
+                      <div class="col-xs-4 col-sm-4">
+                        <input type="text" id="member_addr1" name="member_addr1" value="%member_addr1%" class="form-control %member_addr1_err%" />
+                      </div>
+                      <div class="col-xs-4 col-sm-5">
+                        <ul class="note">
+                          <li><span id="member_addr1_max_char_num">5</span>文字以内</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-3 col-sm-3"><label for="member_addr2">%member_addr2_caption%</label></div>
+                      <div class="col-xs-4 col-sm-4">
+                        <input type="text" id="member_addr2" name="member_addr2" value="%member_addr2%" class="form-control %member_addr2_err%" />
+                      </div>
+                      <div class="col-xs-4 col-sm-5">
+                        <ul class="note">
+                          <li>
+                            <span id="member_addr2_max_char_num">20</span>文字以内
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-3 col-sm-3"><label for="member_addr3">%member_addr3_caption%</label></div>
+                      <div class="col-xs-5 col-sm-5">
+                        <input type="text" id="member_addr3" name="member_addr3" value="%member_addr3%" class="form-control %member_addr3_err%" />
+                      </div>
+                      <div class="col-xs-4 col-sm-4">
+                        <ul class="note">
+                          <li>
+                            <span id="member_addr3_max_char_num">50</span>文字以内
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-3 col-sm-3"><label for="member_addr4">%member_addr4_caption%</label></div>
+                      <div class="col-xs-5 col-sm-5">
+                        <input type="text" id="member_addr4" name="member_addr4" value="%member_addr4%" class="form-control %member_addr4_err%" />
+                      </div>
+                      <div class="col-xs-4 col-sm-4">
+                        <ul class="note">
+                          <li>
+                            <span id="member_addr4_max_char_num">50</span>文字以内
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="member_tel1" class="%member_tel1_err% %member_tel2_err% %member_tel3_err%">電話番号</label>
+                    <div class="row">
+                      <div class="col-xs-3 col-sm-2">
+                        <input type="text" id="member_tel1" name="member_tel1" value="%member_tel1%" maxlength="5" class="form-control inputlimit_num %member_tel1_err%" />
+                      </div>
+                      <div class="pull-left"><label>-</label></div>
+                      <div class="col-xs-3 col-sm-2">
+                        <input type="text" id="member_tel2" name="member_tel2" value="%member_tel2%" maxlength="4" class="form-control inputlimit_num %member_tel2_err%" />
+                      </div>
+                      <div class="pull-left"><label>-</label></div>
+                      <div class="col-xs-3 col-sm-2">
+                        <input type="text" id="member_tel3" name="member_tel3" value="%member_tel3%" maxlength="4" class="form-control inputlimit_num %member_tel3_err%" />
+                      </div>
+                    </div>
+                  </div>
+                    <!--<div class="form-group"><label for="member_hp" class="%member_hp_err%">%member_hp_caption%</label>
+                      <input type="text" id="member_hp" name="member_hp" value="%member_hp%" class="text inputlimit_ascii %member_hp_err% xlarge" />
+                      <ul class="note">
+                        <li><span id="member_hp_max_char_num">255</span>文字以内で入力してください。（現在の入力文字数：<span id="member_hp_char_num">0</span>文字）</li>
+                      </ul>
+                    </div>-->
+                </fieldset>
+                
+                <fieldset class="wform mgb40">
+                  <TMPL_IF NAME="member_purpose"><TMPL_ELSE>
+                  <div class="progresscont">
+                    <div class="progresstxt">
+                      <div class="row">
+                        <div class="col-xs-4 text-center">
+                          アカウント<span class="hideii">情報</span>
+                          <div class="progressnum on">1</div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                          住所・連絡先<span class="hideii">情報</span>
+                          <div class="progressnum on">2</div>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                          プロフィール<span class="hideii">情報</span>
+                          <div class="progressnum on">3</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width:100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  </TMPL_IF>
+
+                  <fieldset class="form-group" style="display: none">
+                    <legend class="col-form-legend %member_lang_err%">%member_lang_caption%</legend>
+                    <div class="form-check">
+                      <label class="form-check-label"><input type="radio" id="member_lang_1" name="member_lang" value="1" %member_lang_1_checked% /> 日本語</label>
+                      <label class="form-check-label"><input type="radio" id="member_lang_2" name="member_lang" value="2" %member_lang_2_checked% /> 英語</label>
+                    </div>
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend %member_gender_err%">%member_gender_caption%</legend>
+                    <div class="form-check">
+                      <label class="form-check-label"><input type="radio" id="member_gender_1" name="member_gender" value="1" %member_gender_1_checked% /> 男性</label>
+                      <label class="form-check-label"><input type="radio" id="member_gender_2" name="member_gender" value="2" %member_gender_2_checked% /> 女性</label>
+                    </div>
+                  </fieldset>
+                  
+                  <div class="form-group">
+                    <label for="member_birthy" class="%member_birthy_err% %member_birthm_err% %member_birthd_err%">生年月日</label>
+                    <div class="row">
+                      <div class="pull-left" style="padding-left:15px"><label>西暦</label></div>
+                      <div class="col-xs-3 col-sm-2">
+                        <input type="text" id="member_birthy" name="member_birthy" value="%member_birthy%" maxlength="4" class="form-control inputlimit_num %member_birthy_err%" />
+                        </div>
+                      <div class="pull-left"><label>年</label></div>
+                      <div class="col-xs-3 col-sm-2">
+                        <input type="text" id="member_birthm" name="member_birthm" value="%member_birthm%" maxlength="2" class="form-control inputlimit_num %member_birthm_err%" />
+                      </div>
+                      <div class="pull-left"><label>月</label></div>
+                        <div class="col-xs-3 col-sm-2">
+                          <input type="text" id="member_birthd" name="member_birthd" value="%member_birthd%" maxlength="2" class="form-control inputlimit_num %member_birthd_err%" />
+                        </div>
+                      <div class="pull-left"><label>日</label></div>
+                    </div>
+                  </div>
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %member_purpose_err%">%member_purpose_caption%</legend>
+                    <div class="form-check">
+                    <TMPL_LOOP NAME="member_purpose_loop">
+                      <label class="form-check-label"><input type="checkbox" id="member_purpose_%id%" name="member_purpose" value="%id%" %checked% />%title%</label>
+                    </TMPL_LOOP>
+                    </div>
+                    <ul class="note">
+                      <li><TMPL_IF NAME="member_purpose_min">少なくとも%member_purpose_min%項目にチェックを入れてください。</TMPL_IF>最大%member_purpose_max%項目までチェックを入れることが可能です。</li>
+                    </ul>
+                  </fieldset>
+                   
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %member_demand_err%">%member_demand_caption%</legend>
+                    <div class="form-check">
+                    <TMPL_LOOP NAME="member_demand_loop">
+                      <label class="form-check-label"><input type="checkbox" id="member_demand_%id%" name="member_demand" value="%id%" %checked% />%title%</label>
+                    </TMPL_LOOP>
+                    </div>
+                    <ul class="note">
+                      <li><TMPL_IF NAME="member_demand_min">少なくとも%member_demand_min%項目にチェックを入れてください。</TMPL_IF>最大%member_demand_max%項目までチェックを入れることが可能です。</li>
+                    </ul>
+                  </fieldset>
+                   
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %member_interest_err%">%member_interest_caption%</legend>
+                    <div class="form-check">
+                    <TMPL_LOOP NAME="member_interest_loop">
+                      <label class="form-check-label"><input type="checkbox" id="member_interest_%id%" name="member_interest" value="%id%" %checked% />%title%</label>
+                    </TMPL_LOOP>
+                    </div>
+                    <ul class="note">
+                      <li><TMPL_IF NAME="member_interest_min">少なくとも%member_interest_min%項目にチェックを入れてください。</TMPL_IF>最大%member_interest_max%項目までチェックを入れることが可能です。</li>
+                    </ul>
+                  </fieldset>
+
+                  <fieldset class="form-group">
+                    <legend class="col-form-legend required %member_level_err%">%member_level_caption%</legend>
+                    <div class="form-check">
+                    <TMPL_LOOP NAME="member_level_loop">
+                      <label class="form-check-label"><input type="checkbox" id="member_level_%id%" name="member_level" value="%id%" %checked% />%title%</label>
+                    </TMPL_LOOP>
+                    </div>
+                    <ul class="note">
+                      <li><TMPL_IF NAME="member_level_min">少なくとも%member_level_min%項目にチェックを入れてください。</TMPL_IF>最大%member_level_max%項目までチェックを入れることが可能です。</li>
+                    </ul>
+                  </fieldset>
+
+
+                  <div class="form-group">
+                    <label for="member_intro" class="%member_intro_err%">%member_intro_caption%</label>
+                    <textarea name="member_intro" id="member_intro" rows="5" class="form-control xxxlarge">%member_intro%</textarea>
+                    <ul class="note">
+                      <li><span id="member_intro_max_char_num">10000</span>文字以内で入力してください。（現在の入力文字数：<span id="member_intro_char_num">0</span>文字）</li>
+                      <li>HTMLタグは有効になりません。</li>
+                    </ul>
+                  </div>
+                  <div class="form-group">
+                    <label for="member_comment" class="%member_comment_err%">%member_comment_caption%</label>
+                    <textarea name="member_comment" id="member_comment" rows="5" class="form-control xxxlarge">%member_comment%</textarea>
+                    <ul class="note">
+                      <li><span id="member_comment_max_char_num">1000</span>文字以内で入力してください。（現在の入力文字数：<span id="member_comment_char_num">0</span>文字）</li>
+                    </ul>
+                  </div>
+                  <div class="form-group" style="display:none;">
+                    <label for="member_associate1" class="%member_associate1_err%">%member_associate1_caption%</label>
+                    <textarea name="member_associate1" id="member_associate1" rows="5" class="form-control xxxlarge">%member_associate1%</textarea>
+                    <ul class="note">
+                      <li><span id="member_associate1_max_char_num">300</span>文字以内で入力してください。（現在の入力文字数：<span id="member_associate1_char_num">0</span>文字）</li>
+                    </ul>
+                  </div>
+                   <div class="form-group" style="display:none;">
+                     <label for="member_associate2" class="%member_associate2_err%">%member_associate2_caption%</label>
+                     <textarea name="member_associate2" id="member_associate2" rows="5" class="form-control xxxlarge">%member_associate2%</textarea>
+                     <ul class="note">
+                       <li><span id="member_associate2_max_char_num">300</span>文字以内で入力してください。（現在の入力文字数：<span id="member_associate2_char_num">0</span>文字）</li>
+                       <li>HTMLタグは有効になりません。</li>
+                     </ul>
+                   </div>
+
+                <div class="text-center"><input type="submit" value="<TMPL_IF NAME="member_purpose">編集<TMPL_ELSE>登録</TMPL_IF>" name="setBtn" class="btn btn-primary" /></div>
+              </form>
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--メインコンテンツend-->
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<TMPL_INCLUDE NAME="../include/analysis.html">
+  <script src="%static_url%/js/dom.js"></script>
+  <script src="%static_url%/js/form.js"></script>
+  <script src="%static_url%/js/inputlimit.js"></script>
+  <script src="%static_url%/js/mypage/mbraddfrm.js"></script>
+  <style>
+    #member_logo_box img {
+      vertical-align: top;
+      border: 1px solid #cccccc;
+    }
+  </style>
+</body>
+</html>

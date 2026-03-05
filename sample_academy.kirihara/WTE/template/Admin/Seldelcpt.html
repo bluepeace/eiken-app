@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>企業・学校情報削除 | 企業・学校管理 | %product_name%</title>
+  <TMPL_INCLUDE NAME="include_head.html">
+</head>
+
+<body class="hold-transition sidebar-mini">
+  <div class="wrapper">
+    <TMPL_INCLUDE NAME="include_header.html">
+      <TMPL_INCLUDE NAME="include_menu.html">
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 class="m-0"><i class="fas fa-university text-primary"></i> 企業・学校管理</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="%CGI_URL%">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/WTE/admin.cgi?m=sellstfrm">企業・学校管理</a></li>
+                    <li class="breadcrumb-item active">企業・学校情報削除</li>
+                  </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content-header -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                    <p>企業・学校情報の削除が完了しました。</p>
+                    <a href="%CGI_URL%?m=sellstfrm" class="btn btn-info">企業・学校管理へ</a>
+                </div>
+              </div>
+            </div>
+        </section>
+      </div>
+  
+      <TMPL_INCLUDE NAME="include_footer.html">
+    </div>
+    <TMPL_INCLUDE NAME="include_foot.html">
+  </body>
+  
+  </html>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>%product_name%</title>
+<link href="%static_url%/css/admin/common.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<h1><a href="%CGI_URL%?m=sellstfrm"><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>管理</a> - 削除</h1>
+<div id="main">
+<p><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>の削除が完了しました。</p>
+<hr />
+<div>[<a href="%CGI_URL%?m=sellstfrm"><span class="seller_switch">企業・学校</span><span class="seller_switch_on">運営者</span>管理へ</a>]</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang=ja>
+<head>
+<meta charset=utf-8>
+<meta content="IE=edge" http-equiv=X-UA-Compatible>
+<meta content="width=device-width,initial-scale=1" name=viewport>
+<title>カード決済 - <TMPL_INCLUDE NAME="../include/title.html"></title>
+<TMPL_INCLUDE NAME="../include/head.html">
+</head>
+<body id="user">
+
+<TMPL_INCLUDE NAME="../include/header.html">
+  <div id="sb-site">
+
+    <!-- content section -->
+    <section class="page bggrey">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-8 col-md-offset-2">
+          <h1>カード決済</h1>
+
+          <!--本%member_caption%メンバーの場合解約ボタンを表示start-->
+          <TMPL_IF NAME="is_subscription_member">
+          <p class="text-center">現在加入しているコースの解約はこちらから</p>
+          <div class="wform">
+            <h3 class="alignCenter" style="margin:0;">現在 %pln_title% に加入しています</h3>
+            <p class="alignCenter t12">（※%auto_price_with_comma%円/月, %auto_point_with_comma%チケット/月, 課金日:毎月%auto_day%日）</p>
+            <p class="t12" style="margin-bottom:0em;">
+              ここで本%member_caption%コースを申し込むと、現在のプラン解除され、新たに月額%member_caption%として登録されます。
+              申し込み完了の直後に新たなプランの初月分の課金とチケットチャージが発生します。</p>
+            <p class="t12" style="margin-bottom:.5em;">現在の月額プランを解約したい場合は「プラン解約」ボタンを押してください。<br />解約されますと、<span>有効期限日にチケットは消滅</span>いたします。有効期限日は<a href="/WTE/mypage.cgi?m=actlstfrm" target="_blank">チケット入出金明細</a>にて確認できます。</p>
+            <div class="text-center"><a href="%CGI_URL%?m=autstpajx" class="btn btn-primary" id="autstp">プラン解約</a></div>
+          </div>
+          </TMPL_IF>
+          
+          
+          <p class="text-center">ご希望のコースを一つ選択してください。<br>※決済方法にご不明な点があれば、こちらの<a href="/WTE/mypage.cgi?m=payment">決済方法説明ページ</a>をご確認ください。</p>
+          <form method="post" action="%CGI_URL%" class="wform">
+            <input type="hidden" name="m" value="crdcfmset" />
+            <input type="hidden" name="pkey" value="%pkey%" />
+            <TMPL_IF NAME="errs"><div class="errs">%errs%</div></TMPL_IF>
+            
+
+            <fieldset class="form-group">
+              <legend class="col-form-legend">月額定期購入プラン</legend>
+              <div class="form-check">
+                <TMPL_LOOP NAME="plan_loop_1">
+                <label class="form-check-label"><input type="radio" name="pln_id" value="%pln_id%" %checked%>%pln_title% - 月額%pln_price_with_comma%円（税込） %pln_point_with_comma%チケット付与</label>
+                </TMPL_LOOP>
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <legend class="col-form-legend">スポット単発購入プラン</legend>
+              <div class="form-check">
+                <TMPL_LOOP NAME="plan_loop_0">
+                <label class="form-check-label"><input type="radio" name="pln_id" value="%pln_id%" %checked%>%pln_title% - %pln_price_with_comma%円（税込） %pln_point_with_comma%チケット付与</label>
+                </TMPL_LOOP>
+              </div>
+            </fieldset>
+              <div class="text-center"><input type="submit" value="確認画面へ進む" class="btn btn-primary" /></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- foot section -->
+<TMPL_INCLUDE NAME="../include/footer.html">
+  </div>
+<TMPL_INCLUDE NAME="../include/foot.html">
+<TMPL_INCLUDE NAME="../include/analysis.html">
+  <script>
+  (function () {
+
+  var processing = false;
+
+  $(document).ready(function(){
+    $('#autstp').click( function(event) {
+      event.preventDefault();
+      if( processing === true ) { return; }
+      var res = window.confirm('本当に解約してもよろしいですか？');
+      if(res === true) {
+        reqAutStp($(this));
+      }
+    });
+  });
+
+  function reqAutStp(el) {
+    var url = el.attr('href');
+    if( ! url ) { return; }
+    el.text('処理中...');
+    $.ajax({
+      url: url,
+      type: 'GET',
+      cache: false,
+      dataType: 'text',
+      success: function(data) {
+        processing = false;
+        if( data.match(/^1/) ) {
+          el.text('解約完了');
+          window.alert('解約が完了しました。');
+          document.location.reload();
+        } else {
+          el.text('解約');
+          window.alert('システムエラー：しばらくしてからやり直してください。');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        processing = false;
+        el.text('解約');
+        window.alert('システムエラー：しばらくしてからやり直してください。');
+      }
+    });
+  }
+
+  })();
+  </script>
+</body>
+</html>
